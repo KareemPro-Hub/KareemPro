@@ -153,25 +153,26 @@
     @keyframes fadeDown { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
 
     .hero-logo {
-      width: 150px; height: 150px;
-      border-radius: 36px; overflow: hidden;
-      background: #000;
+      width: 180px; height: 180px;
+      border-radius: 0;
+      background: transparent;
       margin: 0 auto 2rem;
-      box-shadow: 0 0 50px var(--glow2), 0 0 100px rgba(255,85,53,0.15);
       animation: heroIn 1s ease both, pulse 3s ease-in-out infinite alternate;
       display: flex; align-items: center; justify-content: center;
+      position: relative;
+      filter: drop-shadow(0 0 30px rgba(217,24,122,0.6)) drop-shadow(0 0 60px rgba(255,85,53,0.3));
     }
-    .hero-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .hero-logo .k-fallback {
-      font-size: 5rem; font-weight: 900;
+      font-size: 6rem; font-weight: 900;
       background: var(--grad); -webkit-background-clip: text;
       -webkit-text-fill-color: transparent; background-clip: text;
     }
 
     @keyframes heroIn { from { opacity:0; transform:scale(0.5) rotate(-8deg); } to { opacity:1; transform:scale(1) rotate(0); } }
     @keyframes pulse {
-      from { box-shadow: 0 0 40px var(--glow2), 0 0 80px rgba(255,85,53,0.1); }
-      to   { box-shadow: 0 0 80px var(--glow2), 0 0 150px rgba(255,85,53,0.25); }
+      from { filter: drop-shadow(0 0 20px rgba(217,24,122,0.5)) drop-shadow(0 0 40px rgba(255,85,53,0.2)); }
+      to   { filter: drop-shadow(0 0 50px rgba(217,24,122,0.9)) drop-shadow(0 0 90px rgba(255,85,53,0.4)); }
     }
 
     .hero-title {
@@ -417,7 +418,7 @@
   <div class="hero-bg"></div>
   <div class="hero-particles" id="pts"></div>
   <div class="hero-content">
-    <div class="hero-badge">✦ خبرة تتجاوز 15 عاماً في الإبداع البصري</div>
+    <div class="hero-badge">✦ خبرة تتجاوز 11 عاماً في الإبداع البصري</div>
 
     <div class="hero-logo">
       <img src="Kareem Pro.png" alt="Kareem Pro Logo"
@@ -432,7 +433,7 @@
     <p class="hero-sub">
       نصيغ فكرتك بـ<strong>تعليق صوتي</strong> يأسر الأسماع،
       و<strong>مونتاج</strong> سينمائي يلامس الوجدان.
-      بخبرة تتجاوز 15 سنة من الاحترافية والإبداع.
+      بخبرة تتجاوز 11 سنة من الاحترافية والإبداع.
     </p>
     <div class="hero-buttons">
       <a href="#portfolio" class="btn-primary">▶ شاهد أعمالنا</a>
@@ -444,7 +445,7 @@
 <!-- ═══ STATS ═══ -->
 <div class="stats-bar">
   <div class="stats-grid">
-    <div class="reveal"><div class="stat-number" data-t="15">0</div><div class="stat-label">سنة خبرة +</div></div>
+    <div class="reveal"><div class="stat-number" data-t="11">0</div><div class="stat-label">سنة خبرة +</div></div>
     <div class="reveal d1"><div class="stat-number" data-t="120">0</div><div class="stat-label">مشروع منجز +</div></div>
     <div class="reveal d2"><div class="stat-number" data-t="45">0</div><div class="stat-label">علامة تجارية +</div></div>
     <div class="reveal d3"><div class="stat-number" data-t="100">0</div><div class="stat-label">% رضا العملاء</div></div>
