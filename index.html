@@ -306,6 +306,29 @@
       animation: fadeUp 0.8s 0.5s ease both;
     }
 
+    /* ── HERO MINI SERVICES ── */
+    .hero-services {
+      display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;
+      max-width: 720px; margin: 0 auto 2.2rem;
+      animation: fadeUp 0.8s 0.42s ease both;
+    }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.45rem 0.95rem; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, color 0.25s, background 0.25s;
+    }
+    .hero-chip span.ico { font-size: 0.95rem; line-height: 1; }
+    .hero-chip:hover {
+      color: var(--text); transform: translateY(-3px);
+      border-color: transparent;
+      background: var(--grad);
+    }
+
     /* ── BUTTONS ── */
     .btn-primary {
       background: var(--grad); color: white;
@@ -695,6 +718,17 @@
       و<strong>مونتاج</strong> سينمائي يلامس الوجدان.
       بخبرة تتجاوز 11 سنة من الاحترافية والإبداع.
     </p>
+    <div class="hero-services">
+      <a href="#contact" class="hero-chip" onclick="selectService('مونتاج فيديو احترافي')"><span class="ico">🎬</span> مونتاج</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('تعليق صوتي — كل اللهجات')"><span class="ico">🎙️</span> تعليق صوتي</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('تصميم جرافيك')"><span class="ico">🎨</span> جرافيك</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('محتوى السوشيال ميديا')"><span class="ico">📱</span> سوشيال ميديا</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('دورات تدريبية عن بعد')"><span class="ico">📡</span> تدريب أونلاين</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('حلول أكاديمية وبحثية')"><span class="ico">📄</span> أكاديمي وبحثي</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('تطوير المواقع والتطبيقات')"><span class="ico">🌐</span> مواقع وتطبيقات</a>
+      <a href="#contact" class="hero-chip" onclick="selectService('عروض PowerPoint إبداعية')"><span class="ico">📊</span> بوربوينت</a>
+    </div>
+
     <div class="hero-buttons">
       <a href="#portfolio" class="btn-primary">▶ شاهد أعمالنا</a>
       <a href="#contact"  class="btn-outline">◄ اطلب خدمة احترافية</a>
