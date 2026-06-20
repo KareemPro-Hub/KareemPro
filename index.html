@@ -318,6 +318,14 @@
       width: 64px; height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
     }
+    .portfolio-card.highlight-pulse {
+      animation: pulseGlow 1.6s ease;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: none; }
+      25% { box-shadow: 0 0 0 3px rgba(255,90,150,0.7), 0 0 30px rgba(255,90,150,0.5); }
+      60% { box-shadow: 0 0 0 3px rgba(255,90,150,0.4), 0 0 20px rgba(255,90,150,0.3); }
+    }
     .hero-chip {
       display: inline-flex; align-items: center; gap: 0.4rem;
       background: rgba(255,255,255,0.04);
@@ -737,9 +745,9 @@
     </div>
 
     <div class="hero-services">
-      <a href="#contact" class="hero-chip" onclick="selectService('مونتاج فيديو احترافي')"><span class="ico">🎬</span> مونتاج وعروض مرئية</a>
-      <a href="#contact" class="hero-chip" onclick="selectService('تعليق صوتي — كل اللهجات')"><span class="ico">🎙️</span> تعليق صوتي</a>
-      <a href="#contact" class="hero-chip" onclick="selectService('محتوى السوشيال ميديا')"><span class="ico">📱</span> ريلز وسنابات</a>
+      <a href="#portfolio" class="hero-chip" onclick="goToPortfolio(event,'مونتاج')"><span class="ico">🎬</span> مونتاج وعروض مرئية</a>
+      <a href="#portfolio" class="hero-chip" onclick="goToPortfolio(event,'تعليق صوتي')"><span class="ico">🎙️</span> تعليق صوتي</a>
+      <a href="#portfolio" class="hero-chip" onclick="goToPortfolio(event,'ريلز')"><span class="ico">📱</span> ريلز وسنابات</a>
       <a href="#contact" class="hero-chip" onclick="selectService('دورات تدريبية عن بعد')"><span class="ico">▶️</span> كورسات عن بعد</a>
       <a href="#contact" class="hero-chip" onclick="selectService('تطوير المواقع والتطبيقات')"><span class="ico">⚙️</span> إنشاء مواقع وتطبيقات</a>
       <a href="#contact" class="hero-chip" onclick="selectService('حلول أكاديمية وبحثية')"><span class="ico">📊</span> أبحاث وتقارير وبوربوينت</a>
@@ -1353,6 +1361,21 @@
     }
     document.getElementById('contact').scrollIntoView({behavior:'smooth', block:'start'});
     setTimeout(()=>{ const inp=document.getElementById('fName'); if(inp) inp.focus(); }, 600);
+  }
+
+  // Scroll to a matching portfolio example by tag keyword
+  function goToPortfolio(e, tagKeyword) {
+    if (e) e.preventDefault();
+    const cards = document.querySelectorAll('.portfolio-card');
+    let target = null;
+    for (const c of cards) {
+      const tagEl = c.querySelector('.card-tag');
+      if (tagEl && tagEl.textContent.includes(tagKeyword)) { target = c; break; }
+    }
+    if (!target) { document.getElementById('portfolio').scrollIntoView({behavior:'smooth', block:'start'}); return; }
+    target.scrollIntoView({behavior:'smooth', block:'center'});
+    target.classList.add('highlight-pulse');
+    setTimeout(()=>target.classList.remove('highlight-pulse'), 1600);
   }
 
   // Form submit → WhatsApp
