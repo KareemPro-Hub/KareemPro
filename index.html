@@ -54,7 +54,9 @@
       "itemListElement": [
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "مونتاج فيديو احترافي" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تعليق صوتي بجميع اللهجات" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "محتوى السوشيال ميديا" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تطوير المواقع والتطبيقات" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "دورات تدريبية عن بعد" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "حلول أكاديمية وبحثية" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "عروض PowerPoint إبداعية" } }
       ]
@@ -320,6 +322,44 @@
     .portfolio-card.highlight-pulse {
       animation: pulseGlow 1.6s ease;
     }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      padding: 1.6rem 0 2.6rem;
+    }
+    .trust-label {
+      text-align: center; color: var(--muted);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .trust-row {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+      gap: 1.1rem 2.4rem;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      opacity: 0.72;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .trust-item:hover {
+      opacity: 1; transform: translateY(-2px);
+    }
+    .trust-badge {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(255,63,164,0.18), rgba(123,47,247,0.18));
+      border: 1px solid var(--border);
+      color: #fff; font-weight: 700; font-size: 0.95rem;
+    }
+    .trust-name {
+      color: var(--text); font-weight: 600; font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    @media (max-width: 768px) {
+      .trust-row { gap: 1rem 1.4rem; }
+      .trust-name { font-size: 0.8rem; }
+      .trust-badge { width: 30px; height: 30px; font-size: 0.85rem; }
+    }
     @keyframes pulseGlow {
       0%, 100% { box-shadow: none; }
       25% { box-shadow: 0 0 0 3px rgba(255,90,150,0.7), 0 0 30px rgba(255,90,150,0.5); }
@@ -505,16 +545,17 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(217,24,122,0.1);
     }
     .service-icon {
-      width: 68px; height: 68px;
+      width: 64px; height: 64px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 1.3rem;
-      transition: transform 0.3s;
+      background: rgba(255,63,164,0.12);
+      transition: transform 0.3s, background 0.3s;
     }
-    .service-card:hover .service-icon { transform: translateY(-4px) scale(1.06); }
-    .service-icon svg {
-      width: 64px; height: 64px;
-      filter: drop-shadow(0 8px 14px rgba(123,47,247,0.35));
+    .service-card:hover .service-icon {
+      transform: translateY(-4px) scale(1.08) rotate(-4deg);
+      background: rgba(255,63,164,0.22);
     }
+    .service-icon svg { width: 30px; height: 30px; }
     .service-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.65rem; color: var(--text); font-family: 'FrutigerArabic', sans-serif; }
     .service-desc { color: #cba8cb; font-size: 0.95rem; line-height: 1.9; font-weight: 300; }
 
@@ -788,6 +829,31 @@
       <a href="#contact" class="hero-chip" onclick="selectService('دورات تدريبية عن بعد')"><span class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2" fill="none" stroke="url(#heroChipGrad)" stroke-width="1.7"/><path d="M9.5 9.2v4.2l4-2.1Z" fill="url(#heroChipGrad)"/><path d="M8 21h8M12 17v4" stroke="url(#heroChipGrad)" stroke-width="1.7" stroke-linecap="round"/></svg></span> كورسات عن بعد</a>
       <a href="#contact" class="hero-chip" onclick="selectService('تطوير المواقع والتطبيقات')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M8 5 3 12l5 7M16 5l5 7-5 7" fill="none" stroke="url(#heroChipGrad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span> إنشاء مواقع وتطبيقات</a>
       <a href="#contact" class="hero-chip" onclick="selectService('حلول أكاديمية وبحثية')"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="13" width="4" height="8" rx="1" fill="url(#heroChipGrad)"/><rect x="10" y="8" width="4" height="13" rx="1" fill="url(#heroChipGrad)"/><rect x="17" y="3" width="4" height="18" rx="1" fill="url(#heroChipGrad)"/></svg></span> أبحاث وتقارير وبوربوينت</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST BAR ═══ -->
+<section class="trust-bar">
+  <div class="container">
+    <p class="trust-label reveal">موضع ثقة جهاتٍ ومؤسسات رائدة</p>
+    <div class="trust-row reveal d1">
+      <div class="trust-item">
+        <span class="trust-badge">هـ</span>
+        <span class="trust-name">جمعية هبة الصحية</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-badge">م</span>
+        <span class="trust-name">شركة المنظومة العربية</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-badge">ح</span>
+        <span class="trust-name">حصاد</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-badge">ز</span>
+        <span class="trust-name">مجمع زهرة القيم الطبي</span>
+      </div>
     </div>
   </div>
 </section>
