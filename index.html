@@ -309,8 +309,14 @@
     /* ── HERO MINI SERVICES ── */
     .hero-services {
       display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;
-      max-width: 720px; margin: 0 auto 2.2rem;
+      max-width: 720px; margin: 2.6rem auto 2.2rem; padding-top: 2rem;
+      position: relative;
       animation: fadeUp 0.8s 0.42s ease both;
+    }
+    .hero-services::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 64px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
     }
     .hero-chip {
       display: inline-flex; align-items: center; gap: 0.4rem;
