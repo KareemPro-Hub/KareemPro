@@ -435,14 +435,26 @@
       border-color: rgba(217,24,122,0.45);
     }
 
-    .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; overflow: hidden; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; overflow: hidden; cursor: pointer; }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .video-wrapper.vertical { padding-bottom: 177.78%; }
-    .video-wrapper::after {
-      content: ''; position: absolute; bottom: 0; right: 0;
-      width: 72px; height: 56px; z-index: 2; pointer-events: none;
-      background: radial-gradient(circle at 100% 100%, rgba(0,0,0,0.9), rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 78%);
+    .video-thumb {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; transition: transform 0.4s, filter 0.4s;
     }
+    .video-wrapper:hover .video-thumb { transform: scale(1.04); filter: brightness(0.75); }
+    .play-btn {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 62px; height: 62px; border-radius: 50%;
+      background: linear-gradient(150deg, #ff3fa4, #7b2ff7);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.4rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      transition: transform 0.25s;
+    }
+    .video-wrapper:hover .play-btn { transform: translate(-50%, -50%) scale(1.1); }
+    .video-wrapper.loaded .video-thumb,
+    .video-wrapper.loaded .play-btn { display: none; }
 
     .card-body { padding: 1.2rem; }
     .card-tag {
@@ -771,8 +783,9 @@
     <div class="portfolio-grid">
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/X4k2BYJuKbk?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="X4k2BYJuKbk">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/X4k2BYJuKbk/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">فيديو | مونتاج</span>
@@ -781,8 +794,9 @@
       </div>
 
       <div class="portfolio-card reveal d1">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/vq0xT6dNJOU?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="vq0xT6dNJOU">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/vq0xT6dNJOU/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">فيديو | مونتاج</span>
@@ -791,8 +805,9 @@
       </div>
 
       <div class="portfolio-card reveal d2">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/MysK0Xr-4HY?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="MysK0Xr-4HY">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/MysK0Xr-4HY/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">فيديو | مونتاج</span>
@@ -801,8 +816,9 @@
       </div>
 
       <div class="portfolio-card reveal d3">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/zICLLjuD42I?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="zICLLjuD42I">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/zICLLjuD42I/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">فيديو | مونتاج</span>
@@ -811,8 +827,9 @@
       </div>
 
       <div class="portfolio-card reveal d1">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/kpw-q_R5n9s?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="kpw-q_R5n9s">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/kpw-q_R5n9s/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -821,8 +838,9 @@
       </div>
 
       <div class="portfolio-card reveal d3">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/RQFzNrA17bw?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="RQFzNrA17bw">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/RQFzNrA17bw/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -831,8 +849,9 @@
       </div>
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/6ybneHeS3jY?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="6ybneHeS3jY">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/6ybneHeS3jY/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -841,8 +860,9 @@
       </div>
 
       <div class="portfolio-card reveal d1">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/E-dMoy9Uiwc?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="E-dMoy9Uiwc">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/E-dMoy9Uiwc/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -851,8 +871,9 @@
       </div>
 
       <div class="portfolio-card reveal d2">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/XA5TXQpjNrc?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="XA5TXQpjNrc">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/XA5TXQpjNrc/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">عرض مرئي</span>
@@ -861,8 +882,9 @@
       </div>
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/H20VjxWdkTg?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="H20VjxWdkTg">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/H20VjxWdkTg/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">عرض مرئي</span>
@@ -871,8 +893,9 @@
       </div>
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/g94wHiCSEDk?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="g94wHiCSEDk">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/g94wHiCSEDk/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -881,8 +904,9 @@
       </div>
 
       <div class="portfolio-card reveal d2">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/rLDM7rnurxs?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="rLDM7rnurxs">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/rLDM7rnurxs/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
@@ -891,8 +915,9 @@
       </div>
 
       <div class="portfolio-card reveal d1">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/WtHJlv5nR1Y?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="WtHJlv5nR1Y">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/WtHJlv5nR1Y/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">عرض مرئي</span>
@@ -901,8 +926,9 @@
       </div>
 
       <div class="portfolio-card reveal d2">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube-nocookie.com/embed/jJEISpJPDNY?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper" data-yid="jJEISpJPDNY">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/jJEISpJPDNY/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">عرض مرئي</span>
@@ -916,8 +942,9 @@
     <div class="reels-grid">
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper vertical">
-          <iframe src="https://www.youtube-nocookie.com/embed/zhNVbDO2lcw?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper vertical" data-yid="zhNVbDO2lcw">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/zhNVbDO2lcw/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">ريلز</span>
@@ -926,8 +953,9 @@
       </div>
 
       <div class="portfolio-card reveal d1">
-        <div class="video-wrapper vertical">
-          <iframe src="https://www.youtube-nocookie.com/embed/uOsvHMdJBVQ?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper vertical" data-yid="uOsvHMdJBVQ">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/uOsvHMdJBVQ/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">ريلز</span>
@@ -936,8 +964,9 @@
       </div>
 
       <div class="portfolio-card reveal d2">
-        <div class="video-wrapper vertical">
-          <iframe src="https://www.youtube-nocookie.com/embed/DdMglKAftuQ?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper vertical" data-yid="DdMglKAftuQ">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/DdMglKAftuQ/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">ريلز</span>
@@ -946,8 +975,9 @@
       </div>
 
       <div class="portfolio-card reveal d3">
-        <div class="video-wrapper vertical">
-          <iframe src="https://www.youtube-nocookie.com/embed/lMWqyAV96SI?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper vertical" data-yid="lMWqyAV96SI">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/lMWqyAV96SI/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">ريلز</span>
@@ -956,8 +986,9 @@
       </div>
 
       <div class="portfolio-card reveal">
-        <div class="video-wrapper vertical">
-          <iframe src="https://www.youtube-nocookie.com/embed/OG7rtRnAjvQ?modestbranding=1&rel=0&controls=1" allowfullscreen loading="lazy"></iframe>
+        <div class="video-wrapper vertical" data-yid="OG7rtRnAjvQ">
+          <img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/OG7rtRnAjvQ/hqdefault.jpg" alt="">
+          <div class="play-btn" aria-label="تشغيل الفيديو">▶</div>
         </div>
         <div class="card-body">
           <span class="card-tag">ريلز</span>
@@ -1382,6 +1413,20 @@
     target.classList.add('highlight-pulse');
     setTimeout(()=>target.classList.remove('highlight-pulse'), 1600);
   }
+
+  // Click-to-load video thumbnails (avoids YouTube's branding overlay/icons until played)
+  document.querySelectorAll('.video-wrapper[data-yid]').forEach(function(w){
+    w.addEventListener('click', function loadVideo(){
+      const id = w.getAttribute('data-yid');
+      const ifr = document.createElement('iframe');
+      ifr.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&modestbranding=1&rel=0&controls=1';
+      ifr.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+      ifr.setAttribute('allowfullscreen', '');
+      w.appendChild(ifr);
+      w.classList.add('loaded');
+      w.removeEventListener('click', loadVideo);
+    });
+  });
 
   // Form submit → WhatsApp
   function submitForm(e) {
