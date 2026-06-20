@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kareem Pro — منصة الحلول الإبداعية المتكاملة</title>
   <meta name="description" content="منصة الحلول الإبداعية المتكاملة — مونتاج فيديو، تعليق صوتي، تصميم جرافيك، أبحاث أكاديمية، تطوير مواقع، ومنصات تعليمية بخبرة تتجاوز 11 عاماً." />
+  <meta name="keywords" content="مونتاج فيديو, تعليق صوتي, تصميم جرافيك, تطوير مواقع, تطبيقات جوال, أبحاث أكاديمية, عروض بوربوينت, كريم برو, Kareem Pro" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Kareem Pro" />
+  <link rel="canonical" href="https://kareempro.com/" />
   <link rel="icon" type="image/png" href="logo-transparent.png" />
   <link rel="apple-touch-icon" href="logo-transparent.png" />
   <meta property="og:title" content="Kareem Pro — منصة الحلول الإبداعية المتكاملة" />
@@ -19,6 +23,45 @@
   <meta name="twitter:title" content="Kareem Pro — مصمم جرافيك ومحرر فيديو احترافي | إبداع بصري يليق بطموحك" />
   <meta name="twitter:description" content="تعليق صوتي يأسر الأسماع ومونتاج سينمائي يخطف الأنظار — بخبرة تتجاوز 11 عاماً في التصميم الجرافيكي وإنتاج المحتوى البصري الاحترافي." />
   <meta name="twitter:image" content="https://kareempro.com/og-banner.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Kareem Pro",
+    "alternateName": "كريم برو",
+    "url": "https://kareempro.com",
+    "logo": "https://kareempro.com/logo-transparent.png",
+    "description": "منصة الحلول الإبداعية المتكاملة — مونتاج فيديو، تعليق صوتي، تصميم جرافيك، أبحاث أكاديمية، تطوير مواقع وتطبيقات.",
+    "sameAs": [],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+966534983404",
+      "availableLanguage": ["Arabic","English"]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "خدمات إبداعية ورقمية متكاملة",
+    "provider": { "@type": "Organization", "name": "Kareem Pro", "url": "https://kareempro.com" },
+    "areaServed": "SA",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "خدمات كريم برو",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "مونتاج فيديو احترافي" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تعليق صوتي بجميع اللهجات" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تصميم جرافيك" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تطوير المواقع والتطبيقات" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "حلول أكاديمية وبحثية" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "عروض PowerPoint إبداعية" } }
+      ]
+    }
+  }
+  </script>
   <style>
     @font-face {
       font-family: 'FrutigerArabic';
@@ -121,19 +164,21 @@
     }
     .nav-brand span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 0.4rem; list-style: none; align-items: center; }
     .nav-links a {
       color: var(--muted); text-decoration: none;
-      font-size: 0.9rem; font-weight: 600;
-      transition: color 0.3s; position: relative;
+      font-size: 0.88rem; font-weight: 600;
+      transition: color 0.3s, background 0.3s; position: relative;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 0.95rem; border-radius: 50px;
     }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; right: 0;
-      width: 0; height: 2px;
-      background: var(--grad); transition: width 0.3s;
+    .nav-links a svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+
+    .nav-links a.active {
+      background: var(--grad); color: white;
     }
-    .nav-links a:hover { color: var(--g1); }
-    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active:hover { background: var(--grad); }
 
     .nav-cta {
       background: var(--grad) !important;
@@ -143,7 +188,6 @@
       -webkit-text-fill-color: white !important;
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--glow2); }
-    .nav-cta::after { display: none !important; }
 
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
@@ -317,6 +361,17 @@
     .section-title { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 900; margin-bottom: 1rem; font-family: 'FrutigerArabic', sans-serif; }
     .section-desc { color: var(--muted); max-width: 520px; margin: 0 auto; font-size: 1rem; font-weight: 300; line-height: 1.9; }
 
+    /* ── ABOUT ── */
+    #about { background: var(--dark); }
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); font-size: 1rem; line-height: 2; margin-bottom: 1.2rem; font-weight: 300; }
+    .about-points { display: flex; flex-direction: column; gap: 1.3rem; }
+    .about-point { display: flex; gap: 0.9rem; align-items: flex-start; background: var(--dark3); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.3rem; }
+    .about-point-icon { font-size: 1.2rem; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .about-point strong { display: block; color: var(--text); font-size: 1rem; margin-bottom: 0.3rem; }
+    .about-point p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; font-weight: 300; }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+
     /* ── PORTFOLIO ── */
     #portfolio { background: var(--dark2); }
 
@@ -385,6 +440,73 @@
     }
     .service-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.65rem; color: var(--text); font-family: 'FrutigerArabic', sans-serif; }
     .service-desc { color: #cba8cb; font-size: 0.95rem; line-height: 1.9; font-weight: 300; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--dark3); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.6rem; }
+    .testi-card {
+      position: relative; background: var(--dark4);
+      border: 1px solid rgba(255,196,64,0.35); border-radius: 18px;
+      padding: 1.8rem 1.6rem 1.6rem; display: flex; flex-direction: column; gap: 1rem;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      overflow: hidden;
+    }
+    .testi-card:hover { transform: translateY(-6px); border-color: rgba(255,196,64,0.7); box-shadow: 0 14px 40px rgba(255,196,64,0.12); }
+    .testi-quote-icon {
+      position: absolute; top: 0.8rem; left: 1.2rem;
+      font-size: 2.6rem; line-height: 1; font-weight: 900;
+      color: rgba(255,196,64,0.18); font-family: Georgia, serif;
+    }
+    .testi-head { display: flex; align-items: center; gap: 0.8rem; }
+    .testi-flag {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      background: var(--dark2); border: 1px solid rgba(255,196,64,0.35);
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .testi-info strong { display: block; color: var(--text); font-size: 0.95rem; }
+    .testi-info span { color: var(--muted); font-size: 0.78rem; }
+    .testi-stars { color: #ffc440; font-size: 0.95rem; letter-spacing: 0.15rem; }
+
+    .testi-voice {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--dark2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.7rem 1rem;
+    }
+    .testi-play {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; border: none; cursor: pointer;
+      background: linear-gradient(135deg,#ffc440,#ff9d2a); color: #1a1208;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s;
+    }
+    .testi-play:hover { transform: scale(1.08); }
+    .testi-play svg { width: 17px; height: 17px; }
+    .testi-wave { flex: 1; display: flex; align-items: center; gap: 3px; height: 26px; }
+    .testi-wave span {
+      flex: 1; background: rgba(255,196,64,0.4); border-radius: 2px;
+      height: 40%;
+    }
+    .testi-wave span:nth-child(2n) { height: 70%; }
+    .testi-wave span:nth-child(3n) { height: 95%; }
+    .testi-wave span:nth-child(5n) { height: 55%; }
+    .testi-wave.playing span { background: #ffc440; animation: testiPulse 0.9s ease-in-out infinite; }
+    .testi-wave.playing span:nth-child(2n) { animation-delay: 0.15s; }
+    .testi-wave.playing span:nth-child(3n) { animation-delay: 0.3s; }
+    .testi-wave.playing span:nth-child(4n) { animation-delay: 0.45s; }
+    @keyframes testiPulse { 0%,100% { transform: scaleY(0.6); } 50% { transform: scaleY(1); } }
+
+    .testi-chat-frame {
+      border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+      background: var(--dark2); min-height: 220px; max-height: 360px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .testi-chat-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .testi-chat-frame:empty::before,
+    .testi-chat-frame img[src=""] { display: none; }
+    .testi-chat-frame::after {
+      content: 'لقطة محادثة واتساب'; color: var(--muted); font-size: 0.8rem;
+    }
+    .testi-chat-frame:has(img[src=""])::after { display: block; }
+    .testi-chat-frame:has(img:not([src=""]))::after { display: none; }
 
     /* ── CONTACT FORM ── */
     #contact { background: var(--dark2); }
@@ -459,6 +581,26 @@
     .scroll-top.show { opacity: 1; pointer-events: all; }
     .scroll-top:hover { transform: translateY(-3px); }
 
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .whatsapp-float:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 10px 28px rgba(37,211,102,0.6); }
+    .whatsapp-float svg { width: 30px; height: 30px; }
+    .wa-tooltip {
+      position: absolute; bottom: 72px; right: 0;
+      white-space: nowrap;
+      background: rgba(15,18,35,0.96); color: #fff; font-size: 0.85rem; font-weight: 600;
+      padding: 0.6rem 1.15rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.14);
+      opacity: 0; pointer-events: none; transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .whatsapp-float:hover .wa-tooltip { opacity: 1; transform: translateY(0); }
+
     /* ── REVEAL ── */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.on { opacity: 1; transform: translateY(0); }
@@ -495,9 +637,26 @@
     </div>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#home">الرئيسية</a></li>
-    <li><a href="#portfolio">أعمالنا</a></li>
-    <li><a href="#services">خدماتنا</a></li>
+    <li><a href="#home" data-nav="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      الرئيسية
+    </a></li>
+    <li><a href="#about" data-nav="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      من نحن
+    </a></li>
+    <li><a href="#portfolio" data-nav="portfolio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      أعمالنا
+    </a></li>
+    <li><a href="#services" data-nav="services">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      خدماتنا
+    </a></li>
+    <li><a href="#testimonials" data-nav="testimonials">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      آراء العملاء
+    </a></li>
     <li><a href="#contact" class="nav-cta">ابدأ مشروعاً</a></li>
   </ul>
   <div class="hamburger" id="hbg" onclick="toggleMenu()">
@@ -543,6 +702,44 @@
     <div class="reveal d3"><div class="stat-number" data-t="97">0</div><div class="stat-label">رضا العملاء</div></div>
   </div>
 </div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">★ من نحن</div>
+      <h2 class="section-title">قصة <span class="g-text">كريم برو</span></h2>
+      <p class="section-desc">شريكك الإبداعي الموثوق منذ أكثر من 11 عاماً</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          "كريم برو" منصة إبداعية متكاملة وُلدت من شغفٍ حقيقي بصناعة المحتوى البصري والصوتي،
+          نجمعُ بين الحس الفني والاحترافية التقنية لنقدّم لعملائنا حلولاً تواكب طموحاتهم —
+          من المونتاج السينمائي والتعليق الصوتي، إلى تطوير المواقع والتطبيقات، والحلول الأكاديمية والبحثية.
+        </p>
+        <p>
+          على مدار أكثر من 11 عاماً، عملنا مع جمعيات وشركات ومؤسسات تعليمية داخل المملكة وخارجها،
+          وحرصنا دائماً على أن يخرج كل عمل بلمسةٍ تعكس هوية العميل وتترك أثراً لا يُنسى.
+        </p>
+      </div>
+      <div class="about-points reveal d1">
+        <div class="about-point">
+          <span class="about-point-icon">✦</span>
+          <div><strong>جودة بلا تنازل</strong><p>كل مشروع يمر بمراجعة دقيقة قبل التسليم.</p></div>
+        </div>
+        <div class="about-point">
+          <span class="about-point-icon">✦</span>
+          <div><strong>التزام بالمواعيد</strong><p>نُسلّم في الوقت المحدد دون المساس بالجودة.</p></div>
+        </div>
+        <div class="about-point">
+          <span class="about-point-icon">✦</span>
+          <div><strong>فريق متعدد التخصصات</strong><p>مونتاج، تصميم، تطوير، وأبحاث — كل ذلك تحت سقفٍ واحد.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══ PORTFOLIO ═══ -->
 <section id="portfolio">
@@ -706,6 +903,96 @@
   </div>
 </section>
 
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">💬 آراء العملاء</div>
+      <h2 class="section-title">تجارب حقيقية من <span class="g-text">عملائنا الكرام</span></h2>
+      <p class="section-desc">بصوتهم وكلماتهم .. هكذا يصف عملاؤنا تجربتهم مع كريم برو</p>
+    </div>
+
+    <div class="testimonials-grid">
+
+      <!-- Voice-note testimonial -->
+      <div class="testi-card reveal">
+        <div class="testi-quote-icon">”</div>
+        <div class="testi-head">
+          <div class="testi-flag">🇪🇬</div>
+          <div class="testi-info">
+            <strong>تيسير</strong>
+            <span>عميل</span>
+          </div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-voice">
+          <button class="testi-play" aria-label="تشغيل التسجيل الصوتي">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="testi-wave">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <audio class="testi-audio" preload="none"><source src="" type="audio/mpeg"></audio>
+        </div>
+      </div>
+
+      <!-- WhatsApp screenshot testimonial -->
+      <div class="testi-card reveal d1">
+        <div class="testi-quote-icon">”</div>
+        <div class="testi-head">
+          <div class="testi-flag">🇸🇦</div>
+          <div class="testi-info">
+            <strong>د. محمد</strong>
+            <span>مجمع العبادي التعليمي</span>
+          </div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-chat-frame">
+          <img src="" alt="رسالة عميل عبر واتساب" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Placeholder slots ready for more screenshots / voice notes -->
+      <div class="testi-card reveal d2">
+        <div class="testi-quote-icon">”</div>
+        <div class="testi-head">
+          <div class="testi-flag">🇸🇦</div>
+          <div class="testi-info">
+            <strong>عميل كريم برو</strong>
+            <span>جمعية هبة الصحية</span>
+          </div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-chat-frame">
+          <img src="" alt="رسالة عميل عبر واتساب" loading="lazy">
+        </div>
+      </div>
+
+      <div class="testi-card reveal d3">
+        <div class="testi-quote-icon">”</div>
+        <div class="testi-head">
+          <div class="testi-flag">🇸🇦</div>
+          <div class="testi-info">
+            <strong>عميل كريم برو</strong>
+            <span>شركة المنظومة العربية</span>
+          </div>
+        </div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-voice">
+          <button class="testi-play" aria-label="تشغيل التسجيل الصوتي">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="testi-wave">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <audio class="testi-audio" preload="none"><source src="" type="audio/mpeg"></audio>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ═══ CONTACT FORM ═══ -->
 <section id="contact">
   <div class="container">
@@ -769,6 +1056,13 @@
 
 <button class="scroll-top" id="stb" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<a href="https://wa.me/966534983404" target="_blank" rel="noopener" class="whatsapp-float" aria-label="تواصل معنا عبر واتساب">
+  <span class="wa-tooltip">تواصل معنا عبر واتساب</span>
+  <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.01 2C6.49 2 2 6.477 2 11.99c0 1.997.598 3.847 1.622 5.412L2.1 21.9l4.66-1.498A9.93 9.93 0 0 0 12.01 22C17.527 22 22 17.523 22 12.01 22 6.495 17.527 2 12.01 2zm5.715 14.16c-.244.683-1.41 1.353-1.94 1.45-.524.099-1.187.14-1.91-.123-.44-.16-1.006-.347-1.736-.68-3.058-1.32-5.046-4.38-5.196-4.586-.149-.205-1.236-1.642-1.236-3.13 0-1.49.78-2.222 1.057-2.527.273-.297.6-.372.8-.372.198 0 .397.001.57.01.184.01.43-.07.677.514.247.595.84 2.06.916 2.21.099.198.149.371.05.52-.099.149-.149.247-.297.396-.149.149-.297.347-.421.473-.149.149-.297.322-.124.62 1.151 1.982 2.297 2.672 4.043 3.545.297.148.471.124.644-.075.173-.198.743-.867.94-1.164.198-.298.396-.25.668-.15.273.1 1.734.818 2.031.967.297.149.495.223.567.347.07.124.07.694-.174 1.378z"/>
+  </svg>
+</a>
+
 <script>
   // Force scroll to top on load
   history.scrollRestoration = 'manual';
@@ -821,6 +1115,36 @@
   // Reveal
   const obs=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting&&e.target.classList.add('on')),{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Scroll-spy nav
+  const navLinkEls = document.querySelectorAll('.nav-links a[data-nav]');
+  const spySections = ['home','about','portfolio','services','testimonials'].map(id=>document.getElementById(id)).filter(Boolean);
+  const spyObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        navLinkEls.forEach(a=>a.classList.toggle('active', a.dataset.nav === e.target.id));
+      }
+    });
+  }, {rootMargin:'-45% 0px -45% 0px', threshold:0});
+  spySections.forEach(sec=>spyObs.observe(sec));
+
+  // Testimonial voice players
+  document.querySelectorAll('.testi-voice').forEach(box=>{
+    const btn = box.querySelector('.testi-play');
+    const audio = box.querySelector('.testi-audio');
+    const wave = box.querySelector('.testi-wave');
+    if(!btn || !audio) return;
+    const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const pauseIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.testi-audio').forEach(a=>{ if(a!==audio){ a.pause(); } });
+      document.querySelectorAll('.testi-play').forEach(b=>{ if(b!==btn) b.innerHTML = playIcon; });
+      document.querySelectorAll('.testi-wave').forEach(w=>{ if(w!==wave) w.classList.remove('playing'); });
+      if(audio.paused){ audio.play().catch(()=>{}); btn.innerHTML = pauseIcon; wave.classList.add('playing'); }
+      else { audio.pause(); btn.innerHTML = playIcon; wave.classList.remove('playing'); }
+    });
+    audio.addEventListener('ended', ()=>{ btn.innerHTML = playIcon; wave.classList.remove('playing'); });
+  });
 
   // Counters
   const cObs=new IntersectionObserver(entries=>{
