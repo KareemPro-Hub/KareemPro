@@ -435,9 +435,14 @@
       border-color: rgba(217,24,122,0.45);
     }
 
-    .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; overflow: hidden; }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .video-wrapper.vertical { padding-bottom: 177.78%; }
+    .video-wrapper::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 72px; height: 56px; z-index: 2; pointer-events: none;
+      background: radial-gradient(circle at 100% 100%, rgba(0,0,0,0.9), rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 78%);
+    }
 
     .card-body { padding: 1.2rem; }
     .card-tag {
@@ -831,7 +836,7 @@
         </div>
         <div class="card-body">
           <span class="card-tag">تعليق صوتي</span>
-          <p class="card-title">تعليقٌ صوتي معبّر يمنح كل مشهد طابعاً مؤثراً يلامس المشاعر.</p>
+          <p class="card-title">فيديو تعريفي يدمج بين هيبة المناسبة الوطنية وبراءة الطفولة؛ صُغناه بمونتاج سلس وجاذبية بصرية عالية ليعزز الوعي القيمي لطلابنا من الصغر.</p>
         </div>
       </div>
 
