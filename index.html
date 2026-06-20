@@ -463,12 +463,26 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(217,24,122,0.1);
     }
     .service-icon {
-      width: 72px; height: 72px;
-      background: linear-gradient(135deg, rgba(255,168,38,0.15), rgba(217,24,122,0.1));
-      border: 1px solid rgba(217,24,122,0.25);
-      border-radius: 16px; display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem; margin-bottom: 1.2rem;
+      width: 68px; height: 68px;
+      border-radius: 18px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.3rem; position: relative; overflow: hidden;
+      box-shadow: 0 12px 26px -8px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.3);
+      transition: transform 0.3s;
     }
+    .service-card:hover .service-icon { transform: translateY(-3px) scale(1.05); }
+    .service-icon::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 28% 22%, rgba(255,255,255,0.6), rgba(255,255,255,0) 55%);
+      mix-blend-mode: overlay;
+    }
+    .service-icon svg {
+      width: 30px; height: 30px; position: relative; z-index: 1;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+    }
+    .service-icon.ic-a { background: linear-gradient(150deg, #b463ff, #6a1fd0); }
+    .service-icon.ic-b { background: linear-gradient(150deg, #ffb74d, #ff5533); }
+    .service-icon.ic-c { background: linear-gradient(150deg, #ff5fa8, #d9187a); }
+    .service-icon.ic-d { background: linear-gradient(150deg, #4dd2ff, #1f7ad0); }
     .service-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.65rem; color: var(--text); font-family: 'FrutigerArabic', sans-serif; }
     .service-desc { color: #cba8cb; font-size: 0.95rem; line-height: 1.9; font-weight: 300; }
 
@@ -970,42 +984,42 @@
     </div>
     <div class="services-grid">
       <div class="service-card reveal" onclick="selectService('مونتاج فيديو احترافي')">
-        <div class="service-icon">🎬</div>
+        <div class="service-icon ic-a"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l1.5-3h15L21 8"/><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M3 8l3-3M9 8l3-3M15 8l3-3"/></svg></div>
         <h3 class="service-title">مونتاج فيديو احترافي</h3>
         <p class="service-desc">إخراجٌ سينمائي متكامل، يقودُك نحو الصدارة.</p>
       </div>
       <div class="service-card reveal d1" onclick="selectService('تعليق صوتي — كل اللهجات')">
-        <div class="service-icon">🎙️</div>
+        <div class="service-icon ic-b"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
         <h3 class="service-title">تعليق صوتي — كل اللهجات</h3>
         <p class="service-desc">تعليق صوتي رجالي ونسائي بجميع اللهجات العربية — مصري، خليجي، شامي، مغربي وغيرها بصوت احترافي ناصع.</p>
       </div>
       <div class="service-card reveal d3" onclick="selectService('تصميم جرافيك')">
-        <div class="service-icon">🎨</div>
+        <div class="service-icon ic-c"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6 2 11c0 4 3 7 7 7 .8 0 1.5-.6 1.5-1.5 0-.4-.2-.8-.4-1.1-.2-.3-.4-.6-.4-1 0-.8.7-1.4 1.5-1.4H14c4 0 7-2.7 7-6S17.5 2 12 2z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="11" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/><circle cx="17" cy="11" r="1"/></svg></div>
         <h3 class="service-title">تصميم جرافيك</h3>
         <p class="service-desc">هوية بصرية متكاملة تعكس شخصية علامتك التجارية وتميزها عن المنافسين.</p>
       </div>
       <div class="service-card reveal" onclick="selectService('محتوى السوشيال ميديا')">
-        <div class="service-icon">📱</div>
+        <div class="service-icon ic-d"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div>
         <h3 class="service-title">محتوى السوشيال ميديا</h3>
         <p class="service-desc">ريلز وفيديوهات قصيرة مصممة لزيادة التفاعل والانتشار.</p>
       </div>
       <div class="service-card reveal d1" onclick="selectService('دورات تدريبية عن بعد')">
-        <div class="service-icon">📡</div>
+        <div class="service-icon ic-a"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a8 8 0 0 1 14-5"/><path d="M2 16l6-6 8 8-6 6z"/><circle cx="19" cy="5" r="2"/><line x1="13" y1="16" x2="9" y2="20"/></svg></div>
         <h3 class="service-title">دورات تدريبية عن بعد</h3>
         <p class="service-desc">برامج تدريبية متخصصة عبر الإنترنت في المجالات الإبداعية والأكاديمية والتقنية.</p>
       </div>
       <div class="service-card reveal d3" onclick="selectService('حلول أكاديمية وبحثية')">
-        <div class="service-icon">📄</div>
+        <div class="service-icon ic-b"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
         <h3 class="service-title">حلول أكاديمية وبحثية</h3>
         <p class="service-desc">كتابة رسائل الدكتوراه والماجستير، وإعداد الأبحاث العلمية والتقارير التنفيذية وفق المعايير الأكاديمية العالمية بأسلوب علمي رصين.</p>
       </div>
       <div class="service-card reveal d1" onclick="selectService('تطوير المواقع والتطبيقات')">
-        <div class="service-icon">🌐</div>
+        <div class="service-icon ic-c"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20z"/></svg></div>
         <h3 class="service-title">تطوير المواقع والتطبيقات</h3>
         <p class="service-desc">مواقع أنيقة ومتجاوبة مع جميع الأجهزة، وتطبيقات جوال متكاملة لأنظمة iOS وAndroid، إلى جانب منصات تعليمية ومتاجر إلكترونية بتجربة مستخدم سلسة وأدوات إدارة قوية.</p>
       </div>
       <div class="service-card reveal d3" onclick="selectService('عروض PowerPoint إبداعية')">
-        <div class="service-icon">📊</div>
+        <div class="service-icon ic-d"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg></div>
         <h3 class="service-title">عروض PowerPoint إبداعية</h3>
         <p class="service-desc">تصميم عروض تقديمية احترافية بأسلوب بصري مؤثر يترك انطباعاً لا يُنسى أمام أي جمهور.</p>
       </div>
