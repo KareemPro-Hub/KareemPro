@@ -672,11 +672,6 @@
         <h3 class="service-title">تعليق صوتي — كل اللهجات</h3>
         <p class="service-desc">تعليق صوتي رجالي ونسائي بجميع اللهجات العربية — مصري، خليجي، شامي، مغربي وغيرها بصوت احترافي ناصع.</p>
       </div>
-      <div class="service-card reveal d2" onclick="selectService('موشن جرافيك')">
-        <div class="service-icon">🎞️</div>
-        <h3 class="service-title">موشن جرافيك</h3>
-        <p class="service-desc">رسوم متحركة تحول أفكارك المعقدة إلى محتوى بصري جذاب وسهل الفهم.</p>
-      </div>
       <div class="service-card reveal d3" onclick="selectService('تصميم جرافيك')">
         <div class="service-icon">🎨</div>
         <h3 class="service-title">تصميم جرافيك</h3>
@@ -697,10 +692,10 @@
         <h3 class="service-title">حلول أكاديمية وبحثية</h3>
         <p class="service-desc">كتابة رسائل الدكتوراه والماجستير، وإعداد الأبحاث العلمية والتقارير التنفيذية وفق المعايير الأكاديمية العالمية بأسلوب علمي رصين.</p>
       </div>
-      <div class="service-card reveal d1" onclick="selectService('تطوير المواقع والمنصات')">
+      <div class="service-card reveal d1" onclick="selectService('تطوير المواقع والتطبيقات')">
         <div class="service-icon">🌐</div>
-        <h3 class="service-title">تطوير المواقع والمنصات</h3>
-        <p class="service-desc">مواقع وأنيقة ومتجاوبة مع جميع الأجهزة، ومنصات تعليمية ومتاجر إلكترونية متكاملة بتجربة مستخدم سلسة وأدوات إدارة قوية.</p>
+        <h3 class="service-title">تطوير المواقع والتطبيقات</h3>
+        <p class="service-desc">مواقع أنيقة ومتجاوبة مع جميع الأجهزة، وتطبيقات جوال متكاملة لأنظمة iOS وAndroid، إلى جانب منصات تعليمية ومتاجر إلكترونية بتجربة مستخدم سلسة وأدوات إدارة قوية.</p>
       </div>
       <div class="service-card reveal d3" onclick="selectService('عروض PowerPoint إبداعية')">
         <div class="service-icon">📊</div>
@@ -734,12 +729,11 @@
           <option value="" disabled selected>اختر الخدمة</option>
           <option>مونتاج فيديو احترافي</option>
           <option>تعليق صوتي — كل اللهجات</option>
-          <option>موشن جرافيك</option>
           <option>تصميم جرافيك</option>
           <option>محتوى السوشيال ميديا</option>
           <option>دورات تدريبية عن بعد</option>
           <option>حلول أكاديمية وبحثية</option>
-          <option>تطوير المواقع والمنصات</option>
+          <option>تطوير المواقع والتطبيقات</option>
           <option>عروض PowerPoint إبداعية</option>
         </select>
       </div>
@@ -849,7 +843,7 @@
   document.querySelectorAll('.stat-number').forEach(el=>cObs.observe(el));
 
   // Marquee
-  const items=['مونتاج فيديو','رسائل دكتوراه','تطوير مواقع','تعليق صوتي','منصات تعليمية','أبحاث وتقارير','موشن جرافيك','PowerPoint إبداعي','هوية بصرية','حلول أكاديمية','تصميم جرافيك','منصات تجارية'];
+  const items=['مونتاج فيديو','رسائل دكتوراه','تطوير مواقع','تعليق صوتي','منصات تعليمية','أبحاث وتقارير','PowerPoint إبداعي','هوية بصرية','حلول أكاديمية','تصميم جرافيك','منصات تجارية'];
   const mq=document.getElementById('mq');
   [...items,...items].forEach(it=>{
     const s=document.createElement('span');
