@@ -1152,6 +1152,71 @@
   </div>
 </section>
 
+<!-- ═══ CONTACT FORM ═══ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">🤝 لنبدأ معاً</div>
+      <h2 class="section-title">اطلب <span class="g-text">خدمتك</span></h2>
+      <p class="section-desc">اختر الخدمة واملأ النموذج وسأتواصل معك في أقرب وقت</p>
+    </div>
+    <form class="order-form reveal" id="orderForm" onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label class="form-label">الاسم الكريم</label>
+        <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">رقم الواتساب</label>
+        <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">الخدمة المطلوبة</label>
+        <select class="form-input form-select" id="fService" required>
+          <option value="" disabled selected>اختر الخدمة</option>
+          <option>مونتاج فيديو احترافي</option>
+          <option>تعليق صوتي — كل اللهجات</option>
+          <option>محتوى السوشيال ميديا</option>
+          <option>دورات تدريبية عن بعد</option>
+          <option>حلول أكاديمية وبحثية</option>
+          <option>تطوير المواقع والتطبيقات</option>
+          <option>عروض PowerPoint إبداعية</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">تفاصيل المشروع</label>
+        <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
+      </div>
+      <div class="form-terms">
+        <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
+        <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
+      </div>
+      <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══ TERMS MODAL ═══ -->
+<div class="terms-overlay" id="termsOverlay" onclick="if(event.target===this) this.classList.remove('open');">
+  <div class="terms-box">
+    <h3>الشروط والأحكام</h3>
+    <div class="terms-body" id="termsBody">
+      <p class="terms-heading">📌 اتفاقية العمل:</p>
+      <p class="terms-verse">قال الله تعالى: { يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ }</p>
+      <p>لضمان جودة العمل وسرعة الإنجاز، نؤكد على النقاط التالية:</p>
+      <ol class="terms-list">
+        <li><strong>عربون البدء:</strong> بمجرد إرسال الطلب لازم يتم تحويل عربون 50٪ على رقم "برق" الذي سيتم إرساله لكم، وإذا لم يتوفر فعلى نفس الرقم STC Bank (عربون مقدم) للبدء في تنفيذ المشروع.</li>
+        <li><strong>اعتماد تنفيذ المشروع:</strong> فور تحويل مقدم العمل، يتم اعتماد العمل فورًا بإذن الله.</li>
+        <li><strong>توثيق السداد:</strong> فضلًا بعد التحويل، يرجى إرسال صورة من إيصال التحويل للأهمية.</li>
+        <li><strong>المعاينة:</strong> بعد الانتهاء، سيتم إرسال المقطع كاملًا بعلامة مائية للمراجعة والاعتماد.</li>
+        <li><strong>التسليم النهائي:</strong> فور تحويل المبلغ المتبقي، يتم إرسال النسخة النهائية الأصلية (بدون علامة مائية) وبأعلى دقة.</li>
+        <li><strong>موعد التسليم:</strong> سيتم تسليم العمل في الموعد المحدد المتفق عليه سابقًا، ولا مجال للتأخير إلا بعد إبلاغكم والتنسيق معكم.</li>
+        <li><strong>الفاتورة:</strong> متوفرة وموجودة في حال احتجتها.</li>
+      </ol>
+    </div>
+    <button type="button" class="terms-close" onclick="document.getElementById('termsOverlay').classList.remove('open');">إغلاق</button>
+  </div>
+</div>
+
 <!-- ═══ CLIENTS / TRUSTED BY ═══ -->
 <section id="clients">
   <div class="container">
@@ -1272,71 +1337,6 @@
       </div>
   </div>
 </section>
-
-<!-- ═══ CONTACT FORM ═══ -->
-<section id="contact">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-tag">🤝 لنبدأ معاً</div>
-      <h2 class="section-title">اطلب <span class="g-text">خدمتك</span></h2>
-      <p class="section-desc">اختر الخدمة واملأ النموذج وسأتواصل معك في أقرب وقت</p>
-    </div>
-    <form class="order-form reveal" id="orderForm" onsubmit="submitForm(event)">
-      <div class="form-group">
-        <label class="form-label">الاسم الكريم</label>
-        <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">رقم الواتساب</label>
-        <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">الخدمة المطلوبة</label>
-        <select class="form-input form-select" id="fService" required>
-          <option value="" disabled selected>اختر الخدمة</option>
-          <option>مونتاج فيديو احترافي</option>
-          <option>تعليق صوتي — كل اللهجات</option>
-          <option>محتوى السوشيال ميديا</option>
-          <option>دورات تدريبية عن بعد</option>
-          <option>حلول أكاديمية وبحثية</option>
-          <option>تطوير المواقع والتطبيقات</option>
-          <option>عروض PowerPoint إبداعية</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">تفاصيل المشروع</label>
-        <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
-      </div>
-      <div class="form-terms">
-        <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
-        <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
-      </div>
-      <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
-    </form>
-  </div>
-</section>
-
-<!-- ═══ TERMS MODAL ═══ -->
-<div class="terms-overlay" id="termsOverlay" onclick="if(event.target===this) this.classList.remove('open');">
-  <div class="terms-box">
-    <h3>الشروط والأحكام</h3>
-    <div class="terms-body" id="termsBody">
-      <p class="terms-heading">📌 اتفاقية العمل:</p>
-      <p class="terms-verse">قال الله تعالى: { يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ }</p>
-      <p>لضمان جودة العمل وسرعة الإنجاز، نؤكد على النقاط التالية:</p>
-      <ol class="terms-list">
-        <li><strong>عربون البدء:</strong> بمجرد إرسال الطلب لازم يتم تحويل عربون 50٪ على رقم "برق" الذي سيتم إرساله لكم، وإذا لم يتوفر فعلى نفس الرقم STC Bank (عربون مقدم) للبدء في تنفيذ المشروع.</li>
-        <li><strong>اعتماد تنفيذ المشروع:</strong> فور تحويل مقدم العمل، يتم اعتماد العمل فورًا بإذن الله.</li>
-        <li><strong>توثيق السداد:</strong> فضلًا بعد التحويل، يرجى إرسال صورة من إيصال التحويل للأهمية.</li>
-        <li><strong>المعاينة:</strong> بعد الانتهاء، سيتم إرسال المقطع كاملًا بعلامة مائية للمراجعة والاعتماد.</li>
-        <li><strong>التسليم النهائي:</strong> فور تحويل المبلغ المتبقي، يتم إرسال النسخة النهائية الأصلية (بدون علامة مائية) وبأعلى دقة.</li>
-        <li><strong>موعد التسليم:</strong> سيتم تسليم العمل في الموعد المحدد المتفق عليه سابقًا، ولا مجال للتأخير إلا بعد إبلاغكم والتنسيق معكم.</li>
-        <li><strong>الفاتورة:</strong> متوفرة وموجودة في حال احتجتها.</li>
-      </ol>
-    </div>
-    <button type="button" class="terms-close" onclick="document.getElementById('termsOverlay').classList.remove('open');">إغلاق</button>
-  </div>
-</div>
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
