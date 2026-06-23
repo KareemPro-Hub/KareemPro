@@ -523,22 +523,13 @@
     .service-desc { color: #cba8cb; font-size: 0.95rem; line-height: 1.9; font-weight: 300; }
 
     /* ── CLIENTS / TRUSTED BY ── */
-    #clients { background: var(--dark3); padding-bottom: 3.4rem; overflow: hidden; }
-    .clients-marquee { position: relative; margin-top: 1rem; }
-    .clients-marquee::before, .clients-marquee::after {
-      content: ''; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none;
+    #clients { background: var(--dark3); padding-bottom: 3.4rem; }
+    .clients-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.1rem;
+      margin-top: 1.4rem;
     }
-    .clients-marquee::before { right: 0; background: linear-gradient(to left, var(--dark3), transparent); }
-    .clients-marquee::after { left: 0; background: linear-gradient(to right, var(--dark3), transparent); }
-    .clients-track {
-      display: flex; gap: 1.2rem; width: max-content;
-      animation: clientsScroll 48s linear infinite;
-      margin-bottom: 1.2rem;
-    }
-    .clients-track.dir-rtl { animation-direction: reverse; }
-    .clients-track:hover { animation-play-state: paused; }
     .client-chip {
-      flex-shrink: 0; width: 150px; height: 78px; border-radius: 14px;
+      width: 100%; height: 90px; border-radius: 14px;
       background: rgba(255,255,255,0.94);
       display: flex; align-items: center; justify-content: center;
       padding: 0.8rem 1.1rem;
@@ -547,10 +538,15 @@
     }
     .client-chip:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 26px rgba(255,63,164,0.25); }
     .client-chip img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    @keyframes clientsScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 1024px) {
+      .clients-grid { grid-template-columns: repeat(4, 1fr); }
+    }
     @media (max-width: 768px) {
-      .client-chip { width: 120px; height: 64px; padding: 0.6rem 0.9rem; }
-      .clients-marquee::before, .clients-marquee::after { width: 40px; }
+      .clients-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+      .client-chip { height: 70px; padding: 0.6rem 0.8rem; }
+    }
+    @media (max-width: 480px) {
+      .clients-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── CONTACT FORM ── */
@@ -1222,119 +1218,63 @@
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag">🤝 شركاء النجاح</div>
-      <h2 class="section-title">علامة <span class="g-text">رائدة في الشرق الأوسط</span> تثق بنا</h2>
+      <h2 class="section-title">علامات <span class="g-text">رائدة في الشرق الأوسط</span> تثق بنا</h2>
       <p class="section-desc">على مدار أكثر من 11 عاماً، حظينا بثقة عشرات الجهات الحكومية والشركات التجارية والتقنية والمؤسسات التعليمية</p>
     </div>
-  </div>
-  <div class="clients-marquee reveal">
-      <div class="clients-track dir-ltr" id="clientsRow1">
-        <div class="client-chip"><img src="clients/FlexClip.png" alt="FlexClip" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/SJA CAPITAL.png" alt="SJA CAPITAL" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/Tenorshare Logo.png" alt="Tenorshare Logo" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/Tetco.png" alt="Tetco" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/UCMAS.png" alt="UCMAS" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/iMobie.png" alt="iMobie" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/iMyFone.png" alt="iMyFone" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الخدمات الطبية للقوات المسلحة.png" alt="الخدمات الطبية للقوات المسلحة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الدفاع المدني.png" alt="الدفاع المدني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/العوالي العقارية.png" alt="العوالي العقارية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المجلس التخصصي لجمعيات الأيتام - مستطيل.png" alt="المجلس التخصصي لجمعيات الأيتام" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المركز الوطني لتنمية الحياة الفطرية.png" alt="المركز الوطني لتنمية الحياة الفطرية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المركز الوطني لتنمية القطاع غير الربحي.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المساعدة الإدارية.png" alt="المساعدة الإدارية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المؤسسة العامة للتدريب التقني والمهني.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/النيابة العامة.png" alt="النيابة العامة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الهيئة السعودية للمدن الصناعية ومناطق التقنية.png" alt="الهيئة السعودية للمدن الصناعية ومناطق التقنية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أروقة القانون.png" alt="أروقة القانون" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أكاديمية العناية.png" alt="أكاديمية العناية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أمانة الطائف.png" alt="أمانة الطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة النشاط الطلابي بمحافظة الطائف.png" alt="إدارة النشاط الطلابي بمحافظة الطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة رياض الأطفال بالطائف.png" alt="إدارة رياض الأطفال بالطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة نشاط الطالبات بالطائف.png" alt="إدارة نشاط الطالبات بالطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/بيئات التطوع.png" alt="بيئات التطوع" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/تجمع جازان الصحي.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/تطبيق يسرناه.png" alt="تطبيق يسرناه" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/FlexClip.png" alt="FlexClip" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/SJA CAPITAL.png" alt="SJA CAPITAL" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/Tenorshare Logo.png" alt="Tenorshare Logo" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/Tetco.png" alt="Tetco" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/UCMAS.png" alt="UCMAS" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/iMobie.png" alt="iMobie" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/iMyFone.png" alt="iMyFone" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الخدمات الطبية للقوات المسلحة.png" alt="الخدمات الطبية للقوات المسلحة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الدفاع المدني.png" alt="الدفاع المدني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/العوالي العقارية.png" alt="العوالي العقارية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المجلس التخصصي لجمعيات الأيتام - مستطيل.png" alt="المجلس التخصصي لجمعيات الأيتام" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المركز الوطني لتنمية الحياة الفطرية.png" alt="المركز الوطني لتنمية الحياة الفطرية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المركز الوطني لتنمية القطاع غير الربحي.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المساعدة الإدارية.png" alt="المساعدة الإدارية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/المؤسسة العامة للتدريب التقني والمهني.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/النيابة العامة.png" alt="النيابة العامة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/الهيئة السعودية للمدن الصناعية ومناطق التقنية.png" alt="الهيئة السعودية للمدن الصناعية ومناطق التقنية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أروقة القانون.png" alt="أروقة القانون" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أكاديمية العناية.png" alt="أكاديمية العناية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/أمانة الطائف.png" alt="أمانة الطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة النشاط الطلابي بمحافظة الطائف.png" alt="إدارة النشاط الطلابي بمحافظة الطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة رياض الأطفال بالطائف.png" alt="إدارة رياض الأطفال بالطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/إدارة نشاط الطالبات بالطائف.png" alt="إدارة نشاط الطالبات بالطائف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/بيئات التطوع.png" alt="بيئات التطوع" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/تجمع جازان الصحي.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/تطبيق يسرناه.png" alt="تطبيق يسرناه" loading="lazy" /></div>
-      </div>
-      <div class="clients-track dir-rtl" id="clientsRow2">
-        <div class="client-chip"><img src="clients/جامعة الملك سعود.png" alt="جامعة الملك سعود" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جامعة جازان.png" alt="جامعة جازان" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جائزة تميز.png" alt="جائزة تميز" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية البر بأبها.png" alt="جمعية البر بأبها" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية الدعوة والإرشاد وتوعية الجاليات بجدة.png" alt="جمعية الدعوة والإرشاد وتوعية الجاليات بجدة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية تحفيظ ضمد.png" alt="جمعية تحفيظ ضمد" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية نافع لسقيا الماء.png" alt="جمعية نافع لسقيا الماء" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/حضانة أكاديمية أجيال بالكتابة.png" alt="حضانة أكاديمية أجيال بالكتابة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/شعار المدارس الجديد_2.png" alt="شعار المدارس الجديد" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ضبط.png" alt="ضبط" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/فتاة ثقيف.png" alt="فتاة ثقيف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/قدرات المغربي مع الكتابة.png" alt="قدرات المغربي مع الكتابة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/قسم رياض الأطفال بالنماص.png" alt="قسم رياض الأطفال بالنماص" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مجمع العبادي.png" alt="مجمع العبادي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/محافظة ميسان - المركز الإعلامي.png" alt="محافظة ميسان - المركز الإعلامي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مركز الطائف العلمي.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مسجد التقوى.png" alt="مسجد التقوى" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مكتب ساف الهندسي.png" alt="مكتب ساف الهندسي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ملتقى إلهام القانوني.png" alt="ملتقى إلهام القانوني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مؤسسة سالم بن محفوظ الأهلية.png" alt="مؤسسة سالم بن محفوظ الأهلية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/نجم.png" alt="نجم" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ورقة أكتان.png" alt="ورقة أكتان" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة التعليم.png" alt="وزارة التعليم" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الداخلية السعودية.png" alt="وزارة الداخلية السعودية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الشؤون الإسلامية.png" alt="وزارة الشؤون الإسلامية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الصحة.png" alt="وزارة الصحة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جامعة الملك سعود.png" alt="جامعة الملك سعود" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جامعة جازان.png" alt="جامعة جازان" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جائزة تميز.png" alt="جائزة تميز" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية البر بأبها.png" alt="جمعية البر بأبها" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية الدعوة والإرشاد وتوعية الجاليات بجدة.png" alt="جمعية الدعوة والإرشاد وتوعية الجاليات بجدة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية تحفيظ ضمد.png" alt="جمعية تحفيظ ضمد" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/جمعية نافع لسقيا الماء.png" alt="جمعية نافع لسقيا الماء" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/حضانة أكاديمية أجيال بالكتابة.png" alt="حضانة أكاديمية أجيال بالكتابة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/شعار المدارس الجديد_2.png" alt="شعار المدارس الجديد" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ضبط.png" alt="ضبط" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/فتاة ثقيف.png" alt="فتاة ثقيف" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/قدرات المغربي مع الكتابة.png" alt="قدرات المغربي مع الكتابة" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/قسم رياض الأطفال بالنماص.png" alt="قسم رياض الأطفال بالنماص" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مجمع العبادي.png" alt="مجمع العبادي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/محافظة ميسان - المركز الإعلامي.png" alt="محافظة ميسان - المركز الإعلامي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مركز الطائف العلمي.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مسجد التقوى.png" alt="مسجد التقوى" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مكتب ساف الهندسي.png" alt="مكتب ساف الهندسي" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ملتقى إلهام القانوني.png" alt="ملتقى إلهام القانوني" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/مؤسسة سالم بن محفوظ الأهلية.png" alt="مؤسسة سالم بن محفوظ الأهلية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/نجم.png" alt="نجم" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/ورقة أكتان.png" alt="ورقة أكتان" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة التعليم.png" alt="وزارة التعليم" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الداخلية السعودية.png" alt="وزارة الداخلية السعودية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الشؤون الإسلامية.png" alt="وزارة الشؤون الإسلامية" loading="lazy" /></div>
-        <div class="client-chip"><img src="clients/وزارة الصحة.png" alt="وزارة الصحة" loading="lazy" /></div>
-      </div>
+    <div class="clients-grid reveal">
+      <div class="client-chip"><img src="clients/client-01.png" alt="وزارة الداخلية السعودية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-04.png" alt="وزارة الشؤون الإسلامية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-06.png" alt="الدفاع المدني" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-07.png" alt="أمانة الطائف" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-08.png" alt="الهيئة السعودية للمدن الصناعية ومناطق التقنية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-11.png" alt="المركز الوطني لتنمية الحياة الفطرية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-12.png" alt="الخدمات الطبية للقوات المسلحة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-13.png" alt="ضبط" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-14.png" alt="المساعدة الإدارية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بمحافظة الطائف" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-16.png" alt="إدارة رياض الأطفال بالطائف" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-17.png" alt="إدارة نشاط الطالبات بالطائف" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-18.png" alt="قسم رياض الأطفال بالنماص" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-19.png" alt="محافظة ميسان - المركز الإعلامي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-22.png" alt="FlexClip" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-23.png" alt="Tenorshare Logo" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-24.png" alt="iMobie" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-25.png" alt="iMyFone" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-26.png" alt="UCMAS" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-27.png" alt="SJA CAPITAL" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-28.png" alt="Tetco" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-29.png" alt="جمعية البر بأبها" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-30.png" alt="جمعية نافع لسقيا الماء" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-31.png" alt="جمعية الدعوة والإرشاد وتوعية الجاليات بجدة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-32.png" alt="جمعية تحفيظ ضمد" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-33.png" alt="المجلس التخصصي لجمعيات الأيتام" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-34.png" alt="بيئات التطوع" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-35.png" alt="مؤسسة سالم بن محفوظ الأهلية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-37.png" alt="مسجد التقوى" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-39.png" alt="حضانة أكاديمية أجيال بالكتابة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-41.png" alt="قدرات المغربي مع الكتابة" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-42.png" alt="فتاة ثقيف" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-43.png" alt="شعار المدارس الجديد" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-44.png" alt="العوالي العقارية" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-45.png" alt="مكتب ساف الهندسي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-46.png" alt="مجمع العبادي" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-47.png" alt="أروقة القانون" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-48.png" alt="ملتقى إلهام القانوني" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-50.png" alt="تطبيق يسرناه" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-51.png" alt="نجم" loading="lazy" /></div>
+      <div class="client-chip"><img src="clients/client-52.png" alt="ورقة أكتان" loading="lazy" /></div>
+    </div>
   </div>
 </section>
 
