@@ -579,6 +579,12 @@
     .terms-overlay.open .terms-box { transform: translateY(0); }
     .terms-box h3 { color: var(--text); font-size: 1.15rem; margin-bottom: 1rem; }
     .terms-box .terms-body { color: var(--muted); font-size: 0.92rem; line-height: 1.9; }
+    .terms-body p { margin-bottom: 0.8rem; }
+    .terms-body .terms-heading { color: var(--text); font-weight: 700; font-size: 1.02rem; }
+    .terms-body .terms-verse { color: #ffc440; font-style: italic; }
+    .terms-body .terms-list { padding-right: 1.3rem; margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+    .terms-body .terms-list li::marker { color: #ff3fa4; font-weight: 700; }
+    .terms-body strong { color: var(--text); }
     .terms-box .terms-close {
       display: block; margin: 1.5rem auto 0; padding: 0.7rem 2rem;
       border-radius: 12px; border: none; cursor: pointer; font-weight: 600;
@@ -1163,7 +1169,18 @@
   <div class="terms-box">
     <h3>الشروط والأحكام</h3>
     <div class="terms-body" id="termsBody">
-      سيتم إضافة نص الشروط والأحكام هنا قريباً.
+      <p class="terms-heading">📌 اتفاقية العمل:</p>
+      <p class="terms-verse">قال الله تعالى: { يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ }</p>
+      <p>لضمان جودة العمل وسرعة الإنجاز، نؤكد على النقاط التالية:</p>
+      <ol class="terms-list">
+        <li><strong>عربون البدء:</strong> بمجرد إرسال الطلب لازم يتم تحويل عربون 50٪ على رقم "برق" الذي سيتم إرساله لكم، وإذا لم يتوفر فعلى نفس الرقم STC Bank (عربون مقدم) للبدء في تنفيذ المشروع.</li>
+        <li><strong>اعتماد تنفيذ المشروع:</strong> فور تحويل مقدم العمل، يتم اعتماد العمل فورًا بإذن الله.</li>
+        <li><strong>توثيق السداد:</strong> فضلًا بعد التحويل، يرجى إرسال صورة من إيصال التحويل للأهمية.</li>
+        <li><strong>المعاينة:</strong> بعد الانتهاء، سيتم إرسال المقطع كاملًا بعلامة مائية للمراجعة والاعتماد.</li>
+        <li><strong>التسليم النهائي:</strong> فور تحويل المبلغ المتبقي، يتم إرسال النسخة النهائية الأصلية (بدون علامة مائية) وبأعلى دقة.</li>
+        <li><strong>موعد التسليم:</strong> سيتم تسليم العمل في الموعد المحدد المتفق عليه سابقًا، ولا مجال للتأخير إلا بعد إبلاغكم والتنسيق معكم.</li>
+        <li><strong>الفاتورة:</strong> متوفرة وموجودة في حال احتجتها.</li>
+      </ol>
     </div>
     <button type="button" class="terms-close" onclick="document.getElementById('termsOverlay').classList.remove('open');">إغلاق</button>
   </div>
