@@ -522,73 +522,6 @@
     .service-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.65rem; color: var(--text); font-family: 'FrutigerArabic', sans-serif; }
     .service-desc { color: #cba8cb; font-size: 0.95rem; line-height: 1.9; font-weight: 300; }
 
-    /* ── TESTIMONIALS ── */
-    #testimonials { background: var(--dark3); }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.6rem; }
-    .testi-card {
-      position: relative; background: var(--dark4);
-      border: 1px solid rgba(255,196,64,0.35); border-radius: 18px;
-      padding: 1.8rem 1.6rem 1.6rem; display: flex; flex-direction: column; gap: 1rem;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-      overflow: hidden;
-    }
-    .testi-card:hover { transform: translateY(-6px); border-color: rgba(255,196,64,0.7); box-shadow: 0 14px 40px rgba(255,196,64,0.12); }
-    .testi-quote-icon {
-      position: absolute; top: 0.8rem; left: 1.2rem;
-      font-size: 2.6rem; line-height: 1; font-weight: 900;
-      color: rgba(255,196,64,0.18); font-family: Georgia, serif;
-    }
-    .testi-head { display: flex; align-items: center; gap: 0.8rem; }
-    .testi-flag {
-      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-      background: var(--dark2); border: 1px solid rgba(255,196,64,0.35);
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-    }
-    .testi-info strong { display: block; color: var(--text); font-size: 0.95rem; }
-    .testi-info span { color: var(--muted); font-size: 0.78rem; }
-    .testi-stars { color: #ffc440; font-size: 0.95rem; letter-spacing: 0.15rem; }
-
-    .testi-voice {
-      display: flex; align-items: center; gap: 0.8rem;
-      background: var(--dark2); border: 1px solid var(--border);
-      border-radius: 14px; padding: 0.7rem 1rem;
-    }
-    .testi-play {
-      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; border: none; cursor: pointer;
-      background: linear-gradient(135deg,#ffc440,#ff9d2a); color: #1a1208;
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s;
-    }
-    .testi-play:hover { transform: scale(1.08); }
-    .testi-play svg { width: 17px; height: 17px; }
-    .testi-wave { flex: 1; display: flex; align-items: center; gap: 3px; height: 26px; }
-    .testi-wave span {
-      flex: 1; background: rgba(255,196,64,0.4); border-radius: 2px;
-      height: 40%;
-    }
-    .testi-wave span:nth-child(2n) { height: 70%; }
-    .testi-wave span:nth-child(3n) { height: 95%; }
-    .testi-wave span:nth-child(5n) { height: 55%; }
-    .testi-wave.playing span { background: #ffc440; animation: testiPulse 0.9s ease-in-out infinite; }
-    .testi-wave.playing span:nth-child(2n) { animation-delay: 0.15s; }
-    .testi-wave.playing span:nth-child(3n) { animation-delay: 0.3s; }
-    .testi-wave.playing span:nth-child(4n) { animation-delay: 0.45s; }
-    @keyframes testiPulse { 0%,100% { transform: scaleY(0.6); } 50% { transform: scaleY(1); } }
-
-    .testi-chat-frame {
-      border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
-      background: var(--dark2); min-height: 220px; max-height: 360px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .testi-chat-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .testi-chat-frame:empty::before,
-    .testi-chat-frame img[src=""] { display: none; }
-    .testi-chat-frame::after {
-      content: 'لقطة محادثة واتساب'; color: var(--muted); font-size: 0.8rem;
-    }
-    .testi-chat-frame:has(img[src=""])::after { display: block; }
-    .testi-chat-frame:has(img:not([src=""]))::after { display: none; }
-
     /* ── CONTACT FORM ── */
     #contact { background: var(--dark2); }
     .order-form {
@@ -612,6 +545,45 @@
     .form-select option { background: #1a1a1a; color: var(--light); }
     .form-textarea { resize: vertical; min-height: 110px; }
     .form-submit { width: 100%; padding: 1rem; font-size: 1.05rem; cursor: pointer; border: none; margin-top: 0.5rem; }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.4); }
+
+    /* ── TERMS CHECKBOX ── */
+    .form-terms {
+      display: flex; align-items: flex-start; gap: 0.7rem;
+      color: var(--muted); font-size: 0.88rem; line-height: 1.7;
+    }
+    .form-terms input[type="checkbox"] {
+      width: 19px; height: 19px; flex-shrink: 0; margin-top: 0.15rem;
+      accent-color: #ff3fa4; cursor: pointer;
+    }
+    .form-terms label { cursor: pointer; }
+    .form-terms .terms-link {
+      color: #ff3fa4; text-decoration: underline; cursor: pointer; font-weight: 600;
+      background: none; border: none; padding: 0; font-size: inherit; font-family: inherit;
+    }
+
+    /* ── TERMS MODAL ── */
+    .terms-overlay {
+      position: fixed; inset: 0; background: rgba(8,9,22,0.78);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; z-index: 1200;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .terms-overlay.open { opacity: 1; pointer-events: all; }
+    .terms-box {
+      background: var(--dark2); border: 1px solid var(--border); border-radius: 18px;
+      max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto;
+      padding: 1.8rem 1.7rem; transform: translateY(16px); transition: transform 0.25s;
+    }
+    .terms-overlay.open .terms-box { transform: translateY(0); }
+    .terms-box h3 { color: var(--text); font-size: 1.15rem; margin-bottom: 1rem; }
+    .terms-box .terms-body { color: var(--muted); font-size: 0.92rem; line-height: 1.9; }
+    .terms-box .terms-close {
+      display: block; margin: 1.5rem auto 0; padding: 0.7rem 2rem;
+      border-radius: 12px; border: none; cursor: pointer; font-weight: 600;
+      background: linear-gradient(135deg,#ff3fa4,#7b2ff7); color: #fff;
+    }
     .service-card { cursor: pointer; }
     .service-card:hover { cursor: pointer; }
 
@@ -733,10 +705,6 @@
     <li><a href="#services" data-nav="services">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
       خدماتنا
-    </a></li>
-    <li><a href="#testimonials" data-nav="testimonials">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      آراء العملاء
     </a></li>
     <li><a href="#about" data-nav="about">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -1109,96 +1077,6 @@
   </div>
 </section>
 
-<!-- ═══ TESTIMONIALS ═══ -->
-<section id="testimonials">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-tag">💬 آراء العملاء</div>
-      <h2 class="section-title">تجارب حقيقية من <span class="g-text">عملائنا الكرام</span></h2>
-      <p class="section-desc">بصوتهم وكلماتهم .. هكذا يصف عملاؤنا تجربتهم مع كريم برو</p>
-    </div>
-
-    <div class="testimonials-grid">
-
-      <!-- Voice-note testimonial -->
-      <div class="testi-card reveal">
-        <div class="testi-quote-icon">”</div>
-        <div class="testi-head">
-          <div class="testi-flag">🇪🇬</div>
-          <div class="testi-info">
-            <strong>تيسير</strong>
-            <span>عميل</span>
-          </div>
-        </div>
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-voice">
-          <button class="testi-play" aria-label="تشغيل التسجيل الصوتي">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="testi-wave">
-            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <audio class="testi-audio" preload="none"><source src="" type="audio/mpeg"></audio>
-        </div>
-      </div>
-
-      <!-- WhatsApp screenshot testimonial -->
-      <div class="testi-card reveal d1">
-        <div class="testi-quote-icon">”</div>
-        <div class="testi-head">
-          <div class="testi-flag">🇸🇦</div>
-          <div class="testi-info">
-            <strong>د. محمد</strong>
-            <span>مجمع العبادي التعليمي</span>
-          </div>
-        </div>
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-chat-frame">
-          <img src="" alt="رسالة عميل عبر واتساب" loading="lazy">
-        </div>
-      </div>
-
-      <!-- Placeholder slots ready for more screenshots / voice notes -->
-      <div class="testi-card reveal d2">
-        <div class="testi-quote-icon">”</div>
-        <div class="testi-head">
-          <div class="testi-flag">🇸🇦</div>
-          <div class="testi-info">
-            <strong>عميل كريم برو</strong>
-            <span>جمعية هبة الصحية</span>
-          </div>
-        </div>
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-chat-frame">
-          <img src="" alt="رسالة عميل عبر واتساب" loading="lazy">
-        </div>
-      </div>
-
-      <div class="testi-card reveal d3">
-        <div class="testi-quote-icon">”</div>
-        <div class="testi-head">
-          <div class="testi-flag">🇸🇦</div>
-          <div class="testi-info">
-            <strong>عميل كريم برو</strong>
-            <span>شركة المنظومة العربية</span>
-          </div>
-        </div>
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-voice">
-          <button class="testi-play" aria-label="تشغيل التسجيل الصوتي">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="testi-wave">
-            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <audio class="testi-audio" preload="none"><source src="" type="audio/mpeg"></audio>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ═══ ABOUT ═══ -->
 <section id="about">
   <div class="container">
@@ -1271,10 +1149,25 @@
         <label class="form-label">تفاصيل المشروع</label>
         <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
       </div>
-      <button type="submit" class="btn-primary form-submit">💬 أرسل الطلب عبر واتساب</button>
+      <div class="form-terms">
+        <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
+        <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
+      </div>
+      <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
     </form>
   </div>
 </section>
+
+<!-- ═══ TERMS MODAL ═══ -->
+<div class="terms-overlay" id="termsOverlay" onclick="if(event.target===this) this.classList.remove('open');">
+  <div class="terms-box">
+    <h3>الشروط والأحكام</h3>
+    <div class="terms-body" id="termsBody">
+      سيتم إضافة نص الشروط والأحكام هنا قريباً.
+    </div>
+    <button type="button" class="terms-close" onclick="document.getElementById('termsOverlay').classList.remove('open');">إغلاق</button>
+  </div>
+</div>
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
@@ -1390,7 +1283,7 @@
 
   // Scroll-spy nav
   const navLinkEls = document.querySelectorAll('.nav-links a[data-nav]');
-  const spySections = ['home','portfolio','services','testimonials','about'].map(id=>document.getElementById(id)).filter(Boolean);
+  const spySections = ['home','portfolio','services','about'].map(id=>document.getElementById(id)).filter(Boolean);
   const spyObs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
@@ -1399,24 +1292,6 @@
     });
   }, {rootMargin:'-45% 0px -45% 0px', threshold:0});
   spySections.forEach(sec=>spyObs.observe(sec));
-
-  // Testimonial voice players
-  document.querySelectorAll('.testi-voice').forEach(box=>{
-    const btn = box.querySelector('.testi-play');
-    const audio = box.querySelector('.testi-audio');
-    const wave = box.querySelector('.testi-wave');
-    if(!btn || !audio) return;
-    const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-    const pauseIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.testi-audio').forEach(a=>{ if(a!==audio){ a.pause(); } });
-      document.querySelectorAll('.testi-play').forEach(b=>{ if(b!==btn) b.innerHTML = playIcon; });
-      document.querySelectorAll('.testi-wave').forEach(w=>{ if(w!==wave) w.classList.remove('playing'); });
-      if(audio.paused){ audio.play().catch(()=>{}); btn.innerHTML = pauseIcon; wave.classList.add('playing'); }
-      else { audio.pause(); btn.innerHTML = playIcon; wave.classList.remove('playing'); }
-    });
-    audio.addEventListener('ended', ()=>{ btn.innerHTML = playIcon; wave.classList.remove('playing'); });
-  });
 
   // Counters
   const cObs=new IntersectionObserver(entries=>{
