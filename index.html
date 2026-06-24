@@ -64,6 +64,54 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ما هي خطوات بدء المشروع معكم؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "بعد التواصل وتحديد الخدمة، يُشترط تحويل عربون بنسبة 50٪ لتأكيد الطلب واعتماد بدء التنفيذ مباشرةً، ثم يُرسل المبلغ المتبقي عند الاعتماد النهائي قبل تسليم النسخة الأصلية." }
+      },
+      {
+        "@type": "Question",
+        "name": "هل يوجد عربون قبل بدء العمل؟ وكيف يتم الدفع؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "نعم، عربون 50٪ عبر حساب برق (أو STC Pay على نفس الرقم عند الحاجة)، ويُرجى إرسال صورة إيصال التحويل لتوثيق السداد والبدء في التنفيذ." }
+      },
+      {
+        "@type": "Question",
+        "name": "هل أستلم نسخة للمراجعة قبل التسليم النهائي؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "بالتأكيد، بعد الانتهاء من العمل يُرسل المقطع كاملاً بعلامة مائية للمراجعة والاعتماد، وفور تحويل المبلغ المتبقي تُرسل النسخة النهائية الأصلية بأعلى دقة وبدون علامة مائية." }
+      },
+      {
+        "@type": "Question",
+        "name": "هل يمكن طلب تعديلات بعد التسليم؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "يحق لك طلب تعديل مجاني واحد يشمل التحسينات البصرية البسيطة كتغيير خط أو لون. أما التعديلات الجوهرية في صميم المحتوى بعد الاعتماد، فتُحسب بتكلفة إضافية." }
+      },
+      {
+        "@type": "Question",
+        "name": "كم تستغرق مدة تنفيذ وتسليم المشروع؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "تختلف المدة حسب طبيعة وحجم المشروع، ويتم الاتفاق عليها بدقة قبل البدء، مع الالتزام الكامل بالموعد المحدد وإبقائك على اطلاع دائم بأي مستجدات." }
+      },
+      {
+        "@type": "Question",
+        "name": "هل يتوفر إصدار فاتورة رسمية؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "نعم، الفاتورة الرسمية متوفرة ومتاحة للإصدار عند الطلب لأي جهة أو مؤسسة أو فرد." }
+      },
+      {
+        "@type": "Question",
+        "name": "ما هي الخدمات التي تقدمها كريم برو؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "مونتاج وعروض مرئية، تعليق صوتي بجميع اللهجات، إنشاء مواقع وتطبيقات، ريلز وسنابات، كورسات عن بعد، أبحاث وتقارير احترافية، وعروض PowerPoint إبداعية." }
+      },
+      {
+        "@type": "Question",
+        "name": "هل تتعاملون مع عملاء خارج المملكة العربية السعودية؟",
+        "acceptedAnswer": { "@type": "Answer", "text": "نعم، نخدم العملاء داخل المملكة وخارجها، وقد سبق لنا العمل مع جهات وشركات ومؤسسات تعليمية في عدة دول عربية." }
+      }
+    ]
+  }
+  </script>
   <style>
     @font-face {
       font-family: 'FrutigerArabic';
@@ -535,6 +583,35 @@
       .clients-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* ── FAQ ── */
+    #faq { background: var(--dark3); }
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+    .faq-item {
+      background: var(--dark4); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .faq-item.open { border-color: rgba(217,24,122,0.45); box-shadow: 0 8px 24px rgba(217,24,122,0.12); }
+    .faq-question {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      background: none; border: none; cursor: pointer; text-align: right;
+      padding: 1.2rem 1.5rem; font-family: 'FrutigerArabic', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--text);
+    }
+    .faq-question:hover { color: var(--g1); }
+    .faq-icon {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--grad); color: #fff; font-size: 1.2rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.35s ease;
+    }
+    .faq-item.open .faq-icon { transform: rotate(135deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 1.5rem;
+    }
+    .faq-item.open .faq-answer { padding: 0 1.5rem 1.3rem; }
+    .faq-answer p { color: var(--muted); font-size: 0.92rem; line-height: 1.9; font-weight: 300; }
+
     /* ── CONTACT FORM ── */
     #contact { background: var(--dark2); }
     .order-form {
@@ -735,6 +812,10 @@
     <li><a href="#about" data-nav="about">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       من نحن
+    </a></li>
+    <li><a href="#" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open'); document.getElementById('navLinks').classList.remove('open');">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6M9 16h6M9 8h6"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg>
+      الشروط والأحكام
     </a></li>
     <li><a href="#contact" class="nav-cta">ابدأ مشروعاً</a></li>
   </ul>
@@ -1120,7 +1201,6 @@
       <div class="client-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-11.png" alt="المركز الوطني لتنمية الحياة الفطرية" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-12.png" alt="الخدمات الطبية للقوات المسلحة" loading="lazy" /></div>
-      <div class="client-chip"><img src="clients/client-13.png" alt="ضبط" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-14.png" alt="المساعدة الإدارية" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بمحافظة الطائف" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-16.png" alt="إدارة رياض الأطفال بالطائف" loading="lazy" /></div>
@@ -1133,7 +1213,6 @@
       <div class="client-chip"><img src="clients/client-23.png" alt="Tenorshare Logo" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-24.png" alt="iMobie" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-25.png" alt="iMyFone" loading="lazy" /></div>
-      <div class="client-chip"><img src="clients/client-26.png" alt="UCMAS" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-27.png" alt="SJA CAPITAL" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-28.png" alt="Tetco" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-29.png" alt="جمعية البر بأبها" loading="lazy" /></div>
@@ -1155,11 +1234,9 @@
       <div class="client-chip"><img src="clients/client-45.png" alt="مكتب ساف الهندسي" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-46.png" alt="مجمع العبادي" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-47.png" alt="أروقة القانون" loading="lazy" /></div>
-      <div class="client-chip"><img src="clients/client-48.png" alt="ملتقى إلهام القانوني" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-50.png" alt="تطبيق يسرناه" loading="lazy" /></div>
       <div class="client-chip"><img src="clients/client-51.png" alt="نجم" loading="lazy" /></div>
-      <div class="client-chip"><img src="clients/client-52.png" alt="ورقة أكتان" loading="lazy" /></div>
     </div>
   </div>
 </section>
@@ -1197,6 +1274,75 @@
           <span class="about-point-icon">✦</span>
           <div><strong>فريق متعدد التخصصات</strong><p>مونتاج، تصميم، تطوير، وأبحاث — كل ذلك تحت سقفٍ واحد.</p></div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">❓ أسئلة شائعة</div>
+      <h2 class="section-title">عندك <span class="g-text">سؤال؟</span></h2>
+      <p class="section-desc">إجابات سريعة لأكثر الأسئلة التي تصلني قبل بدء أي مشروع</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>ما هي خطوات بدء المشروع معكم؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>بعد التواصل وتحديد الخدمة، يُشترط تحويل عربون بنسبة 50٪ لتأكيد الطلب واعتماد بدء التنفيذ مباشرةً، ثم يُرسل المبلغ المتبقي عند الاعتماد النهائي قبل تسليم النسخة الأصلية.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>هل يوجد عربون قبل بدء العمل؟ وكيف يتم الدفع؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>نعم، عربون 50٪ عبر حساب "برق" (أو STC Pay على نفس الرقم عند الحاجة)، ويُرجى إرسال صورة إيصال التحويل لتوثيق السداد والبدء في التنفيذ.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>هل أستلم نسخة للمراجعة قبل التسليم النهائي؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>بالتأكيد، بعد الانتهاء من العمل يُرسل المقطع كاملاً بعلامة مائية للمراجعة والاعتماد، وفور تحويل المبلغ المتبقي تُرسل النسخة النهائية الأصلية بأعلى دقة وبدون علامة مائية.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>هل يمكن طلب تعديلات بعد التسليم؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>يحق لك طلب تعديل مجاني واحد يشمل التحسينات البصرية البسيطة كتغيير خط أو لون. أما التعديلات الجوهرية في صميم المحتوى (إضافة أو حذف) بعد الاعتماد، فتُحسب بتكلفة إضافية.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>كم تستغرق مدة تنفيذ وتسليم المشروع؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>تختلف المدة حسب طبيعة وحجم المشروع، ويتم الاتفاق عليها بدقة قبل البدء، مع الالتزام الكامل بالموعد المحدد وإبقائك على اطلاع دائم بأي مستجدات.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>هل يتوفر إصدار فاتورة رسمية؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>نعم، الفاتورة الرسمية متوفرة ومتاحة للإصدار عند الطلب لأي جهة أو مؤسسة أو فرد.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>ما هي الخدمات التي تقدمها كريم برو؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>مونتاج وعروض مرئية، تعليق صوتي بجميع اللهجات، إنشاء مواقع وتطبيقات، ريلز وسنابات، كورسات عن بعد، أبحاث وتقارير احترافية، وعروض PowerPoint إبداعية — كل ذلك تحت سقفٍ واحد.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" onclick="toggleFaq(this)">
+          <span>هل تتعاملون مع عملاء خارج المملكة العربية السعودية؟</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>نعم، نخدم العملاء داخل المملكة وخارجها، وقد سبق لنا العمل مع جهات وشركات ومؤسسات تعليمية في عدة دول عربية.</p></div>
       </div>
     </div>
   </div>
@@ -1326,6 +1472,21 @@
 
   // Scroll top
   window.addEventListener('scroll',()=>document.getElementById('stb').classList.toggle('show',scrollY>400));
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el=>{
+      el.classList.remove('open');
+      el.querySelector('.faq-answer').style.maxHeight = null;
+    });
+    if (!wasOpen) {
+      item.classList.add('open');
+      const ans = item.querySelector('.faq-answer');
+      ans.style.maxHeight = ans.scrollHeight + 24 + 'px';
+    }
+  }
 
   // Service select
   function selectService(name) {
