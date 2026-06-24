@@ -492,11 +492,11 @@
       text-align: center;
     }
     .sites-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(360px,1fr)); gap: 2.6rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap: 2.2rem;
     }
     .site-card {
       background: var(--dark3); border: 1px solid var(--border); border-radius: 18px;
-      padding: 1.2rem 1.2rem 1.5rem;
+      padding: 0; overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
     }
     .site-card:hover {
@@ -504,44 +504,48 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.5);
       border-color: rgba(217,24,122,0.45);
     }
-    .device-browser { position: relative; margin-bottom: 3.1rem; }
-    .browser-bar {
+    .site-visual {
+      position: relative; height: 188px; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .site-visual::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1px);
+      background-size: 18px 18px; opacity: 0.5;
+    }
+    .site-visual::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,0.45), transparent 60%);
+    }
+    .site-chrome {
+      position: absolute; top: 0; right: 0; left: 0; z-index: 2;
       display: flex; align-items: center; gap: 6px;
-      background: #1b1023; border: 1px solid var(--border); border-bottom: none;
-      border-radius: 10px 10px 0 0; padding: 0.55rem 0.8rem;
+      background: rgba(0,0,0,0.22); backdrop-filter: blur(2px);
+      padding: 0.55rem 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .browser-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
     .browser-dot.r { background: #ff5f57; }
     .browser-dot.y { background: #febc2e; }
     .browser-dot.g { background: #28c840; }
     .browser-url {
-      margin-inline-start: auto; background: rgba(255,255,255,0.06); color: var(--muted);
+      margin-inline-start: auto; background: rgba(255,255,255,0.12); color: #fff;
       font-size: 0.72rem; padding: 0.2rem 0.9rem; border-radius: 50px; direction: ltr; font-family: monospace;
     }
-    .browser-frame {
-      position: relative; width: 100%; padding-bottom: 64%;
-      background: #0c0612; border-radius: 0 0 14px 14px; overflow: hidden;
-      border: 1px solid var(--border);
+    .site-badge {
+      position: relative; z-index: 2;
+      width: 64px; height: 64px; border-radius: 18px;
+      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.3);
     }
-    .browser-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; pointer-events: none; }
-    .phone-mockup {
-      position: absolute; left: -14px; bottom: -34px; z-index: 3;
-      width: 122px; height: 227px; padding: 6px; box-sizing: border-box;
-      background: #0a0a0a; border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    .site-badge svg { width: 32px; height: 32px; stroke: #fff; fill: none; }
+    .site-visual-name {
+      position: relative; z-index: 2; margin-top: 0.7rem;
+      color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.3px;
     }
-    .phone-notch {
-      position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-      width: 34px; height: 10px; background: #0a0a0a; border-radius: 0 0 8px 8px; z-index: 2;
-    }
-    .phone-screen {
-      position: relative; width: 110px; height: 215px;
-      border-radius: 18px; overflow: hidden; background: #000;
-    }
-    .phone-screen iframe {
-      width: 110px; height: 215px; border: none; pointer-events: none;
-    }
+    .visual-kareem { background: var(--grad); }
+    .visual-ebda3 { background: linear-gradient(135deg, #1b1023, #3a1530, #6e1f3f); }
+    .visual-qudrat { background: linear-gradient(135deg, #0e2a4a, #16487a, #1c7fb0); }
     .site-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 0 0 0.5rem; font-family: 'FrutigerArabic', sans-serif; }
     .btn-visit {
       display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.9rem;
@@ -550,10 +554,6 @@
       transition: transform 0.25s, box-shadow 0.25s;
     }
     .btn-visit:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(217,24,122,0.35); }
-    @media (max-width: 480px) {
-      .phone-mockup { display: none; }
-      .device-browser { margin-bottom: 1.4rem; }
-    }
 
     .portfolio-card {
       background: var(--dark3); border-radius: 16px; overflow: hidden;
@@ -1189,24 +1189,21 @@
 
     </div>
 
-    <div class="sites-heading reveal">💻 منصاتنا ومواقعنا الرقمية</div>
+    <div class="sites-heading reveal">إبداعٌ يتجسد رقميًا: منصاتنا، مواقعنا، وتطبيقاتنا.</div>
     <div class="sites-grid">
 
       <div class="site-card reveal">
-        <div class="device-browser">
-          <div class="browser-bar">
+        <div class="site-visual visual-kareem">
+          <div class="site-chrome">
             <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
             <span class="browser-url">kareempro.com</span>
           </div>
-          <div class="browser-frame">
-            <iframe src="https://kareempro.com/" loading="lazy" title="Kareem Pro" tabindex="-1"></iframe>
+          <div class="site-badge">
+            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/>
+            </svg>
           </div>
-          <div class="phone-mockup">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <iframe src="https://kareempro.com/" loading="lazy" title="Kareem Pro - عرض الموبايل" tabindex="-1"></iframe>
-            </div>
-          </div>
+          <div class="site-visual-name">Kareem Pro</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | الموقع الرسمي</span>
@@ -1217,20 +1214,17 @@
       </div>
 
       <div class="site-card reveal d1">
-        <div class="device-browser">
-          <div class="browser-bar">
+        <div class="site-visual visual-ebda3">
+          <div class="site-chrome">
             <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
             <span class="browser-url">ebda3-media.com</span>
           </div>
-          <div class="browser-frame">
-            <iframe src="https://ebda3-media.com/" loading="lazy" title="Ebda3 Media" tabindex="-1"></iframe>
+          <div class="site-badge">
+            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3"/>
+            </svg>
           </div>
-          <div class="phone-mockup">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <iframe src="https://ebda3-media.com/" loading="lazy" title="Ebda3 Media - عرض الموبايل" tabindex="-1"></iframe>
-            </div>
-          </div>
+          <div class="site-visual-name">Ebda3 Media | إبداع ميديا</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | وكالة إبداعية</span>
@@ -1241,20 +1235,17 @@
       </div>
 
       <div class="site-card reveal d2">
-        <div class="device-browser">
-          <div class="browser-bar">
+        <div class="site-visual visual-qudrat">
+          <div class="site-chrome">
             <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
             <span class="browser-url">qudrat-maghrabi.vercel.app</span>
           </div>
-          <div class="browser-frame">
-            <iframe src="https://qudrat-maghrabi.vercel.app/" loading="lazy" title="قدرات المغربي" tabindex="-1"></iframe>
+          <div class="site-badge">
+            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5"/>
+            </svg>
           </div>
-          <div class="phone-mockup">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <iframe src="https://qudrat-maghrabi.vercel.app/" loading="lazy" title="قدرات المغربي - عرض الموبايل" tabindex="-1"></iframe>
-            </div>
-          </div>
+          <div class="site-visual-name">قدرات المغربي</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | تعليمية</span>
