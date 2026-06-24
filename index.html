@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kareem Pro — منصة الحلول الإبداعية المتكاملة</title>
-  <meta name="description" content="منصة الحلول الإبداعية المتكاملة — مونتاج فيديو، تعليق صوتي، أبحاث أكاديمية، تطوير مواقع، ومنصات تعليمية بخبرة تتجاوز 11 عاماً." />
+  <meta name="description" content="مونتاج فيديو، تعليق صوتي، تصميم جرافيك، أبحاث أكاديمية، وتطوير مواقع — خبرة 11 عاماً في الإبداع البصري." />
   <meta name="keywords" content="مونتاج فيديو, تعليق صوتي, تطوير مواقع, تطبيقات جوال, أبحاث أكاديمية, عروض بوربوينت, كريم برو, Kareem Pro" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Kareem Pro" />
@@ -12,7 +12,8 @@
   <link rel="icon" type="image/png" href="logo-transparent.png" />
   <link rel="apple-touch-icon" href="logo-transparent.png" />
   <meta property="og:title" content="Kareem Pro — منصة الحلول الإبداعية المتكاملة" />
-  <meta property="og:description" content="منصة الحلول الإبداعية المتكاملة — مونتاج فيديو، تعليق صوتي، أبحاث أكاديمية، تطوير مواقع، ومنصات تعليمية بخبرة تتجاوز 11 عاماً." />
+  <meta property="og:description" content="مونتاج فيديو، تعليق صوتي، تصميم جرافيك، أبحاث أكاديمية، وتطوير مواقع — خبرة 11 عاماً في الإبداع البصري." />
+  <meta property="og:site_name" content="Kareem Pro" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://kareempro.com" />
   <meta property="og:image" content="https://kareempro.com/og-banner.png" />
@@ -20,8 +21,8 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Kareem Pro — إبداع بصري" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kareem Pro — مصمم جرافيك ومحرر فيديو احترافي | إبداع بصري يليق بطموحك" />
-  <meta name="twitter:description" content="تعليق صوتي يأسر الأسماع ومونتاج سينمائي يخطف الأنظار — بخبرة تتجاوز 11 عاماً في التصميم الجرافيكي وإنتاج المحتوى البصري الاحترافي." />
+  <meta name="twitter:title" content="Kareem Pro — مصمم جرافيك ومحرر فيديو احترافي" />
+  <meta name="twitter:description" content="مونتاج فيديو، تعليق صوتي، تصميم جرافيك، أبحاث أكاديمية، وتطوير مواقع — خبرة 11 عاماً في الإبداع البصري." />
   <meta name="twitter:image" content="https://kareempro.com/og-banner.png" />
   <script type="application/ld+json">
   {
@@ -478,21 +479,6 @@
       font-size: 0.74rem; font-weight: 700; margin-bottom: 0.7rem;
     }
     .card-title { font-size: 0.95rem; color: var(--text); line-height: 1.8; font-weight: 400; font-family: 'FrutigerArabic', sans-serif; }
-
-    /* ── MARQUEE ── */
-    .marquee-section {
-      padding: 1.8rem 0; background: var(--dark3);
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
-    .marquee-track { display: flex; gap: 2.5rem; animation: marquee 22s linear infinite; white-space: nowrap; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .marquee-item { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.88rem; font-weight: 600; }
-    .marquee-dot {
-      background: var(--grad-text); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-      font-size: 1.1rem;
-    }
 
     /* ── SERVICES ── */
     #services { background: var(--dark); }
@@ -1065,11 +1051,6 @@
   </div>
 </div>
 
-<!-- ═══ MARQUEE ═══ -->
-<div class="marquee-section">
-  <div class="marquee-track" id="mq"></div>
-</div>
-
 <!-- ═══ SERVICES ═══ -->
 <section id="services">
   <div class="container">
@@ -1433,15 +1414,6 @@
   },{threshold:0.5});
   document.querySelectorAll('.stat-number').forEach(el=>cObs.observe(el));
 
-  // Marquee
-  const items=['مونتاج فيديو','رسائل دكتوراه','تطوير مواقع','تعليق صوتي','منصات تعليمية','أبحاث وتقارير','PowerPoint إبداعي','حلول أكاديمية','منصات تجارية'];
-  const mq=document.getElementById('mq');
-  [...items,...items].forEach(it=>{
-    const s=document.createElement('span');
-    s.className='marquee-item';
-    s.innerHTML=`<span class="marquee-dot">●</span> ${it}`;
-    mq.appendChild(s);
-  });
 </script>
 </body>
 </html>
