@@ -505,43 +505,34 @@
       border-color: rgba(217,24,122,0.45);
     }
     .site-visual {
-      position: relative; height: 188px; overflow: hidden;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .site-visual::before {
-      content: ""; position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1px);
-      background-size: 18px 18px; opacity: 0.5;
+      position: relative; height: 230px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
     }
     .site-visual::after {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,0.45), transparent 60%);
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,0.4), transparent 60%);
     }
-    .site-chrome {
-      position: absolute; top: 0; right: 0; left: 0; z-index: 2;
+    .site-blob { position: absolute; border-radius: 50%; filter: blur(8px); z-index: 0; }
+    .browser-window {
+      position: relative; z-index: 2; width: 88%; max-width: 280px;
+      border-radius: 12px; overflow: hidden; background: #fff;
+      box-shadow: 0 25px 55px rgba(0,0,0,0.5);
+    }
+    .browser-bar-light {
       display: flex; align-items: center; gap: 6px;
-      background: rgba(0,0,0,0.22); backdrop-filter: blur(2px);
-      padding: 0.55rem 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: #eef0f4; padding: 0.5rem 0.7rem; border-bottom: 1px solid #e1e3e8;
     }
     .browser-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
     .browser-dot.r { background: #ff5f57; }
     .browser-dot.y { background: #febc2e; }
     .browser-dot.g { background: #28c840; }
-    .browser-url {
-      margin-inline-start: auto; background: rgba(255,255,255,0.12); color: #fff;
-      font-size: 0.72rem; padding: 0.2rem 0.9rem; border-radius: 50px; direction: ltr; font-family: monospace;
+    .browser-url-light {
+      margin-inline-start: auto; background: #fff; border: 1px solid #e1e3e8; color: #777;
+      font-size: 0.62rem; padding: 0.15rem 0.7rem; border-radius: 50px; direction: ltr; font-family: monospace;
     }
-    .site-badge {
-      position: relative; z-index: 2;
-      width: 64px; height: 64px; border-radius: 18px;
-      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.3);
-    }
-    .site-badge svg { width: 32px; height: 32px; stroke: #fff; fill: none; }
-    .site-visual-name {
-      position: relative; z-index: 2; margin-top: 0.7rem;
-      color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.3px;
+    .browser-body { position: relative; width: 100%; height: 140px; overflow: hidden; background: #fff; }
+    .browser-body iframe {
+      position: absolute; top: 0; left: 0; width: 1000px; height: 650px; border: none; pointer-events: none;
     }
     .visual-kareem { background: var(--grad); }
     .visual-ebda3 { background: linear-gradient(135deg, #1b1023, #3a1530, #6e1f3f); }
@@ -1194,16 +1185,17 @@
 
       <div class="site-card reveal">
         <div class="site-visual visual-kareem">
-          <div class="site-chrome">
-            <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
-            <span class="browser-url">kareempro.com</span>
+          <span class="site-blob" style="width:90px;height:90px;background:rgba(255,255,255,0.18);top:-20px;inset-inline-end:-10px;"></span>
+          <span class="site-blob" style="width:55px;height:55px;background:rgba(255,255,255,0.12);bottom:-15px;inset-inline-start:10px;"></span>
+          <div class="browser-window">
+            <div class="browser-bar-light">
+              <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
+              <span class="browser-url-light">kareempro.com</span>
+            </div>
+            <div class="browser-body">
+              <iframe src="https://kareempro.com/" loading="lazy" title="معاينة موقع Kareem Pro"></iframe>
+            </div>
           </div>
-          <div class="site-badge">
-            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/>
-            </svg>
-          </div>
-          <div class="site-visual-name">Kareem Pro</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | الموقع الرسمي</span>
@@ -1215,16 +1207,17 @@
 
       <div class="site-card reveal d1">
         <div class="site-visual visual-ebda3">
-          <div class="site-chrome">
-            <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
-            <span class="browser-url">ebda3-media.com</span>
+          <span class="site-blob" style="width:90px;height:90px;background:rgba(255,255,255,0.14);top:-20px;inset-inline-end:-10px;"></span>
+          <span class="site-blob" style="width:55px;height:55px;background:rgba(255,255,255,0.10);bottom:-15px;inset-inline-start:10px;"></span>
+          <div class="browser-window">
+            <div class="browser-bar-light">
+              <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
+              <span class="browser-url-light">ebda3-media.com</span>
+            </div>
+            <div class="browser-body">
+              <iframe src="https://ebda3-media.com/" loading="lazy" title="معاينة موقع Ebda3 Media"></iframe>
+            </div>
           </div>
-          <div class="site-badge">
-            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3"/>
-            </svg>
-          </div>
-          <div class="site-visual-name">Ebda3 Media | إبداع ميديا</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | وكالة إبداعية</span>
@@ -1236,16 +1229,17 @@
 
       <div class="site-card reveal d2">
         <div class="site-visual visual-qudrat">
-          <div class="site-chrome">
-            <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
-            <span class="browser-url">qudrat-maghrabi.vercel.app</span>
+          <span class="site-blob" style="width:90px;height:90px;background:rgba(255,255,255,0.18);top:-20px;inset-inline-end:-10px;"></span>
+          <span class="site-blob" style="width:55px;height:55px;background:rgba(255,255,255,0.12);bottom:-15px;inset-inline-start:10px;"></span>
+          <div class="browser-window">
+            <div class="browser-bar-light">
+              <span class="browser-dot r"></span><span class="browser-dot y"></span><span class="browser-dot g"></span>
+              <span class="browser-url-light">qudrat-maghrabi.vercel.app</span>
+            </div>
+            <div class="browser-body">
+              <iframe src="https://qudrat-maghrabi.vercel.app/" loading="lazy" title="معاينة منصة قدرات المغربي"></iframe>
+            </div>
           </div>
-          <div class="site-badge">
-            <svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5"/>
-            </svg>
-          </div>
-          <div class="site-visual-name">قدرات المغربي</div>
         </div>
         <div class="card-body">
           <span class="card-tag">منصة | تعليمية</span>
