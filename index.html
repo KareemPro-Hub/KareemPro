@@ -642,6 +642,39 @@
       .clients-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.8rem;
+    }
+    .testimonial-card {
+      position: relative; background: var(--dark3); border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.7rem 1.6rem 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-6px); box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+      border-color: rgba(217,24,122,0.4);
+    }
+    .testimonial-quote-icon {
+      position: absolute; top: 1rem; inset-inline-end: 1.3rem;
+      font-size: 2.6rem; line-height: 1; color: rgba(217,24,122,0.18);
+      font-family: Georgia, serif; user-select: none;
+    }
+    .testimonial-stars { color: #ffc440; font-size: 0.85rem; letter-spacing: 3px; }
+    .testimonial-text { color: var(--text); font-size: 0.93rem; line-height: 1.9; font-weight: 300; }
+    .testimonial-footer {
+      display: flex; align-items: center; gap: 0.8rem; margin-top: auto;
+      padding-top: 0.9rem; border-top: 1px solid var(--border);
+    }
+    .testimonial-avatar {
+      width: 46px; height: 46px; border-radius: 50%; background: var(--grad);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      color: #fff; font-weight: 800; font-size: 1rem;
+    }
+    .testimonial-name { color: var(--text); font-weight: 700; font-size: 0.92rem; }
+    .testimonial-role { color: var(--muted); font-size: 0.78rem; }
+
     /* ── FAQ ── */
     #faq { background: var(--dark3); }
     .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
@@ -673,10 +706,55 @@
 
     /* ── CONTACT FORM ── */
     #contact { background: var(--dark2); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 360px; gap: 2.4rem;
+      max-width: 1040px; margin: 0 auto; align-items: start;
+    }
     .order-form {
-      max-width: 620px; margin: 0 auto;
+      max-width: 620px; margin: 0;
       display: flex; flex-direction: column; gap: 1.4rem;
     }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .order-form { max-width: 100%; }
+    }
+
+    /* ── CONSULT CARD ── */
+    .consult-card {
+      position: relative; overflow: hidden; background: var(--dark3);
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: 1.1rem;
+      height: 100%;
+    }
+    .consult-card::before {
+      content: ""; position: absolute; width: 170px; height: 170px; top: -50px; inset-inline-end: -50px;
+      background: radial-gradient(circle, rgba(37,211,102,0.28), transparent 70%);
+    }
+    .consult-icon {
+      position: relative; z-index: 1; width: 54px; height: 54px; border-radius: 14px;
+      background: linear-gradient(135deg,#25D366,#128C7E);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 24px rgba(37,211,102,0.35);
+    }
+    .consult-icon svg { width: 28px; height: 28px; fill: #fff; }
+    .consult-title { position: relative; z-index: 1; font-size: 1.15rem; font-weight: 800; color: var(--text); }
+    .consult-desc { position: relative; z-index: 1; color: var(--muted); font-size: 0.92rem; line-height: 1.85; }
+    .consult-points { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0.65rem; }
+    .consult-point {
+      display: flex; align-items: flex-start; gap: 0.55rem;
+      font-size: 0.88rem; color: var(--text);
+    }
+    .consult-point svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 0.18rem; stroke: #25D366; }
+    .btn-consult {
+      position: relative; z-index: 1; margin-top: auto;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: linear-gradient(135deg,#25D366,#128C7E); color: #fff !important;
+      font-weight: 700; font-size: 0.95rem; padding: 0.9rem 1.2rem;
+      border-radius: 12px; text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-consult:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(37,211,102,0.4); }
+    .consult-note { position: relative; z-index: 1; font-size: 0.76rem; color: var(--muted); text-align: center; }
     .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
     .form-label { color: var(--light); font-size: 0.95rem; font-weight: 500; }
     .form-input {
@@ -1371,6 +1449,98 @@
   </div>
 </section>
 
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">⭐ آراء العملاء</div>
+      <h2 class="section-title">قصص نجاح <span class="g-text">عملائنا</span></h2>
+      <p class="section-desc">كل مشروع نُسلّمه هو شهادة جديدة على جودتنا، وهذه بعض آراء من تشرّفنا بخدمتهم</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">تعاملت مع كريم برو في مونتاج فيديو تسويقي لمشروعنا العقاري، والنتيجة فاقت توقعاتي تمامًا، احترافية في الإخراج وسرعة في التسليم. بالتأكيد سأكرر التجربة.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">ع</div>
+          <div>
+            <div class="testimonial-name">عبدالله القرني</div>
+            <div class="testimonial-role">مدير تسويق، شركة عقارية</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal d1">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">بنوا لي متجري الإلكتروني من الصفر بتصميم عصري وسريع، وكانوا متجاوبين مع كل ملاحظة بصدر رحب. تجربة تعامل راقية من أول يوم.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">س</div>
+          <div>
+            <div class="testimonial-name">سارة المطيري</div>
+            <div class="testimonial-role">صاحبة متجر إلكتروني</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal d2">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">أعدوا لي عرض بوربوينت لمحاضرة تدريبية بهوية بصرية مميزة لفتت انتباه كل الحضور. شغل دقيق ومتقن في كل التفاصيل.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">ف</div>
+          <div>
+            <div class="testimonial-name">فهد الحربي</div>
+            <div class="testimonial-role">مدرب ومحاضر</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">ساعدوني في تنسيق وتدقيق بحثي العلمي بمعايير أكاديمية واضحة، وفي وقت قياسي قبل الموعد النهائي للتسليم. أنصح بهم لكل باحث.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">ن</div>
+          <div>
+            <div class="testimonial-name">نورة الزهراني</div>
+            <div class="testimonial-role">باحثة ماجستير</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal d1">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">صوت التعليق الصوتي لقناتي جاء بإحساس واحترافية ما توقعتها، وخلال أيام قليلة فقط. تفاعل المتابعين زاد بشكل ملحوظ بعدها.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">خ</div>
+          <div>
+            <div class="testimonial-name">خالد العمري</div>
+            <div class="testimonial-role">صاحب قناة يوتيوب</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal d2">
+        <span class="testimonial-quote-icon">”</span>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">نفذوا لنا حملة ريلز لفعالياتنا الخيرية بإبداع لافت ولمسة إنسانية صادقة، وانعكس ذلك مباشرة على نسبة التفاعل والدعم.</p>
+        <div class="testimonial-footer">
+          <div class="testimonial-avatar">ر</div>
+          <div>
+            <div class="testimonial-name">ريم الشهري</div>
+            <div class="testimonial-role">منسقة فعاليات بجمعية خيرية</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ═══ ABOUT ═══ -->
 <section id="about">
   <div class="container">
@@ -1490,38 +1660,66 @@
       <h2 class="section-title">اطلب <span class="g-text">خدمتك</span></h2>
       <p class="section-desc">اختر الخدمة واملأ النموذج وسأتواصل معك في أقرب وقت</p>
     </div>
-    <form class="order-form reveal" id="orderForm" onsubmit="submitForm(event)">
-      <div class="form-group">
-        <label class="form-label">الاسم الكريم</label>
-        <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" required />
+    <div class="contact-grid">
+      <form class="order-form reveal" id="orderForm" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label class="form-label">الاسم الكريم</label>
+          <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">رقم الواتساب</label>
+          <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">الخدمة المطلوبة</label>
+          <select class="form-input form-select" id="fService" required>
+            <option value="" disabled selected>اختر الخدمة</option>
+            <option>مونتاج وعروض مرئية</option>
+            <option>تعليق صوتي</option>
+            <option>إنشاء مواقع وتطبيقات</option>
+            <option>ريلز وسنابات</option>
+            <option>كورسات عن بعد</option>
+            <option>أبحاث وتقارير احترافية</option>
+            <option>عروض PowerPoint إبداعية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">تفاصيل المشروع</label>
+          <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
+        </div>
+        <div class="form-terms">
+          <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
+          <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
+        </div>
+        <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
+      </form>
+
+      <div class="consult-card reveal d1">
+        <div class="consult-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.01 2C6.49 2 2 6.477 2 11.99c0 1.997.598 3.847 1.622 5.412L2.1 21.9l4.66-1.498A9.93 9.93 0 0 0 12.01 22C17.527 22 22 17.523 22 12.01 22 6.495 17.527 2 12.01 2zm5.715 14.16c-.244.683-1.41 1.353-1.94 1.45-.524.099-1.187.14-1.91-.123-.44-.16-1.006-.347-1.736-.68-3.058-1.32-5.046-4.38-5.196-4.586-.149-.205-1.236-1.642-1.236-3.13 0-1.49.78-2.222 1.057-2.527.273-.297.6-.372.8-.372.198 0 .397.001.57.01.184.01.43-.07.677.514.247.595.84 2.06.916 2.21.099.198.149.371.05.52-.099.149-.149.247-.297.396-.149.149-.297.347-.421.473-.149.149-.297.322-.124.62 1.151 1.982 2.297 2.672 4.043 3.545.297.148.471.124.644-.075.173-.198.743-.867.94-1.164.198-.298.396-.25.668-.15.273.1 1.734.818 2.031.967.297.149.495.223.567.347.07.124.07.694-.174 1.378z"/>
+          </svg>
+        </div>
+        <div class="consult-title">تفضّل تتكلم معنا أولاً؟</div>
+        <p class="consult-desc">محتاج تستفسر أو تتأكد من التفاصيل قبل ما تلتزم؟ احجز استشارة سريعة ومجانية معنا على الواتساب، وهنرد عليك بأقرب وقت.</p>
+        <div class="consult-points">
+          <div class="consult-point">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            استشارة مجانية لمدة 15 دقيقة
+          </div>
+          <div class="consult-point">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            إجابة فورية على كل استفساراتك
+          </div>
+          <div class="consult-point">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            بدون أي التزام أو ضغط للشراء
+          </div>
+        </div>
+        <a class="btn-consult" href="https://wa.me/966534983404?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%AD%D8%A8%20%D8%A3%D8%AD%D8%AC%D8%B2%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%82%D8%A8%D9%84%20%D8%A8%D8%AF%D8%A1%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%D9%8A%20%F0%9F%99%8F" target="_blank" rel="noopener">📅 احجز استشارتك المجانية الآن</a>
+        <div class="consult-note">سيتم تحويلك مباشرة للواتساب لتحديد الموعد المناسب لك</div>
       </div>
-      <div class="form-group">
-        <label class="form-label">رقم الواتساب</label>
-        <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">الخدمة المطلوبة</label>
-        <select class="form-input form-select" id="fService" required>
-          <option value="" disabled selected>اختر الخدمة</option>
-          <option>مونتاج وعروض مرئية</option>
-          <option>تعليق صوتي</option>
-          <option>إنشاء مواقع وتطبيقات</option>
-          <option>ريلز وسنابات</option>
-          <option>كورسات عن بعد</option>
-          <option>أبحاث وتقارير احترافية</option>
-          <option>عروض PowerPoint إبداعية</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">تفاصيل المشروع</label>
-        <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
-      </div>
-      <div class="form-terms">
-        <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
-        <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
-      </div>
-      <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
-    </form>
+    </div>
   </div>
 </section>
 
