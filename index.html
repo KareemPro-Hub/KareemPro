@@ -530,12 +530,16 @@
       margin-inline-start: auto; background: #fff; border: 1px solid #e1e3e8; color: #777;
       font-size: 0.62rem; padding: 0.15rem 0.7rem; border-radius: 50px; direction: ltr; font-family: monospace;
     }
-    .browser-body { position: relative; width: 100%; height: 140px; overflow: hidden; background: #fff; }
+    .browser-body { position: relative; width: 100%; height: 160px; overflow: hidden; background: #fff; }
     .browser-body iframe {
       position: absolute; top: 0; left: 0; width: 1000px; height: 650px; border: none; pointer-events: none;
     }
     .browser-body img {
-      position: absolute; top: 0; left: 0; width: 1000px; height: auto; pointer-events: none;
+      position: absolute; top: -130px; left: 0; width: 1000px; height: auto; pointer-events: none;
+    }
+    .browser-body::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background: linear-gradient(to bottom, transparent 75%, #161c46 100%);
     }
     .visual-kareem { background: var(--grad); }
     .visual-ebda3 { background: linear-gradient(135deg, #1b1023, #3a1530, #6e1f3f); }
