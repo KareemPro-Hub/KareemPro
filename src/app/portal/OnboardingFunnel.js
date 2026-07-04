@@ -146,25 +146,45 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 اختر الباقة المناسبة لك عشان نبدأ فورًا.
               </p>
               <div className="package-grid">
-                {packages.map((pkg) => (
-                  <div className={`package-card ${pkg.is_featured ? "featured" : ""}`} key={pkg.id}>
-                    {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
-                    <div className="package-name">{pkg.name}</div>
-                    <div className="package-price" dir="ltr">
-                      {Number(pkg.price).toLocaleString("en-US")}
-                      <RiyalIcon size="0.7em" />
+                {packages.map((pkg) => {
+                  const featureLines = (pkg.features || "")
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter(Boolean);
+                  return (
+                    <div className={`package-card ${pkg.is_featured ? "featured" : ""}`} key={pkg.id}>
+                      {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
+                      <div className="package-head">
+                        <div className="package-name">{pkg.name}</div>
+                        <div className="package-price" dir="ltr">
+                          {Number(pkg.price).toLocaleString("en-US")}
+                          <RiyalIcon size="0.7em" />
+                        </div>
+                      </div>
+                      {featureLines.length > 0 && (
+                        <ul className="package-features">
+                          {featureLines.map((line, i) => (
+                            <li key={i}>
+                              <span className="package-check">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                              </span>
+                              <span>{line}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm package-cta"
+                        onClick={() => setSelectedPackageId(pkg.id)}
+                      >
+                        اختيار هذه الباقة
+                      </button>
                     </div>
-                    {pkg.features && <div className="package-features">{pkg.features}</div>}
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-sm"
-                      style={{ marginTop: "1.1rem" }}
-                      onClick={() => setSelectedPackageId(pkg.id)}
-                    >
-                      اختيار هذه الباقة
-                    </button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <button

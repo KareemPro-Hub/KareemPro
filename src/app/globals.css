@@ -596,54 +596,148 @@ table.admin-table td:nth-child(5) {
 
 .package-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.4rem;
+  padding-top: 0.6rem;
 }
+
+/* ── Glass UI pricing cards ── */
 .package-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.3rem;
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  transition: border-color 0.2s, transform 0.2s;
+  padding: 1.7rem 1.5rem 1.6rem;
+  border-radius: 26px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 20px 40px -20px rgba(4, 4, 20, 0.55);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.package-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
 }
 .package-card:hover {
-  border-color: rgba(217, 24, 122, 0.5);
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 26px 48px -18px rgba(4, 4, 20, 0.65);
 }
 .package-card.selected {
-  border-color: #25d366;
+  border-color: rgba(37, 211, 102, 0.6);
+  box-shadow: 0 0 0 1px rgba(37, 211, 102, 0.35), 0 20px 40px -20px rgba(4, 4, 20, 0.55);
 }
 .package-card.featured {
-  border-color: var(--g3);
-  background: rgba(217, 24, 122, 0.07);
+  background: linear-gradient(165deg, rgba(255, 168, 38, 0.22), rgba(217, 24, 122, 0.14) 55%, rgba(255, 255, 255, 0.03));
+  border-color: rgba(255, 168, 38, 0.4);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset, 0 24px 54px -18px rgba(217, 24, 122, 0.35);
 }
+.package-card.featured:hover {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.14) inset, 0 30px 60px -16px rgba(217, 24, 122, 0.45);
+}
+
 .package-badge {
-  align-self: flex-start;
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   background: var(--grad);
   color: #fff;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 800;
-  padding: 0.25rem 0.7rem;
+  white-space: nowrap;
+  padding: 0.4rem 1rem;
   border-radius: 50px;
-  margin-bottom: 0.7rem;
+  box-shadow: 0 8px 20px -6px rgba(217, 24, 122, 0.6), 0 0 0 4px var(--dark3);
+  z-index: 2;
+}
+
+.package-head {
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .package-name {
   font-weight: 800;
   font-size: 1.05rem;
+  color: var(--text);
 }
 .package-price {
-  margin: 0.5rem 0 0.8rem;
-  font-size: 1.5rem;
+  margin-top: 0.6rem;
+  font-size: 1.9rem;
   font-weight: 900;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
 .package-features {
-  color: var(--muted);
-  font-size: 0.85rem;
-  line-height: 2;
+  list-style: none;
+  margin: 0 0 1.4rem;
+  padding: 0;
   flex: 1;
-  white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.package-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.package-check {
+  flex-shrink: 0;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--grad);
+  margin-top: 0.15rem;
+  box-shadow: 0 3px 8px -2px rgba(217, 24, 122, 0.5);
+}
+
+.package-cta {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  box-shadow: none;
+}
+.package-cta:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+}
+.package-card.featured .package-cta {
+  background: var(--grad);
+  color: #fff;
+  border: none;
+}
+.package-card.featured .package-cta:hover {
+  box-shadow: 0 12px 26px -8px rgba(217, 24, 122, 0.55);
 }
 
 .contract-box {
