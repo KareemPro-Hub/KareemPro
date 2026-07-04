@@ -3,7 +3,13 @@ import { cookies } from "next/headers";
 
 // Server-side Supabase client — use in Server Components, Server Actions, Route Handlers.
 // Reads/writes the auth session via cookies, and respects Row Level Security.
-export async function createClient() {
+//
+// Pass { remember: false } (e.g. from a "keep me signed in" checkbox that was
+// left unchecked) to force the session cookie to expire when the browser
+// closes instead of persisting for weeks — this is what actually implements
+// "remember me" since Supabase itself always issues a long-lived refresh
+// token; the only lever we have client-side is the cookie's own lifetime.
+export async function createClient({ remember = true } = {}) {
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -16,9 +22,12 @@ export async function createClient() {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
+            cookiesToSet.forEach(({ name, value, options }) => {
+              const finalOptions = remember
+                ? options
+                : { ...options, maxAge: undefined, expires: undefined };
+              cookieStore.set(name, value, finalOptions);
+            });
           } catch {
             // Called from a Server Component — middleware handles refresh instead.
           }

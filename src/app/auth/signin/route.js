@@ -6,13 +6,14 @@ import { createClient } from "@/lib/supabase/server";
 // session cookie is written with next/headers' cookies().set(), matching
 // what the middleware reads with.
 export async function POST(request) {
-  const { email, password } = await request.json();
+  const { email, password, remember } = await request.json();
 
   if (!email || !password) {
     return NextResponse.json({ error: "بيانات ناقصة." }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  // "تذكرني" unchecked -> session cookie only (gone once the browser closes).
+  const supabase = await createClient({ remember: remember !== false });
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {

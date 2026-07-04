@@ -24,6 +24,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [status, setStatus] = useState("idle"); // idle | loading | error
 
   async function handleSubmit(e) {
@@ -33,7 +34,7 @@ function LoginForm() {
     const res = await fetch("/auth/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, remember }),
     });
 
     if (!res.ok) {
@@ -58,7 +59,7 @@ function LoginForm() {
 
         <div className="admin-auth-card">
           <h1 className="title">
-            بوابة <span className="g-text">العملاء</span>
+            بوابة <span className="g-text">صناع الإبداع</span>
           </h1>
           <p className="muted">سجّل دخولك بالبريد الإلكتروني وكلمة السر.</p>
 
@@ -99,6 +100,25 @@ function LoginForm() {
                 </button>
               </div>
             </div>
+
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                fontSize: "0.85rem",
+                color: "var(--muted)",
+                marginBottom: "1.1rem",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              تذكرني على هذا المتصفح
+            </label>
 
             {status === "error" && (
               <div className="notice notice-error">
