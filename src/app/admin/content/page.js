@@ -74,6 +74,11 @@ export default async function AdminContentPage() {
                   {item.link_url}
                 </a>
               )}
+              {item.stack_count > 1 && (
+                <div className="muted" style={{ fontSize: "0.8rem" }}>
+                  شارة العدد: +{item.stack_count - 1} أعمال أخرى
+                </div>
+              )}
             </div>
             <DeleteItemButton action={deletePortfolioItem} id={item.id} label="نموذج" />
           </div>
@@ -98,6 +103,10 @@ export default async function AdminContentPage() {
           <div className="field">
             <label>رابط المشروع/الخدمة (اختياري — يفتح عند ضغط العميل على الكارت)</label>
             <input type="url" name="link_url" placeholder="https://..." />
+          </div>
+          <div className="field">
+            <label>عدد الأعمال في نفس التصنيف (اختياري — يظهر شارة &quot;+رقم أعمال أخرى&quot; مع تأثير كروت متكدسة خلف الكارت)</label>
+            <input type="number" name="stack_count" min="2" placeholder="مثال: 6" />
           </div>
           <button type="submit" className="btn btn-outline btn-sm">
             + إضافة نموذج

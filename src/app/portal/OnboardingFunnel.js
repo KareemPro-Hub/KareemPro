@@ -187,29 +187,43 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     const wrapperProps = item.link_url
                       ? { href: item.link_url, target: "_blank", rel: "noopener noreferrer" }
                       : {};
+                    const hasStack = Number(item.stack_count) > 1;
                     return (
-                      <Wrapper className="portfolio-item" key={item.id} {...wrapperProps}>
-                        <div
-                          className="portfolio-item-bg"
-                          style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
-                        />
-                        <div className="portfolio-item-shade" />
-                        <div className="portfolio-item-body">
-                          <div className="portfolio-item-title">{item.title}</div>
-                          {item.description && (
-                            <div className="portfolio-item-desc">{item.description}</div>
-                          )}
-                          {item.link_url && (
-                            <span className="portfolio-item-cta">
-                              شاهد المشروع
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="19" y1="12" x2="5" y2="12" />
-                                <polyline points="11 6 5 12 11 18" />
-                              </svg>
+                      <div className="portfolio-stack" key={item.id}>
+                        {hasStack && (
+                          <>
+                            <div className="portfolio-stack-layer layer-2" />
+                            <div className="portfolio-stack-layer layer-1" />
+                          </>
+                        )}
+                        <Wrapper className="portfolio-item" {...wrapperProps}>
+                          <div
+                            className="portfolio-item-bg"
+                            style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
+                          />
+                          <div className="portfolio-item-shade" />
+                          {hasStack && (
+                            <span className="portfolio-stack-badge">
+                              +{item.stack_count - 1} أعمال أخرى
                             </span>
                           )}
-                        </div>
-                      </Wrapper>
+                          <div className="portfolio-item-body">
+                            <div className="portfolio-item-title">{item.title}</div>
+                            {item.description && (
+                              <div className="portfolio-item-desc">{item.description}</div>
+                            )}
+                            {item.link_url && (
+                              <span className="portfolio-item-cta">
+                                شاهد كل الأعمال
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                  <line x1="19" y1="12" x2="5" y2="12" />
+                                  <polyline points="11 6 5 12 11 18" />
+                                </svg>
+                              </span>
+                            )}
+                          </div>
+                        </Wrapper>
+                      </div>
                     );
                   })}
                 </div>

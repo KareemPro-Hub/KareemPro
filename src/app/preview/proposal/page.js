@@ -12,8 +12,38 @@ const fakeAbout = {
 };
 
 const fakePortfolio = [
-  { id: 1, title: "منصة تعليمية", description: "موقع + تطبيقان لتقديم كورسات أونلاين", image_url: null },
-  { id: 2, title: "متجر إلكتروني", description: "متجر كامل مع بوابة دفع وتطبيق جوال", image_url: null },
+  {
+    id: 1,
+    title: "مونتاج احترافي",
+    description: "SJA CAPITAL",
+    image_url: "https://i.ytimg.com/vi/X4k2BYJuKbk/hqdefault.jpg",
+    link_url: "https://kareempro.com/#portfolio",
+    stack_count: 4,
+  },
+  {
+    id: 2,
+    title: "تعليق صوتي",
+    description: "جمعية نافع لسقيا الماء",
+    image_url: "https://i.ytimg.com/vi/kpw-q_R5n9s/hqdefault.jpg",
+    link_url: "https://kareempro.com/#portfolio",
+    stack_count: 6,
+  },
+  {
+    id: 3,
+    title: "عرض مرئي",
+    description: "جمعية نافع لسقيا الماء",
+    image_url: "https://i.ytimg.com/vi/XA5TXQpjNrc/hqdefault.jpg",
+    link_url: "https://kareempro.com/#portfolio",
+    stack_count: 4,
+  },
+  {
+    id: 4,
+    title: "منصات وتطبيقات",
+    description: "كريم برو | الموقع الرسمي",
+    image_url: "https://kareempro.com/kareempro-preview.webp",
+    link_url: "https://kareempro.com/#platforms",
+    stack_count: 6,
+  },
 ];
 
 const fakeTestimonials = [

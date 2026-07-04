@@ -592,7 +592,49 @@ table.admin-table td:nth-child(5) {
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.2rem;
+  gap: 1.8rem 1.6rem;
+}
+
+/* ── Stacked-deck wrapper: signals "more items behind" for a whole category ── */
+.portfolio-stack {
+  position: relative;
+}
+.portfolio-stack-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(160deg, var(--dark4), var(--dark2));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 30px -18px rgba(4, 4, 20, 0.55);
+  z-index: 0;
+  pointer-events: none;
+}
+.portfolio-stack-layer.layer-1 {
+  transform: translate(-9px, 11px) rotate(-1.6deg);
+  opacity: 0.85;
+}
+.portfolio-stack-layer.layer-2 {
+  transform: translate(-17px, 21px) rotate(-3deg);
+  opacity: 0.5;
+}
+.portfolio-stack .portfolio-item {
+  position: relative;
+  z-index: 1;
+}
+.portfolio-stack-badge {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  z-index: 2;
+  background: rgba(6, 6, 20, 0.55);
+  backdrop-filter: blur(6px) saturate(140%);
+  -webkit-backdrop-filter: blur(6px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
 }
 
 /* ── Cinematic gallery cards — full-bleed image, bold overlay title ── */
