@@ -20,7 +20,7 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
 
   const { data: proposal, error: proposalError } = await admin
     .from("proposals")
-    .select("*, clients(full_name, email), proposal_packages(*)")
+    .select("*, clients(full_name, email), proposal_packages!proposal_packages_proposal_id_fkey(*)")
     .eq("id", proposalId)
     .single();
 

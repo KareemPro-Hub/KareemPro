@@ -35,7 +35,7 @@ export default async function PortalPage() {
         supabase.from("testimonials").select("*").order("sort_order", { ascending: true }),
         supabase
           .from("proposals")
-          .select("*, proposal_packages(*)")
+          .select("*, proposal_packages!proposal_packages_proposal_id_fkey(*)")
           .eq("client_id", user.id)
           .order("created_at", { ascending: false })
           .limit(1)

@@ -28,7 +28,7 @@ export default async function ClientProposalPage({ params }) {
 
   const { data: proposal } = await supabase
     .from("proposals")
-    .select("*, proposal_packages(*)")
+    .select("*, proposal_packages!proposal_packages_proposal_id_fkey(*)")
     .eq("client_id", clientId)
     .order("created_at", { ascending: false })
     .limit(1)
