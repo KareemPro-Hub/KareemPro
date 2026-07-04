@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { deleteClient } from "@/app/admin/actions";
+import { deleteClient, resendInvite } from "@/app/admin/actions";
 
 export default function ClientActions({ clientId, clientName }) {
-  const [isPending, startTransition] = useTransition();
+  const [isDeleting, startDelete] = useTransition();
+  const [isResending, startResend] = useTransition();
   const [error, setError] = useState(null);
+  const [resent, setResent] = useState(false);
 
   function handleDelete() {
     const ok = window.confirm(
@@ -14,7 +16,7 @@ export default function ClientActions({ clientId, clientName }) {
     if (!ok) return;
 
     setError(null);
-    startTransition(async () => {
+    startDelete(async () => {
       try {
         await deleteClient(clientId);
       } catch (e) {
@@ -23,19 +25,42 @@ export default function ClientActions({ clientId, clientName }) {
     });
   }
 
+  function handleResend() {
+    setError(null);
+    setResent(false);
+    startResend(async () => {
+      try {
+        await resendInvite(clientId);
+        setResent(true);
+      } catch (e) {
+        setError(e.message || "حصل خطأ أثناء إرسال الرابط");
+      }
+    });
+  }
+
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <button
+        type="button"
+        className="btn btn-outline btn-sm"
+        onClick={handleResend}
+        disabled={isResending}
+      >
+        {isResending ? "جارِ الإرسال..." : resent ? "تم الإرسال ✅" : "إعادة إرسال رابط الدعوة"}
+      </button>
+
       <button
         type="button"
         className="btn btn-outline btn-sm"
         style={{ color: "#ff9d84", borderColor: "rgba(255,85,53,0.4)" }}
         onClick={handleDelete}
-        disabled={isPending}
+        disabled={isDeleting}
       >
-        {isPending ? "جارِ الحذف..." : "حذف"}
+        {isDeleting ? "جارِ الحذف..." : "حذف"}
       </button>
+
       {error && (
-        <div className="notice notice-error" style={{ marginTop: "0.5rem" }}>
+        <div className="notice notice-error" style={{ marginTop: "0.2rem" }}>
           {error}
         </div>
       )}

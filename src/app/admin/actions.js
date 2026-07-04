@@ -236,6 +236,32 @@ export async function advanceStage(stageId, targetStatus) {
   revalidatePath(`/admin/projects/${stage.project_id}`);
 }
 
+// ── Resend the account-setup link to a client — reuses Supabase's own
+// password-reset flow (works whether they already set a password or never
+// finished onboarding), routed through our /auth/set-password screen. Handy
+// when the original invite link expired, got pre-clicked by an email
+// scanner, or just got lost. ──
+export async function resendInvite(clientId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!clientId) throw new Error("معرّف العميل مفقود");
+
+  const { data: client, error: clientError } = await admin
+    .from("clients")
+    .select("email")
+    .eq("id", clientId)
+    .single();
+
+  if (clientError || !client) throw new Error("تعذر العثور على العميل");
+
+  const { error } = await admin.auth.resetPasswordForEmail(client.email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/set-password`,
+  });
+
+  if (error) throw new Error(error.message);
+}
+
 // ── Permanently delete a client. Removing the auth user cascades through the
 // DB (clients -> projects -> stages -> payment_reminders), and since the
 // account itself is gone, the same email can sign up again as if brand new. ──
