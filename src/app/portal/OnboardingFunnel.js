@@ -75,17 +75,60 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
       <div className="card funnel-card">
         <div className="funnel-body">
-          {stepIndex === 0 && (
-            <>
-              <span className="tag">أهلاً {clientName} 👋</span>
-              <h1 className="title" style={{ marginTop: "0.8rem" }}>
-                {about?.title || "تعرّف علينا"}
-              </h1>
-              <p style={{ color: "var(--text)", lineHeight: 2 }}>
-                {about?.body || "Kareem Pro شريكك في بناء منتج رقمي احترافي من الفكرة لحد الإطلاق."}
-              </p>
-            </>
-          )}
+          {stepIndex === 0 && (() => {
+            const bodyText =
+              about?.body || "Kareem Pro شريكك في بناء منتج رقمي احترافي من الفكرة لحد الإطلاق.";
+            const lines = bodyText
+              .split("\n")
+              .map((l) => l.trim())
+              .filter(Boolean);
+
+            // First line (if there's more than one) is a lead-in sentence, e.g.
+            // "هنا في Kareem Pro:" — the rest, when written as "label: description",
+            // render as a set of highlighted points. Otherwise fall back to plain text.
+            const introLine = lines.length > 1 ? lines[0] : null;
+            const restLines = lines.length > 1 ? lines.slice(1) : lines;
+
+            const points = restLines.map((line) => {
+              const sepIndex = line.search(/[:：]/);
+              if (sepIndex === -1) return null;
+              return {
+                label: line.slice(0, sepIndex).trim(),
+                text: line.slice(sepIndex + 1).trim(),
+              };
+            });
+            const isPointList = restLines.length > 0 && points.every((p) => p !== null);
+
+            return (
+              <>
+                <span className="tag">أهلاً {clientName} 👋</span>
+                <h1 className="title" style={{ marginTop: "0.8rem" }}>
+                  {about?.title || "تعرّف علينا"}
+                </h1>
+
+                {isPointList ? (
+                  <>
+                    {introLine && <p className="about-intro">{introLine}</p>}
+                    <div className="about-points">
+                      {points.map((p, i) => (
+                        <div className="about-point" key={i}>
+                          <span className="about-point-icon">{i + 1}</span>
+                          <div>
+                            <div className="about-point-label">{p.label}</div>
+                            <div className="about-point-text">{p.text}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p style={{ color: "var(--text)", lineHeight: 2, whiteSpace: "pre-line" }}>
+                    {bodyText}
+                  </p>
+                )}
+              </>
+            );
+          })()}
 
           {stepIndex === 1 && (
             <>
