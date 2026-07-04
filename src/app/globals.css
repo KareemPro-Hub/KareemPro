@@ -317,6 +317,10 @@ h2.title {
   color: var(--text);
   margin-top: 0.4rem;
 }
+.stage-amount span {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
 
 table.admin-table {
   width: 100%;

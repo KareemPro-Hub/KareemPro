@@ -42,7 +42,9 @@ export default async function ProjectDetailPage({ params }) {
         </h1>
         <p className="muted">
           العميل: {project.clients.full_name} ({project.clients.email}) — إجمالي الباقة:{" "}
-          {Number(project.package_price).toLocaleString("ar-SA")} {project.currency}
+          <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }} dir="ltr">
+            {Number(project.package_price).toLocaleString("en-US")} {project.currency}
+          </span>
         </p>
       </div>
 
@@ -61,8 +63,8 @@ export default async function ProjectDetailPage({ params }) {
                 </span>
               </div>
               {stage.description && <p className="stage-desc">{stage.description}</p>}
-              <p className="stage-amount">
-                {Number(stage.amount).toLocaleString("ar-SA")} {project.currency}
+              <p className="stage-amount" dir="ltr">
+                {Number(stage.amount).toLocaleString("en-US")} {project.currency}
               </p>
               <div style={{ marginTop: "0.9rem" }}>
                 <StageActions stageId={stage.id} status={stage.status} />

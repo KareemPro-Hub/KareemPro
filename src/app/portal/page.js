@@ -64,8 +64,11 @@ export default async function PortalPage() {
                 {project.title}
               </h2>
               <p className="muted">
-                إجمالي الباقة: {Number(project.package_price).toLocaleString("ar-SA")}{" "}
-                {project.currency} — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
+                إجمالي الباقة:{" "}
+                <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }} dir="ltr">
+                  {Number(project.package_price).toLocaleString("en-US")} {project.currency}
+                </span>{" "}
+                — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
 
               <div className="timeline" style={{ marginTop: "1.8rem" }}>
@@ -82,7 +85,10 @@ export default async function PortalPage() {
                       <p className="stage-desc">{stage.description}</p>
                     )}
                     <p className="stage-amount">
-                      قيمة المرحلة: {Number(stage.amount).toLocaleString("ar-SA")} {project.currency}
+                      قيمة المرحلة:{" "}
+                      <span dir="ltr">
+                        {Number(stage.amount).toLocaleString("en-US")} {project.currency}
+                      </span>
                     </p>
                     {stage.status === "awaiting_payment" && (
                       <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>

@@ -3,34 +3,8 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function stagePaymentTemplate({ clientName, projectTitle, stage, portalUrl }) {
-  return `
-  <div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;background:#0a0e26;padding:32px 16px;">
-    <div style="max-width:520px;margin:0 auto;background:#161c46;border-radius:18px;padding:32px;border:1px solid rgba(217,24,122,0.25);">
-      <div style="text-align:center;margin-bottom:24px;">
-        <span style="font-size:20px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#FFA826,#FF5535,#D9187A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">KAREEM PRO</span>
-      </div>
-      <h2 style="color:#f0e8f0;font-size:19px;margin:0 0 8px;">أهلاً ${clientName} 👋</h2>
-      <p style="color:#a888a8;font-size:14px;line-height:1.9;margin:0 0 20px;">
-        مشروعك <strong style="color:#f0e8f0;">${projectTitle}</strong> وصل لمرحلة
-        <strong style="color:#f0e8f0;">"${stage.title}"</strong>، وعشان نبدأ فيها فورًا محتاجين
-        تأكيد سداد قيمة المرحلة:
-      </p>
-      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:16px 20px;margin-bottom:20px;">
-        <div style="color:#a888a8;font-size:13px;">المبلغ المطلوب</div>
-        <div style="color:#fff;font-size:26px;font-weight:900;">${Number(stage.amount).toLocaleString("ar-SA")} ريال</div>
-      </div>
-      <p style="color:#a888a8;font-size:13px;line-height:1.9;margin:0 0 20px;">
-        حوّل المبلغ عبر حساب "برق" (أو STC Pay على نفس الرقم)، وابعت صورة إيصال التحويل على
-        واتساب <a href="https://wa.me/966507069605" style="color:#ff3fa4;">966507069605+</a>
-        عشان نبدأ التنفيذ فورًا.
-      </p>
-      <div style="text-align:center;margin-top:28px;">
-        <a href="${portalUrl}" style="background:linear-gradient(135deg,#FFA826,#FF5535,#D9187A);color:#fff;text-decoration:none;font-weight:700;padding:12px 28px;border-radius:50px;display:inline-block;">
-          عرض تفاصيل المشروع
-        </a>
-      </div>
-    </div>
-  </div>`;
+  const amount = `${Number(stage.amount).toLocaleString("en-US")} ريال`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#1a1440;padding:40px 16px;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;" dir="rtl" lang="ar"><tr><td align="center"><table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#28224e;border:1px solid rgba(239,75,122,0.35);border-radius:18px;overflow:hidden;"><tr><td style="padding:0;line-height:0;"><div style="height:5px;width:100%;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);"></div></td></tr><tr><td style="padding:32px 32px 8px 32px;text-align:center;"><img src="https://kareempro.com/logo-transparent.png" width="42" height="42" alt="Kareem Pro" style="display:block;margin:0 auto 8px auto;"/><div dir="ltr" style="font-family:Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;color:#ffffff;">KAREEM <span style="color:#ff6e8f;">PRO</span></div></td></tr><tr><td style="padding:24px 32px 8px 32px;text-align:center;"><h1 style="margin:0 0 14px 0;font-size:21px;color:#ffffff;">أهلاً ${clientName} 👋</h1><p style="margin:0 0 20px 0;font-size:15px;line-height:1.9;color:#cfd2ea;">مشروعك <strong style="color:#ffffff;">${projectTitle}</strong> وصل لمرحلة <strong style="color:#ffffff;">"${stage.title}"</strong>، وعشان نبدأ فيها فورًا محتاجين تأكيد سداد قيمة المرحلة:</p></td></tr><tr><td style="padding:0 32px 8px 32px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;"><tr><td style="padding:16px 20px;text-align:center;"><div style="font-size:13px;color:#a9adcf;margin-bottom:4px;">المبلغ المطلوب</div><div style="font-size:28px;font-weight:900;color:#ffffff;">${amount}</div></td></tr></table></td></tr><tr><td style="padding:20px 32px 8px 32px;text-align:center;"><p style="margin:0;font-size:14px;line-height:1.9;color:#cfd2ea;">حوّل المبلغ عبر حساب "برق" (أو STC Pay على نفس الرقم)، وابعت صورة إيصال التحويل على واتساب <a href="https://wa.me/966507069605" style="color:#ff6e8f;font-weight:700;text-decoration:none;">966507069605+</a> عشان نبدأ التنفيذ فورًا.</p></td></tr><tr><td style="padding:24px 32px 32px 32px;text-align:center;"><a href="${portalUrl}" style="display:inline-block;padding:14px 40px;border-radius:10px;background-color:#ef4b7a;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">عرض تفاصيل المشروع</a><p style="margin:22px 0 0 0;font-size:12px;color:#8b8fb5;">جميع الحقوق محفوظة © Kareem Pro</p></td></tr></table></td></tr></table>`;
 }
 
 // Sends the "please pay for this stage" email and returns the Resend message id.
