@@ -57,7 +57,7 @@ export default async function AdminHome() {
               return (
                 <tr key={c.id}>
                   <td>{c.full_name}</td>
-                  <td dir="ltr" style={{ textAlign: "left" }}>
+                  <td dir="ltr" className="cell-email">
                     {c.email}
                   </td>
                   <td>
