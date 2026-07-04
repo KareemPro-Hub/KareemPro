@@ -337,7 +337,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               className="btn btn-outline btn-sm"
               onClick={goBack}
               disabled={stepIndex === 0}
-              style={{ visibility: stepIndex === 0 ? "hidden" : "visible" }}
             >
               السابق
             </button>
