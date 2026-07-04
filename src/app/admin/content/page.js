@@ -69,6 +69,11 @@ export default async function AdminContentPage() {
             <div>
               <div style={{ fontWeight: 700 }}>{item.title}</div>
               {item.description && <div className="muted">{item.description}</div>}
+              {item.link_url && (
+                <a href={item.link_url} target="_blank" rel="noopener noreferrer" className="muted" style={{ fontSize: "0.8rem" }}>
+                  {item.link_url}
+                </a>
+              )}
             </div>
             <DeleteItemButton action={deletePortfolioItem} id={item.id} label="نموذج" />
           </div>
@@ -89,6 +94,10 @@ export default async function AdminContentPage() {
           <div className="field">
             <label>رابط صورة (اختياري)</label>
             <input type="url" name="image_url" placeholder="https://..." />
+          </div>
+          <div className="field">
+            <label>رابط المشروع/الخدمة (اختياري — يفتح عند ضغط العميل على الكارت)</label>
+            <input type="url" name="link_url" placeholder="https://..." />
           </div>
           <button type="submit" className="btn btn-outline btn-sm">
             + إضافة نموذج

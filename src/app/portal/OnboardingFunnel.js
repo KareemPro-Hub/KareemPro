@@ -178,19 +178,40 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           {stepIndex === 1 && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
-                نماذج من أعمالنا
+                روائعنا البصرية والتقنية
               </h2>
               {portfolio && portfolio.length > 0 ? (
                 <div className="portfolio-grid" style={{ marginTop: "1.2rem" }}>
-                  {portfolio.map((item) => (
-                    <div className="portfolio-item" key={item.id}>
-                      {item.image_url && <img src={item.image_url} alt={item.title} />}
-                      <div className="portfolio-item-body">
-                        <div style={{ fontWeight: 700 }}>{item.title}</div>
-                        {item.description && <div className="muted">{item.description}</div>}
-                      </div>
-                    </div>
-                  ))}
+                  {portfolio.map((item) => {
+                    const Wrapper = item.link_url ? "a" : "div";
+                    const wrapperProps = item.link_url
+                      ? { href: item.link_url, target: "_blank", rel: "noopener noreferrer" }
+                      : {};
+                    return (
+                      <Wrapper className="portfolio-item" key={item.id} {...wrapperProps}>
+                        <div
+                          className="portfolio-item-bg"
+                          style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
+                        />
+                        <div className="portfolio-item-shade" />
+                        <div className="portfolio-item-body">
+                          <div className="portfolio-item-title">{item.title}</div>
+                          {item.description && (
+                            <div className="portfolio-item-desc">{item.description}</div>
+                          )}
+                          {item.link_url && (
+                            <span className="portfolio-item-cta">
+                              شاهد المشروع
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12" />
+                                <polyline points="11 6 5 12 11 18" />
+                              </svg>
+                            </span>
+                          )}
+                        </div>
+                      </Wrapper>
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="muted" style={{ marginTop: "1rem" }}>

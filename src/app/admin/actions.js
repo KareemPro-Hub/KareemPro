@@ -304,9 +304,12 @@ export async function addPortfolioItem(formData) {
   const title = formData.get("title")?.toString().trim();
   const description = formData.get("description")?.toString().trim() || null;
   const image_url = formData.get("image_url")?.toString().trim() || null;
+  const link_url = formData.get("link_url")?.toString().trim() || null;
   if (!title) throw new Error("عنوان النموذج مطلوب");
 
-  const { error } = await admin.from("portfolio_items").insert({ title, description, image_url });
+  const { error } = await admin
+    .from("portfolio_items")
+    .insert({ title, description, image_url, link_url });
   if (error) throw new Error(error.message);
   revalidatePath("/admin/content");
 }
