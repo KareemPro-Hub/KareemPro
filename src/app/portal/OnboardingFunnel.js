@@ -139,6 +139,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
           {stepIndex === 3 && !selectedPackage && !showReject && (
             <>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={goBack}
+                style={{ marginBottom: "1.2rem" }}
+              >
+                السابق
+              </button>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 العرض الفني والمالي — {proposal.project_title}
               </h2>
