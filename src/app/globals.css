@@ -340,3 +340,144 @@ table.admin-table a {
   text-decoration: none;
   font-weight: 700;
 }
+
+/* ── Admin login: creative centered auth screen ── */
+.admin-auth-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+}
+.admin-auth-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.admin-auth-glow-1 {
+  width: 420px;
+  height: 420px;
+  background: var(--g3);
+  opacity: 0.28;
+  top: -140px;
+  inset-inline-start: -120px;
+}
+.admin-auth-glow-2 {
+  width: 380px;
+  height: 380px;
+  background: var(--g1);
+  opacity: 0.22;
+  bottom: -160px;
+  inset-inline-end: -100px;
+}
+.admin-auth-glow-3 {
+  width: 320px;
+  height: 320px;
+  background: var(--g2);
+  opacity: 0.14;
+  top: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.admin-auth-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.2rem;
+  text-decoration: none;
+}
+.admin-auth-brand img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(217, 24, 122, 0.4));
+}
+.admin-auth-brand span {
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.admin-auth-card {
+  width: 100%;
+  background: rgba(22, 28, 70, 0.6);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(217, 24, 122, 0.28);
+  border-radius: 24px;
+  padding: 2.3rem 2rem 2rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.admin-auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 85, 53, 0.12);
+  color: var(--g2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  border-radius: 50px;
+  margin-bottom: 1.3rem;
+}
+
+.admin-auth-card h1.title {
+  text-align: center;
+}
+.admin-auth-card p.muted {
+  text-align: center;
+  margin: 0 auto 1.7rem;
+  max-width: 300px;
+}
+.admin-auth-card form {
+  text-align: start;
+}
+
+.password-field-wrap {
+  position: relative;
+}
+.password-field-wrap input {
+  padding-inline-end: 2.7rem;
+}
+.password-toggle {
+  position: absolute;
+  inset-inline-end: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+}
+.password-toggle:hover {
+  color: var(--text);
+}
+
+.admin-auth-footnote {
+  margin-top: 1.7rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
