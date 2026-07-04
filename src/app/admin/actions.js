@@ -104,7 +104,9 @@ export async function inviteClient(formData) {
 
   const { data: invited, error: inviteError } =
     await admin.auth.admin.inviteUserByEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/portal`,
+      // One click -> already authenticated -> straight to picking a password.
+      // From then on it's a normal email+password login, no more emails needed.
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/auth/set-password`,
     });
 
   if (inviteError) {

@@ -31,8 +31,8 @@ export async function middleware(request) {
 
   const path = request.nextUrl.pathname;
 
-  // Protect the client portal.
-  if (path.startsWith("/portal") && !user) {
+  // Protect the client portal and the post-invite password setup step.
+  if ((path.startsWith("/portal") || path.startsWith("/auth/set-password")) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", path);
@@ -50,5 +50,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/portal/:path*", "/admin/:path*"],
+  matcher: ["/portal/:path*", "/admin/:path*", "/auth/set-password"],
 };
