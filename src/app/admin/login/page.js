@@ -64,7 +64,6 @@ export default function AdminLoginPage() {
           <h1 className="title">
             بوابة <span className="g-text">مدير المنصة</span>
           </h1>
-          <p className="muted">دخول المدير فقط — بالبريد الإلكتروني وكلمة السر.</p>
 
           <form onSubmit={handleSubmit}>
             <div className="field">
