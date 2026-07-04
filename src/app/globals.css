@@ -603,19 +603,26 @@ table.admin-table td:nth-child(5) {
   position: absolute;
   inset: 0;
   border-radius: 20px;
-  background: linear-gradient(160deg, var(--dark4), var(--dark2));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 14px 30px -18px rgba(4, 4, 20, 0.55);
+  background: linear-gradient(155deg, rgba(255, 168, 38, 0.16), rgba(217, 24, 122, 0.1) 55%, rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 34px -18px rgba(4, 4, 20, 0.7);
   z-index: 0;
   pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
 }
 .portfolio-stack-layer.layer-1 {
-  transform: translate(-9px, 11px) rotate(-1.6deg);
-  opacity: 0.85;
+  transform: translate(-10px, 12px) rotate(-2deg);
+  opacity: 0.9;
 }
 .portfolio-stack-layer.layer-2 {
-  transform: translate(-17px, 21px) rotate(-3deg);
-  opacity: 0.5;
+  transform: translate(-19px, 23px) rotate(-3.6deg);
+  opacity: 0.55;
+}
+.portfolio-stack:hover .portfolio-stack-layer.layer-1 {
+  transform: translate(-14px, 16px) rotate(-2.8deg);
+}
+.portfolio-stack:hover .portfolio-stack-layer.layer-2 {
+  transform: translate(-27px, 31px) rotate(-5deg);
 }
 .portfolio-stack .portfolio-item {
   position: relative;
@@ -623,18 +630,22 @@ table.admin-table td:nth-child(5) {
 }
 .portfolio-stack-badge {
   position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
-  z-index: 2;
-  background: rgba(6, 6, 20, 0.55);
-  backdrop-filter: blur(6px) saturate(140%);
-  -webkit-backdrop-filter: blur(6px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(10, 8, 24, 0.55);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   color: #fff;
   font-size: 0.72rem;
   font-weight: 800;
-  padding: 0.3rem 0.65rem;
+  padding: 0.32rem 0.7rem;
   border-radius: 999px;
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
 }
 
 /* ── Cinematic gallery cards — full-bleed image, bold overlay title ── */
@@ -646,14 +657,33 @@ table.admin-table td:nth-child(5) {
   overflow: hidden;
   isolation: isolate;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   background: linear-gradient(160deg, var(--dark4), var(--dark2));
   box-shadow: 0 18px 40px -18px rgba(4, 4, 20, 0.6);
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.portfolio-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1.5px;
+  background: linear-gradient(125deg, rgba(255, 168, 38, 0.65), rgba(217, 24, 122, 0.2) 45%, transparent 75%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.35s ease;
 }
 .portfolio-item:hover {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 26px 54px -16px rgba(217, 24, 122, 0.4);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px -16px rgba(217, 24, 122, 0.45);
+  border-color: rgba(255, 168, 38, 0.35);
+}
+.portfolio-item:hover::after {
+  opacity: 1;
 }
 .portfolio-item-bg {
   position: absolute;
@@ -661,15 +691,22 @@ table.admin-table td:nth-child(5) {
   background-size: cover;
   background-position: center;
   transition: transform 0.6s ease;
-  z-index: -2;
+  z-index: -3;
 }
 .portfolio-item:hover .portfolio-item-bg {
-  transform: scale(1.08);
+  transform: scale(1.1);
+}
+.portfolio-item-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(155deg, rgba(255, 85, 53, 0.24), rgba(217, 24, 122, 0.3));
+  mix-blend-mode: multiply;
+  z-index: -2;
 }
 .portfolio-item-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(6, 6, 20, 0.92) 0%, rgba(6, 6, 20, 0.55) 42%, rgba(6, 6, 20, 0.08) 75%);
+  background: linear-gradient(0deg, rgba(6, 6, 20, 0.95) 0%, rgba(6, 6, 20, 0.6) 40%, rgba(6, 6, 20, 0.06) 78%);
   z-index: -1;
 }
 .portfolio-item-body {
@@ -681,30 +718,26 @@ table.admin-table td:nth-child(5) {
 }
 .portfolio-item-title {
   font-weight: 900;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: #fff;
   line-height: 1.35;
-}
-.portfolio-item-desc {
-  margin-top: 0.35rem;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
 }
 .portfolio-item-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  margin-top: 0.7rem;
+  margin-top: 0.6rem;
   font-size: 0.78rem;
   font-weight: 800;
   color: #ffa826;
-  opacity: 0;
-  transform: translateX(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0.9;
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 .portfolio-item:hover .portfolio-item-cta {
   opacity: 1;
-  transform: translateX(0);
+  color: #ffbf5c;
+  transform: translateX(3px);
 }
 
 .testimonial-card {

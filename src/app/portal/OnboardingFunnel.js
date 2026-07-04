@@ -201,17 +201,19 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                             className="portfolio-item-bg"
                             style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
                           />
+                          <div className="portfolio-item-tint" />
                           <div className="portfolio-item-shade" />
                           {hasStack && (
                             <span className="portfolio-stack-badge">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="4" y="4" width="12" height="12" rx="2" />
+                                <path d="M8 20h12a2 2 0 0 0 2 -2v-12" />
+                              </svg>
                               +{item.stack_count - 1} أعمال أخرى
                             </span>
                           )}
                           <div className="portfolio-item-body">
                             <div className="portfolio-item-title">{item.title}</div>
-                            {item.description && (
-                              <div className="portfolio-item-desc">{item.description}</div>
-                            )}
                             {item.link_url && (
                               <span className="portfolio-item-cta">
                                 شاهد كل الأعمال
