@@ -1,11 +1,53 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
 
-const STEPS = ["about", "portfolio", "testimonials", "proposal"];
+function AboutIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <line x1="12" y1="11" x2="12" y2="16.5" />
+      <circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function PortfolioIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="7.5" width="18" height="12" rx="2" />
+      <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" />
+      <line x1="3" y1="12.5" x2="21" y2="12.5" />
+    </svg>
+  );
+}
+function QuoteIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 8.5c-2 0-3.2 1.4-3.2 3.4C3.8 14 5 15.3 6.6 15.3c1 0 1.4 1 .7 1.9-1 1.3-2.5 1.9-2.5 1.9" />
+      <path d="M16 8.5c-2 0-3.2 1.4-3.2 3.4 0 2.1 1.2 3.4 2.8 3.4 1 0 1.4 1 .7 1.9-1 1.3-2.5 1.9-2.5 1.9" />
+    </svg>
+  );
+}
+function DocIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 3.5h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z" />
+      <path d="M14 3.5v4h4" />
+      <line x1="8.5" y1="13" x2="15.5" y2="13" />
+      <line x1="8.5" y1="16.5" x2="13.5" y2="16.5" />
+    </svg>
+  );
+}
+
+const STEPS = [
+  { id: "about", label: "تعرّف علينا", Icon: AboutIcon },
+  { id: "portfolio", label: "نماذج أعمالنا", Icon: PortfolioIcon },
+  { id: "testimonials", label: "آراء عملائنا", Icon: QuoteIcon },
+  { id: "proposal", label: "العرض الفني والمالي", Icon: DocIcon },
+];
 
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -69,7 +111,15 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
     <div>
       <div className="funnel-steps">
         {STEPS.map((s, i) => (
-          <div key={s} className={`funnel-dot ${i < stepIndex ? "done" : i === stepIndex ? "active" : ""}`} />
+          <Fragment key={s.id}>
+            <div className={`funnel-step ${i < stepIndex ? "done" : i === stepIndex ? "active" : ""}`}>
+              <s.Icon />
+              <span>{s.label}</span>
+            </div>
+            {i < STEPS.length - 1 && (
+              <div className={`funnel-step-line ${i < stepIndex ? "done" : ""}`} />
+            )}
+          </Fragment>
         ))}
       </div>
 
@@ -101,8 +151,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
             return (
               <>
-                <span className="tag">أهلاً {clientName} 👋</span>
-                <h1 className="title" style={{ marginTop: "0.8rem" }}>
+                <h1 className="title">
                   {about?.title || "تعرّف علينا"}
                 </h1>
 

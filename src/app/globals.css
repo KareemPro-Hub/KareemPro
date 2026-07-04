@@ -533,19 +533,45 @@ table.admin-table td:nth-child(5) {
 .funnel-steps {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0;
 }
-.funnel-dot {
-  flex: 1;
-  height: 4px;
+.funnel-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 50px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.funnel-step.done {
+  color: var(--text);
+  border-color: rgba(255, 168, 38, 0.35);
+  background: rgba(255, 168, 38, 0.08);
+}
+.funnel-step.active {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 20px -6px rgba(217, 24, 122, 0.55);
+}
+.funnel-step-line {
+  flex: 1;
+  min-width: 16px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 0.3rem;
   transition: background 0.3s;
 }
-.funnel-dot.active,
-.funnel-dot.done {
-  background: var(--grad);
+.funnel-step-line.done {
+  background: rgba(255, 168, 38, 0.5);
 }
 
 .funnel-card {
