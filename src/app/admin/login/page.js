@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
           </span>
 
           <h1 className="title">
-            لوحة <span className="g-text">التحكم</span>
+            بوابة <span className="g-text">مدير المنصة</span>
           </h1>
           <p className="muted">دخول المدير فقط — بالبريد الإلكتروني وكلمة السر.</p>
 
