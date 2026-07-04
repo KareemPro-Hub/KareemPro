@@ -147,7 +147,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               </p>
               <div className="package-grid">
                 {packages.map((pkg) => (
-                  <div className="package-card" key={pkg.id}>
+                  <div className={`package-card ${pkg.is_featured ? "featured" : ""}`} key={pkg.id}>
+                    {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
                     <div className="package-name">{pkg.name}</div>
                     <div className="package-price" dir="ltr">
                       {Number(pkg.price).toLocaleString("en-US")}
@@ -181,6 +182,17 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               >
                 لا أرغب بالمتابعة حاليًا
               </button>
+
+              <div className="notice" style={{ marginTop: "1.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--muted)" }}>
+                <strong style={{ color: "var(--text)" }}>ملاحظة مهمة:</strong> الأسعار أعلاه لا
+                تشمل ضريبة القيمة المضافة (VAT) ولا التكاليف التشغيلية المتكررة التي تُدفع
+                مباشرة لمزوّدي الخدمة حسب طبيعة مشروعك، ومنها تقريبًا: الاستضافة وقاعدة
+                البيانات (تبدأ مجانية وتُرفع السعة عند الحاجة)، حماية الفيديوهات — لو مشروعك
+                يعتمد على محتوى مرئي محمي زي المنصات التعليمية (تبدأ من 600 ريال سنويًا)، رسوم
+                بوابة الدفع (حوالي 2.5–3٪ من كل عملية)، تجديد الدومين (حوالي 55 ريال سنويًا)،
+                وحسابات مطوري Apple وGoogle لنشر التطبيقات (حوالي 370 ريال سنويًا و95 ريال
+                لمرة واحدة على الترتيب). تُحدَّد هذه التكاليف بدقة حسب مشروعك عند البدء.
+              </div>
             </>
           )}
 

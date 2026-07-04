@@ -579,6 +579,20 @@ table.admin-table a {
 .package-card.selected {
   border-color: #25d366;
 }
+.package-card.featured {
+  border-color: var(--g3);
+  background: rgba(217, 24, 122, 0.07);
+}
+.package-badge {
+  align-self: flex-start;
+  background: var(--grad);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+  margin-bottom: 0.7rem;
+}
 .package-name {
   font-weight: 800;
   font-size: 1.05rem;

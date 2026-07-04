@@ -69,7 +69,10 @@ export default async function ClientProposalPage({ params }) {
                 }}
               >
                 <div className="stage-head">
-                  <span className="stage-title">{pkg.name}</span>
+                  <span className="stage-title">
+                    {pkg.is_featured && "⭐ "}
+                    {pkg.name}
+                  </span>
                   {proposal.selected_package_id === pkg.id && (
                     <span className="stage-status completed">الباقة المختارة</span>
                   )}
@@ -84,6 +87,21 @@ export default async function ClientProposalPage({ params }) {
                 )}
               </div>
             ))}
+
+          <div
+            className="notice"
+            style={{
+              marginTop: "1.2rem",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid var(--border)",
+              color: "var(--muted)",
+              fontSize: "0.82rem",
+            }}
+          >
+            <strong style={{ color: "var(--text)" }}>ملاحظة تظهر للعميل:</strong> الأسعار لا
+            تشمل VAT ولا التكاليف التشغيلية المتكررة (استضافة/قاعدة بيانات، حماية الفيديوهات
+            لو محتوى مرئي محمي، رسوم بوابة الدفع، تجديد الدومين، حسابات مطوري Apple/Google).
+          </div>
 
           {proposal.status === "rejected" && proposal.rejection_reason && (
             <div className="notice notice-error" style={{ marginTop: "1.2rem" }}>

@@ -4,13 +4,13 @@ import { useState } from "react";
 import { createProposal } from "@/app/admin/actions";
 
 export default function NewProposalForm({ clientId }) {
-  const [packages, setPackages] = useState([{ name: "", price: "", features: "" }]);
+  const [packages, setPackages] = useState([{ name: "", price: "", features: "", featured: false }]);
 
   function update(i, field, value) {
     setPackages((p) => p.map((pkg, idx) => (idx === i ? { ...pkg, [field]: value } : pkg)));
   }
   function addPackage() {
-    setPackages((p) => [...p, { name: "", price: "", features: "" }]);
+    setPackages((p) => [...p, { name: "", price: "", features: "", featured: false }]);
   }
   function removePackage(i) {
     setPackages((p) => p.filter((_, idx) => idx !== i));
@@ -86,6 +86,15 @@ export default function NewProposalForm({ clientId }) {
               placeholder={"مميزة 1\nمميزة 2\nمميزة 3"}
             />
           </div>
+          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.85rem", color: "var(--muted)" }}>
+            <input
+              type="checkbox"
+              checked={pkg.featured}
+              onChange={(e) => update(i, "featured", e.target.checked)}
+            />
+            الأكثر طلبًا (تظهر بشارة مميزة للعميل)
+          </label>
+          <input type="hidden" name="package_featured[]" value={pkg.featured ? "true" : "false"} />
         </div>
       ))}
 

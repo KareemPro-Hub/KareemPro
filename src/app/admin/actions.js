@@ -6,6 +6,90 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
 import { sendStagePaymentEmail } from "@/lib/email";
 
+// ══════════════════ Default proposal template ══════════════════
+// Automatically attached to every new client on invite, so they see the
+// full technical & financial offer the moment they log in — no manual step.
+// Edit these constants any time to change the standard packages everyone gets.
+const DEFAULT_PROPOSAL_TITLE = "باقات طموحك الإبداعي";
+const DEFAULT_PACKAGES = [
+  {
+    name: "الباقة الأولى — الاقتصادية",
+    price: 2500,
+    is_featured: false,
+    features: [
+      "إطلاق سريع للمنصة كموقع كامل، بأقل تكلفة وبلا أي تنازل عن الجودة.",
+      "تفعيل حماية الفيديوهات والملفات ومنع التحميل غير المصرح به",
+      "تفعيل بوابة الدفع (مدى، فيزا، Apple Pay، STC Pay)",
+      "تفعيل الإيميلات التلقائية للمستخدمين",
+      "ربط الدومين الاحترافي واختبار شامل قبل الإطلاق",
+      "بدون تطبيقات جوال",
+      "الأنسب للانطلاق السريع وإثبات الفكرة أمام أول مجموعة مستخدمين.",
+      "طريقة السداد: دفعتان",
+    ].join("\n"),
+  },
+  {
+    name: "الباقة الثانية — المتميزة",
+    price: 4500,
+    is_featured: true,
+    features: [
+      "منصة كاملة + تطبيقان على المتجرين، بأفضل توازن بين السعر والمزايا.",
+      "كل ما في الباقة الاقتصادية",
+      "تطبيقا آيفون وأندرويد (WebView) منشوران على App Store وGoogle Play",
+      "إشعارات فورية بكل تحديث أو نشاط جديد",
+      "دعم فني لمدة 6 أشهر بعد التسليم",
+      "الخيار الأنسب لمعظم الحالات.",
+      "طريقة السداد: ثلاث دفعات",
+    ].join("\n"),
+  },
+  {
+    name: "الباقة الثالثة — الاحترافية",
+    price: 7500,
+    is_featured: false,
+    features: [
+      "أعلى مستوى — تطبيقات أصلية سريعة، وبنية جاهزة للمستقبل.",
+      "كل ما في الباقة المتميزة",
+      "تطبيقا آيفون وأندرويد أصليان (Native) — أسرع وأسلس وأكثر ثباتًا",
+      "بنية جاهزة لدمج الذكاء الاصطناعي (تحليل أداء المستخدم، توصيات ذكية)",
+      "أولوية في الدعم والصيانة بعد الإطلاق",
+      "الأنسب لمن يريد الأفضل وأوسع قابلية للتوسّع.",
+      "طريقة السداد: أربع دفعات",
+    ].join("\n"),
+  },
+];
+
+// ── Creates the default 3-package proposal for a client, only if they don't
+// already have one (so re-inviting an existing client never duplicates it). ──
+async function ensureDefaultProposal(admin, clientId) {
+  const { data: existing } = await admin
+    .from("proposals")
+    .select("id")
+    .eq("client_id", clientId)
+    .limit(1)
+    .maybeSingle();
+
+  if (existing) return;
+
+  const { data: proposal, error: proposalError } = await admin
+    .from("proposals")
+    .insert({ client_id: clientId, project_title: DEFAULT_PROPOSAL_TITLE, status: "pending" })
+    .select()
+    .single();
+
+  if (proposalError) throw new Error(proposalError.message);
+
+  const packagesPayload = DEFAULT_PACKAGES.map((pkg, i) => ({
+    proposal_id: proposal.id,
+    name: pkg.name,
+    price: pkg.price,
+    features: pkg.features,
+    is_featured: pkg.is_featured,
+    sort_order: i,
+  }));
+
+  const { error: packagesError } = await admin.from("proposal_packages").insert(packagesPayload);
+  if (packagesError) throw new Error(packagesError.message);
+}
+
 // ── Invite a new client: creates their Supabase Auth user (magic-link invite
 // email goes out automatically) and a matching row in `clients`. ──
 export async function inviteClient(formData) {
@@ -45,6 +129,10 @@ export async function inviteClient(formData) {
     .upsert({ id: userId, full_name, email, phone }, { onConflict: "id" });
 
   if (upsertError) throw new Error(upsertError.message);
+
+  // Automation: the client sees the full technical & financial offer (with
+  // its 3 standard packages) the moment they log in — no manual admin step.
+  await ensureDefaultProposal(admin, userId);
 
   revalidatePath("/admin");
   redirect("/admin");
@@ -244,6 +332,7 @@ export async function createProposal(formData) {
   const names = formData.getAll("package_name[]").map((v) => v.toString().trim());
   const prices = formData.getAll("package_price[]").map((v) => Number(v));
   const features = formData.getAll("package_features[]").map((v) => v.toString().trim());
+  const featured = formData.getAll("package_featured[]").map((v) => v.toString() === "true");
 
   if (!client_id || !project_title) throw new Error("العميل وعنوان المشروع مطلوبين");
   if (names.length === 0 || !names[0]) throw new Error("أضف باقة واحدة على الأقل");
@@ -261,6 +350,7 @@ export async function createProposal(formData) {
     name,
     price: prices[i] || 0,
     features: features[i] || "",
+    is_featured: featured[i] || false,
     sort_order: i,
   }));
 
