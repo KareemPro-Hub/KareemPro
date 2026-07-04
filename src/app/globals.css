@@ -351,6 +351,10 @@ table.admin-table td.cell-email {
 table.admin-table th:nth-child(2) {
   text-align: center;
 }
+table.admin-table th:nth-child(5),
+table.admin-table td:nth-child(5) {
+  text-align: center;
+}
 table.admin-table a {
   color: var(--g2);
   text-decoration: none;

@@ -39,7 +39,7 @@ export default function ClientActions({ clientId, clientName }) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
       <button
         type="button"
         className="btn btn-outline btn-sm"
