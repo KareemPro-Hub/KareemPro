@@ -19,17 +19,21 @@ export default async function PortalPage() {
 
   if (!user) redirect("/login");
 
-  const { data: projects } = await supabase
-    .from("projects")
-    .select("*, stages(*)")
-    .eq("client_id", user.id)
-    .order("created_at", { ascending: false });
+  const [{ data: projects }, { data: client }] = await Promise.all([
+    supabase
+      .from("projects")
+      .select("*, stages(*)")
+      .eq("client_id", user.id)
+      .order("created_at", { ascending: false }),
+    supabase.from("clients").select("full_name").eq("id", user.id).maybeSingle(),
+  ]);
+
+  const clientName = client?.full_name || user.email;
 
   let onboardingContent = null;
   if (!projects || projects.length === 0) {
-    const [{ data: client }, { data: about }, { data: portfolio }, { data: testimonials }, { data: proposal }] =
+    const [{ data: about }, { data: portfolio }, { data: testimonials }, { data: proposal }] =
       await Promise.all([
-        supabase.from("clients").select("full_name").eq("id", user.id).maybeSingle(),
         supabase.from("site_content").select("*").eq("key", "about_us").maybeSingle(),
         supabase.from("portfolio_items").select("*").order("sort_order", { ascending: true }),
         supabase.from("testimonials").select("*").order("sort_order", { ascending: true }),
@@ -41,8 +45,6 @@ export default async function PortalPage() {
           .limit(1)
           .maybeSingle(),
       ]);
-
-    const clientName = client?.full_name || user.email;
 
     if (!proposal) {
       onboardingContent = (
@@ -112,10 +114,10 @@ export default async function PortalPage() {
       </div>
 
       <h1 className="title">
-        أهلاً بيك، <span className="g-text">{user.email}</span>
+        أهلاً بيك، <span className="g-text">{clientName}</span> 👋
       </h1>
       <p className="muted" style={{ marginBottom: "2rem" }}>
-        تابع مراحل مشروعك وحالة السداد لكل مرحلة أول بأول.
+        راقب نمو مشروعك الآن
       </p>
 
       {!projects || projects.length === 0 ? (

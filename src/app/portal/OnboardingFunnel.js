@@ -151,10 +151,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
             return (
               <>
-                <h1 className="title">
-                  {about?.title || "تعرّف علينا"}
-                </h1>
-
                 {isPointList ? (
                   <>
                     {introLine && <p className="about-intro">{introLine}</p>}

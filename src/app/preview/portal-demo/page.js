@@ -46,7 +46,7 @@ const demoProjects = [
 ];
 
 export default function PortalPreviewPage() {
-  const user = { email: "demo.client@kareempro.com" };
+  const clientName = "عميل تجريبي";
   const projects = demoProjects;
 
   return (
@@ -76,10 +76,10 @@ export default function PortalPreviewPage() {
       </div>
 
       <h1 className="title">
-        أهلاً بيك، <span className="g-text">{user.email}</span>
+        أهلاً بيك، <span className="g-text">{clientName}</span> 👋
       </h1>
       <p className="muted" style={{ marginBottom: "2rem" }}>
-        تابع مراحل مشروعك وحالة السداد لكل مرحلة أول بأول.
+        راقب نمو مشروعك الآن
       </p>
 
       {projects.map((project) => {
