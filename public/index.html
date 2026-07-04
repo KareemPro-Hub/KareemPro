@@ -1178,6 +1178,8 @@
       <button type="button" class="filter-btn" data-filter="montage">مونتاج احترافي</button>
       <button type="button" class="filter-btn" data-filter="voiceover">تعليق صوتي</button>
       <button type="button" class="filter-btn" data-filter="display">عرض مرئي</button>
+      <button type="button" class="filter-btn" data-jump="reels">ريلز وسنابات</button>
+      <button type="button" class="filter-btn" data-jump="platforms">مواقع وتطبيقات</button>
     </div>
     <div class="portfolio-grid" id="portfolioGrid">
 
@@ -2163,7 +2165,7 @@
   // for showcase cards that bundle more than one tag (e.g. "مونتاج وعروض مرئية").
   function applyPortfolioFilter(cat) {
     const cats = cat.split(',').map(function(c){ return c.trim(); });
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.filter-btn[data-filter]');
     const cards = document.querySelectorAll('#portfolioGrid .portfolio-card');
     filterBtns.forEach(function(btn){ btn.classList.toggle('active', btn.dataset.filter === cat); });
     cards.forEach(function(card){
@@ -2171,8 +2173,17 @@
       card.classList.toggle('filtered-out', !show);
     });
   }
-  document.querySelectorAll('.filter-btn').forEach(function(btn){
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(function(btn){
     btn.addEventListener('click', function(){ applyPortfolioFilter(btn.dataset.filter); });
+  });
+  // "ريلز وسنابات" و"مواقع وتطبيقات" are separate grids/sections entirely (different
+  // card markup), so their tabs jump straight to that section instead of filtering
+  // #portfolioGrid in place.
+  document.querySelectorAll('.filter-btn[data-jump]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const target = document.getElementById(btn.dataset.jump);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
   (function initPortfolioFilterFromURL(){
     const params = new URLSearchParams(window.location.search);
