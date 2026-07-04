@@ -588,6 +588,10 @@ table.admin-table td:nth-child(5) {
   gap: 0.8rem;
   margin-top: 1.6rem;
 }
+.funnel-nav-top {
+  margin-top: 0;
+  margin-bottom: 1.6rem;
+}
 
 .portfolio-grid {
   display: grid;

@@ -124,6 +124,22 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
       </div>
 
       <div className="card funnel-card">
+        {stepIndex < 3 && (
+          <div className="funnel-nav funnel-nav-top">
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              onClick={goBack}
+              disabled={stepIndex === 0}
+            >
+              السابق
+            </button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={goNext}>
+              التالي
+            </button>
+          </div>
+        )}
+
         <div className="funnel-body">
           {stepIndex === 0 && (() => {
             const bodyText =
@@ -462,22 +478,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
         </div>
-
-        {stepIndex < 3 && (
-          <div className="funnel-nav">
-            <button
-              type="button"
-              className="btn btn-outline btn-sm"
-              onClick={goBack}
-              disabled={stepIndex === 0}
-            >
-              السابق
-            </button>
-            <button type="button" className="btn btn-primary btn-sm" onClick={goNext}>
-              التالي
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
