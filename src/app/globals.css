@@ -345,8 +345,11 @@ table.admin-table td {
   text-overflow: ellipsis;
 }
 table.admin-table td.cell-email {
-  text-align: right;
+  text-align: center;
   unicode-bidi: plaintext;
+}
+table.admin-table th:nth-child(2) {
+  text-align: center;
 }
 table.admin-table a {
   color: var(--g2);
