@@ -145,3 +145,18 @@ export async function advanceStage(stageId, targetStatus) {
 
   revalidatePath(`/admin/projects/${stage.project_id}`);
 }
+
+// ── Permanently delete a client. Removing the auth user cascades through the
+// DB (clients -> projects -> stages -> payment_reminders), and since the
+// account itself is gone, the same email can sign up again as if brand new. ──
+export async function deleteClient(clientId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!clientId) throw new Error("معرّف العميل مفقود");
+
+  const { error } = await admin.auth.admin.deleteUser(clientId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin");
+}

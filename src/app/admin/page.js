@@ -1,4 +1,5 @@
 import { requireAdmin } from "@/lib/admin";
+import ClientActions from "./ClientActions";
 
 export default async function AdminHome() {
   const { supabase } = await requireAdmin();
@@ -38,6 +39,7 @@ export default async function AdminHome() {
               <th>العميل</th>
               <th>البريد</th>
               <th>المشاريع</th>
+              <th>إجراءات</th>
             </tr>
           </thead>
           <tbody>
@@ -58,11 +60,14 @@ export default async function AdminHome() {
                     ))
                   )}
                 </td>
+                <td>
+                  <ClientActions clientId={c.id} clientName={c.full_name} />
+                </td>
               </tr>
             ))}
             {(!clients || clients.length === 0) && (
               <tr>
-                <td colSpan={3} className="muted">
+                <td colSpan={4} className="muted">
                   لسه مفيش عملاء. ابدأ بإضافة عميل جديد.
                 </td>
               </tr>
