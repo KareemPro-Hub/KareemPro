@@ -2,7 +2,20 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+
+function EyeIcon({ off }) {
+  return off ? (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.6 21.6 0 0 1 5.06-6.06M9.9 4.24A10.4 10.4 0 0 1 12 4c7 0 11 8 11 8a21.6 21.6 0 0 1-2.94 4.24M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -10,8 +23,8 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | loading | error
-  const [otpStatus, setOtpStatus] = useState("idle"); // idle | sending | sent | error
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -31,43 +44,24 @@ function LoginForm() {
     window.location.href = next;
   }
 
-  async function handleSendSetupLink() {
-    if (!email) {
-      setOtpStatus("error");
-      return;
-    }
-    setOtpStatus("sending");
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/auth/set-password`,
-      },
-    });
-    setOtpStatus(error ? "error" : "sent");
-  }
-
   return (
-    <div className="shell-narrow">
-      <a href="/" className="brand-row">
-        <img src="/logo-transparent.png" alt="Kareem Pro" />
-        <span>KAREEM PRO</span>
-      </a>
+    <div className="admin-auth-page">
+      <div className="admin-auth-glow admin-auth-glow-1" />
+      <div className="admin-auth-glow admin-auth-glow-2" />
+      <div className="admin-auth-glow admin-auth-glow-3" />
 
-      <div className="card">
-        <h1 className="title">
-          بوابة <span className="g-text">العملاء</span>
-        </h1>
-        <p className="muted" style={{ marginBottom: "1.5rem" }}>
-          سجّل دخولك بالبريد الإلكتروني وكلمة السر بتاعة حسابك.
-        </p>
+      <div className="admin-auth-content">
+        <a href="/" className="admin-auth-brand">
+          <img src="/logo-transparent.png" alt="Kareem Pro" />
+          <span>KAREEM PRO</span>
+        </a>
 
-        {otpStatus === "sent" ? (
-          <div className="notice notice-ok">
-            بعتنالك رابط على <strong dir="ltr">{email}</strong> — افتح بريدك واضغط عليه
-            عشان تحدد كلمة سر لحسابك.
-          </div>
-        ) : (
+        <div className="admin-auth-card">
+          <h1 className="title">
+            بوابة <span className="g-text">العملاء</span>
+          </h1>
+          <p className="muted">سجّل دخولك بالبريد الإلكتروني وكلمة السر.</p>
+
           <form onSubmit={handleSubmit}>
             <div className="field">
               <label>البريد الإلكتروني</label>
@@ -78,26 +72,38 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 dir="ltr"
+                autoComplete="username"
               />
             </div>
+
             <div className="field">
               <label>كلمة السر</label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                dir="ltr"
-              />
+              <div className="password-field-wrap">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  dir="ltr"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "إخفاء كلمة السر" : "إظهار كلمة السر"}
+                  tabIndex={-1}
+                >
+                  <EyeIcon off={showPassword} />
+                </button>
+              </div>
             </div>
 
             {status === "error" && (
               <div className="notice notice-error">
-                البريد أو كلمة السر غير صحيحة، أو لسه مفيش كلمة سر متحددة لحسابك.
+                البريد أو كلمة السر غير صحيحة.
               </div>
-            )}
-            {otpStatus === "error" && (
-              <div className="notice notice-error">اكتب بريدك الإلكتروني الأول.</div>
             )}
 
             <button
@@ -108,30 +114,8 @@ function LoginForm() {
             >
               {status === "loading" ? "جارِ الدخول..." : "تسجيل الدخول"}
             </button>
-
-            <button
-              type="button"
-              onClick={handleSendSetupLink}
-              className="muted"
-              style={{
-                background: "none",
-                border: "none",
-                textDecoration: "underline",
-                cursor: "pointer",
-                marginTop: "1.2rem",
-                padding: 0,
-                display: "block",
-                width: "100%",
-                textAlign: "center",
-              }}
-              disabled={otpStatus === "sending"}
-            >
-              {otpStatus === "sending"
-                ? "جارِ الإرسال..."
-                : "أول مرة تدخل ولسه معملتش كلمة سر؟"}
-            </button>
           </form>
-        )}
+        </div>
       </div>
     </div>
   );
