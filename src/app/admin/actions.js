@@ -160,3 +160,124 @@ export async function deleteClient(clientId) {
 
   revalidatePath("/admin");
 }
+
+// ══════════════════ Site content (About Us) ══════════════════
+
+export async function updateAboutContent(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const title = formData.get("title")?.toString().trim();
+  const body = formData.get("body")?.toString().trim();
+  if (!title || !body) throw new Error("العنوان والنص مطلوبين");
+
+  const { error } = await admin
+    .from("site_content")
+    .upsert({ key: "about_us", title, body, updated_at: new Date().toISOString() }, { onConflict: "key" });
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/content");
+}
+
+// ══════════════════ Portfolio items ══════════════════
+
+export async function addPortfolioItem(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const title = formData.get("title")?.toString().trim();
+  const description = formData.get("description")?.toString().trim() || null;
+  const image_url = formData.get("image_url")?.toString().trim() || null;
+  if (!title) throw new Error("عنوان النموذج مطلوب");
+
+  const { error } = await admin.from("portfolio_items").insert({ title, description, image_url });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/content");
+}
+
+export async function deletePortfolioItem(id) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!id) throw new Error("معرّف مفقود");
+  const { error } = await admin.from("portfolio_items").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/content");
+}
+
+// ══════════════════ Testimonials ══════════════════
+
+export async function addTestimonial(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const client_name = formData.get("client_name")?.toString().trim();
+  const role = formData.get("role")?.toString().trim() || null;
+  const quote = formData.get("quote")?.toString().trim();
+  const avatar_url = formData.get("avatar_url")?.toString().trim() || null;
+  if (!client_name || !quote) throw new Error("اسم العميل ونص الرأي مطلوبين");
+
+  const { error } = await admin.from("testimonials").insert({ client_name, role, quote, avatar_url });
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/content");
+}
+
+export async function deleteTestimonial(id) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!id) throw new Error("معرّف مفقود");
+  const { error } = await admin.from("testimonials").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/content");
+}
+
+// ══════════════════ Proposals (العرض الفني والمالي) ══════════════════
+
+// ── Build a technical & financial proposal for a specific client, with 1+
+// packages the client can choose between. ──
+export async function createProposal(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const client_id = formData.get("client_id")?.toString();
+  const project_title = formData.get("project_title")?.toString().trim();
+
+  const names = formData.getAll("package_name[]").map((v) => v.toString().trim());
+  const prices = formData.getAll("package_price[]").map((v) => Number(v));
+  const features = formData.getAll("package_features[]").map((v) => v.toString().trim());
+
+  if (!client_id || !project_title) throw new Error("العميل وعنوان المشروع مطلوبين");
+  if (names.length === 0 || !names[0]) throw new Error("أضف باقة واحدة على الأقل");
+
+  const { data: proposal, error: proposalError } = await admin
+    .from("proposals")
+    .insert({ client_id, project_title, status: "pending" })
+    .select()
+    .single();
+
+  if (proposalError) throw new Error(proposalError.message);
+
+  const packagesPayload = names.map((name, i) => ({
+    proposal_id: proposal.id,
+    name,
+    price: prices[i] || 0,
+    features: features[i] || "",
+    sort_order: i,
+  }));
+
+  const { error: packagesError } = await admin.from("proposal_packages").insert(packagesPayload);
+  if (packagesError) throw new Error(packagesError.message);
+
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+// ── Delete a proposal (and its packages, via cascade) so the admin can
+// rebuild/resend one after a client rejects it, or by mistake. ──
+export async function deleteProposal(proposalId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!proposalId) throw new Error("معرّف العرض مفقود");
+  const { error } = await admin.from("proposals").delete().eq("id", proposalId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+}

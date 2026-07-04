@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import RiyalIcon from "@/app/components/RiyalIcon";
+import OnboardingFunnel from "./OnboardingFunnel";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -23,6 +25,78 @@ export default async function PortalPage() {
     .eq("client_id", user.id)
     .order("created_at", { ascending: false });
 
+  let onboardingContent = null;
+  if (!projects || projects.length === 0) {
+    const [{ data: client }, { data: about }, { data: portfolio }, { data: testimonials }, { data: proposal }] =
+      await Promise.all([
+        supabase.from("clients").select("full_name").eq("id", user.id).maybeSingle(),
+        supabase.from("site_content").select("*").eq("key", "about_us").maybeSingle(),
+        supabase.from("portfolio_items").select("*").order("sort_order", { ascending: true }),
+        supabase.from("testimonials").select("*").order("sort_order", { ascending: true }),
+        supabase
+          .from("proposals")
+          .select("*, proposal_packages(*)")
+          .eq("client_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      ]);
+
+    const clientName = client?.full_name || user.email;
+
+    if (!proposal) {
+      onboardingContent = (
+        <div className="card">
+          <p className="muted">
+            جاري تجهيز عرضك الفني والمالي، هيوصلك إشعار على بريدك أول ما يكون جاهز. لو محتاج
+            حاجة دلوقتي، تواصل معنا مباشرة.
+          </p>
+        </div>
+      );
+    } else if (proposal.status === "pending") {
+      onboardingContent = (
+        <OnboardingFunnel
+          clientName={clientName}
+          about={about}
+          portfolio={portfolio}
+          testimonials={testimonials}
+          proposal={proposal}
+        />
+      );
+    } else if (proposal.status === "accepted") {
+      const chosen = (proposal.proposal_packages || []).find(
+        (p) => p.id === proposal.selected_package_id
+      );
+      onboardingContent = (
+        <div className="card">
+          <span className="tag">تم توقيع العقد ✅</span>
+          <h2 className="title" style={{ marginTop: "0.7rem" }}>
+            بانتظار بدء العمل على مشروعك
+          </h2>
+          <p className="muted">
+            شكرًا لثقتك، فريقنا هيبدأ التجهيز لمشروع &quot;{proposal.project_title}&quot;
+            {chosen ? (
+              <>
+                {" "}
+                — باقة <strong style={{ color: "var(--text)" }}>{chosen.name}</strong>
+              </>
+            ) : null}
+            . هيوصلك إشعار أول ما تبدأ أول مرحلة.
+          </p>
+        </div>
+      );
+    } else if (proposal.status === "rejected") {
+      onboardingContent = (
+        <div className="card">
+          <p className="muted">
+            تم استلام ردك بخصوص العرض، وشكرًا لوقتك. لو حابب نراجع العرض تاني أو نناقش نقطة
+            معينة، تواصل معنا في أي وقت.
+          </p>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className="shell">
       <div className="top-bar">
@@ -45,9 +119,7 @@ export default async function PortalPage() {
       </p>
 
       {!projects || projects.length === 0 ? (
-        <div className="card">
-          <p className="muted">لسه مفيش مشاريع مرتبطة بحسابك. لو فيه مشروع متفق عليه، تواصل معنا وهنضيفه.</p>
-        </div>
+        onboardingContent
       ) : (
         projects.map((project) => {
           const stages = (project.stages || []).sort(
@@ -66,7 +138,8 @@ export default async function PortalPage() {
               <p className="muted">
                 إجمالي الباقة:{" "}
                 <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }} dir="ltr">
-                  {Number(project.package_price).toLocaleString("en-US")} {project.currency}
+                  {Number(project.package_price).toLocaleString("en-US")}
+                  <RiyalIcon size="0.8em" />
                 </span>{" "}
                 — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
@@ -87,7 +160,8 @@ export default async function PortalPage() {
                     <p className="stage-amount">
                       قيمة المرحلة:{" "}
                       <span dir="ltr">
-                        {Number(stage.amount).toLocaleString("en-US")} {project.currency}
+                        {Number(stage.amount).toLocaleString("en-US")}
+                        <RiyalIcon />
                       </span>
                     </p>
                     {stage.status === "awaiting_payment" && (

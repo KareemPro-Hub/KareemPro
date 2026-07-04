@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import StageActions from "./StageActions";
+import RiyalIcon from "@/app/components/RiyalIcon";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -43,7 +44,8 @@ export default async function ProjectDetailPage({ params }) {
         <p className="muted">
           العميل: {project.clients.full_name} ({project.clients.email}) — إجمالي الباقة:{" "}
           <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }} dir="ltr">
-            {Number(project.package_price).toLocaleString("en-US")} {project.currency}
+            {Number(project.package_price).toLocaleString("en-US")}
+            <RiyalIcon size="0.8em" />
           </span>
         </p>
       </div>
@@ -64,7 +66,8 @@ export default async function ProjectDetailPage({ params }) {
               </div>
               {stage.description && <p className="stage-desc">{stage.description}</p>}
               <p className="stage-amount" dir="ltr">
-                {Number(stage.amount).toLocaleString("en-US")} {project.currency}
+                {Number(stage.amount).toLocaleString("en-US")}
+                <RiyalIcon />
               </p>
               <div style={{ marginTop: "0.9rem" }}>
                 <StageActions stageId={stage.id} status={stage.status} />

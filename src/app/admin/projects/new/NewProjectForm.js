@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createProject } from "@/app/admin/actions";
+import RiyalIcon from "@/app/components/RiyalIcon";
 
 export default function NewProjectForm({ clients }) {
   const [stages, setStages] = useState([{ title: "", description: "", amount: "" }]);
@@ -41,7 +42,9 @@ export default function NewProjectForm({ clients }) {
           <input type="text" name="package_name" required placeholder="الباقة الاحترافية" />
         </div>
         <div className="field">
-          <label>إجمالي سعر الباقة (ريال)</label>
+          <label>
+            إجمالي سعر الباقة <RiyalIcon size="0.75em" />
+          </label>
           <input type="number" name="package_price" required min="0" step="0.01" />
         </div>
       </div>
@@ -90,7 +93,9 @@ export default function NewProjectForm({ clients }) {
             />
           </div>
           <div className="field">
-            <label>قيمة المرحلة (ريال)</label>
+            <label>
+              قيمة المرحلة <RiyalIcon size="0.75em" />
+            </label>
             <input
               type="number"
               name="stage_amount[]"
