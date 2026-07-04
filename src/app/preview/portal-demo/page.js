@@ -76,10 +76,10 @@ export default function PortalPreviewPage() {
       </div>
 
       <h1 className="title">
-        أهلاً بيك، <span className="g-text">{clientName}</span> 👋
+        أهلًا بك، <span className="g-text">{clientName}</span> 👋
       </h1>
       <p className="muted" style={{ marginBottom: "2rem" }}>
-        راقب نمو مشروعك الآن
+        الآن .. راقب نمو مشروعك واستثمارك لحظة بلحظة ..
       </p>
 
       {projects.map((project) => {

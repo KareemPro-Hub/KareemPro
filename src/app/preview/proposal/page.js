@@ -91,10 +91,10 @@ export default function ProposalPreviewPage() {
       </div>
 
       <h1 className="title">
-        أهلاً بيك، <span className="g-text">عميل تجريبي</span> 👋
+        أهلًا بك، <span className="g-text">عميل تجريبي</span> 👋
       </h1>
       <p className="muted" style={{ marginBottom: "2rem" }}>
-        راقب نمو مشروعك الآن
+        الآن .. راقب نمو مشروعك واستثمارك لحظة بلحظة ..
       </p>
 
       <OnboardingFunnel
