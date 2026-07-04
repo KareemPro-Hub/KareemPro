@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 
 function EyeIcon({ off }) {
   return off ? (
@@ -26,10 +25,14 @@ export default function AdminLoginPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("loading");
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
+    const res = await fetch("/auth/admin-signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
       setStatus("error");
       return;
     }
