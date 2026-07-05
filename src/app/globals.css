@@ -348,13 +348,22 @@ h2.title {
   border-radius: 14px;
 }
 .project-package-name {
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 900;
   line-height: 1.4;
   background: var(--grad-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.project-price-display {
+  margin-top: 1.1rem;
+  font-size: 2.3rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  color: var(--text);
 }
 .project-package-tagline {
   font-size: 0.8rem;

@@ -51,13 +51,10 @@ export default async function ProjectDetailPage({ params }) {
           <span className="project-package-name">{pkgName}</span>
           {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
         </div>
-        <p className="muted" style={{ marginTop: "0.9rem" }}>
-          العميل: {project.clients.full_name} — إجمالي الباقة:{" "}
-          <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }}>
-            <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-            <RiyalIcon size="0.8em" />
-          </span>
-        </p>
+        <div className="project-price-display">
+          <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
+          <RiyalIcon size="0.7em" />
+        </div>
       </div>
 
       <div className="card">
