@@ -297,12 +297,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               >
                 السابق
               </button>
-              <h2 className="title" style={{ fontSize: "1.2rem" }}>
-                العرض الفني والمالي — {proposal.project_title}
+              <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
+                حدد باقتك، ولنبدأ نبض مشروعك .. 🚀
               </h2>
-              <p className="muted" style={{ marginBottom: "1.2rem" }}>
-                اختر الباقة المناسبة لك عشان نبدأ فورًا.
-              </p>
               <div className="package-grid">
                 {packages.map((pkg) => {
                   const featureLines = (pkg.features || "")
