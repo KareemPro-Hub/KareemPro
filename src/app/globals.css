@@ -1005,6 +1005,12 @@ table.admin-table td:nth-child(5) {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.package-launch-note {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
 
 .package-features {
   list-style: none;
