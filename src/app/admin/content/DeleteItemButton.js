@@ -15,8 +15,8 @@ export default function DeleteItemButton({ action, id, label }) {
   return (
     <button
       type="button"
-      className="btn btn-outline btn-sm"
-      style={{ color: "#ff9d84", borderColor: "rgba(255,85,53,0.4)", flexShrink: 0 }}
+      className="btn btn-outline btn-sm btn-danger"
+      style={{ flexShrink: 0 }}
       onClick={handleClick}
       disabled={isPending}
     >

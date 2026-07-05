@@ -25,18 +25,22 @@ export default async function ProjectDetailPage({ params }) {
 
   if (!project) {
     return (
-      <div className="shell">
-        <p className="muted">المشروع غير موجود.</p>
+      <div className="admin-light">
+        <div className="shell">
+          <p className="muted">المشروع غير موجود.</p>
+        </div>
       </div>
     );
   }
 
   const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
   const adminTimeline = getAdminTimeline(project.package_name);
-  const usableSteps = adminTimeline.map((s) => s.step);
+  const usableSteps = adminTimeline.map((s) => s.key);
+  const currentIdx = usableSteps.indexOf(project.timeline_step);
   const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
   return (
+    <div className="admin-light">
     <div className="shell">
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
@@ -67,16 +71,20 @@ export default async function ProjectDetailPage({ params }) {
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
         <div className="process-timeline">
-          {adminTimeline.map((item) => {
+          {adminTimeline.map((item, idx) => {
             const state =
-              item.step < project.timeline_step
+              currentIdx === -1
+                ? idx === 0
+                  ? "current"
+                  : "upcoming"
+                : idx < currentIdx
                 ? "completed"
-                : item.step === project.timeline_step
+                : idx === currentIdx
                 ? "current"
                 : "upcoming";
             return (
-              <div className={`process-step ${state}`} key={item.step}>
-                <span className="process-dot">{state === "completed" ? "✔" : item.step}</span>
+              <div className={`process-step ${state}`} key={item.key}>
+                <span className="process-dot">{state === "completed" ? "✔" : idx + 1}</span>
                 <div className="process-body">
                   <span className="process-title">{item.title}</span>
                   <span className="process-desc">{item.desc}</span>
@@ -88,7 +96,7 @@ export default async function ProjectDetailPage({ params }) {
         <div style={{ marginTop: "1.4rem" }}>
           <TimelineActions
             projectId={project.id}
-            currentStep={project.timeline_step || 1}
+            currentStep={project.timeline_step || usableSteps[0]}
             steps={usableSteps}
           />
         </div>
@@ -140,6 +148,7 @@ export default async function ProjectDetailPage({ params }) {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 }

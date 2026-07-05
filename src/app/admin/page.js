@@ -50,6 +50,7 @@ export default async function AdminHome() {
   );
 
   return (
+    <div className="admin-light">
     <div className="shell">
       <div className="top-bar">
         <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
@@ -83,14 +84,14 @@ export default async function AdminHome() {
         </div>
         <div className="stat-card">
           <span className="stat-icon">✅</span>
-          <span className="stat-value" style={{ color: "#7de8a4" }}>
+          <span className="stat-value stat-value-positive">
             <Money value={totals.collected} />
           </span>
           <span className="stat-label">إجمالي المُحصَّل</span>
         </div>
         <div className="stat-card">
           <span className="stat-icon">⏳</span>
-          <span className="stat-value" style={{ color: "#ffbf5c" }}>
+          <span className="stat-value stat-value-warning">
             <Money value={totals.pending} />
           </span>
           <span className="stat-label">إجمالي المستحق</span>
@@ -175,6 +176,7 @@ export default async function AdminHome() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

@@ -19,8 +19,7 @@ export default function DeleteProposalButton({ proposalId }) {
   return (
     <button
       type="button"
-      className="btn btn-outline btn-sm"
-      style={{ color: "#ff9d84", borderColor: "rgba(255,85,53,0.4)" }}
+      className="btn btn-outline btn-sm btn-danger"
       onClick={handleClick}
       disabled={isPending}
     >

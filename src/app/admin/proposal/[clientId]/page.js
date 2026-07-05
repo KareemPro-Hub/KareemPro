@@ -20,8 +20,10 @@ export default async function ClientProposalPage({ params }) {
 
   if (!client) {
     return (
-      <div className="shell">
-        <p className="muted">العميل غير موجود.</p>
+      <div className="admin-light">
+        <div className="shell">
+          <p className="muted">العميل غير موجود.</p>
+        </div>
       </div>
     );
   }
@@ -35,6 +37,7 @@ export default async function ClientProposalPage({ params }) {
     .maybeSingle();
 
   return (
+    <div className="admin-light">
     <div className="shell">
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
@@ -92,7 +95,7 @@ export default async function ClientProposalPage({ params }) {
             className="notice"
             style={{
               marginTop: "1.2rem",
-              background: "rgba(255,255,255,0.04)",
+              background: "var(--dark4)",
               border: "1px solid var(--border)",
               color: "var(--muted)",
               fontSize: "0.82rem",
@@ -123,6 +126,7 @@ export default async function ClientProposalPage({ params }) {
       ) : (
         <NewProposalForm clientId={clientId} />
       )}
+    </div>
     </div>
   );
 }

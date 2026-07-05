@@ -528,6 +528,16 @@ table.admin-table td:nth-child(6) {
   font-weight: 900;
   color: var(--text);
 }
+.stat-value-positive {
+  color: #7de8a4;
+}
+.stat-value-warning {
+  color: #ffbf5c;
+}
+.btn-danger {
+  color: #ff9d84;
+  border-color: rgba(255, 85, 53, 0.4);
+}
 .stat-label {
   font-size: 0.8rem;
   color: var(--muted);
@@ -1370,4 +1380,90 @@ table.admin-table td:nth-child(6) {
 }
 .agree-row input[type="checkbox"] {
   margin-top: 0.25rem;
+}
+
+/* ══════════════════ Admin dashboard — light theme ══════════════════
+   Scoped under .admin-light (wraps every /admin page via its layout).
+   The client portal and public site keep the dark brand theme untouched —
+   only the admin's own dashboard is light, simple, and white per request. */
+.admin-light {
+  --dark: #f4f6fb;
+  --dark2: #ffffff;
+  --dark3: #ffffff;
+  --dark4: #eef0f6;
+  --text: #161c2e;
+  --muted: #6b7280;
+  --border: rgba(15, 23, 42, 0.09);
+  background: var(--dark);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+.admin-light .card {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.admin-light .stat-card {
+  background: var(--dark3);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.admin-light .field input,
+.admin-light .field select,
+.admin-light .field textarea {
+  background: var(--dark4);
+}
+
+.admin-light table.admin-table td {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.admin-light .process-step {
+  border-inline-start-color: rgba(15, 23, 42, 0.14);
+}
+.admin-light .process-dot {
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+/* Pastel status colors were tuned for a dark navy background — deepen them
+   here so the same text stays legible on white. */
+.admin-light .notice-ok {
+  color: #158a4d;
+}
+.admin-light .notice-error {
+  color: #d6402a;
+}
+.admin-light .stage-status.upcoming {
+  color: #6b7280;
+}
+.admin-light .stage-status.awaiting_payment {
+  color: #a15c00;
+}
+.admin-light .stage-status.paid {
+  color: #c23f28;
+}
+.admin-light .stage-status.in_progress {
+  color: #c2185b;
+}
+.admin-light .stage-status.completed {
+  color: #158a4d;
+}
+.admin-light .balance-paid {
+  color: #158a4d;
+}
+.admin-light .balance-pending {
+  color: #a15c00;
+}
+.admin-light .stat-value-positive {
+  color: #158a4d;
+}
+.admin-light .stat-value-warning {
+  color: #a15c00;
+}
+.admin-light .btn-danger {
+  color: #d6402a;
+  border-color: rgba(214, 64, 42, 0.4);
+}
+.admin-light .btn-danger:hover {
+  background: rgba(214, 64, 42, 0.08);
 }

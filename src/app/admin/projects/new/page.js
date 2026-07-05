@@ -9,6 +9,7 @@ export default async function NewProjectPage() {
     .order("created_at", { ascending: false });
 
   return (
+    <div className="admin-light">
     <div className="shell" style={{ maxWidth: 640 }}>
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
@@ -26,6 +27,7 @@ export default async function NewProjectPage() {
           <NewProjectForm clients={clients} />
         )}
       </div>
+    </div>
     </div>
   );
 }

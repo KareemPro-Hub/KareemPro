@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
-import { CLIENT_TIMELINE, adminStepToClientStep } from "@/lib/timeline";
+import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -141,7 +141,12 @@ export default async function PortalPage() {
           const paidCount = stages.filter((s) =>
             ["paid", "in_progress", "completed"].includes(s.status)
           ).length;
-          const clientStep = adminStepToClientStep(project.timeline_step || 1);
+          const clientTimeline = getClientTimeline(project.package_name);
+          const clientCurrentKey = adminKeyToClientKey(
+            project.package_name,
+            project.timeline_step || clientTimeline[0]?.key
+          );
+          const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
 
           return (
             <div className="card" key={project.id}>
@@ -162,17 +167,21 @@ export default async function PortalPage() {
                 مسار مشروعك
               </h3>
               <div className="process-timeline" style={{ marginTop: "1rem" }}>
-                {CLIENT_TIMELINE.map((item) => {
+                {clientTimeline.map((item, idx) => {
                   const state =
-                    item.step < clientStep
+                    clientCurrentIdx === -1
+                      ? idx === 0
+                        ? "current"
+                        : "upcoming"
+                      : idx < clientCurrentIdx
                       ? "completed"
-                      : item.step === clientStep
+                      : idx === clientCurrentIdx
                       ? "current"
                       : "upcoming";
                   return (
-                    <div className={`process-step ${state}`} key={item.step}>
+                    <div className={`process-step ${state}`} key={item.key}>
                       <span className="process-dot">
-                        {state === "completed" ? "✔" : item.step}
+                        {state === "completed" ? "✔" : idx + 1}
                       </span>
                       <div className="process-body">
                         <span className="process-title">{item.title}</span>

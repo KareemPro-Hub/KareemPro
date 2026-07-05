@@ -1,9 +1,8 @@
 // ══════════════════ Project process timeline ══════════════════
-// Tracks WHERE a project stands in production — separate from the payment
-// "stages" table (which tracks money milestones). One integer column,
-// projects.timeline_step (1-10), drives both views below:
-//   - Admin sees the full breakdown (adapted to the project's package) and can advance it.
-//   - Client sees a simplified 7-step version, mapped from the same value.
+// Single source of truth for both the admin's detailed view and the client's
+// simplified view. `projects.timeline_step` stores a step KEY (text), not a
+// number — packages with a mobile app have extra, more granular steps that
+// packages without one don't, so a fixed step count doesn't fit every tier.
 
 function packageTier(packageName) {
   const name = (packageName || "").split("|")[0].trim();
@@ -12,61 +11,157 @@ function packageTier(packageName) {
   return "economic"; // no mobile app in this tier
 }
 
-const BASE_ADMIN_TIMELINE = [
-  { step: 1, title: "العقد والدفعة الأولى", desc: "توقيع العقد + تأكيد استلام الدفعة الأولى." },
-  { step: 2, title: "جمع بيانات المشروع", desc: "إرسال نموذج البيانات وانتظار استكمال المطلوب من العميل." },
-  { step: 3, title: "مراجعة المتطلبات", desc: "مراجعة البيانات وتحديد نطاق التنفيذ حسب الباقة." },
-  { step: 4, title: "تجهيز الهوية والهيكل", desc: "إعداد الشكل العام، الصفحات الأساسية، وهيكل المنصة." },
-  { step: 5, title: "تنفيذ المنصة", desc: "بناء المنصة وتنفيذ الخصائص الأساسية المتفق عليها." },
-  { step: 6, title: "الربط والإعدادات", desc: "ربط الدومين، بوابة الدفع، الإيميلات، والخدمات اللازمة." },
-  { step: 7, appOnly: true },
-  { step: 8, title: "المعاينة الأولية", desc: "إرسال نسخة أولية للعميل لمراجعة الشكل العام وتجربة المنصة." },
-  { step: 9, title: "الاختبار والنشر", desc: "اختبار المنصة والتطبيق وتجهيز النشر أو التسليم النهائي." },
-  { step: 10, title: "التسليم والدعم", desc: "تسليم المشروع وتفعيل فترة الدعم الفني." },
-];
-
-// Step 7 only exists for packages that actually include a mobile app, and its
-// wording is specific to the kind of app that package promises — never the
-// generic "WebView أو Native" placeholder.
-const APP_STEP_CONTENT = {
+// Per-tier wording for the one step whose description depends on the kind of
+// app being built (WebView vs Native) — everything else is tier-agnostic.
+const APP_START_BY_TIER = {
   premium: {
-    step: 7,
-    title: "تجهيز تطبيق الجوال",
-    desc: "بناء تطبيق آيفون وأندرويد بنظام WebView وربطه بالمنصة، تمهيدًا للنشر على المتجرين.",
+    title: "بدء تطوير التطبيق",
+    desc: "بدء العمل على تطبيق الجوال بنظام WebView.",
   },
   professional: {
-    step: 7,
-    title: "تطوير التطبيق الأصلي (Native)",
-    desc: "بناء تطبيق آيفون وأندرويد أصليَّين (Native) بأعلى معايير الأداء والسلاسة.",
+    title: "بدء تطوير التطبيق",
+    desc: "بدء العمل على تطبيق الجوال الأصلي (Native).",
   },
 };
 
-// Full breakdown for the admin, adapted to the project's package: economic
-// packages (no app) skip step 7 entirely instead of showing a vague line.
-export function getAdminTimeline(packageName) {
-  const tier = packageTier(packageName);
-  const appStep = APP_STEP_CONTENT[tier];
-
-  return BASE_ADMIN_TIMELINE.filter((item) => !item.appOnly || appStep).map((item) =>
-    item.appOnly ? appStep : item
-  );
-}
-
-export const CLIENT_TIMELINE = [
-  { step: 1, title: "تم بدء المشروع", desc: "تم توقيع العقد واستلام الدفعة الأولى." },
-  { step: 2, title: "استكمال البيانات", desc: "في انتظار بيانات المشروع المطلوبة." },
-  { step: 3, title: "مراجعة المتطلبات", desc: "جاري مراجعة البيانات وتجهيز خطة التنفيذ." },
-  { step: 4, title: "جاري التنفيذ", desc: "بدأ العمل على تجهيز المنصة حسب الباقة المختارة." },
-  { step: 5, title: "المعاينة الأولية", desc: "تم تجهيز نسخة أولية من المشروع للمراجعة." },
-  { step: 6, title: "الاختبار النهائي", desc: "جاري اختبار المنصة والتأكد من جاهزيتها." },
-  { step: 7, title: "التسليم والدعم الفني", desc: "تم تسليم المشروع وبدء فترة الدعم الفني." },
+// Every possible step, in order.
+// - `tiers`: restricts a step to specific package tiers (omit = all tiers).
+// - `clientGroup`: several admin-only steps can collapse into one row on the
+//   client's simplified view. Steps without it are their own row 1:1.
+const STEPS = [
+  {
+    key: "contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد + تأكيد استلام الدفعة الأولى.",
+    clientTitle: "تم بدء المشروع",
+    clientDesc: "تم توقيع العقد واستلام الدفعة الأولى.",
+  },
+  {
+    key: "data_collection",
+    title: "جمع بيانات المشروع",
+    desc: "إرسال نموذج البيانات وانتظار استكمال المطلوب من العميل.",
+    clientTitle: "استكمال البيانات",
+    clientDesc: "في انتظار بيانات المشروع المطلوبة.",
+  },
+  {
+    key: "requirements_review",
+    title: "مراجعة المتطلبات",
+    desc: "مراجعة البيانات وتحديد نطاق التنفيذ حسب الباقة.",
+    clientTitle: "مراجعة المتطلبات",
+    clientDesc: "جاري مراجعة البيانات وتجهيز خطة التنفيذ.",
+  },
+  {
+    key: "identity_structure",
+    title: "تجهيز الهوية والهيكل",
+    desc: "إعداد الشكل العام، الصفحات الأساسية، وهيكل المنصة.",
+    clientGroup: "platform_build",
+  },
+  {
+    key: "platform_build",
+    title: "تنفيذ المنصة",
+    desc: "بناء المنصة وتنفيذ الخصائص الأساسية المتفق عليها.",
+    clientGroup: "platform_build",
+  },
+  {
+    key: "integrations",
+    title: "الربط والإعدادات",
+    desc: "ربط الدومين، بوابة الدفع، الإيميلات، والخدمات اللازمة.",
+    clientGroup: "platform_build",
+  },
+  // ── App-only sub-stages (packages with a mobile app only) ──
+  {
+    key: "app_start",
+    tiers: ["premium", "professional"],
+    title: "بدء تطوير التطبيق",
+    desc: "بدء العمل على تطبيق الجوال.",
+  },
+  {
+    key: "app_beta",
+    tiers: ["premium", "professional"],
+    title: "تجهيز النسخة الأولية للتطبيق",
+    desc: "تجهيز نسخة أولية (Beta) من التطبيق للمراجعة الداخلية.",
+  },
+  {
+    key: "app_review",
+    tiers: ["premium", "professional"],
+    title: "مراجعة التطبيق والموافقة عليه",
+    desc: "مراجعة التطبيق والتأكد من مطابقته للمتفق عليه، وعرضه على العميل لأخذ موافقته.",
+  },
+  {
+    key: "app_approved",
+    tiers: ["premium", "professional"],
+    title: "اعتماد التطبيق",
+    desc: "اعتماد النسخة النهائية للتطبيق تمهيدًا لنشره على المتجرين.",
+  },
+  {
+    key: "initial_preview",
+    title: "المعاينة الأولية",
+    desc: "إرسال نسخة أولية للعميل لمراجعة الشكل العام وتجربة المنصة.",
+    clientTitle: "المعاينة الأولية",
+    clientDesc: "تم تجهيز نسخة أولية من المشروع للمراجعة.",
+  },
+  {
+    key: "testing_launch",
+    title: "الاختبار والنشر",
+    desc: "اختبار المنصة والتطبيق وتجهيز النشر أو التسليم النهائي.",
+    clientTitle: "الاختبار النهائي",
+    clientDesc: "جاري اختبار المنصة والتأكد من جاهزيتها.",
+  },
+  {
+    key: "delivery_support",
+    title: "التسليم والدعم",
+    desc: "تسليم المشروع وتفعيل فترة الدعم الفني.",
+    clientTitle: "التسليم والدعم الفني",
+    clientDesc: "تم تسليم المشروع وبدء فترة الدعم الفني.",
+  },
 ];
 
-// Admin step (1-10) → client step (1-7). Admin steps 4-7 (identity/build/
-// connections/app) all collapse into the client's single "جاري التنفيذ".
-const ADMIN_TO_CLIENT_STEP = [1, 2, 3, 4, 4, 4, 4, 5, 6, 7];
+function resolveStep(step, tier) {
+  if (step.key === "app_start" && APP_START_BY_TIER[tier]) {
+    return { ...step, ...APP_START_BY_TIER[tier] };
+  }
+  return step;
+}
 
-export function adminStepToClientStep(adminStep) {
-  const clamped = Math.min(Math.max(Number(adminStep) || 1, 1), ADMIN_TO_CLIENT_STEP.length);
-  return ADMIN_TO_CLIENT_STEP[clamped - 1];
+// Full breakdown for the admin, adapted to the project's package.
+export function getAdminTimeline(packageName) {
+  const tier = packageTier(packageName);
+  return STEPS.filter((s) => !s.tiers || s.tiers.includes(tier)).map((s) => resolveStep(s, tier));
+}
+
+// Simplified breakdown for the client: every step is its own row unless it
+// has a `clientGroup`, in which case consecutive same-group steps collapse
+// into a single row. Each row carries `memberKeys` — the admin step keys it
+// represents — so we can map the admin's current key back to a client row.
+export function getClientTimeline(packageName) {
+  const tier = packageTier(packageName);
+  const steps = STEPS.filter((s) => !s.tiers || s.tiers.includes(tier)).map((s) => resolveStep(s, tier));
+
+  const rows = [];
+  for (const step of steps) {
+    const groupKey = step.clientGroup || step.key;
+    const existing = rows.find((r) => r.key === groupKey);
+    if (existing) {
+      existing.memberKeys.push(step.key);
+      continue;
+    }
+    rows.push({
+      key: groupKey,
+      title: step.clientTitle || (groupKey === "platform_build" ? "جاري تنفيذ المنصة" : step.title),
+      desc:
+        step.clientDesc ||
+        (groupKey === "platform_build"
+          ? "بدأ العمل على تجهيز المنصة حسب الباقة المختارة."
+          : step.desc),
+      memberKeys: [step.key],
+    });
+  }
+  return rows;
+}
+
+// Maps the admin's current step key to the client row that represents it.
+export function adminKeyToClientKey(packageName, adminKey) {
+  const rows = getClientTimeline(packageName);
+  const row = rows.find((r) => r.memberKeys.includes(adminKey));
+  return row ? row.key : rows[0]?.key;
 }

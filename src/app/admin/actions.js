@@ -275,16 +275,15 @@ export async function advanceStage(stageId, targetStatus) {
 }
 
 // ── Advance/rewind a project's production-process timeline step (1-10). ──
-export async function updateTimelineStep(projectId, step) {
+export async function updateTimelineStep(projectId, stepKey) {
   await requireAdmin();
   const admin = createAdminClient();
 
-  if (!projectId) throw new Error("معرّف المشروع مفقود");
-  const clamped = Math.min(Math.max(Number(step) || 1, 1), 10);
+  if (!projectId || !stepKey) throw new Error("بيانات المرحلة غير مكتملة");
 
   const { error } = await admin
     .from("projects")
-    .update({ timeline_step: clamped })
+    .update({ timeline_step: stepKey })
     .eq("id", projectId);
 
   if (error) throw new Error(error.message);

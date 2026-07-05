@@ -5,6 +5,7 @@ export default async function NewClientPage() {
   await requireAdmin();
 
   return (
+    <div className="admin-light">
     <div className="shell" style={{ maxWidth: 560 }}>
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
@@ -32,6 +33,7 @@ export default async function NewClientPage() {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 }
