@@ -92,7 +92,7 @@ const fakeProposal = {
     {
       id: "pkg-2",
       name: "الباقة المتميزة|الأفضل لمعظم المشاريع",
-      price: 4500,
+      price: 5500,
       is_featured: true,
       sort_order: 1,
       features: [

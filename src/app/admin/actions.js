@@ -30,7 +30,7 @@ const DEFAULT_PACKAGES = [
   },
   {
     name: "الباقة المتميزة|الأفضل لمعظم المشاريع",
-    price: 4500,
+    price: 5500,
     is_featured: true,
     features: [
       "كل مميزات الباقة الاقتصادية.",
