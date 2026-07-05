@@ -360,8 +360,9 @@ h2.title {
   margin-top: 1.1rem;
   font-size: 2.3rem;
   font-weight: 900;
-  display: inline-flex;
+  display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 0.3rem;
   color: var(--text);
 }
