@@ -229,6 +229,15 @@ h2.title {
   border: 1px solid rgba(255, 85, 53, 0.35);
   color: #ff9d84;
 }
+.cost-list {
+  margin: 0.6rem 0 0.8rem;
+  padding-inline-start: 1.3rem;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  line-height: 1.7;
+}
 
 /* ── Stage timeline ── */
 .timeline {
