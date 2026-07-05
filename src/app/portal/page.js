@@ -103,8 +103,8 @@ export default async function PortalPage() {
     <div className="shell">
       <div className="top-bar">
         <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
           <span>KAREEM PRO</span>
+          <img src="/logo-transparent.png" alt="Kareem Pro" />
         </a>
         <form action="/auth/signout" method="post">
           <button type="submit" className="btn btn-outline btn-sm">

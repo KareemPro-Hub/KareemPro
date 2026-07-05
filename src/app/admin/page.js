@@ -19,8 +19,8 @@ export default async function AdminHome() {
     <div className="shell">
       <div className="top-bar">
         <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
           <span>KAREEM PRO — لوحة التحكم</span>
+          <img src="/logo-transparent.png" alt="Kareem Pro" />
         </a>
         <div style={{ display: "flex", gap: "0.6rem" }}>
           <a href="/admin/clients/new" className="btn btn-outline btn-sm">

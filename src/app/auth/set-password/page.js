@@ -42,8 +42,8 @@ export default function SetPasswordPage() {
   return (
     <div className="shell-narrow">
       <a href="/" className="brand-row">
-        <img src="/logo-transparent.png" alt="Kareem Pro" />
         <span>KAREEM PRO</span>
+        <img src="/logo-transparent.png" alt="Kareem Pro" />
       </a>
 
       <div className="card">

@@ -93,7 +93,7 @@ const fakeProposal = {
       is_featured: true,
       sort_order: 1,
       features: [
-        "منصة كاملة + تطبيقان على المتجرين، بأفضل توازن بين السعر والمزايا.",
+        "نفس إطلاق المنصة الكامل بلا أي تنازل عن الجودة، وزيادة عليه تطبيقان على المتجرين بأفضل توازن بين السعر والمزايا.",
         "كل ما في الباقة الاقتصادية",
         "تطبيقا آيفون وأندرويد (WebView) منشوران على App Store وGoogle Play",
         "إشعارات فورية بكل تحديث أو نشاط جديد",
@@ -107,7 +107,7 @@ const fakeProposal = {
       is_featured: false,
       sort_order: 2,
       features: [
-        "أعلى مستوى — تطبيقات أصلية سريعة، وبنية جاهزة للمستقبل.",
+        "نفس المنصة الكاملة والتطبيقين بأفضل توازن بين السعر والمزايا، وزيادة عليهم تطبيقات أصلية أسرع وبنية جاهزة للمستقبل.",
         "كل ما في الباقة المتميزة",
         "تطبيقا آيفون وأندرويد أصليان (Native) — أسرع وأسلس وأكثر ثباتًا",
         "بنية جاهزة لدمج الذكاء الاصطناعي",
@@ -122,8 +122,8 @@ export default function ProposalPreviewPage() {
     <div className="shell">
       <div className="top-bar">
         <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
           <span>KAREEM PRO — معاينة تصميم فقط</span>
+          <img src="/logo-transparent.png" alt="Kareem Pro" />
         </a>
       </div>
 

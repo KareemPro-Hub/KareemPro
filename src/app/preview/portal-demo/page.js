@@ -67,8 +67,8 @@ export default function PortalPreviewPage() {
 
       <div className="top-bar">
         <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
           <span>KAREEM PRO</span>
+          <img src="/logo-transparent.png" alt="Kareem Pro" />
         </a>
         <button type="button" className="btn btn-outline btn-sm" disabled>
           تسجيل الخروج
