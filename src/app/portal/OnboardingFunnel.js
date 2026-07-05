@@ -546,7 +546,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   onClick={handleAccept}
                   disabled={isPending}
                 >
-                  {isPending ? "جارِ التوقيع..." : "أوافق وأمضي"}
+                  {isPending ? "جارِ التوقيع..." : "أوافق على بركة الله"}
                 </button>
               </div>
             </>
