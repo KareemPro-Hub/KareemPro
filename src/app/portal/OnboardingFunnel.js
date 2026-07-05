@@ -430,32 +430,80 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 العقد — {selectedPackage.name.split("|")[0].trim()}
               </h2>
               <div className="contract-box">
-                <h3>عقد اتفاق تنفيذ مشروع</h3>
+                <h3>عقد تنفيذ مشروع مع Kareem Pro</h3>
+
+                <p className="contract-verse">
+                  قال الله تعالى:
+                  <br />
+                  <strong>{"{ يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ }"}</strong>
+                </p>
+
+                <p>
+                  <strong>تم الاتفاق بين:</strong>
+                </p>
+                <p>
+                  الطرف الأول: <strong>كريم محمد</strong> — ويشار إليه بـ: Kareem Pro - CEO
+                </p>
+                <p>
+                  والطرف الثاني: <strong>{clientName}</strong> — ويشار إليه باسم: العميل
+                </p>
+
+                <p>
+                  على تنفيذ مشروع منصة رقمية حسب الباقة التي اختارها العميل من الباقات المعروضة
+                  عليه قبل التعاقد.
+                </p>
+
+                <p>
+                  اسم الباقة المختارة: <strong>{selectedPackage.name.split("|")[0].trim()}</strong>
+                </p>
+                <p>
+                  قيمة الباقة:{" "}
+                  <strong>
+                    <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
+                    <RiyalIcon size="0.8em" /> سعودي
+                  </strong>
+                </p>
+
+                <h4>شروط الاتفاق:</h4>
                 <ol className="contract-points">
+                  <li>يبدأ تنفيذ المشروع بعد استلام الدفعة الأولى وكافة البيانات اللازمة من العميل.</li>
                   <li>
-                    يقر <strong>{clientName}</strong> بموافقته على تنفيذ{" "}
-                    <strong>&quot;{proposal.project_title}&quot;</strong> مع Kareem Pro.
+                    يلتزم مقدم الخدمة بتنفيذ البنود الخاصة بالباقة المختارة فقط، وفق ما تم عرضه
+                    والاتفاق عليه قبل توقيع العقد.
+                  </li>
+                  <li>أي إضافات أو تعديلات خارج الباقة المختارة يتم الاتفاق على تكلفتها ومدة تنفيذها بشكل منفصل.</li>
+                  <li>
+                    العميل مسؤول عن توفير المحتوى والبيانات والحسابات اللازمة لتنفيذ المشروع، مثل
+                    الدومين، بوابة الدفع، وحسابات المتاجر إن لزم الأمر.
                   </li>
                   <li>
-                    وفق <strong>{selectedPackage.name.split("|")[0].trim()}</strong> بقيمة إجمالية قدرها{" "}
-                    <strong>
-                      <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
-                      <RiyalIcon size="0.8em" />
-                    </strong>
-                    .
+                    نشر التطبيق على Google Play وApp Store يخضع لسياسات وموافقة المتاجر، وقد يتطلب
+                    وقتًا أو تعديلات إضافية.
                   </li>
-                  {(selectedPackage.features || "")
-                    .split("\n")
-                    .map((l) => l.trim())
-                    .filter(Boolean)
-                    .map((line, i) => (
-                      <li key={i}>{line}</li>
-                    ))}
-                  <li>يبدأ العمل فور اعتماد هذا العقد.</li>
-                  <li>يُنفَّذ المشروع على مراحل، يُحدَّد لكل منها موعد سداد مستقل.</li>
-                  <li>أي إضافة خارج نطاق الباقة المختارة تُحتسب كطلب تعديل منفصل.</li>
-                  <li>يلتزم الطرفان بسرية تفاصيل المشروع، ولا يجوز الكشف عنها لطرف ثالث دون موافقة خطية.</li>
+                  <li>
+                    لا تشمل قيمة الباقة أي رسوم خارجية مثل الدومين، الاستضافة، حساب Apple Developer،
+                    حساب Google Play، أو رسوم بوابات الدفع.
+                  </li>
+                  <li>
+                    الدعم الفني يشمل معالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل إضافة مزايا
+                    جديدة أو إدارة المنصة بعد التسليم.
+                  </li>
+                  <li>يتم تسليم المشروع بعد الانتهاء من البنود المتفق عليها وسداد كامل قيمة الباقة.</li>
+                  <li>
+                    في حال تأخر العميل في إرسال البيانات أو سداد الدفعات، يحق لمقدم الخدمة إيقاف
+                    العمل مؤقتًا حتى استكمال اللازم.
+                  </li>
+                  <li>توقيع العميل على هذا العقد يعني موافقته على الباقة المختارة وقيمتها وشروط تنفيذها.</li>
                 </ol>
+
+                <div className="contract-signoff">
+                  <div>
+                    <div className="who">الطرف الأول</div>
+                    <div>كريم محمد</div>
+                    <div className="role">Kareem Pro — CEO</div>
+                  </div>
+                  <div className="signed-badge">✔ موقَّع</div>
+                </div>
               </div>
 
               <div className="agree-row">
