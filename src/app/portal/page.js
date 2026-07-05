@@ -147,20 +147,24 @@ export default async function PortalPage() {
             project.timeline_step || clientTimeline[0]?.key
           );
           const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
+          const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
             <div className="card" key={project.id}>
-              <span className="tag">{project.package_name.split("|")[0].trim()}</span>
-              <h2 className="title" style={{ marginTop: "0.7rem" }}>
-                {project.title}
-              </h2>
-              <p className="muted">
-                إجمالي الباقة:{" "}
-                <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }}>
+              <div className="project-header-block">
+                <div className="project-package-badge">
+                  <span className="project-package-name">{pkgName}</span>
+                  {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
+                </div>
+                <div className="project-price-divider" />
+                <span className="project-price-label">قيمة الباقة</span>
+                <div className="project-price-display">
                   <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-                  <RiyalIcon size="0.8em" />
-                </span>{" "}
-                — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
+                  <RiyalIcon size="0.7em" />
+                </div>
+              </div>
+              <p className="muted" style={{ marginTop: "0.8rem", textAlign: "center" }}>
+                {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
 
               <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.6rem" }}>

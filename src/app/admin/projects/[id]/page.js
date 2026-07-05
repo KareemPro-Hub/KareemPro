@@ -46,11 +46,13 @@ export default async function ProjectDetailPage({ params }) {
         ← رجوع للوحة التحكم
       </a>
 
-      <div className="card" style={{ marginTop: "1.2rem", textAlign: "center" }}>
+      <div className="card project-header-block">
         <div className="project-package-badge">
           <span className="project-package-name">{pkgName}</span>
           {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
         </div>
+        <div className="project-price-divider" />
+        <span className="project-price-label">قيمة الباقة</span>
         <div className="project-price-display">
           <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
           <RiyalIcon size="0.7em" />

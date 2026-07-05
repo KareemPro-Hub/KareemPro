@@ -338,12 +338,21 @@ h2.title {
   font-weight: 800;
 }
 
+.project-header-block {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card.project-header-block {
+  background: linear-gradient(160deg, var(--dark4), var(--dark3));
+}
 .project-package-badge {
   display: inline-flex;
   flex-direction: column;
   gap: 0.2rem;
-  background: rgba(255, 85, 53, 0.1);
-  border: 1px solid rgba(255, 85, 53, 0.28);
+  background: rgba(255, 85, 53, 0.12);
+  border: 1px solid rgba(255, 85, 53, 0.3);
   padding: 0.65rem 1.3rem;
   border-radius: 14px;
 }
@@ -356,8 +365,26 @@ h2.title {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.project-package-tagline {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.project-price-divider {
+  width: 46px;
+  height: 3px;
+  border-radius: 3px;
+  margin: 0.85rem 0 0.6rem;
+  background: var(--grad);
+}
+.project-price-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--muted);
+}
 .project-price-display {
-  margin-top: 1.1rem;
+  margin-top: 0.2rem;
   font-size: 2.3rem;
   font-weight: 900;
   display: flex;
@@ -365,12 +392,6 @@ h2.title {
   justify-content: center;
   gap: 0.3rem;
   color: var(--text);
-}
-.project-package-tagline {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted);
-  line-height: 1.5;
 }
 
 .process-timeline {
