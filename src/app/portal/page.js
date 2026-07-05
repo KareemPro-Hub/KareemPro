@@ -169,7 +169,7 @@ export default async function PortalPage() {
                     {stage.status === "awaiting_payment" && (
                       <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>
                         هذه المرحلة بانتظار السداد لبدء التنفيذ. حوّل المبلغ عبر حساب
-                        &quot;برق&quot; أو STC Pay على نفس الرقم، وابعت صورة الإيصال على واتساب
+                        &quot;برق&quot; أو STC Bank على نفس الرقم، وابعت صورة الإيصال على واتساب
                         عشان نبدأ فورًا.
                       </div>
                     )}
