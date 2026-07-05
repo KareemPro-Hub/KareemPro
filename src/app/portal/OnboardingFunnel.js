@@ -362,9 +362,11 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               </button>
 
               <div className="notice" style={{ marginTop: "1.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--muted)" }}>
-                <strong style={{ color: "var(--text)" }}>ملاحظة مهمة:</strong> الأسعار أعلاه لا
-                تشمل التكاليف التشغيلية المتكررة التي تُدفع مباشرة لمزوّدي الخدمة حسب طبيعة
-                مشروعك، ومنها تقريبًا:
+                <strong style={{ color: "var(--text)", display: "block", marginBottom: "0.5rem" }}>
+                  ملاحظة مهمة:
+                </strong>
+                الأسعار أعلاه لا تشمل التكاليف التشغيلية المتكررة التي تُدفع مباشرة لمزوّدي
+                الخدمة حسب طبيعة مشروعك، ومنها تقريبًا:
                 <ul className="cost-list">
                   <li>الاستضافة وقاعدة البيانات (تبدأ مجانية وتُرفع السعة عند الحاجة)</li>
                   <li>
