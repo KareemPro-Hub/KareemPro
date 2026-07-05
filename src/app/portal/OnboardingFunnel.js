@@ -259,16 +259,25 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 آراء عملائنا
               </h2>
               {testimonials && testimonials.length > 0 ? (
-                <div style={{ marginTop: "1.2rem" }}>
-                  {testimonials.map((t) => (
-                    <div className="testimonial-card" key={t.id}>
-                      <div className="quote">&quot;{t.quote}&quot;</div>
-                      <div className="who">
-                        {t.client_name}
-                        {t.role ? ` — ${t.role}` : ""}
+                <div className="testimonial-grid">
+                  {testimonials.map((t) => {
+                    const initial = (t.client_name || "؟").trim().charAt(0);
+                    return (
+                      <div className="testimonial-card" key={t.id}>
+                        <div className="testimonial-stars" aria-hidden="true">
+                          ★★★★★
+                        </div>
+                        <div className="quote">&quot;{t.quote}&quot;</div>
+                        <div className="testimonial-footer">
+                          <div className="testimonial-avatar">{initial}</div>
+                          <div className="testimonial-who">
+                            <span className="who">{t.client_name}</span>
+                            {t.role && <span className="role">{t.role}</span>}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="muted" style={{ marginTop: "1rem" }}>
@@ -305,8 +314,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
                       <div className="package-head">
                         <div className="package-name">{pkg.name}</div>
-                        <div className="package-price" dir="ltr">
-                          {Number(pkg.price).toLocaleString("en-US")}
+                        <div className="package-price">
+                          <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" />
                         </div>
                       </div>
@@ -418,8 +427,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   يقر <strong>{clientName}</strong> بموافقته على تنفيذ{" "}
                   <strong>&quot;{proposal.project_title}&quot;</strong> مع Kareem Pro، وفق باقة{" "}
                   <strong>{selectedPackage.name}</strong> بقيمة إجمالية قدرها{" "}
-                  <strong dir="ltr">
-                    {Number(selectedPackage.price).toLocaleString("en-US")}
+                  <strong>
+                    <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
                     <RiyalIcon size="0.85em" />
                   </strong>
                   .

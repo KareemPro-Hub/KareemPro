@@ -139,8 +139,8 @@ export default async function PortalPage() {
               </h2>
               <p className="muted">
                 إجمالي الباقة:{" "}
-                <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }} dir="ltr">
-                  {Number(project.package_price).toLocaleString("en-US")}
+                <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--text)" }}>
+                  <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
                   <RiyalIcon size="0.8em" />
                 </span>{" "}
                 — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
@@ -161,8 +161,8 @@ export default async function PortalPage() {
                     )}
                     <p className="stage-amount">
                       قيمة المرحلة:{" "}
-                      <span dir="ltr">
-                        {Number(stage.amount).toLocaleString("en-US")}
+                      <span>
+                        <span dir="ltr">{Number(stage.amount).toLocaleString("en-US")}</span>
                         <RiyalIcon />
                       </span>
                     </p>

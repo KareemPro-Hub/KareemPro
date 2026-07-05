@@ -744,20 +744,92 @@ table.admin-table td:nth-child(5) {
   transform: translateX(3px);
 }
 
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.2rem;
+  padding-top: 0.6rem;
+}
+
+/* ── Glass UI testimonial cards ── */
 .testimonial-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.1rem 1.3rem;
-  margin-bottom: 0.9rem;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.4rem 1.3rem;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 20px 40px -20px rgba(4, 4, 20, 0.55);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.testimonial-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 26px 48px -18px rgba(4, 4, 20, 0.65);
+}
+.testimonial-stars {
+  display: flex;
+  gap: 0.15rem;
+  color: #ffb020;
+  font-size: 0.85rem;
+  margin-bottom: 0.7rem;
 }
 .testimonial-card .quote {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.9;
+  color: var(--text);
+  flex: 1;
+}
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.testimonial-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grad);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.testimonial-who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 .testimonial-card .who {
-  margin-top: 0.6rem;
-  font-size: 0.82rem;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.testimonial-card .role {
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
