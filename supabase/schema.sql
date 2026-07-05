@@ -28,6 +28,9 @@ create table if not exists projects (
   package_price numeric(10,2) not null,-- e.g. 4500.00
   currency text not null default 'SAR',
   status text not null default 'active' check (status in ('active','completed','on_hold','cancelled')),
+  timeline_step integer not null default 1 check (timeline_step between 1 and 10),
+  -- Production-process step (1-10, see src/lib/timeline.js). Separate from the
+  -- payment `stages` below — this tracks WHERE the build stands, not money.
   created_at timestamptz not null default now()
 );
 

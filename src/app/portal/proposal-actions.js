@@ -45,6 +45,16 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
 
   if (updateError) throw new Error(updateError.message);
 
+  // Automation: a project record is created immediately so the client sees
+  // their production timeline right away — no manual admin step needed.
+  const { error: projectError } = await admin.from("projects").insert({
+    client_id: proposal.client_id,
+    title: proposal.project_title,
+    package_name: chosenPackage.name,
+    package_price: chosenPackage.price,
+  });
+  if (projectError) throw new Error(projectError.message);
+
   await sendProposalDecisionEmail({
     clientName: proposal.clients.full_name,
     clientEmail: proposal.clients.email,
@@ -55,6 +65,7 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
   });
 
   revalidatePath("/portal");
+  revalidatePath("/admin");
 }
 
 // ── Client rejects a proposal with a required reason. ──

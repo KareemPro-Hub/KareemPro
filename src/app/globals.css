@@ -338,6 +338,77 @@ h2.title {
   font-weight: 800;
 }
 
+.process-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.process-step {
+  position: relative;
+  padding: 0 0 1.5rem 0;
+  padding-inline-start: 2.8rem;
+  border-inline-start: 2px dashed rgba(255, 255, 255, 0.14);
+}
+.process-step:last-child {
+  border-inline-start-color: transparent;
+  padding-bottom: 0;
+}
+.process-dot {
+  position: absolute;
+  inset-inline-start: -0.75rem;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--muted);
+  background: var(--dark4);
+  border: 2px solid rgba(255, 255, 255, 0.14);
+}
+.process-step.completed .process-dot {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  border-color: transparent;
+  color: #fff;
+}
+.process-step.current .process-dot {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 0 5px rgba(217, 24, 122, 0.22);
+  animation: process-pulse 1.8s ease-in-out infinite;
+}
+@keyframes process-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 5px rgba(217, 24, 122, 0.22);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgba(217, 24, 122, 0.1);
+  }
+}
+.process-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.process-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.process-step.upcoming .process-title {
+  color: var(--muted);
+}
+.process-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 table.admin-table {
   width: 100%;
   table-layout: fixed;
@@ -367,8 +438,8 @@ table.admin-table td.cell-email {
 table.admin-table th:nth-child(2) {
   text-align: center;
 }
-table.admin-table th:nth-child(5),
-table.admin-table td:nth-child(5) {
+table.admin-table th:nth-child(6),
+table.admin-table td:nth-child(6) {
   text-align: center;
 }
 table.admin-table a {
@@ -378,23 +449,72 @@ table.admin-table a {
 }
 table.admin-table th:nth-child(1),
 table.admin-table td:nth-child(1) {
-  width: 18%;
+  width: 15%;
 }
 table.admin-table th:nth-child(2),
 table.admin-table td:nth-child(2) {
-  width: 26%;
+  width: 20%;
 }
 table.admin-table th:nth-child(3),
 table.admin-table td:nth-child(3) {
-  width: 22%;
+  width: 18%;
 }
 table.admin-table th:nth-child(4),
 table.admin-table td:nth-child(4) {
-  width: 18%;
+  width: 15%;
 }
 table.admin-table th:nth-child(5),
 table.admin-table td:nth-child(5) {
-  width: 16%;
+  width: 17%;
+}
+table.admin-table th:nth-child(6),
+table.admin-table td:nth-child(6) {
+  width: 15%;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+.stat-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  background: var(--grad);
+  box-shadow: 0 6px 16px -6px rgba(217, 24, 122, 0.5);
+}
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.balance-paid {
+  color: #7de8a4;
+  font-weight: 700;
+}
+.balance-pending {
+  color: #ffbf5c;
+  font-weight: 700;
 }
 
 /* ── Admin login: creative centered auth screen ── */
@@ -1161,6 +1281,45 @@ table.admin-table td:nth-child(5) {
   font-weight: 700;
   padding: 0.35rem 0.8rem;
   border-radius: 50px;
+}
+.signed-badge-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(37, 211, 102, 0.14);
+  border: 1px solid rgba(37, 211, 102, 0.45);
+  color: #7de8a4;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  box-shadow: 0 10px 26px -8px rgba(37, 211, 102, 0.4);
+}
+.accepted-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.3rem;
+}
+.meta-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 160px;
+}
+.meta-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.meta-value {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
 }
 .contract-points {
   margin: 0;

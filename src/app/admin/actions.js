@@ -188,6 +188,41 @@ export async function createProject(formData) {
   redirect(`/admin/projects/${project.id}`);
 }
 
+// ── Add a payment stage/milestone to an existing project (used once a
+// project already exists — e.g. auto-created after contract signing — since
+// the admin still needs to define the payment milestones for it). ──
+export async function addStage(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const project_id = formData.get("project_id")?.toString();
+  const title = formData.get("title")?.toString().trim();
+  const description = formData.get("description")?.toString().trim() || null;
+  const amount = Number(formData.get("amount"));
+
+  if (!project_id || !title || !amount) throw new Error("العنوان والمبلغ مطلوبين");
+
+  const { data: last } = await admin
+    .from("stages")
+    .select("stage_number")
+    .eq("project_id", project_id)
+    .order("stage_number", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await admin.from("stages").insert({
+    project_id,
+    stage_number: (last?.stage_number || 0) + 1,
+    title,
+    description,
+    amount,
+    status: "upcoming",
+  });
+
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${project_id}`);
+}
+
 // ── Advance a stage's status. When moving into "awaiting_payment", fires the
 // payment-reminder email to the client. ──
 export async function advanceStage(stageId, targetStatus) {
@@ -237,6 +272,25 @@ export async function advanceStage(stageId, targetStatus) {
   }
 
   revalidatePath(`/admin/projects/${stage.project_id}`);
+}
+
+// ── Advance/rewind a project's production-process timeline step (1-10). ──
+export async function updateTimelineStep(projectId, step) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!projectId) throw new Error("معرّف المشروع مفقود");
+  const clamped = Math.min(Math.max(Number(step) || 1, 1), 10);
+
+  const { error } = await admin
+    .from("projects")
+    .update({ timeline_step: clamped })
+    .eq("id", projectId);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath("/portal");
 }
 
 // ── Resend the account-setup link to a client — reuses Supabase's own

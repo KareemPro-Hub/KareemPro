@@ -1,6 +1,9 @@
 import { requireAdmin } from "@/lib/admin";
 import StageActions from "./StageActions";
+import TimelineActions from "./TimelineActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import { addStage } from "@/app/admin/actions";
+import { ADMIN_TIMELINE } from "@/lib/timeline";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -52,7 +55,38 @@ export default async function ProjectDetailPage({ params }) {
 
       <div className="card">
         <h2 className="title" style={{ fontSize: "1.15rem" }}>
-          المراحل
+          مسار الإنتاج
+        </h2>
+        <p className="muted" style={{ marginBottom: "1.2rem" }}>
+          أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
+        </p>
+        <div className="process-timeline">
+          {ADMIN_TIMELINE.map((item) => {
+            const state =
+              item.step < project.timeline_step
+                ? "completed"
+                : item.step === project.timeline_step
+                ? "current"
+                : "upcoming";
+            return (
+              <div className={`process-step ${state}`} key={item.step}>
+                <span className="process-dot">{state === "completed" ? "✔" : item.step}</span>
+                <div className="process-body">
+                  <span className="process-title">{item.title}</span>
+                  <span className="process-desc">{item.desc}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ marginTop: "1.4rem" }}>
+          <TimelineActions projectId={project.id} currentStep={project.timeline_step || 1} />
+        </div>
+      </div>
+
+      <div className="card">
+        <h2 className="title" style={{ fontSize: "1.15rem" }}>
+          المراحل المالية (السداد)
         </h2>
         <div className="timeline" style={{ marginTop: "1.2rem" }}>
           {stages.map((stage) => (
@@ -74,7 +108,27 @@ export default async function ProjectDetailPage({ params }) {
               </div>
             </div>
           ))}
+          {stages.length === 0 && <p className="muted">لسه مفيش مراحل سداد مضافة.</p>}
         </div>
+
+        <form action={addStage} style={{ marginTop: "1.4rem" }}>
+          <input type="hidden" name="project_id" value={project.id} />
+          <div className="field">
+            <label>عنوان المرحلة</label>
+            <input type="text" name="title" required placeholder="مثال: الدفعة الأولى" />
+          </div>
+          <div className="field">
+            <label>وصف مختصر (اختياري)</label>
+            <textarea name="description" rows={2} />
+          </div>
+          <div className="field">
+            <label>المبلغ (ريال)</label>
+            <input type="number" name="amount" min="0" step="0.01" required />
+          </div>
+          <button type="submit" className="btn btn-outline btn-sm">
+            + إضافة مرحلة سداد
+          </button>
+        </form>
       </div>
     </div>
   );

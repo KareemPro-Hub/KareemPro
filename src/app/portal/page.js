@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
+import { CLIENT_TIMELINE, adminStepToClientStep } from "@/lib/timeline";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -69,21 +70,31 @@ export default async function PortalPage() {
       const chosen = (proposal.proposal_packages || []).find(
         (p) => p.id === proposal.selected_package_id
       );
+      const chosenName = chosen ? chosen.name.split("|")[0].trim() : null;
       onboardingContent = (
         <div className="card">
-          <span className="tag">تم توقيع العقد ✅</span>
-          <h2 className="title" style={{ marginTop: "0.7rem" }}>
+          <span className="signed-badge-lg">✅ تم توقيع العقد</span>
+          <h2 className="title" style={{ marginTop: "1rem" }}>
             بانتظار بدء العمل على مشروعك
           </h2>
-          <p className="muted">
-            شكرًا لثقتك، فريقنا هيبدأ التجهيز لمشروع &quot;{proposal.project_title}&quot;
-            {chosen ? (
-              <>
-                {" "}
-                — باقة <strong style={{ color: "var(--text)" }}>{chosen.name}</strong>
-              </>
-            ) : null}
-            . هيوصلك إشعار أول ما تبدأ أول مرحلة.
+          <div className="accepted-meta">
+            <div className="meta-item">
+              <span className="meta-label">المشروع</span>
+              <span className="meta-value">{proposal.project_title}</span>
+            </div>
+            {chosenName && (
+              <div className="meta-item">
+                <span className="meta-label">الباقة المختارة</span>
+                <span className="meta-value g-text">{chosenName}</span>
+              </div>
+            )}
+            <div className="meta-item">
+              <span className="meta-label">الحالة</span>
+              <span className="meta-value">جاري التجهيز للبدء 🚀</span>
+            </div>
+          </div>
+          <p className="muted" style={{ marginTop: "1.2rem" }}>
+            هيوصلك إشعار على بريدك أول ما تبدأ أول مرحلة من مشروعك.
           </p>
         </div>
       );
@@ -130,10 +141,11 @@ export default async function PortalPage() {
           const paidCount = stages.filter((s) =>
             ["paid", "in_progress", "completed"].includes(s.status)
           ).length;
+          const clientStep = adminStepToClientStep(project.timeline_step || 1);
 
           return (
             <div className="card" key={project.id}>
-              <span className="tag">{project.package_name}</span>
+              <span className="tag">{project.package_name.split("|")[0].trim()}</span>
               <h2 className="title" style={{ marginTop: "0.7rem" }}>
                 {project.title}
               </h2>
@@ -146,7 +158,35 @@ export default async function PortalPage() {
                 — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
 
-              <div className="timeline" style={{ marginTop: "1.8rem" }}>
+              <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.6rem" }}>
+                مسار مشروعك
+              </h3>
+              <div className="process-timeline" style={{ marginTop: "1rem" }}>
+                {CLIENT_TIMELINE.map((item) => {
+                  const state =
+                    item.step < clientStep
+                      ? "completed"
+                      : item.step === clientStep
+                      ? "current"
+                      : "upcoming";
+                  return (
+                    <div className={`process-step ${state}`} key={item.step}>
+                      <span className="process-dot">
+                        {state === "completed" ? "✔" : item.step}
+                      </span>
+                      <div className="process-body">
+                        <span className="process-title">{item.title}</span>
+                        <span className="process-desc">{item.desc}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.8rem" }}>
+                مراحل السداد
+              </h3>
+              <div className="timeline" style={{ marginTop: "1rem" }}>
                 {stages.map((stage) => (
                   <div className={`stage ${stage.status}`} key={stage.id}>
                     <span className="stage-dot">{stage.stage_number}</span>
