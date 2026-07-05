@@ -307,9 +307,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     .map((l) => l.trim())
                     .filter(Boolean);
                   const [pkgName, pkgTagline] = (pkg.name || "").split("|").map((s) => s.trim());
+                  const isPremiumTier = pkgName.includes("الاحترافية");
                   return (
-                    <div className={`package-card ${pkg.is_featured ? "featured" : ""}`} key={pkg.id}>
+                    <div
+                      className={`package-card ${pkg.is_featured ? "featured" : ""} ${isPremiumTier ? "premium-tier" : ""}`}
+                      key={pkg.id}
+                    >
                       {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
+                      {isPremiumTier && <span className="package-badge premium-badge">💎 الأرقى والأشمل</span>}
                       <div className="package-head">
                         <div className="package-name">{pkgName}</div>
                         {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}

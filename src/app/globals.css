@@ -953,6 +953,45 @@ table.admin-table td:nth-child(5) {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.14) inset, 0 30px 60px -16px rgba(217, 24, 122, 0.45);
 }
 
+.package-card.premium-tier {
+  position: relative;
+  background: linear-gradient(165deg, rgba(30, 26, 10, 0.9), rgba(10, 10, 20, 0.95) 55%, rgba(255, 215, 130, 0.05));
+  border-color: rgba(255, 215, 130, 0.5);
+  box-shadow: 0 1px 0 rgba(255, 224, 158, 0.18) inset, 0 26px 60px -18px rgba(0, 0, 0, 0.75), 0 0 40px -14px rgba(255, 200, 100, 0.35);
+}
+.package-card.premium-tier::before {
+  background: linear-gradient(160deg, rgba(255, 224, 158, 0.55), rgba(255, 224, 158, 0) 45%);
+}
+.package-card.premium-tier:hover {
+  box-shadow: 0 1px 0 rgba(255, 224, 158, 0.22) inset, 0 32px 66px -16px rgba(0, 0, 0, 0.8), 0 0 54px -10px rgba(255, 200, 100, 0.5);
+}
+.package-card.premium-tier .package-name {
+  background: linear-gradient(135deg, #ffe5a8, #ffc266 45%, #ffa826);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.package-card.premium-tier .package-price {
+  background: linear-gradient(135deg, #ffe5a8, #ffc266 45%, #ffa826);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.package-badge.premium-badge {
+  background: linear-gradient(135deg, #ffe5a8, #ffc266 45%, #d9a441);
+  color: #2a1e05;
+  box-shadow: 0 8px 20px -6px rgba(255, 200, 100, 0.7), 0 0 0 4px var(--dark3);
+}
+.package-card.premium-tier .package-cta {
+  background: linear-gradient(135deg, #ffe5a8, #ffc266 45%, #d9a441);
+  color: #2a1e05;
+  border: none;
+  font-weight: 800;
+}
+.package-card.premium-tier .package-cta:hover {
+  box-shadow: 0 12px 26px -8px rgba(255, 200, 100, 0.6);
+}
+
 .package-badge {
   position: absolute;
   top: -14px;
@@ -1006,10 +1045,10 @@ table.admin-table td:nth-child(5) {
   background-clip: text;
 }
 .package-launch-note {
-  margin-top: 0.5rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--muted);
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ffbf5c;
 }
 
 .package-features {
