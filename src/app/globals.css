@@ -1070,6 +1070,21 @@ table.admin-table td:nth-child(5) {
   margin: 0 0 0.6rem;
   font-size: 1rem;
 }
+.contract-points {
+  margin: 0;
+  padding-inline-start: 1.4rem;
+  list-style: decimal;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.contract-points li {
+  padding-inline-start: 0.3rem;
+}
+.contract-points li::marker {
+  color: #ffbf5c;
+  font-weight: 800;
+}
 .agree-row {
   display: flex;
   align-items: flex-start;

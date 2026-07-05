@@ -431,22 +431,31 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               </h2>
               <div className="contract-box">
                 <h3>عقد اتفاق تنفيذ مشروع</h3>
-                <p>
-                  يقر <strong>{clientName}</strong> بموافقته على تنفيذ{" "}
-                  <strong>&quot;{proposal.project_title}&quot;</strong> مع Kareem Pro، وفق باقة{" "}
-                  <strong>{selectedPackage.name.split("|")[0].trim()}</strong> بقيمة إجمالية قدرها{" "}
-                  <strong>
-                    <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
-                    <RiyalIcon size="0.85em" />
-                  </strong>
-                  .
-                </p>
-                <p>
-                  يبدأ العمل فور اعتماد هذا العقد، ويتم تنفيذ المشروع على مراحل يُحدَّد لكل
-                  منها موعد سداد مستقل. نطاق العمل محدد بمميزات الباقة المختارة أعلاه، وأي
-                  إضافة خارج هذا النطاق تُحتسب كطلب تعديل منفصل. يلتزم الطرفان بسرية تفاصيل
-                  المشروع، ولا يجوز الكشف عنها لطرف ثالث دون موافقة خطية.
-                </p>
+                <ol className="contract-points">
+                  <li>
+                    يقر <strong>{clientName}</strong> بموافقته على تنفيذ{" "}
+                    <strong>&quot;{proposal.project_title}&quot;</strong> مع Kareem Pro.
+                  </li>
+                  <li>
+                    وفق <strong>{selectedPackage.name.split("|")[0].trim()}</strong> بقيمة إجمالية قدرها{" "}
+                    <strong>
+                      <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
+                      <RiyalIcon size="0.8em" />
+                    </strong>
+                    .
+                  </li>
+                  {(selectedPackage.features || "")
+                    .split("\n")
+                    .map((l) => l.trim())
+                    .filter(Boolean)
+                    .map((line, i) => (
+                      <li key={i}>{line}</li>
+                    ))}
+                  <li>يبدأ العمل فور اعتماد هذا العقد.</li>
+                  <li>يُنفَّذ المشروع على مراحل، يُحدَّد لكل منها موعد سداد مستقل.</li>
+                  <li>أي إضافة خارج نطاق الباقة المختارة تُحتسب كطلب تعديل منفصل.</li>
+                  <li>يلتزم الطرفان بسرية تفاصيل المشروع، ولا يجوز الكشف عنها لطرف ثالث دون موافقة خطية.</li>
+                </ol>
               </div>
 
               <div className="agree-row">
