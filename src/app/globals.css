@@ -338,6 +338,31 @@ h2.title {
   font-weight: 800;
 }
 
+.project-package-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: rgba(255, 85, 53, 0.1);
+  border: 1px solid rgba(255, 85, 53, 0.28);
+  padding: 0.65rem 1.3rem;
+  border-radius: 14px;
+}
+.project-package-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.4;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.project-package-tagline {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .process-timeline {
   display: flex;
   flex-direction: column;

@@ -34,6 +34,7 @@ export default async function ProjectDetailPage({ params }) {
   const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
   const adminTimeline = getAdminTimeline(project.package_name);
   const usableSteps = adminTimeline.map((s) => s.step);
+  const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
   return (
     <div className="shell">
@@ -42,8 +43,11 @@ export default async function ProjectDetailPage({ params }) {
       </a>
 
       <div className="card" style={{ marginTop: "1.2rem" }}>
-        <span className="tag">{project.package_name}</span>
-        <h1 className="title" style={{ marginTop: "0.7rem" }}>
+        <div className="project-package-badge">
+          <span className="project-package-name">{pkgName}</span>
+          {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
+        </div>
+        <h1 className="title" style={{ marginTop: "0.9rem" }}>
           {project.title}
         </h1>
         <p className="muted">
