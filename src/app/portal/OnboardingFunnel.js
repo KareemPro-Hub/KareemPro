@@ -306,11 +306,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     .split("\n")
                     .map((l) => l.trim())
                     .filter(Boolean);
+                  const [pkgName, pkgTagline] = (pkg.name || "").split("|").map((s) => s.trim());
                   return (
                     <div className={`package-card ${pkg.is_featured ? "featured" : ""}`} key={pkg.id}>
                       {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
                       <div className="package-head">
-                        <div className="package-name">{pkg.name}</div>
+                        <div className="package-name">{pkgName}</div>
+                        {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}
                         <div className="package-price">
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" />
@@ -325,7 +327,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                                   <polyline points="20 6 9 17 4 12" />
                                 </svg>
                               </span>
-                              <span>{line}</span>
+                              <span>{line.startsWith("كل مميزات") ? <strong>{line}</strong> : line}</span>
                             </li>
                           ))}
                         </ul>
@@ -425,14 +427,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           {stepIndex === 3 && selectedPackage && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
-                العقد — {selectedPackage.name}
+                العقد — {selectedPackage.name.split("|")[0].trim()}
               </h2>
               <div className="contract-box">
                 <h3>عقد اتفاق تنفيذ مشروع</h3>
                 <p>
                   يقر <strong>{clientName}</strong> بموافقته على تنفيذ{" "}
                   <strong>&quot;{proposal.project_title}&quot;</strong> مع Kareem Pro، وفق باقة{" "}
-                  <strong>{selectedPackage.name}</strong> بقيمة إجمالية قدرها{" "}
+                  <strong>{selectedPackage.name.split("|")[0].trim()}</strong> بقيمة إجمالية قدرها{" "}
                   <strong>
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
                     <RiyalIcon size="0.85em" />

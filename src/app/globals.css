@@ -980,8 +980,18 @@ table.admin-table td:nth-child(5) {
 }
 .package-name {
   font-weight: 800;
-  font-size: 1.05rem;
-  color: var(--text);
+  font-size: 1.1rem;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.package-tagline {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.6;
 }
 .package-price {
   margin-top: 0.6rem;

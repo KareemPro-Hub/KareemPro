@@ -73,7 +73,7 @@ const fakeProposal = {
   proposal_packages: [
     {
       id: "pkg-1",
-      name: "الباقة الاقتصادية للانطلاق السريع بأقل تكلفة",
+      name: "الباقة الاقتصادية|للانطلاق السريع بأقل تكلفة",
       price: 2500,
       is_featured: false,
       sort_order: 0,
@@ -91,7 +91,7 @@ const fakeProposal = {
     },
     {
       id: "pkg-2",
-      name: "الباقة المتميزة الأفضل لمعظم المشاريع",
+      name: "الباقة المتميزة|الأفضل لمعظم المشاريع",
       price: 4500,
       is_featured: true,
       sort_order: 1,
@@ -107,7 +107,7 @@ const fakeProposal = {
     },
     {
       id: "pkg-3",
-      name: "الباقة الاحترافية للمشاريع الاحترافية القابلة للتوسع",
+      name: "الباقة الاحترافية|للمشاريع الاحترافية القابلة للتوسع",
       price: 7500,
       is_featured: false,
       sort_order: 2,

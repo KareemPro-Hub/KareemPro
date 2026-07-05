@@ -13,7 +13,7 @@ import { sendStagePaymentEmail } from "@/lib/email";
 const DEFAULT_PROPOSAL_TITLE = "باقات طموحك الإبداعي";
 const DEFAULT_PACKAGES = [
   {
-    name: "الباقة الاقتصادية للانطلاق السريع بأقل تكلفة",
+    name: "الباقة الاقتصادية|للانطلاق السريع بأقل تكلفة",
     price: 2500,
     is_featured: false,
     features: [
@@ -29,7 +29,7 @@ const DEFAULT_PACKAGES = [
     ].join("\n"),
   },
   {
-    name: "الباقة المتميزة الأفضل لمعظم المشاريع",
+    name: "الباقة المتميزة|الأفضل لمعظم المشاريع",
     price: 4500,
     is_featured: true,
     features: [
@@ -43,7 +43,7 @@ const DEFAULT_PACKAGES = [
     ].join("\n"),
   },
   {
-    name: "الباقة الاحترافية للمشاريع الاحترافية القابلة للتوسع",
+    name: "الباقة الاحترافية|للمشاريع الاحترافية القابلة للتوسع",
     price: 7500,
     is_featured: false,
     features: [
