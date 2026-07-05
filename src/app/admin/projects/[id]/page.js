@@ -3,7 +3,7 @@ import StageActions from "./StageActions";
 import TimelineActions from "./TimelineActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { addStage } from "@/app/admin/actions";
-import { ADMIN_TIMELINE } from "@/lib/timeline";
+import { getAdminTimeline } from "@/lib/timeline";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -32,6 +32,8 @@ export default async function ProjectDetailPage({ params }) {
   }
 
   const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
+  const adminTimeline = getAdminTimeline(project.package_name);
+  const usableSteps = adminTimeline.map((s) => s.step);
 
   return (
     <div className="shell">
@@ -61,7 +63,7 @@ export default async function ProjectDetailPage({ params }) {
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
         <div className="process-timeline">
-          {ADMIN_TIMELINE.map((item) => {
+          {adminTimeline.map((item) => {
             const state =
               item.step < project.timeline_step
                 ? "completed"
@@ -80,7 +82,11 @@ export default async function ProjectDetailPage({ params }) {
           })}
         </div>
         <div style={{ marginTop: "1.4rem" }}>
-          <TimelineActions projectId={project.id} currentStep={project.timeline_step || 1} />
+          <TimelineActions
+            projectId={project.id}
+            currentStep={project.timeline_step || 1}
+            steps={usableSteps}
+          />
         </div>
       </div>
 
