@@ -168,8 +168,11 @@ export default async function PortalPage() {
               </p>
 
               <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.6rem" }}>
-                مسار مشروعك
+                مراحل الإنتاج
               </h3>
+              <p className="muted" style={{ marginBottom: "0.4rem" }}>
+                أين يقف مشروعك الآن في التنفيذ — منفصلة عن مراحل السداد بالأسفل.
+              </p>
               <div className="process-timeline" style={{ marginTop: "1rem" }}>
                 {clientTimeline.map((item, idx) => {
                   const state =
@@ -199,6 +202,9 @@ export default async function PortalPage() {
               <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.8rem" }}>
                 مراحل السداد
               </h3>
+              <p className="muted" style={{ marginBottom: "0.4rem" }}>
+                مراحل سداد قيمة الباقة على دفعات، منفصلة عن مراحل الإنتاج بالأعلى.
+              </p>
               <div className="timeline" style={{ marginTop: "1rem" }}>
                 {stages.map((stage) => (
                   <div className={`stage ${stage.status}`} key={stage.id}>
