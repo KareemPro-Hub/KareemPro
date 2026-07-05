@@ -378,6 +378,30 @@ h2.title {
   margin: 0.85rem 0 0.6rem;
   background: var(--grad);
 }
+.section-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 50px;
+  background: rgba(217, 24, 122, 0.1);
+  border: 1px solid rgba(217, 24, 122, 0.28);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+}
+.section-heading-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grad);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
 .project-price-label {
   font-size: 0.76rem;
   font-weight: 700;

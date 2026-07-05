@@ -167,9 +167,10 @@ export default async function PortalPage() {
                 {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
 
-              <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.6rem" }}>
+              <div className="section-heading" style={{ marginTop: "1.6rem" }}>
+                <span className="section-heading-icon">🛠️</span>
                 مراحل الإنتاج
-              </h3>
+              </div>
               <p className="muted" style={{ marginBottom: "0.4rem" }}>
                 أين يقف مشروعك الآن في التنفيذ — منفصلة عن مراحل السداد بالأسفل.
               </p>
@@ -199,9 +200,10 @@ export default async function PortalPage() {
                 })}
               </div>
 
-              <h3 className="title" style={{ fontSize: "1rem", marginTop: "1.8rem" }}>
+              <div className="section-heading" style={{ marginTop: "1.8rem" }}>
+                <span className="section-heading-icon">💳</span>
                 مراحل السداد
-              </h3>
+              </div>
               <p className="muted" style={{ marginBottom: "0.4rem" }}>
                 مراحل سداد قيمة الباقة على دفعات، منفصلة عن مراحل الإنتاج بالأعلى.
               </p>

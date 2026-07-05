@@ -60,9 +60,10 @@ export default async function ProjectDetailPage({ params }) {
       </div>
 
       <div className="card">
-        <h2 className="title" style={{ fontSize: "1.15rem" }}>
+        <div className="section-heading">
+          <span className="section-heading-icon">🛠️</span>
           مسار الإنتاج
-        </h2>
+        </div>
         <p className="muted" style={{ marginBottom: "1.2rem" }}>
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
@@ -99,9 +100,10 @@ export default async function ProjectDetailPage({ params }) {
       </div>
 
       <div className="card">
-        <h2 className="title" style={{ fontSize: "1.15rem" }}>
+        <div className="section-heading">
+          <span className="section-heading-icon">💳</span>
           المراحل المالية (السداد)
-        </h2>
+        </div>
         <div className="timeline" style={{ marginTop: "1.2rem" }}>
           {stages.map((stage) => (
             <div className={`stage ${stage.status}`} key={stage.id}>
