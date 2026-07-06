@@ -56,8 +56,12 @@ export default async function ProjectDetailPage({ params }) {
           <span className="section-heading-icon">🛠️</span>
           مسار الإنتاج
         </div>
-        <p className="muted" style={{ marginBottom: "1.2rem" }}>
+        <p className="muted" style={{ marginBottom: "0.4rem" }}>
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
+        </p>
+        <p className="timeline-note" style={{ marginBottom: "1.2rem" }}>
+          مدة التنفيذ المتوقعة: من 4 إلى 10 أسابيع عمل، حسب سرعة إرسال البيانات
+          ومراجعة المتاجر.
         </p>
         <div className="process-timeline">
           {adminTimeline.map((item, idx) => {
@@ -89,10 +93,6 @@ export default async function ProjectDetailPage({ params }) {
             steps={usableSteps}
           />
         </div>
-        <p className="muted" style={{ marginTop: "1rem" }}>
-          مدة التنفيذ المتوقعة: من 4 إلى 10 أسابيع عمل، حسب سرعة إرسال البيانات
-          ومراجعة المتاجر.
-        </p>
       </div>
 
       <div className="card">
