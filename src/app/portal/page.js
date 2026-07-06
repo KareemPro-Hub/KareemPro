@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
-import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
+import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -175,8 +175,8 @@ export default async function PortalPage() {
                 أين يقف مشروعك الآن في التنفيذ — منفصلة عن مراحل السداد بالأسفل.
               </p>
               <p className="timeline-note" style={{ marginBottom: "0.4rem" }}>
-                مدة التنفيذ المتوقعة: من 4 إلى 10 أسابيع عمل، حسب سرعة إرسال البيانات
-                ومراجعة المتاجر.
+                مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}،
+                حسب سرعة إرسال البيانات ومراجعة المتاجر.
               </p>
               <div className="process-timeline" style={{ marginTop: "1rem" }}>
                 {clientTimeline.map((item, idx) => {

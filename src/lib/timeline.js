@@ -89,3 +89,17 @@ export function getClientTimeline(packageName) {
 export function adminKeyToClientKey(packageName, adminKey) {
   return adminKey;
 }
+
+// Estimated delivery time shown under the timeline — the professional tier
+// moves faster than its step count alone would suggest, so it gets its own
+// (shorter) estimate instead of the general range.
+const DURATION_BY_TIER = {
+  economic: "من 3 إلى 4 أسابيع عمل",
+  premium: "من 4 إلى 10 أسابيع عمل",
+  professional: "من 6 إلى 8 أسابيع عمل",
+};
+
+export function getEstimatedDuration(packageName) {
+  const tier = packageTier(packageName);
+  return DURATION_BY_TIER[tier] || DURATION_BY_TIER.economic;
+}

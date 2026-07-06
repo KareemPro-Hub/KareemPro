@@ -3,7 +3,7 @@ import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { addStage } from "@/app/admin/actions";
-import { getAdminTimeline } from "@/lib/timeline";
+import { getAdminTimeline, getEstimatedDuration } from "@/lib/timeline";
 
 export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
@@ -60,8 +60,8 @@ export default async function ProjectDetailPage({ params }) {
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
         <p className="timeline-note" style={{ marginBottom: "1.2rem" }}>
-          مدة التنفيذ المتوقعة: من 4 إلى 10 أسابيع عمل، حسب سرعة إرسال البيانات
-          ومراجعة المتاجر.
+          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب
+          سرعة إرسال البيانات ومراجعة المتاجر.
         </p>
         <div className="process-timeline">
           {adminTimeline.map((item, idx) => {
