@@ -491,9 +491,6 @@ h2.title {
   font-size: 0.95rem;
   color: var(--text);
 }
-.process-step.upcoming .process-title {
-  color: var(--muted);
-}
 .process-desc {
   font-size: 0.82rem;
   color: var(--muted);
