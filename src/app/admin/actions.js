@@ -272,6 +272,57 @@ export async function advanceStage(stageId, targetStatus) {
   }
 
   revalidatePath(`/admin/projects/${stage.project_id}`);
+  revalidatePath("/portal");
+}
+
+// ── Fully edit an existing payment stage's details (title/description/amount)
+// — same fields as when it was first created, no restrictions. ──
+export async function updateStage(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const stage_id = formData.get("stage_id")?.toString();
+  const title = formData.get("title")?.toString().trim();
+  const description = formData.get("description")?.toString().trim() || null;
+  const amount = Number(formData.get("amount"));
+
+  if (!stage_id || !title || !amount) throw new Error("العنوان والمبلغ مطلوبين");
+
+  const { data: stage, error: fetchError } = await admin
+    .from("stages")
+    .select("project_id")
+    .eq("id", stage_id)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  const { error } = await admin
+    .from("stages")
+    .update({ title, description, amount })
+    .eq("id", stage_id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${stage.project_id}`);
+  revalidatePath("/portal");
+}
+
+// ── Permanently delete a payment stage — removes it from both the admin
+// dashboard and the client's portal immediately. ──
+export async function deleteStage(stageId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const { data: stage, error: fetchError } = await admin
+    .from("stages")
+    .select("project_id")
+    .eq("id", stageId)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  const { error } = await admin.from("stages").delete().eq("id", stageId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${stage.project_id}`);
+  revalidatePath("/portal");
 }
 
 // ── Advance/rewind a project's production-process timeline step (1-10). ──

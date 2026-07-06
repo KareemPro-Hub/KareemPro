@@ -1,17 +1,9 @@
 import { requireAdmin } from "@/lib/admin";
-import StageActions from "./StageActions";
+import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { addStage } from "@/app/admin/actions";
 import { getAdminTimeline } from "@/lib/timeline";
-
-const STATUS_LABEL = {
-  upcoming: "لم تبدأ بعد",
-  awaiting_payment: "بانتظار السداد",
-  paid: "تم السداد",
-  in_progress: "جاري التنفيذ",
-  completed: "مكتملة",
-};
 
 export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
@@ -106,23 +98,7 @@ export default async function ProjectDetailPage({ params }) {
         </div>
         <div className="timeline" style={{ marginTop: "1.2rem" }}>
           {stages.map((stage) => (
-            <div className={`stage ${stage.status}`} key={stage.id}>
-              <span className="stage-dot">{stage.stage_number}</span>
-              <div className="stage-head">
-                <span className="stage-title">{stage.title}</span>
-                <span className={`stage-status ${stage.status}`}>
-                  {STATUS_LABEL[stage.status] || stage.status}
-                </span>
-              </div>
-              {stage.description && <p className="stage-desc">{stage.description}</p>}
-              <p className="stage-amount">
-                <span dir="ltr">{Number(stage.amount).toLocaleString("en-US")}</span>
-                <RiyalIcon />
-              </p>
-              <div style={{ marginTop: "0.9rem" }}>
-                <StageActions stageId={stage.id} status={stage.status} />
-              </div>
-            </div>
+            <StageCard stage={stage} key={stage.id} />
           ))}
           {stages.length === 0 && <p className="muted">لسه مفيش مراحل سداد مضافة.</p>}
         </div>
