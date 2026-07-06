@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CheckIcon from "@/app/components/CheckIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
 
@@ -147,6 +148,7 @@ export default async function PortalPage() {
             project.timeline_step || clientTimeline[0]?.key
           );
           const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
+          const isProjectCompleted = clientCurrentIdx === clientTimeline.length - 1;
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
@@ -166,6 +168,19 @@ export default async function PortalPage() {
               <p className="muted" style={{ marginTop: "0.8rem", textAlign: "center" }}>
                 {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
+
+              {isProjectCompleted && (
+                <div className="project-completed-banner">
+                  <span className="project-completed-icon">
+                    <CheckIcon size="1.5em" color="#fff" />
+                  </span>
+                  <h3>مبروك! تم تسليم مشروعك بنجاح</h3>
+                  <p>
+                    وصل مشروعك لمرحلة التسليم والدعم الفني. شكرًا لثقتك في Kareem
+                    Pro.
+                  </p>
+                </div>
+              )}
 
               <div className="section-heading" style={{ marginTop: "1.6rem" }}>
                 <span className="section-heading-icon">🛠️</span>
@@ -189,7 +204,7 @@ export default async function PortalPage() {
                   return (
                     <div className={`process-step ${state}`} key={item.key}>
                       <span className="process-dot">
-                        {state === "completed" ? "✔" : idx + 1}
+                        {state === "completed" ? <CheckIcon size="0.85em" /> : idx + 1}
                       </span>
                       <div className="process-body">
                         <span className="process-title">{item.title}</span>

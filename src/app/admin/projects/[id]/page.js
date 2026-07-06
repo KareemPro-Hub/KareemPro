@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CheckIcon from "@/app/components/CheckIcon";
 import { addStage } from "@/app/admin/actions";
 import { getAdminTimeline, getEstimatedDuration } from "@/lib/timeline";
 
@@ -29,6 +30,7 @@ export default async function ProjectDetailPage({ params }) {
   const adminTimeline = getAdminTimeline(project.package_name);
   const usableSteps = adminTimeline.map((s) => s.key);
   const currentIdx = usableSteps.indexOf(project.timeline_step);
+  const isProjectCompleted = currentIdx === usableSteps.length - 1;
   const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
   return (
@@ -56,6 +58,12 @@ export default async function ProjectDetailPage({ params }) {
           <span className="section-heading-icon">🛠️</span>
           مسار الإنتاج
         </div>
+        {isProjectCompleted && (
+          <span className="project-completed-badge">
+            <CheckIcon size="0.95em" />
+            المشروع مكتمل
+          </span>
+        )}
         <p className="muted" style={{ marginBottom: "1.2rem" }}>
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
@@ -73,7 +81,9 @@ export default async function ProjectDetailPage({ params }) {
                 : "upcoming";
             return (
               <div className={`process-step ${state}`} key={item.key}>
-                <span className="process-dot">{state === "completed" ? "✔" : idx + 1}</span>
+                <span className="process-dot">
+                  {state === "completed" ? <CheckIcon size="0.85em" /> : idx + 1}
+                </span>
                 <div className="process-body">
                   <span className="process-title">{item.title}</span>
                   <span className="process-desc">{item.desc}</span>

@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateTimelineStep } from "@/app/admin/actions";
+import CheckIcon from "@/app/components/CheckIcon";
 
 // `steps` is the ordered list of step KEYS that actually apply to this
 // project's package (e.g. economic packages have no app_prep/app_testing_stores
@@ -43,7 +44,15 @@ export default function TimelineActions({ projectId, currentStep, steps }) {
           onClick={() => move(nextStep)}
           disabled={isPending || !nextStep}
         >
-          {isPending ? "جارِ التحديث..." : nextStep ? "المرحلة التالية →" : "اكتمل المشروع ✔"}
+          {isPending ? (
+            "جارِ التحديث..."
+          ) : nextStep ? (
+            "المرحلة التالية →"
+          ) : (
+            <>
+              اكتمل المشروع <CheckIcon size="0.9em" />
+            </>
+          )}
         </button>
       </div>
       {error && (

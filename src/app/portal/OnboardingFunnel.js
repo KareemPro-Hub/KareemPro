@@ -3,6 +3,7 @@
 import { useState, useTransition, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CheckIcon from "@/app/components/CheckIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
 
 function AboutIcon() {
@@ -510,7 +511,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <div>كريم محمد</div>
                     <div className="role">Kareem Pro — CEO</div>
                   </div>
-                  <div className="signed-badge">✔ موقَّع</div>
+                  <div className="signed-badge">
+                    <CheckIcon size="0.9em" /> موقَّع
+                  </div>
                 </div>
               </div>
 

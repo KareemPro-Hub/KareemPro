@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CheckIcon from "@/app/components/CheckIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
 
 const STATUS_LABEL = {
@@ -163,7 +164,11 @@ export default function StageCard({ stage }) {
           تعديل
         </button>
 
-        {stage.status === "completed" && <span className="muted">اكتملت ✔</span>}
+        {stage.status === "completed" && (
+          <span className="muted">
+            اكتملت <CheckIcon size="0.85em" />
+          </span>
+        )}
         {action && (
           <button
             className="btn btn-primary btn-sm"
