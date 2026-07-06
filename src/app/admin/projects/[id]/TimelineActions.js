@@ -4,10 +4,10 @@ import { useState, useTransition } from "react";
 import { updateTimelineStep } from "@/app/admin/actions";
 
 // `steps` is the ordered list of step KEYS that actually apply to this
-// project's package (e.g. economic packages have no app_start/app_beta/
-// app_review/app_approved steps). Moving "forward/back" walks this list by
-// position rather than assuming any fixed numbering, so every package tier
-// (with its own step count) advances correctly.
+// project's package (e.g. economic packages have no app_prep/app_testing_stores
+// steps). Moving "forward/back" walks this list by position rather than
+// assuming any fixed numbering, so every package tier (with its own step
+// count) advances correctly.
 export default function TimelineActions({ projectId, currentStep, steps }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);

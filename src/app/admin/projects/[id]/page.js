@@ -89,6 +89,10 @@ export default async function ProjectDetailPage({ params }) {
             steps={usableSteps}
           />
         </div>
+        <p className="muted" style={{ marginTop: "1rem" }}>
+          مدة التنفيذ المتوقعة: من 4 إلى 10 أسابيع عمل، حسب سرعة إرسال البيانات
+          ومراجعة المتاجر.
+        </p>
       </div>
 
       <div className="card">
