@@ -119,9 +119,20 @@ export default function PortalPreviewPage() {
                   </p>
                   {stage.status === "awaiting_payment" && (
                     <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>
-                      هذه المرحلة بانتظار السداد لبدء التنفيذ. حوّل المبلغ عبر حساب
-                      &quot;برق&quot; أو STC Bank على نفس الرقم، وابعت صورة الإيصال على واتساب
-                      عشان نبدأ فورًا.
+                      هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
+                      <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>. نزّل ملف بيانات
+                      المستفيد وأضفه في تطبيق الراجحي عشان يتم التحويل الدولي بنجاح:{" "}
+                      <a
+                        href="/kareem-pro-bank-beneficiary-guide.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontWeight: 700 }}
+                      >
+                        تحميل بيانات المستفيد (PDF)
+                      </a>
+                      <br />
+                      بعد التحويل، ابعت صورة الإيصال على واتساب على نفس الرقم عشان نبدأ
+                      فورًا.
                     </div>
                   )}
                 </div>
