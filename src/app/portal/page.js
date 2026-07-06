@@ -229,21 +229,34 @@ export default async function PortalPage() {
                     </p>
                     {stage.status === "awaiting_payment" && (
                       <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>
-                        هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
-                        <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>. نزّل ملف
-                        بيانات المستفيد وأضفه في تطبيق الراجحي عشان يتم التحويل الدولي
-                        بنجاح:{" "}
-                        <a
-                          href="/kareem-pro-bank-beneficiary-guide.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ fontWeight: 700 }}
-                        >
-                          تحميل بيانات المستفيد (PDF)
-                        </a>
-                        <br />
-                        بعد التحويل، ابعت صورة الإيصال على واتساب على نفس الرقم عشان
-                        نبدأ فورًا.
+                        <p style={{ margin: "0 0 0.7rem 0" }}>
+                          هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
+                          <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>.
+                        </p>
+                        <p style={{ margin: "0 0 0.7rem 0" }}>
+                          نزّل ملف بيانات المستفيد وأضفه في تطبيق الراجحي لكي يتم
+                          التحويل الدولي بنجاح:{" "}
+                          <a
+                            href="/kareem-pro-bank-beneficiary-guide.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="notice-link"
+                          >
+                            تحميل بيانات المستفيد (PDF)
+                          </a>
+                        </p>
+                        <p style={{ margin: 0 }}>
+                          بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب على الرقم{" "}
+                          <a
+                            href="https://wa.me/966507069605"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="notice-link"
+                          >
+                            966507069605+
+                          </a>{" "}
+                          لننطلق مباشرة.
+                        </p>
                       </div>
                     )}
                   </div>

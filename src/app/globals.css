@@ -229,6 +229,12 @@ h2.title {
   border: 1px solid rgba(255, 85, 53, 0.35);
   color: #ff9d84;
 }
+.notice a,
+.notice-link {
+  color: #ff6e8f;
+  font-weight: 700;
+  text-decoration: underline;
+}
 .cost-list {
   margin: 0.6rem 0 0.8rem;
   padding-inline-start: 1.3rem;
