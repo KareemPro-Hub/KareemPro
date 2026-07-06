@@ -56,12 +56,8 @@ export default async function ProjectDetailPage({ params }) {
           <span className="section-heading-icon">🛠️</span>
           مسار الإنتاج
         </div>
-        <p className="muted" style={{ marginBottom: "0.4rem" }}>
+        <p className="muted" style={{ marginBottom: "1.2rem" }}>
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
-        </p>
-        <p className="timeline-note" style={{ marginBottom: "1.2rem" }}>
-          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب
-          سرعة إرسال البيانات ومراجعة المتاجر.
         </p>
         <div className="process-timeline">
           {adminTimeline.map((item, idx) => {
@@ -86,6 +82,10 @@ export default async function ProjectDetailPage({ params }) {
             );
           })}
         </div>
+        <p className="timeline-note" style={{ marginTop: "1rem" }}>
+          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب
+          سرعة إرسال البيانات ومراجعة المتاجر.
+        </p>
         <div style={{ marginTop: "1.4rem" }}>
           <TimelineActions
             projectId={project.id}

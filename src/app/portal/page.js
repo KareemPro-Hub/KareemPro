@@ -174,10 +174,6 @@ export default async function PortalPage() {
               <p className="muted" style={{ marginBottom: "0.4rem" }}>
                 أين يقف مشروعك الآن في التنفيذ — منفصلة عن مراحل السداد بالأسفل.
               </p>
-              <p className="timeline-note" style={{ marginBottom: "0.4rem" }}>
-                مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}،
-                حسب سرعة إرسال البيانات ومراجعة المتاجر.
-              </p>
               <div className="process-timeline" style={{ marginTop: "1rem" }}>
                 {clientTimeline.map((item, idx) => {
                   const state =
@@ -203,6 +199,10 @@ export default async function PortalPage() {
                   );
                 })}
               </div>
+              <p className="timeline-note" style={{ marginTop: "1rem" }}>
+                مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}،
+                حسب سرعة إرسال البيانات ومراجعة المتاجر.
+              </p>
 
               <div className="section-heading" style={{ marginTop: "1.8rem" }}>
                 <span className="section-heading-icon">💳</span>
