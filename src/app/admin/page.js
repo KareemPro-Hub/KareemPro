@@ -1,12 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
-import ClientActions from "./ClientActions";
 import RiyalIcon from "@/app/components/RiyalIcon";
-
-const PROPOSAL_LABEL = {
-  pending: "بانتظار قرار العميل",
-  accepted: "تمت الموافقة ✅",
-  rejected: "مرفوض ⚠️",
-};
+import ClientsTable from "./ClientsTable";
 
 function clientFinance(client) {
   let contracted = 0;
@@ -80,84 +74,7 @@ export default async function AdminHome() {
         </div>
       </div>
 
-      <div className="card">
-        <h2 className="title" style={{ fontSize: "1.15rem" }}>
-          العملاء والمشاريع
-        </h2>
-        <table className="admin-table" style={{ marginTop: "1rem" }}>
-          <thead>
-            <tr>
-              <th>العميل</th>
-              <th>البريد</th>
-              <th>المشاريع</th>
-              <th>العرض الفني</th>
-              <th>الرصيد المالي</th>
-              <th>إجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {finances.map(({ client: c, finance }) => {
-              const latestProposal = (c.proposals || []).sort(
-                (a, b) => new Date(b.created_at) - new Date(a.created_at)
-              )[0];
-              return (
-                <tr key={c.id}>
-                  <td>{c.full_name}</td>
-                  <td dir="ltr" className="cell-email">
-                    {c.email}
-                  </td>
-                  <td>
-                    {(c.projects || []).length === 0 ? (
-                      <span className="muted">لا يوجد</span>
-                    ) : (
-                      c.projects.map((p) => (
-                        <div key={p.id}>
-                          <a href={`/admin/projects/${p.id}`}>{p.title}</a>
-                        </div>
-                      ))
-                    )}
-                  </td>
-                  <td>
-                    <a href={`/admin/proposal/${c.id}`} style={{ textDecoration: "none" }}>
-                      {latestProposal ? (
-                        <span className="tag">{PROPOSAL_LABEL[latestProposal.status] || latestProposal.status}</span>
-                      ) : (
-                        <span className="btn btn-outline btn-sm">+ إنشاء عرض</span>
-                      )}
-                    </a>
-                  </td>
-                  <td>
-                    {finance.contracted > 0 ? (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", fontSize: "0.8rem" }}>
-                        <span className="balance-paid">
-                          <Money value={finance.collected} /> محصّل
-                        </span>
-                        {finance.pending > 0 && (
-                          <span className="balance-pending">
-                            <Money value={finance.pending} /> متبقي
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <span className="muted">—</span>
-                    )}
-                  </td>
-                  <td>
-                    <ClientActions clientId={c.id} clientName={c.full_name} />
-                  </td>
-                </tr>
-              );
-            })}
-            {(!clients || clients.length === 0) && (
-              <tr>
-                <td colSpan={6} className="muted">
-                  لسه مفيش عملاء. ابدأ بإضافة عميل جديد.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ClientsTable rows={finances} />
     </div>
   );
 }

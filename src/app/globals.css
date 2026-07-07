@@ -1587,6 +1587,58 @@ table.admin-table td:nth-child(6) {
 .admin-light .stage-status.upcoming {
   background: rgba(26, 29, 46, 0.06);
 }
+.card-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.admin-search-input {
+  background: #f7f7fc;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  min-width: 220px;
+}
+.admin-search-input:focus {
+  border-color: rgba(217, 24, 122, 0.4);
+}
+.client-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.proposal-pill {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.proposal-pill.pending {
+  background: rgba(255, 196, 64, 0.18);
+  color: #a3720a;
+}
+.proposal-pill.accepted {
+  background: rgba(37, 211, 102, 0.15);
+  color: #1a9d55;
+}
+.proposal-pill.rejected {
+  background: rgba(255, 85, 53, 0.15);
+  color: var(--g2);
+}
 
 /* ── Sidebar layout (admin/layout.js wraps every route except /admin/login) ── */
 .admin-shell-with-sidebar {
