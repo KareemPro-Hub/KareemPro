@@ -13,10 +13,7 @@ export default function AdminSidebar() {
 
   return (
     <aside className="admin-sidebar">
-      <a href="/admin" className="admin-sidebar-brand">
-        <img src="/logo-transparent.png" alt="Kareem Pro" />
-        <span>KAREEM PRO</span>
-      </a>
+      <span className="admin-sidebar-heading">القائمة</span>
 
       <nav style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
         {NAV.map((item) => {

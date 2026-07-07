@@ -50,25 +50,7 @@ export default async function AdminHome() {
   );
 
   return (
-    <div className="admin-light">
     <div className="shell">
-      <div className="top-bar">
-        <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <span>KAREEM PRO — لوحة التحكم</span>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
-        </a>
-        <div style={{ display: "flex", gap: "0.6rem" }}>
-          <a href="/admin/clients/new" className="btn btn-outline btn-sm">
-            + عميل جديد
-          </a>
-          <form action="/auth/signout" method="post">
-            <button type="submit" className="btn btn-outline btn-sm">
-              خروج
-            </button>
-          </form>
-        </div>
-      </div>
-
       <div className="stat-grid">
         <div className="stat-card">
           <span className="stat-icon">👥</span>
@@ -176,7 +158,6 @@ export default async function AdminHome() {
           </tbody>
         </table>
       </div>
-    </div>
     </div>
   );
 }

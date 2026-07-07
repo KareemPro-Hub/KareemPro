@@ -1508,8 +1508,63 @@ table.admin-table td:nth-child(6) {
   --muted: #6b7086;
   --border: rgba(26, 29, 46, 0.1);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--dark);
   color: var(--text);
+}
+
+/* ── Gradient top navbar, WorkMaster-style (colored header bar with the
+   brand on one side and a date pill + avatar on the other) — persistent
+   above the sidebar on every admin route except /admin/login. ── */
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.6rem;
+  background: var(--grad);
+  color: #fff;
+}
+.admin-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+}
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.admin-topbar-date {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.admin-topbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--g3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.95rem;
+  flex-shrink: 0;
 }
 .admin-light .card {
   box-shadow: 0 2px 10px rgba(26, 29, 46, 0.05);
@@ -1536,7 +1591,8 @@ table.admin-table td:nth-child(6) {
 /* ── Sidebar layout (admin/layout.js wraps every route except /admin/login) ── */
 .admin-shell-with-sidebar {
   display: flex;
-  min-height: 100vh;
+  flex: 1;
+  min-height: 0;
 }
 .admin-sidebar {
   width: 240px;
@@ -1548,26 +1604,14 @@ table.admin-table td:nth-child(6) {
   flex-direction: column;
   gap: 1.6rem;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 64px;
+  height: calc(100vh - 64px);
   overflow-y: auto;
 }
-.admin-sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-}
-.admin-sidebar-brand img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-.admin-sidebar-brand span {
+.admin-sidebar-heading {
   font-weight: 900;
-  letter-spacing: 0.06em;
+  font-size: 1.05rem;
   color: var(--text);
-  font-size: 0.9rem;
 }
 .admin-nav-link {
   display: flex;
@@ -1611,6 +1655,7 @@ table.admin-table td:nth-child(6) {
   .admin-sidebar {
     width: 100%;
     height: auto;
+    top: auto;
     position: relative;
     flex-direction: row;
     align-items: center;
