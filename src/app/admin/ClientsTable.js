@@ -39,7 +39,9 @@ function Money({ value }) {
 
 // `rows` is the pre-computed [{ client, finance }] list built server-side in
 // admin/page.js — kept as a client component only so the search box can
-// filter the table live without a full page round-trip.
+// filter the cards live without a full page round-trip. Rendered as bordered
+// white cards (not a plain table) to match the reference template's card
+// language: thin border, rounded corners, colored status pill, avatar circle.
 export default function ClientsTable({ rows }) {
   const [query, setQuery] = useState("");
 
@@ -65,71 +67,62 @@ export default function ClientsTable({ rows }) {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <table className="admin-table" style={{ marginTop: "1rem" }}>
-        <thead>
-          <tr>
-            <th>العميل</th>
-            <th>البريد</th>
-            <th>المشاريع</th>
-            <th>العرض الفني</th>
-            <th>الرصيد المالي</th>
-            <th>إجراءات</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map(({ client: c, finance }) => {
-            const latestProposal = (c.proposals || []).sort(
-              (a, b) => new Date(b.created_at) - new Date(a.created_at)
-            )[0];
-            const style = latestProposal ? PROPOSAL_STYLE[latestProposal.status] : null;
-            return (
-              <tr key={c.id}>
-                <td>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                    <span
-                      className="client-avatar"
-                      style={{ background: avatarColor(c.full_name || c.email) }}
-                    >
-                      {initials(c.full_name)}
-                    </span>
-                    {c.full_name}
+
+      <div className="client-card-grid" style={{ marginTop: "1.2rem" }}>
+        {filtered.map(({ client: c, finance }) => {
+          const latestProposal = (c.proposals || []).sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          )[0];
+          const style = latestProposal ? PROPOSAL_STYLE[latestProposal.status] : null;
+          return (
+            <div className="client-card" key={c.id}>
+              <div className="client-card-head">
+                <div style={{ display: "flex", alignItems: "center", gap: "0.7rem", minWidth: 0 }}>
+                  <span
+                    className="client-avatar client-avatar-lg"
+                    style={{ background: avatarColor(c.full_name || c.email) }}
+                  >
+                    {initials(c.full_name)}
+                  </span>
+                  <div style={{ minWidth: 0 }}>
+                    <div className="client-card-name">{c.full_name}</div>
+                    <div className="muted client-card-email" dir="ltr">
+                      {c.email}
+                    </div>
                   </div>
-                </td>
-                <td dir="ltr" className="cell-email">
-                  {c.email}
-                </td>
-                <td>
+                </div>
+                <a href={`/admin/proposal/${c.id}`} style={{ textDecoration: "none", flexShrink: 0 }}>
+                  {latestProposal ? (
+                    <span className={style?.className || "tag"}>
+                      {style?.label || latestProposal.status}
+                    </span>
+                  ) : (
+                    <span className="btn btn-outline btn-sm">+ إنشاء عرض</span>
+                  )}
+                </a>
+              </div>
+
+              <div className="client-card-divider" />
+
+              <div className="client-card-body">
+                <div className="client-card-field">
+                  <span className="client-card-label">المشاريع</span>
                   {(c.projects || []).length === 0 ? (
                     <span className="muted">لا يوجد</span>
                   ) : (
-                    c.projects.map((p) => (
-                      <div key={p.id}>
-                        <a href={`/admin/projects/${p.id}`}>{p.title}</a>
-                      </div>
-                    ))
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+                      {c.projects.map((p) => (
+                        <a key={p.id} href={`/admin/projects/${p.id}`}>
+                          {p.title}
+                        </a>
+                      ))}
+                    </div>
                   )}
-                </td>
-                <td>
-                  <a href={`/admin/proposal/${c.id}`} style={{ textDecoration: "none" }}>
-                    {latestProposal ? (
-                      <span className={style?.className || "tag"}>
-                        {style?.label || latestProposal.status}
-                      </span>
-                    ) : (
-                      <span className="btn btn-outline btn-sm">+ إنشاء عرض</span>
-                    )}
-                  </a>
-                </td>
-                <td>
+                </div>
+                <div className="client-card-field">
+                  <span className="client-card-label">الرصيد المالي</span>
                   {finance.contracted > 0 ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.25rem",
-                        fontSize: "0.8rem",
-                      }}
-                    >
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                       <span className="balance-paid">
                         <Money value={finance.collected} /> محصّل
                       </span>
@@ -142,22 +135,22 @@ export default function ClientsTable({ rows }) {
                   ) : (
                     <span className="muted">—</span>
                   )}
-                </td>
-                <td>
-                  <ClientActions clientId={c.id} clientName={c.full_name} />
-                </td>
-              </tr>
-            );
-          })}
-          {filtered.length === 0 && (
-            <tr>
-              <td colSpan={6} className="muted">
-                {rows.length === 0 ? "لسه مفيش عملاء. ابدأ بإضافة عميل جديد." : "لا نتائج مطابقة للبحث."}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                </div>
+              </div>
+
+              <div className="client-card-footer">
+                <ClientActions clientId={c.id} clientName={c.full_name} />
+              </div>
+            </div>
+          );
+        })}
+
+        {filtered.length === 0 && (
+          <p className="muted">
+            {rows.length === 0 ? "لسه مفيش عملاء. ابدأ بإضافة عميل جديد." : "لا نتائج مطابقة للبحث."}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

@@ -1622,6 +1622,73 @@ table.admin-table td:nth-child(6) {
   font-weight: 800;
   flex-shrink: 0;
 }
+.client-avatar-lg {
+  width: 40px;
+  height: 40px;
+  font-size: 0.85rem;
+}
+.client-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.client-card {
+  background: #ffffff;
+  border: 1px solid rgba(26, 29, 46, 0.09);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.client-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+.client-card-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.client-card-email {
+  font-size: 0.76rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+.client-card-divider {
+  height: 1px;
+  background: rgba(26, 29, 46, 0.07);
+}
+.client-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+}
+.client-card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.client-card-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.client-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
 .proposal-pill {
   display: inline-block;
   padding: 0.2rem 0.8rem;
