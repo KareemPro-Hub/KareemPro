@@ -64,7 +64,7 @@ export default async function AdminContentPage() {
               justifyContent: "space-between",
               gap: "1rem",
               padding: "0.7rem 0",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid var(--border)",
             }}
           >
             <div>
@@ -129,7 +129,7 @@ export default async function AdminContentPage() {
               justifyContent: "space-between",
               gap: "1rem",
               padding: "0.7rem 0",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid var(--border)",
             }}
           >
             <div>
