@@ -1492,305 +1492,43 @@ table.admin-table td:nth-child(6) {
 }
 
 /* ══════════════════ Admin dashboard theme ══════════════════
-   .admin-light wraps every /admin page (except /admin/login) with a real
-   light theme (WorkMaster-inspired: light canvas, white cards, dark text),
-   while keeping Kareem Pro's own orange→pink brand gradient as the accent
-   color instead of the template's original blue. Overriding the shared
-   --dark/--dark2/--dark3/--dark4/--text/--muted/--border variables here is
-   enough to flip every component (cards, tables, timelines, stat cards,
-   forms) to light automatically, since they're all built on those vars. */
+   .admin-light wraps every /admin page (except /admin/login) — kept as a
+   plain passthrough now, using the exact same dark theme as the rest of the
+   site (no variable overrides), per Kareem's request to match the original
+   shade exactly. Redesign work is paused/postponed for later. */
 .admin-light {
-  --dark: #f4f5fb;
-  --dark2: #ffffff;
-  --dark3: #ffffff;
-  --dark4: #f0f1f8;
-  --text: #1a1d2e;
-  --muted: #6b7086;
-  --border: rgba(26, 29, 46, 0.1);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: var(--dark);
   color: var(--text);
 }
-
-/* ── Gradient top navbar, WorkMaster-style (colored header bar with the
-   brand on one side and a date pill + avatar on the other) — persistent
-   above the sidebar on every admin route except /admin/login. ── */
-.admin-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  height: 64px;
-  flex-shrink: 0;
+.progress-head-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.6rem;
-  background: var(--grad);
-  color: #fff;
-  border-bottom-left-radius: 32px;
-  border-bottom-right-radius: 32px;
+  margin-bottom: 0.6rem;
 }
-.admin-topbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  font-size: 1rem;
-}
-.admin-topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-}
-.admin-topbar-date {
-  background: rgba(255, 255, 255, 0.18);
-  padding: 0.4rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
+.progress-label {
   font-weight: 700;
-  white-space: nowrap;
+  font-size: 0.9rem;
+  color: var(--text);
 }
-.admin-topbar-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #fff;
-  color: var(--g3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.progress-percent {
   font-weight: 900;
   font-size: 0.95rem;
-  flex-shrink: 0;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.admin-light .card {
-  box-shadow: 0 2px 10px rgba(26, 29, 46, 0.05);
-}
-.admin-light .stat-card {
-  background: #ffffff;
-}
-.admin-light .field input,
-.admin-light .field select,
-.admin-light .field textarea {
-  background: #f7f7fc;
-}
-.admin-light .process-step,
-.admin-light .process-dot {
-  border-color: rgba(26, 29, 46, 0.12);
-}
-.admin-light table.admin-table td {
-  border-bottom: 1px solid rgba(26, 29, 46, 0.06);
-}
-.admin-light .stage-status.upcoming {
-  background: rgba(26, 29, 46, 0.06);
-}
-.card-head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-}
-.admin-search-input {
-  background: #f7f7fc;
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  padding: 0.55rem 1.1rem;
-  font-size: 0.85rem;
-  font-family: inherit;
-  color: var(--text);
-  outline: none;
-  min-width: 220px;
-}
-.admin-search-input:focus {
-  border-color: rgba(217, 24, 122, 0.4);
-}
-.client-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-.client-avatar-lg {
-  width: 40px;
-  height: 40px;
-  font-size: 0.85rem;
-}
-.client-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-}
-.client-card {
-  background: #ffffff;
-  border: 1px solid rgba(26, 29, 46, 0.09);
-  border-radius: 14px;
-  padding: 1.1rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-.client-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.7rem;
-}
-.client-card-name {
-  font-weight: 800;
-  font-size: 0.95rem;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.client-card-email {
-  font-size: 0.76rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 160px;
-}
-.client-card-divider {
-  height: 1px;
+.progress-track {
+  height: 12px;
+  border-radius: 20px;
   background: rgba(26, 29, 46, 0.07);
+  overflow: hidden;
 }
-.client-card-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  font-size: 0.85rem;
-}
-.client-card-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-.client-card-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.client-card-footer {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-.proposal-pill {
-  display: inline-block;
-  padding: 0.2rem 0.8rem;
-  border-radius: 50px;
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-.proposal-pill.pending {
-  background: rgba(255, 196, 64, 0.18);
-  color: #a3720a;
-}
-.proposal-pill.accepted {
-  background: rgba(37, 211, 102, 0.15);
-  color: #1a9d55;
-}
-.proposal-pill.rejected {
-  background: rgba(255, 85, 53, 0.15);
-  color: var(--g2);
-}
-
-/* ── Sidebar layout (admin/layout.js wraps every route except /admin/login) ── */
-.admin-shell-with-sidebar {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
-.admin-sidebar {
-  width: 240px;
-  flex-shrink: 0;
-  background: #ffffff;
-  border-inline-end: 1px solid var(--border);
-  padding: 1.6rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  position: sticky;
-  top: 64px;
-  height: calc(100vh - 64px);
-  overflow-y: auto;
-}
-.admin-sidebar-heading {
-  font-weight: 900;
-  font-size: 1.05rem;
-  color: var(--text);
-}
-.admin-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.88rem;
-  transition: background 0.2s, color 0.2s;
-}
-.admin-nav-link:hover {
-  background: rgba(217, 24, 122, 0.06);
-  color: var(--text);
-}
-.admin-nav-link.active {
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
   background: var(--grad);
-  color: #fff;
-  box-shadow: 0 8px 18px -8px rgba(217, 24, 122, 0.5);
-}
-.admin-nav-icon {
-  width: 20px;
-  text-align: center;
-  flex-shrink: 0;
-}
-.admin-sidebar-footer {
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-}
-.admin-main {
-  flex: 1;
-  min-width: 0;
-}
-@media (max-width: 860px) {
-  .admin-shell-with-sidebar {
-    flex-direction: column;
-  }
-  .admin-sidebar {
-    width: 100%;
-    height: auto;
-    top: auto;
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-    padding: 1rem;
-    gap: 1rem;
-  }
-  .admin-sidebar nav {
-    flex-direction: row !important;
-  }
-  .admin-sidebar-footer {
-    margin-top: 0;
-    margin-inline-start: auto;
-    padding-top: 0;
-    border-top: none;
-  }
+  transition: width 0.4s ease;
 }

@@ -149,6 +149,11 @@ export default async function PortalPage() {
           );
           const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
           const isProjectCompleted = clientCurrentIdx === clientTimeline.length - 1;
+          const progressPercent = isProjectCompleted
+            ? 100
+            : clientTimeline.length > 1
+            ? Math.round((Math.max(clientCurrentIdx, 0) / (clientTimeline.length - 1)) * 100)
+            : 0;
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
@@ -165,6 +170,16 @@ export default async function PortalPage() {
                   <RiyalIcon size="0.7em" />
                 </div>
               </div>
+              <div style={{ marginTop: "1.2rem" }}>
+                <div className="progress-head-row">
+                  <span className="progress-label">نسبة الإنجاز الكلي</span>
+                  <span className="progress-percent">{progressPercent}%</span>
+                </div>
+                <div className="progress-track">
+                  <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+                </div>
+              </div>
+
               <p className="muted" style={{ marginTop: "0.8rem", textAlign: "center" }}>
                 {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
               </p>
