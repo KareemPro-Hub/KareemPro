@@ -1529,6 +1529,8 @@ table.admin-table td:nth-child(6) {
   padding: 0 1.6rem;
   background: var(--grad);
   color: #fff;
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
 }
 .admin-topbar-brand {
   display: flex;
