@@ -1556,7 +1556,7 @@ table.admin-table td:nth-child(6) {
   width: 100%;
   max-width: 480px;
   aspect-ratio: 1 / 1;
-  margin: 2.4rem auto 0.5rem;
+  margin: 2.4rem auto 2.2rem;
 }
 .team-orbit-lines {
   position: absolute;
@@ -1598,7 +1598,13 @@ table.admin-table td:nth-child(6) {
   z-index: 2;
 }
 .team-founder-caption {
-  margin-top: 1rem;
+  position: absolute;
+  top: 64%;
+  left: 50%;
+  width: 62%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 3;
 }
 .team-founder-name {
   font-weight: 900;
