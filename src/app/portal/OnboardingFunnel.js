@@ -262,7 +262,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               </div>
               <div className="team-founder-caption">
                 <div className="team-founder-name">كريم عبد الصادق</div>
-                <div className="team-founder-role">CEO, Kareem Pro</div>
+                <div className="team-founder-role">CEO & Founder, Kareem Pro</div>
               </div>
             </div>
           )}
