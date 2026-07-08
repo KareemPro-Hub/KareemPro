@@ -1590,10 +1590,29 @@ table.admin-table td:nth-child(6) {
   top: 50%;
   transform: translate(-50%, -50%);
   border-color: transparent;
-  background: linear-gradient(160deg, var(--dark4), var(--dark3));
+  background-color: var(--dark4);
+  background-size: cover;
+  background-position: center;
   box-shadow: 0 0 0 3px var(--g2), 0 8px 20px -6px rgba(217, 24, 122, 0.4);
   color: var(--text);
   z-index: 2;
+}
+.team-founder-caption {
+  margin-top: 1rem;
+}
+.team-founder-name {
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.team-founder-role {
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 0.2rem;
 }
 .team-crown {
   position: absolute;

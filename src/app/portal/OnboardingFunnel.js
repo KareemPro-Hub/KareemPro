@@ -240,13 +240,15 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <line key={i} x1="50" y1="50" x2={p.x} y2={p.y} />
                   ))}
                 </svg>
-                <div className="team-avatar team-avatar-center">
+                <div
+                  className="team-avatar team-avatar-center"
+                  style={{ backgroundImage: "url(/team/kareem-founder.jpg)" }}
+                >
                   <span className="team-crown">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
                     </svg>
                   </span>
-                  <PersonIcon />
                 </div>
                 {TEAM_POSITIONS.map((p, i) => (
                   <div
@@ -257,6 +259,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <PersonIcon />
                   </div>
                 ))}
+              </div>
+              <div className="team-founder-caption">
+                <div className="team-founder-name">كريم عبد الصادق</div>
+                <div className="team-founder-role">CEO, Kareem Pro</div>
               </div>
             </div>
           )}
