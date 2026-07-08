@@ -15,6 +15,24 @@ function AboutIcon() {
     </svg>
   );
 }
+function TeamIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="3" />
+      <path d="M6 20c0-3 2.5-5 6-5s6 2 6 5" />
+      <circle cx="4.5" cy="9.5" r="1.8" />
+      <circle cx="19.5" cy="9.5" r="1.8" />
+    </svg>
+  );
+}
+function PersonIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="3.6" />
+      <path d="M5 20c0-3.6 3-6.2 7-6.2s7 2.6 7 6.2" />
+    </svg>
+  );
+}
 function PortfolioIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -45,10 +63,25 @@ function DocIcon() {
 
 const STEPS = [
   { id: "about", label: "تعرّف علينا", Icon: AboutIcon },
+  { id: "team", label: "الفريق", Icon: TeamIcon },
   { id: "portfolio", label: "نماذج أعمالنا", Icon: PortfolioIcon },
   { id: "testimonials", label: "آراء عملائنا", Icon: QuoteIcon },
   { id: "proposal", label: "العرض الفني والمالي", Icon: DocIcon },
 ];
+
+// Placeholder team layout: a center "founder" avatar with satellite member
+// avatars arranged in a circle around it, connected by thin lines — no real
+// names/photos yet (added later once titles are finalized), positions
+// computed so the whole thing stays responsive at any container width.
+const TEAM_SATELLITE_COUNT = 7;
+const TEAM_POSITIONS = Array.from({ length: TEAM_SATELLITE_COUNT }).map((_, i) => {
+  const angle = (i / TEAM_SATELLITE_COUNT) * 2 * Math.PI - Math.PI / 2;
+  const radius = 38;
+  return {
+    x: 50 + radius * Math.cos(angle),
+    y: 50 + radius * Math.sin(angle),
+  };
+});
 
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -125,7 +158,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
       </div>
 
       <div className="card funnel-card">
-        {stepIndex < 3 && (
+        {stepIndex < 4 && (
           <div className="funnel-nav funnel-nav-top">
             <button
               type="button"
@@ -193,6 +226,42 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           })()}
 
           {stepIndex === 1 && (
+            <div className="team-section">
+              <div className="team-heading">
+                <span className="team-heading-bar" />
+                <h2 className="title" style={{ fontSize: "1.4rem" }}>
+                  فريق يصنع الفرق
+                </h2>
+                <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
+              </div>
+              <div className="team-orbit">
+                <svg className="team-orbit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  {TEAM_POSITIONS.map((p, i) => (
+                    <line key={i} x1="50" y1="50" x2={p.x} y2={p.y} />
+                  ))}
+                </svg>
+                <div className="team-avatar team-avatar-center">
+                  <span className="team-crown">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
+                    </svg>
+                  </span>
+                  <PersonIcon />
+                </div>
+                {TEAM_POSITIONS.map((p, i) => (
+                  <div
+                    className="team-avatar team-avatar-satellite"
+                    style={{ left: `${p.x}%`, top: `${p.y}%` }}
+                    key={i}
+                  >
+                    <PersonIcon />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {stepIndex === 2 && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 روائعنا البصرية والتقنية
@@ -254,7 +323,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 2 && (
+          {stepIndex === 3 && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 آراء عملائنا
@@ -288,7 +357,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 3 && !selectedPackage && !showReject && (
+          {stepIndex === 4 && !selectedPackage && !showReject && (
             <>
               <button
                 type="button"
@@ -391,7 +460,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 3 && showReject && (
+          {stepIndex === 4 && showReject && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 رفض العرض
@@ -433,7 +502,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 3 && selectedPackage && (
+          {stepIndex === 4 && selectedPackage && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 العقد — {selectedPackage.name.split("|")[0].trim()}

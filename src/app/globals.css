@@ -1532,3 +1532,78 @@ table.admin-table td:nth-child(6) {
   background: var(--grad);
   transition: width 0.4s ease;
 }
+
+/* ── Team tab (onboarding funnel) — hub-and-spoke avatar diagram.
+   Positions for the satellite avatars are computed in JS (percentages),
+   so this stays responsive at any container width; the connecting lines
+   are a single SVG overlay drawn between the same percentage points. ── */
+.team-section {
+  text-align: center;
+}
+.team-heading-bar {
+  display: inline-block;
+  width: 52px;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--grad);
+  margin-bottom: 1rem;
+}
+.team-heading .title {
+  margin-bottom: 0.4rem;
+}
+.team-orbit {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  margin: 2.4rem auto 0.5rem;
+}
+.team-orbit-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.team-orbit-lines line {
+  stroke: var(--border);
+  stroke-width: 0.4;
+}
+.team-avatar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dark4);
+  border: 2px solid var(--border);
+  color: var(--muted);
+}
+.team-avatar-satellite {
+  width: 15%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+}
+.team-avatar-center {
+  width: 22%;
+  aspect-ratio: 1 / 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-color: transparent;
+  background: linear-gradient(160deg, var(--dark4), var(--dark3));
+  box-shadow: 0 0 0 3px var(--g2), 0 8px 20px -6px rgba(217, 24, 122, 0.4);
+  color: var(--text);
+  z-index: 2;
+}
+.team-crown {
+  position: absolute;
+  top: -10px;
+  background: var(--grad);
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
