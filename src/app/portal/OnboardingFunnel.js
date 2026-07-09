@@ -74,9 +74,9 @@ const STEPS = [
 // no padding to match any external reference count. Real photos are added
 // per member once provided (generic icon placeholder until then).
 const TEAM_MEMBERS = [
-  { name: "سليمان حسن", role: "AI Specialist" },
-  { name: "جويرية هاني", role: "Digital Platforms Developer" },
-  { name: "أحمد شاهين", role: "Creative Video Editor" },
+  { name: "سليمان حسن", role: "AI Specialist", photo: "/team/suleiman-hassan.jpg" },
+  { name: "جويرية هاني", role: "Digital Platforms Developer", photo: "/team/gawriya-hani.jpg" },
+  { name: "أحمد شاهين", role: "Creative Video Editor", photo: "/team/ahmed-shahin.jpg" },
   { name: "أسماء المقدم", role: "Social Media Specialist" },
   { name: "مريم أحمد", role: "Graphic & Visual Designer" },
   { name: "ندى رحيم", role: "Office Documentation Specialist" },
@@ -153,16 +153,17 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
         return (
           <div
             key={i}
-            className="team-avatar team-avatar-satellite"
+            className={`team-avatar team-avatar-satellite${m.photo ? " has-photo" : ""}`}
             style={{
               transform: visible
                 ? `translate(-50%, -50%) translate(${dx}px, ${dy}px)`
                 : "translate(-50%, -50%) translate(0, 0)",
               opacity: visible ? 1 : 0,
               transitionDelay: `${i * 80}ms`,
+              ...(m.photo ? { backgroundImage: `url(${m.photo})` } : {}),
             }}
           >
-            <PersonIcon />
+            {!m.photo && <PersonIcon />}
             {m.name && (
               <div className="team-satellite-caption">
                 <div className="team-satellite-name">{m.name}</div>

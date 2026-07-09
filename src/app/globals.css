@@ -1591,6 +1591,11 @@ table.admin-table td:nth-child(6) {
   transform: translate(-50%, -50%);
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease;
 }
+.team-avatar-satellite.has-photo {
+  border-color: transparent;
+  background-size: cover;
+  background-position: center;
+}
 .team-satellite-caption {
   position: absolute;
   top: 100%;
