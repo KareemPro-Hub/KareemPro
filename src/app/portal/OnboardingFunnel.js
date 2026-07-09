@@ -75,7 +75,7 @@ const STEPS = [
 const TEAM_MEMBERS = [
   { name: "سليمان حسن", role: "AI Specialist" },
   { name: "جويرية هاني", role: "Digital Platforms Developer" },
-  { name: null, role: "" },
+  { name: "أحمد شاهين", role: "Creative Video Editor" },
   { name: null, role: "" },
   { name: null, role: "" },
   { name: null, role: "" },
