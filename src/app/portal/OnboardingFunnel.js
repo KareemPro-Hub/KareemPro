@@ -77,9 +77,9 @@ const TEAM_MEMBERS = [
   { name: "سليمان حسن", role: "AI Specialist", photo: "/team/suleiman-hassan.jpg" },
   { name: "جويرية هاني", role: "Digital Platforms Developer", photo: "/team/gawriya-hani.jpg" },
   { name: "أحمد شاهين", role: "Creative Video Editor", photo: "/team/ahmed-shahin.jpg" },
-  { name: "أسماء المقدم", role: "Social Media Specialist" },
-  { name: "مريم أحمد", role: "Graphic & Visual Designer" },
-  { name: "ندى رحيم", role: "Office Documentation Specialist" },
+  { name: "أسماء المقدم", role: "Social Media Specialist", photo: "/team/asmaa-elmoqaddem.jpg" },
+  { name: "مريم أحمد", role: "Graphic & Visual Designer", photo: "/team/mariam-ahmed.jpg" },
+  { name: "ندى رحيم", role: "Office Documentation Specialist", photo: "/team/nada-rahim.jpg" },
 ];
 
 // Hub-and-spoke team diagram: a center "founder" avatar with satellite
