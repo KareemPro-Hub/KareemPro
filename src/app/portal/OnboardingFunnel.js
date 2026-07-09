@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, Fragment } from "react";
+import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
@@ -69,19 +69,51 @@ const STEPS = [
   { id: "proposal", label: "العرض الفني والمالي", Icon: DocIcon },
 ];
 
-// Placeholder team layout: a center "founder" avatar with satellite member
-// avatars arranged in a circle around it, connected by thin lines — no real
-// names/photos yet (added later once titles are finalized), positions
-// computed so the whole thing stays responsive at any container width.
-const TEAM_SATELLITE_COUNT = 7;
-const TEAM_POSITIONS = Array.from({ length: TEAM_SATELLITE_COUNT }).map((_, i) => {
-  const angle = (i / TEAM_SATELLITE_COUNT) * 2 * Math.PI - Math.PI / 2;
-  const radius = 38;
-  return {
-    x: 50 + radius * Math.cos(angle),
-    y: 50 + radius * Math.sin(angle),
-  };
-});
+// Team roster: names/roles are added as they're finalized — until then a
+// card renders with a generic placeholder icon and a "قريبًا" label instead
+// of a name. Real photos are added later per member once provided.
+const TEAM_MEMBERS = [
+  { name: "سليمان حسن", role: "" },
+  { name: "جويرية هاني", role: "Digital Platforms Developer" },
+  { name: null, role: "" },
+  { name: null, role: "" },
+  { name: null, role: "" },
+  { name: null, role: "" },
+  { name: null, role: "" },
+];
+
+// Fades + slides a section into view the first time it scrolls into the
+// viewport (IntersectionObserver, one-shot). `delay` staggers grid items.
+function Reveal({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -234,35 +266,43 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 </h2>
                 <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
               </div>
-              <div className="team-orbit">
-                <svg className="team-orbit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  {TEAM_POSITIONS.map((p, i) => (
-                    <line key={i} x1="50" y1="50" x2={p.x} y2={p.y} />
-                  ))}
-                </svg>
-                <div
-                  className="team-avatar team-avatar-center"
-                  style={{ backgroundImage: "url(/team/kareem-founder.jpg)" }}
-                >
+
+              <Reveal className="team-featured-wrap">
+                <div className="team-featured">
                   <span className="team-crown">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
                     </svg>
                   </span>
-                </div>
-                {TEAM_POSITIONS.map((p, i) => (
                   <div
-                    className="team-avatar team-avatar-satellite"
-                    style={{ left: `${p.x}%`, top: `${p.y}%` }}
-                    key={i}
-                  >
-                    <PersonIcon />
-                  </div>
-                ))}
-                <div className="team-founder-caption">
-                  <div className="team-founder-name">كريم عبد الصادق</div>
-                  <div className="team-founder-role">CEO & Founder, Kareem Pro</div>
+                    className="team-featured-avatar"
+                    style={{ backgroundImage: "url(/team/kareem-founder.jpg)" }}
+                  />
+                  <div className="team-featured-name">كريم عبد الصادق</div>
+                  <div className="team-featured-role">CEO & Founder, Kareem Pro</div>
                 </div>
+              </Reveal>
+
+              <div className="team-connector" />
+
+              <div className="team-grid">
+                {TEAM_MEMBERS.map((m, i) => (
+                  <Reveal key={i} delay={i * 90}>
+                    <div className="team-card">
+                      <div className="team-card-avatar">
+                        <PersonIcon />
+                      </div>
+                      {m.name ? (
+                        <>
+                          <div className="team-card-name">{m.name}</div>
+                          {m.role && <div className="team-card-role">{m.role}</div>}
+                        </>
+                      ) : (
+                        <div className="team-card-name team-card-pending">قريبًا</div>
+                      )}
+                    </div>
+                  </Reveal>
+                ))}
               </div>
             </div>
           )}
