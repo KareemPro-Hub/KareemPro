@@ -69,27 +69,39 @@ const STEPS = [
   { id: "proposal", label: "العرض الفني والمالي", Icon: DocIcon },
 ];
 
-// Team roster: names/roles are added as they're finalized — until then a
-// card renders with a generic placeholder icon and a "قريبًا" label instead
-// of a name. Real photos are added later per member once provided.
+// Team roster (hub-and-spoke satellites around the founder). Grows as names
+// are sent over; the diagram always renders exactly this many satellites —
+// no padding to match any external reference count. Real photos are added
+// per member once provided (generic icon placeholder until then).
 const TEAM_MEMBERS = [
   { name: "سليمان حسن", role: "AI Specialist" },
   { name: "جويرية هاني", role: "Digital Platforms Developer" },
   { name: "أحمد شاهين", role: "Creative Video Editor" },
   { name: "أسماء المقدم", role: "Social Media Specialist" },
-  { name: null, role: "" },
-  { name: null, role: "" },
-  { name: null, role: "" },
+  { name: "مريم أحمد", role: "Graphic & Visual Designer" },
+  { name: "ندى رحيم", role: "Office Documentation Specialist" },
 ];
 
-// Fades + slides a section into view the first time it scrolls into the
-// viewport (IntersectionObserver, one-shot). `delay` staggers grid items.
-function Reveal({ children, delay = 0, className = "" }) {
-  const ref = useRef(null);
+// Hub-and-spoke team diagram: a center "founder" avatar with satellite
+// member avatars that burst outward from the center the first time the
+// diagram scrolls into view (measured in real pixels via ResizeObserver so
+// it stays correct at any container width, then animated with a staggered
+// CSS transition) — same interaction as the reference design.
+function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
+  const containerRef = useRef(null);
+  const [size, setSize] = useState(0);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => setSize(entries[0].contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -104,13 +116,60 @@ function Reveal({ children, delay = 0, className = "" }) {
     return () => observer.disconnect();
   }, []);
 
+  const radius = size * 0.38;
+  const angleFor = (i) => (i / members.length) * 2 * Math.PI - Math.PI / 2;
+
   return (
-    <div
-      ref={ref}
-      className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
+    <div className="team-orbit" ref={containerRef}>
+      <svg className="team-orbit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {members.map((_, i) => {
+          const angle = angleFor(i);
+          const x = 50 + 38 * Math.cos(angle);
+          const y = 50 + 38 * Math.sin(angle);
+          return (
+            <line
+              key={i}
+              x1="50"
+              y1="50"
+              x2={x}
+              y2={y}
+              className={visible ? "team-line-visible" : ""}
+              style={{ transitionDelay: `${150 + i * 80}ms` }}
+            />
+          );
+        })}
+      </svg>
+      <div className="team-avatar team-avatar-center" style={{ backgroundImage: `url(${centerPhoto})` }}>
+        <span className="team-crown">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
+          </svg>
+        </span>
+      </div>
+      {members.map((m, i) => {
+        const angle = angleFor(i);
+        const dx = radius * Math.cos(angle);
+        const dy = radius * Math.sin(angle);
+        return (
+          <div
+            key={i}
+            className="team-avatar team-avatar-satellite"
+            style={{
+              transform: visible
+                ? `translate(-50%, -50%) translate(${dx}px, ${dy}px)`
+                : "translate(-50%, -50%) translate(0, 0)",
+              opacity: visible ? 1 : 0,
+              transitionDelay: `${i * 80}ms`,
+            }}
+          >
+            <PersonIcon />
+          </div>
+        );
+      })}
+      <div className="team-founder-caption">
+        <div className="team-founder-name">{centerName}</div>
+        <div className="team-founder-role">{centerRole}</div>
+      </div>
     </div>
   );
 }
@@ -267,43 +326,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
               </div>
 
-              <Reveal className="team-featured-wrap">
-                <div className="team-featured">
-                  <span className="team-crown">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
-                    </svg>
-                  </span>
-                  <div
-                    className="team-featured-avatar"
-                    style={{ backgroundImage: "url(/team/kareem-founder.jpg)" }}
-                  />
-                  <div className="team-featured-name">كريم عبد الصادق</div>
-                  <div className="team-featured-role">CEO & Founder, Kareem Pro</div>
-                </div>
-              </Reveal>
-
-              <div className="team-connector" />
-
-              <div className="team-grid">
-                {TEAM_MEMBERS.map((m, i) => (
-                  <Reveal key={i} delay={i * 90}>
-                    <div className="team-card">
-                      <div className="team-card-avatar">
-                        <PersonIcon />
-                      </div>
-                      {m.name ? (
-                        <>
-                          <div className="team-card-name">{m.name}</div>
-                          {m.role && <div className="team-card-role">{m.role}</div>}
-                        </>
-                      ) : (
-                        <div className="team-card-name team-card-pending">قريبًا</div>
-                      )}
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+              <TeamOrbit
+                members={TEAM_MEMBERS}
+                centerPhoto="/team/kareem-founder.jpg"
+                centerName="كريم عبد الصادق"
+                centerRole="CEO & Founder, Kareem Pro"
+              />
             </div>
           )}
 
