@@ -163,6 +163,12 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
             }}
           >
             <PersonIcon />
+            {m.name && (
+              <div className="team-satellite-caption">
+                <div className="team-satellite-name">{m.name}</div>
+                {m.role && <div className="team-satellite-role">{m.role}</div>}
+              </div>
+            )}
           </div>
         );
       })}
