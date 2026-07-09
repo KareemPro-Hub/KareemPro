@@ -76,7 +76,7 @@ const TEAM_MEMBERS = [
   { name: "سليمان حسن", role: "AI Specialist" },
   { name: "جويرية هاني", role: "Digital Platforms Developer" },
   { name: "أحمد شاهين", role: "Creative Video Editor" },
-  { name: null, role: "" },
+  { name: "أسماء المقدم", role: "Social Media Specialist" },
   { name: null, role: "" },
   { name: null, role: "" },
   { name: null, role: "" },
