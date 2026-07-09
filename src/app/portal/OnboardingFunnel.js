@@ -73,7 +73,7 @@ const STEPS = [
 // card renders with a generic placeholder icon and a "قريبًا" label instead
 // of a name. Real photos are added later per member once provided.
 const TEAM_MEMBERS = [
-  { name: "سليمان حسن", role: "" },
+  { name: "سليمان حسن", role: "AI Specialist" },
   { name: "جويرية هاني", role: "Digital Platforms Developer" },
   { name: null, role: "" },
   { name: null, role: "" },
