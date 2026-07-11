@@ -18,8 +18,7 @@ export default async function AdminContentPage() {
   ]);
 
   return (
-    <div className="admin-light">
-    <div className="shell">
+    <section className="view active">
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
       </a>
@@ -167,7 +166,6 @@ export default async function AdminContentPage() {
           </button>
         </form>
       </div>
-    </div>
-    </div>
+    </section>
   );
 }

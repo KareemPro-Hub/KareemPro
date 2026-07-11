@@ -5,10 +5,9 @@ export default async function NewClientPage() {
   await requireAdmin();
 
   return (
-    <div className="admin-light">
-    <div className="shell" style={{ maxWidth: 560 }}>
-      <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للوحة التحكم
+    <section className="view active" style={{ maxWidth: 560 }}>
+      <a href="/admin/clients" className="muted" style={{ textDecoration: "none" }}>
+        ← رجوع للعملاء
       </a>
       <div className="card" style={{ marginTop: "1.2rem" }}>
         <h1 className="title">إضافة عميل جديد</h1>
@@ -33,7 +32,6 @@ export default async function NewClientPage() {
           </button>
         </form>
       </div>
-    </div>
-    </div>
+    </section>
   );
 }

@@ -294,7 +294,7 @@ h2.title {
 }
 
 /* ── Stage timeline ── */
-.timeline {
+.stage-timeline {
   display: flex;
   flex-direction: column;
   gap: 0;

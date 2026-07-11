@@ -101,7 +101,7 @@ export default function PortalPreviewPage() {
               {project.currency} — {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
             </p>
 
-            <div className="timeline" style={{ marginTop: "1.8rem" }}>
+            <div className="stage-timeline" style={{ marginTop: "1.8rem" }}>
               {stages.map((stage) => (
                 <div className={`stage ${stage.status}`} key={stage.id}>
                   <span className="stage-dot">{stage.stage_number}</span>

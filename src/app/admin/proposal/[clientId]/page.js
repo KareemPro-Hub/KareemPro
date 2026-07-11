@@ -20,11 +20,9 @@ export default async function ClientProposalPage({ params }) {
 
   if (!client) {
     return (
-      <div className="admin-light">
-        <div className="shell">
-          <p className="muted">العميل غير موجود.</p>
-        </div>
-      </div>
+      <section className="view active">
+        <p className="muted">العميل غير موجود.</p>
+      </section>
     );
   }
 
@@ -37,10 +35,9 @@ export default async function ClientProposalPage({ params }) {
     .maybeSingle();
 
   return (
-    <div className="admin-light">
-    <div className="shell">
-      <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للوحة التحكم
+    <section className="view active">
+      <a href="/admin/clients" className="muted" style={{ textDecoration: "none" }}>
+        ← رجوع للعملاء
       </a>
 
       <h1 className="title" style={{ marginTop: "1rem" }}>
@@ -126,7 +123,6 @@ export default async function ClientProposalPage({ params }) {
       ) : (
         <NewProposalForm clientId={clientId} />
       )}
-    </div>
-    </div>
+    </section>
   );
 }

@@ -18,11 +18,9 @@ export default async function ProjectDetailPage({ params }) {
 
   if (!project) {
     return (
-      <div className="admin-light">
-        <div className="shell">
-          <p className="muted">المشروع غير موجود.</p>
-        </div>
-      </div>
+      <section className="view active">
+        <p className="muted">المشروع غير موجود.</p>
+      </section>
     );
   }
 
@@ -34,9 +32,8 @@ export default async function ProjectDetailPage({ params }) {
   const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
   return (
-    <div className="admin-light">
-    <div className="shell">
-      <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
+    <section className="view active">
+      <a href="/admin/projects" className="muted" style={{ textDecoration: "none" }}>
         ← رجوع للوحة التحكم
       </a>
 
@@ -110,7 +107,7 @@ export default async function ProjectDetailPage({ params }) {
           <span className="section-heading-icon">💳</span>
           المراحل المالية (السداد)
         </div>
-        <div className="timeline" style={{ marginTop: "1.2rem" }}>
+        <div className="stage-timeline" style={{ marginTop: "1.2rem" }}>
           {stages.map((stage) => (
             <StageCard stage={stage} key={stage.id} />
           ))}
@@ -136,7 +133,6 @@ export default async function ProjectDetailPage({ params }) {
           </button>
         </form>
       </div>
-    </div>
-    </div>
+    </section>
   );
 }

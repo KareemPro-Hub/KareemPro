@@ -241,7 +241,7 @@ export default async function PortalPage() {
               <p className="muted" style={{ marginBottom: "0.4rem" }}>
                 مراحل سداد قيمة الباقة على دفعات، منفصلة عن مراحل الإنتاج بالأعلى.
               </p>
-              <div className="timeline" style={{ marginTop: "1rem" }}>
+              <div className="stage-timeline" style={{ marginTop: "1rem" }}>
                 {stages.map((stage) => (
                   <div className={`stage ${stage.status}`} key={stage.id}>
                     <span className="stage-dot">{stage.stage_number}</span>
