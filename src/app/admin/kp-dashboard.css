@@ -185,3 +185,42 @@
 .kp-dashboard .action-grid a{display:block;text-decoration:none;color:inherit}
 .kp-dashboard .brand{text-decoration:none}
 .kp-dashboard .mini-avatar{text-decoration:none}
+
+/* ===== Re-skin shared brand components (.card/.field/.btn/.stage/.process/.notice/...)
+   Some admin pages (project detail, proposal, new-project, new-client, content)
+   still use the site's original dark-navy component classes, which are also
+   shared with the client portal. Redefining the underlying CSS variables here
+   (scoped to .kp-dashboard, with doubled selector for guaranteed specificity
+   over :root) re-skins every one of them to the new light theme, without
+   touching the client portal (which never renders inside .kp-dashboard) and
+   without needing to rewrite each page's markup. */
+.kp-dashboard.kp-dashboard{--dark:var(--bg);--dark2:#fff;--dark3:#fff;--dark4:#eef4fb;--text:var(--ink);--border:var(--line);--grad:var(--kp-gradient);--grad-text:var(--kp-gradient)}
+
+.kp-dashboard .card{box-shadow:0 20px 50px rgba(32,72,122,.1),inset 0 1px 0 #fff;backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%)}
+.kp-dashboard .card.project-header-block{background:linear-gradient(135deg,#fff4e6,#ffe9f0)}
+.kp-dashboard h1.title,.kp-dashboard h2.title{color:var(--ink)}
+.kp-dashboard .timeline-note{color:#c8551d}
+
+.kp-dashboard .process-step{border-inline-start-color:var(--line)}
+.kp-dashboard .process-dot{border-color:var(--line)}
+.kp-dashboard .stage{border-inline-start-color:var(--line)}
+.kp-dashboard .stage-dot{border-color:var(--line)}
+.kp-dashboard .stage.upcoming .stage-dot{color:var(--ink)}
+
+.kp-dashboard .field input,.kp-dashboard .field select,.kp-dashboard .field textarea{background:#fff;box-shadow:inset 0 1px 2px rgba(32,72,122,.05)}
+.kp-dashboard .field input:focus,.kp-dashboard .field select:focus,.kp-dashboard .field textarea:focus{border-color:#ef8a3a}
+
+.kp-dashboard .btn-outline{border-color:rgba(239,106,20,.35)}
+.kp-dashboard .btn-outline:hover{background:rgba(239,106,20,.06)}
+.kp-dashboard .btn-danger{color:#c81e3f;border-color:rgba(200,30,63,.35)}
+.kp-dashboard .btn-danger:hover{background:rgba(200,30,63,.06)}
+
+.kp-dashboard .notice-error{color:#c81e3f}
+.kp-dashboard .notice-ok{color:#178a52}
+.kp-dashboard .notice a,.kp-dashboard .notice-link{color:#c8135e}
+
+.kp-dashboard .project-completed-banner{background:linear-gradient(160deg,#eef4fb,#fff)}
+.kp-dashboard .project-completed-banner h3{color:var(--ink)}
+
+.kp-dashboard .more{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;transition:background .15s ease,color .15s ease}
+.kp-dashboard .more:hover{background:#eef4fb;color:#ef6a14}
