@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import Money from "@/app/components/Money";
+import ProjectActions from "./ProjectActions";
 import { clientFinance, sumFinances } from "@/lib/adminFinance";
 import { getAdminTimeline } from "@/lib/timeline";
 import { timeAgo } from "@/lib/timeAgo";
@@ -175,7 +176,9 @@ export default async function AdminOverview() {
                   {(p.title || "؟").trim().charAt(0)}
                 </div>
                 <div className="project-name">
-                  <b>{p.title}</b>
+                  <a href={`/admin/projects/${p.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    <b>{p.title}</b>
+                  </a>
                   <span>{pkgName}</span>
                 </div>
                 <div className="client">
@@ -196,9 +199,7 @@ export default async function AdminOverview() {
                     <u style={{ width: `${percent}%` }} />
                   </i>
                 </div>
-                <a className="more" href={`/admin/projects/${p.id}`}>
-                  •••
-                </a>
+                <ProjectActions projectId={p.id} projectTitle={p.title} currentStatus={p.status} />
               </div>
             );
           })}

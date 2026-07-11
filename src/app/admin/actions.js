@@ -343,6 +343,44 @@ export async function updateTimelineStep(projectId, stepKey) {
   revalidatePath("/portal");
 }
 
+// ── Change a project's status (active / on_hold / completed / cancelled) —
+// separate from the production timeline_step, this is the high-level state
+// shown as a badge across the dashboard. ──
+export async function updateProjectStatus(projectId, status) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const allowed = ["active", "completed", "on_hold", "cancelled"];
+  if (!projectId || !allowed.includes(status)) throw new Error("بيانات غير صحيحة");
+
+  const { error } = await admin.from("projects").update({ status }).eq("id", projectId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath("/admin/delivery");
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath("/portal");
+}
+
+// ── Permanently delete a project — cascades to its payment stages
+// (stages_project_id_fkey is ON DELETE CASCADE) and disappears from the
+// client's portal immediately. ──
+export async function deleteProject(projectId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!projectId) throw new Error("معرّف المشروع مفقود");
+
+  const { error } = await admin.from("projects").delete().eq("id", projectId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath("/admin/delivery");
+  revalidatePath("/portal");
+}
+
 // ── Resend the account-setup link to a client — reuses Supabase's own
 // password-reset flow (works whether they already set a password or never
 // finished onboarding), routed through our /auth/set-password screen. Handy
