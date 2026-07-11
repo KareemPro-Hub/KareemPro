@@ -240,7 +240,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   }
 
   return (
-    <div>
+    <div className="onboarding-funnel-light">
       <div className="funnel-steps">
         {STEPS.map((s, i) => (
           <Fragment key={s.id}>

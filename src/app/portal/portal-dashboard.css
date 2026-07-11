@@ -8,63 +8,22 @@
 .client-project-wrap+.client-project-wrap{margin-top:25px}.client-project-switch{display:flex;align-items:end;justify-content:space-between;margin-bottom:15px}.client-project-switch>div>span{display:block;color:var(--muted);font-size:13px}.client-project-switch b{display:block;font-size:19px;margin-top:3px}.client-project-switch small{display:block;color:var(--muted);font-size:12px}.client-status-pill{padding:7px 12px;border-radius:99px;color:#a34b19;background:#fff0e3;font-size:12px;font-weight:700}
 .client-progress-hero{min-height:245px;display:grid;grid-template-columns:190px 1fr 250px;align-items:center;gap:28px;padding:28px;border-radius:27px;color:#fff;background:radial-gradient(circle at 15% 120%,#b57625,transparent 42%),linear-gradient(110deg,#3b2924,#6d3921 60%,#a45125);box-shadow:0 24px 55px #67371833}.client-ring{width:145px;height:145px;margin:auto;border-radius:50%;display:grid;place-items:center;align-content:center;background:radial-gradient(circle,#4c2d22 58%,transparent 60%),conic-gradient(#ffab3b var(--progress),#ffffff24 0)}.client-ring strong{font-size:30px}.client-ring span{color:#f0d6c3;font-size:12px}.client-hero-copy>span,.client-hero-meta span{color:#e1c6b3;font-size:13px}.client-hero-copy h2{font-size:30px;margin:7px 0;color:#fff}.client-hero-copy p{color:#ead5c6}.client-hero-copy>div{height:8px;background:#ffffff20;border-radius:20px;margin:18px 0 7px;overflow:hidden}.client-hero-copy i{display:block;height:100%;background:linear-gradient(90deg,#ff7b27,#ffc04c)}.client-hero-meta{display:grid;gap:22px;border-right:1px solid #ffffff24;padding-right:25px}.client-hero-meta b{display:block;margin-top:4px}
 .client-project-card{margin-top:15px;padding:22px!important;border:1px solid #fff!important;border-radius:21px!important;background:linear-gradient(145deg,#fffffff2,#ffffffa3)!important;box-shadow:0 16px 38px #3d312814!important}.client-dashboard .project-header-block{border-radius:18px;background:linear-gradient(135deg,#fff0dc,#ffe2bb);border:1px solid #fff}.client-dashboard .progress-fill{background:linear-gradient(90deg,#ff7b27,#ffc04c)}.client-dashboard .process-step.current .process-dot,.client-dashboard .stage.current .stage-dot{background:#ff7927}.client-dashboard .section-heading-icon{filter:saturate(.7)}
-.client-dashboard .funnel-step{color:var(--muted);background:#fff;border-color:#ece2d8;box-shadow:0 3px 10px rgba(61,39,26,.05)}.client-dashboard .funnel-step.done{color:var(--ink);border-color:rgba(255,123,39,.4);background:rgba(255,123,39,.1)}.client-dashboard .funnel-step.active{background:linear-gradient(110deg,#ffad38,#ff7226);border-color:transparent;color:#fff;box-shadow:0 10px 22px rgba(243,120,38,.32)}.client-dashboard .funnel-step-line{background:#ece2d8}.client-dashboard .funnel-step-line.done{background:rgba(255,123,39,.5)}
-
-/* ===== Re-skin the shared onboarding-funnel components (team orbit, package
-   cards, testimonials, about, contract) for the new light client-dashboard.
-   These classes are also used, unscoped, by /preview/proposal which keeps the
-   original dark theme — so everything here is scoped to .client-dashboard
-   only. Same variable-redefinition approach used for the admin re-skin:
-   redefining --dark3/--dark4/--text/--border/--grad/--grad-text fixes most
-   of it in one stroke; the rest are explicit patches for hardcoded
-   rgba(255,255,255,x) "glass on dark" values that go invisible on a light
-   page, or pale amber/mint tones that read fine on navy but not on white. */
-.client-dashboard.client-dashboard{--dark:#fff;--dark2:#fff;--dark3:#fff;--dark4:#fdf1e4;--text:var(--ink);--border:#ece2d8;--grad:linear-gradient(110deg,#ffad38,#ff7226);--grad-text:linear-gradient(110deg,#ffad38,#ff7226)}
-
-.client-dashboard h1.title,.client-dashboard h2.title{color:var(--ink)}
-.client-dashboard .card{background:linear-gradient(145deg,#fffffff2,#ffffffa3);border-color:#fff;box-shadow:0 16px 38px rgba(61,39,26,.08)}
-
-.client-dashboard .process-step{border-inline-start-color:#ece2d8}
-.client-dashboard .process-dot{border-color:#ece2d8}
-.client-dashboard .stage{border-inline-start-color:#ece2d8}
-.client-dashboard .stage-dot{border-color:#ece2d8}
-.client-dashboard .stage.upcoming .stage-dot{color:var(--ink)}
-.client-dashboard .field input,.client-dashboard .field select,.client-dashboard .field textarea{background:#fff;border-color:#ece2d8;box-shadow:inset 0 1px 2px rgba(61,39,26,.05)}
-.client-dashboard .field input:focus,.client-dashboard .field select:focus,.client-dashboard .field textarea:focus{border-color:#ff7226}
-
-.client-dashboard .btn-outline{border-color:rgba(255,123,39,.35)}
-.client-dashboard .btn-outline:hover{background:rgba(255,123,39,.08)}
-.client-dashboard .btn-primary:hover{box-shadow:0 10px 22px rgba(243,120,38,.3)}
-.client-dashboard .notice-error{color:#c81e3f}
-.client-dashboard .notice-ok{color:#178a52}
-.client-dashboard .notice a,.client-dashboard .notice-link{color:#c8551d}
-.client-dashboard .timeline-note,.client-dashboard .contract-verse,.client-dashboard .package-launch-note,.client-dashboard .contract-points li::marker{color:#c8551d}
-.client-dashboard .contract-verse{border-color:#ece2d8}
-
-.client-dashboard .contract-box,.client-dashboard .meta-item{background:#fdf8f3;border-color:#ece2d8}
-.client-dashboard .contract-signoff{border-color:#ece2d8}
-.client-dashboard .signed-badge,.client-dashboard .signed-badge-lg{color:#178a52}
-
-.client-dashboard .about-point{background:#fff;border-color:#ece2d8;box-shadow:0 3px 10px rgba(61,39,26,.05)}
-.client-dashboard .about-point:hover{border-color:#e2d3c2}
-
-.client-dashboard .testimonial-card,.client-dashboard .package-card{background:linear-gradient(160deg,#fffffff5,#fff8efc7);border-color:#f0e4d6;box-shadow:0 1px 0 #fff inset,0 16px 34px -18px rgba(61,39,26,.22)}
-.client-dashboard .testimonial-card::before,.client-dashboard .package-card::before{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,0) 40%)}
-.client-dashboard .testimonial-card:hover,.client-dashboard .package-card:hover{border-color:#e6d3bd;box-shadow:0 1px 0 #fff inset,0 22px 44px -18px rgba(61,39,26,.28)}
-.client-dashboard .testimonial-footer{border-color:#ece2d8}
-.client-dashboard .package-head{border-color:#ece2d8}
-.client-dashboard .package-card.featured{background:linear-gradient(165deg,rgba(255,173,56,.16),rgba(255,114,38,.1) 55%,#fff);border-color:rgba(255,123,39,.4)}
-.client-dashboard .package-cta{background:#fff;border-color:#ece2d8;color:var(--ink)}
-.client-dashboard .package-cta:hover{background:#fdf1e4}
-
-/* The main client-dashboard panel is much wider than the old .shell (max
+.client-dashboard .funnel-step,.onboarding-funnel-light .funnel-step{color:var(--muted);background:#fff;border-color:#ece2d8;box-shadow:0 3px 10px rgba(61,39,26,.05)}.client-dashboard .funnel-step.done,.onboarding-funnel-light .funnel-step.done{color:var(--ink);border-color:rgba(255,123,39,.4);background:rgba(255,123,39,.1)}.client-dashboard .funnel-step.active,.onboarding-funnel-light .funnel-step.active{background:linear-gradient(110deg,#ffad38,#ff7226);border-color:transparent;color:#fff;box-shadow:0 10px 22px rgba(243,120,38,.32)}.client-dashboard .funnel-step-line,.onboarding-funnel-light .funnel-step-line{background:#ece2d8}.client-dashboard .funnel-step-line.done,.onboarding-funnel-light .funnel-step-line.done{background:rgba(255,123,39,.5)}/* ===== Re-skin the shared onboarding-funnel components (team orbit, package
+   cards, testimonials, about, contract) for the new light theme. Applies to
+   both the real client dashboard (.client-dashboard) and the admin-only
+   /preview/proposal sandbox, which wraps the same OnboardingFunnel component
+   in .onboarding-funnel-light instead of a sidebar layout. Same variable-
+   redefinition approach used for the admin re-skin: redefining
+   --dark3/--dark4/--text/--border/--grad/--grad-text fixes most of it in one
+   stroke; the rest are explicit patches for hardcoded rgba(255,255,255,x)
+   "glass on dark" values that go invisible on a light page, or pale
+   amber/mint tones that read fine on navy but not on white. */
+.client-dashboard.client-dashboard,.onboarding-funnel-light.onboarding-funnel-light{--ink:#3a2118;--muted:#725f55;--dark:#fff;--dark2:#fff;--dark3:#fff;--dark4:#fdf1e4;--text:var(--ink);--border:#ece2d8;--grad:linear-gradient(110deg,#ffad38,#ff7226);--grad-text:linear-gradient(110deg,#ffad38,#ff7226)}
+.onboarding-funnel-light{display:block;color:var(--ink)}.client-dashboard h1.title,.onboarding-funnel-light h1.title,.client-dashboard h2.title,.onboarding-funnel-light h2.title{color:var(--ink)}.client-dashboard .card,.onboarding-funnel-light .card{background:linear-gradient(145deg,#fffffff2,#ffffffa3);border-color:#fff;box-shadow:0 16px 38px rgba(61,39,26,.08)}.client-dashboard .process-step,.onboarding-funnel-light .process-step{border-inline-start-color:#ece2d8}.client-dashboard .process-dot,.onboarding-funnel-light .process-dot{border-color:#ece2d8}.client-dashboard .stage,.onboarding-funnel-light .stage{border-inline-start-color:#ece2d8}.client-dashboard .stage-dot,.onboarding-funnel-light .stage-dot{border-color:#ece2d8}.client-dashboard .stage.upcoming .stage-dot,.onboarding-funnel-light .stage.upcoming .stage-dot{color:var(--ink)}.client-dashboard .field input,.onboarding-funnel-light .field input,.client-dashboard .field select,.onboarding-funnel-light .field select,.client-dashboard .field textarea,.onboarding-funnel-light .field textarea{background:#fff;border-color:#ece2d8;box-shadow:inset 0 1px 2px rgba(61,39,26,.05)}.client-dashboard .field input:focus,.onboarding-funnel-light .field input:focus,.client-dashboard .field select:focus,.onboarding-funnel-light .field select:focus,.client-dashboard .field textarea:focus,.onboarding-funnel-light .field textarea:focus{border-color:#ff7226}.client-dashboard .btn-outline,.onboarding-funnel-light .btn-outline{border-color:rgba(255,123,39,.35)}.client-dashboard .btn-outline:hover,.onboarding-funnel-light .btn-outline:hover{background:rgba(255,123,39,.08)}.client-dashboard .btn-primary:hover,.onboarding-funnel-light .btn-primary:hover{box-shadow:0 10px 22px rgba(243,120,38,.3)}.client-dashboard .notice-error,.onboarding-funnel-light .notice-error{color:#c81e3f}.client-dashboard .notice-ok,.onboarding-funnel-light .notice-ok{color:#178a52}.client-dashboard .notice a,.onboarding-funnel-light .notice a,.client-dashboard .notice-link,.onboarding-funnel-light .notice-link{color:#c8551d}.client-dashboard .timeline-note,.onboarding-funnel-light .timeline-note,.client-dashboard .contract-verse,.onboarding-funnel-light .contract-verse,.client-dashboard .package-launch-note,.onboarding-funnel-light .package-launch-note,.client-dashboard .contract-points li::marker,.onboarding-funnel-light .contract-points li::marker{color:#c8551d}.client-dashboard .contract-verse,.onboarding-funnel-light .contract-verse{border-color:#ece2d8}.client-dashboard .contract-box,.onboarding-funnel-light .contract-box,.client-dashboard .meta-item,.onboarding-funnel-light .meta-item{background:#fdf8f3;border-color:#ece2d8}.client-dashboard .contract-signoff,.onboarding-funnel-light .contract-signoff{border-color:#ece2d8}.client-dashboard .signed-badge,.onboarding-funnel-light .signed-badge,.client-dashboard .signed-badge-lg,.onboarding-funnel-light .signed-badge-lg{color:#178a52}.client-dashboard .about-point,.onboarding-funnel-light .about-point{background:#fff;border-color:#ece2d8;box-shadow:0 3px 10px rgba(61,39,26,.05)}.client-dashboard .about-point:hover,.onboarding-funnel-light .about-point:hover{border-color:#e2d3c2}.client-dashboard .testimonial-card,.onboarding-funnel-light .testimonial-card,.client-dashboard .package-card,.onboarding-funnel-light .package-card{background:linear-gradient(160deg,#fffffff5,#fff8efc7);border-color:#f0e4d6;box-shadow:0 1px 0 #fff inset,0 16px 34px -18px rgba(61,39,26,.22)}.client-dashboard .testimonial-card::before,.onboarding-funnel-light .testimonial-card::before,.client-dashboard .package-card::before,.onboarding-funnel-light .package-card::before{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,0) 40%)}.client-dashboard .testimonial-card:hover,.onboarding-funnel-light .testimonial-card:hover,.client-dashboard .package-card:hover,.onboarding-funnel-light .package-card:hover{border-color:#e6d3bd;box-shadow:0 1px 0 #fff inset,0 22px 44px -18px rgba(61,39,26,.28)}.client-dashboard .testimonial-footer,.onboarding-funnel-light .testimonial-footer{border-color:#ece2d8}.client-dashboard .package-head,.onboarding-funnel-light .package-head{border-color:#ece2d8}.client-dashboard .package-card.featured,.onboarding-funnel-light .package-card.featured{background:linear-gradient(165deg,rgba(255,173,56,.16),rgba(255,114,38,.1) 55%,#fff);border-color:rgba(255,123,39,.4)}.client-dashboard .package-cta,.onboarding-funnel-light .package-cta{background:#fff;border-color:#ece2d8;color:var(--ink)}.client-dashboard .package-cta:hover,.onboarding-funnel-light .package-cta:hover{background:#fdf1e4}/* The main client-dashboard panel is much wider than the old .shell (max
    1100px), so the package grid's auto-fit/1fr columns were stretching each
    pricing card into a short, wide bar instead of a tall card. Capping the
    column width and centering the row restores the taller pricing-card look. */
-.client-dashboard .package-grid{grid-template-columns:repeat(auto-fit,minmax(230px,290px));justify-content:center}
-.client-dashboard .package-card{min-height:540px}
-
-.client-dashboard .team-orbit-lines line{stroke:#ece2d8}
+.client-dashboard .package-grid,.onboarding-funnel-light .package-grid{grid-template-columns:repeat(auto-fit,minmax(230px,290px));justify-content:center}.client-dashboard .package-card,.onboarding-funnel-light .package-card{min-height:540px}.client-dashboard .team-orbit-lines line,.onboarding-funnel-light .team-orbit-lines line{stroke:#ece2d8}
 
 @media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:160px 1fr}.client-hero-meta{display:none}}
 @media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center}.client-hero-meta{display:grid;border:0;padding:0}.client-project-switch{align-items:start}.client-status-pill{display:none}}
