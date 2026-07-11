@@ -2,7 +2,12 @@ import { Resend } from "resend";
 import fs from "node:fs";
 import path from "node:path";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY غير مضبوط في بيئة التشغيل");
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 // Lives in /public (not src/assets) specifically so Vercel's serverless
 // function bundler always includes it — files outside /public that are only
@@ -45,6 +50,7 @@ function proposalDecisionTemplate({ clientName, clientEmail, status, packageName
 
 // Notifies the admin by email whenever a client accepts or rejects a proposal.
 export async function sendProposalDecisionEmail(params) {
+  const resend = getResend();
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to: ADMIN_EMAIL,
@@ -65,6 +71,7 @@ export async function sendStagePaymentEmail({
   projectTitle,
   stage,
 }) {
+  const resend = getResend();
   const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,

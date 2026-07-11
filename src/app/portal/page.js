@@ -4,6 +4,7 @@ import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
+import "./portal-dashboard.css";
 
 const STATUS_LABEL = {
   upcoming: "لم تبدأ بعد",
@@ -112,25 +113,29 @@ export default async function PortalPage() {
   }
 
   return (
-    <div className="shell">
-      <div className="top-bar">
-        <a href="/" className="brand-row" style={{ marginBottom: 0 }}>
-          <span>KAREEM PRO</span>
-          <img src="/logo-transparent.png" alt="Kareem Pro" />
+    <div className="client-dashboard">
+      <header className="client-dashboard-header">
+        <a href="/" className="client-dashboard-brand">
+          <img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" />
+          <span><b>Kareem</b> <i>Pro</i><small>بوابة العميل</small></span>
         </a>
         <form action="/auth/signout" method="post">
-          <button type="submit" className="btn btn-outline btn-sm">
+          <button type="submit" className="client-logout">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5" /></svg>
             تسجيل الخروج
           </button>
         </form>
-      </div>
+      </header>
 
-      <h1 className="title">
-        أهلًا بك، <span className="g-text">{clientName}</span> 👋
-      </h1>
-      <p className="muted" style={{ marginBottom: "2rem" }}>
-        الآن .. راقب نمو مشروعك واستثمارك لحظة بلحظة ..
-      </p>
+      <main className="client-dashboard-main">
+        <section className="client-welcome">
+          <div>
+            <span>مساحة مشروعك</span>
+            <h1>أهلًا بك، {clientName}</h1>
+            <p>تابع تقدم مشروعك، مراحل التنفيذ، والمدفوعات من مكان واحد.</p>
+          </div>
+          <div className="client-welcome-mark" aria-hidden="true">KP</div>
+        </section>
 
       {!projects || projects.length === 0 ? (
         onboardingContent
@@ -157,7 +162,7 @@ export default async function PortalPage() {
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
-            <div className="card" key={project.id}>
+            <div className="card client-project-card" key={project.id}>
               <div className="project-header-block">
                 <div className="project-package-badge">
                   <span className="project-package-name">{pkgName}</span>
@@ -300,6 +305,7 @@ export default async function PortalPage() {
           );
         })
       )}
+      </main>
     </div>
   );
 }

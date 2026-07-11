@@ -1,0 +1,61 @@
+.client-dashboard {
+  min-height: 100vh;
+  direction: rtl;
+  color: #17223b;
+  background:
+    radial-gradient(circle at 8% 4%, rgba(53, 193, 190, .12), transparent 28rem),
+    radial-gradient(circle at 92% 12%, rgba(109, 94, 252, .1), transparent 30rem),
+    #f5f7fb;
+}
+
+.client-dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 82px;
+  padding: 14px clamp(20px, 5vw, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(32, 46, 76, .08);
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(18px);
+}
+
+.client-dashboard-brand { display: flex; align-items: center; gap: 12px; color: #17223b; text-decoration: none; }
+.client-dashboard-brand img { width: 48px; height: 48px; object-fit: contain; }
+.client-dashboard-brand > span { display: grid; grid-template-columns: auto auto; column-gap: 5px; align-items: baseline; font-size: 22px; line-height: 1; }
+.client-dashboard-brand i { color: #ef4b7a; font-style: normal; font-weight: 800; }
+.client-dashboard-brand small { grid-column: 1 / -1; margin-top: 5px; color: #7b8498; font-size: 11px; font-weight: 700; }
+
+.client-logout { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #dce1eb; border-radius: 12px; padding: 10px 15px; color: #4d5870; background: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.client-logout:hover { color: #ef4b7a; border-color: rgba(239, 75, 122, .35); background: #fff7fa; }
+.client-logout svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.client-dashboard-main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 34px 0 72px; }
+.client-welcome { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-bottom: 26px; padding: clamp(25px, 4vw, 42px); border-radius: 25px; color: #fff; background: linear-gradient(125deg, #202b4c 0%, #34436f 60%, #604ee8 130%); box-shadow: 0 18px 45px rgba(31, 43, 77, .16); }
+.client-welcome::after { content: ""; position: absolute; inset: auto -70px -110px auto; width: 270px; height: 270px; border: 50px solid rgba(255,255,255,.05); border-radius: 50%; }
+.client-welcome span { color: #73dfd6; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+.client-welcome h1 { margin: 8px 0 6px; color: #fff; font-size: clamp(25px, 3.4vw, 40px); line-height: 1.3; }
+.client-welcome p { margin: 0; color: rgba(255,255,255,.72); font-size: 15px; }
+.client-welcome-mark { position: relative; z-index: 1; display: grid; place-items: center; flex: 0 0 auto; width: 92px; height: 92px; border: 1px solid rgba(255,255,255,.15); border-radius: 28px; color: rgba(255,255,255,.9); background: rgba(255,255,255,.08); font-size: 24px; font-weight: 900; box-shadow: inset 0 0 30px rgba(255,255,255,.05); }
+
+.client-dashboard-main > .card,
+.client-dashboard-main .client-project-card { border: 1px solid rgba(35, 50, 80, .08); background: rgba(255,255,255,.96); box-shadow: 0 12px 35px rgba(33, 49, 82, .07); }
+.client-project-card + .client-project-card { margin-top: 24px; }
+.client-dashboard-main .project-header-block { border-radius: 18px; background: linear-gradient(135deg, #f7f9fd, #eef2fb); border: 1px solid #e8ecf4; }
+.client-dashboard-main .progress-fill { background: linear-gradient(90deg, #35c1be, #6d5efc); }
+
+@media (max-width: 700px) {
+  .client-dashboard-header { min-height: 70px; padding: 10px 16px; }
+  .client-dashboard-brand img { width: 42px; height: 42px; }
+  .client-dashboard-brand > span { font-size: 18px; }
+  .client-logout { padding: 9px; }
+  .client-logout svg { width: 20px; }
+  .client-logout { font-size: 0; }
+  .client-dashboard-main { width: min(100% - 24px, 1180px); padding-top: 18px; }
+  .client-welcome { align-items: flex-start; padding: 24px 20px; border-radius: 20px; }
+  .client-welcome-mark { width: 58px; height: 58px; border-radius: 17px; font-size: 16px; }
+  .client-welcome p { max-width: 240px; font-size: 13px; line-height: 1.7; }
+}
