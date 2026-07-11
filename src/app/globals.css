@@ -1539,6 +1539,18 @@ table.admin-table td:nth-child(6) {
    are a single SVG overlay drawn between the same percentage points. ── */
 .team-section {
   text-align: center;
+  padding: 1.4rem 0 2rem;
+}
+.team-heading {
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  margin: 0 auto;
+  padding: 1.7rem 3.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 24px 50px -20px rgba(120, 70, 30, 0.22), inset 0 2px 0 rgba(255,255,255,.7);
+  backdrop-filter: blur(20px);
 }
 .team-heading-bar {
   display: inline-block;
@@ -1549,14 +1561,22 @@ table.admin-table td:nth-child(6) {
   margin-bottom: 1rem;
 }
 .team-heading .title {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
+  color: #3a2118;
+  font-size: clamp(1.8rem, 4vw, 2.85rem) !important;
 }
+.team-heading .muted { color: #725f55; font-size: clamp(.95rem, 1.8vw, 1.2rem); }
 .team-orbit {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  aspect-ratio: 1 / 1;
-  margin: 2.4rem auto 3.2rem;
+  max-width: 1100px;
+  aspect-ratio: 1300 / 1210;
+  margin: 1.6rem auto 2rem;
+  border: 1px solid rgba(255,255,255,.68);
+  border-radius: 40px;
+  background: linear-gradient(160deg,rgba(255,255,255,.52),rgba(255,255,255,.2));
+  box-shadow: 0 40px 90px -30px rgba(120,70,30,.28),inset 0 2px 0 rgba(255,255,255,.72);
+  backdrop-filter: blur(28px);
 }
 .team-orbit-lines {
   position: absolute;
@@ -1565,8 +1585,8 @@ table.admin-table td:nth-child(6) {
   height: 100%;
 }
 .team-orbit-lines line {
-  stroke: var(--border);
-  stroke-width: 0.4;
+  stroke: #e8720d;
+  stroke-width: 0.28;
   opacity: 0;
   transition: opacity 0.6s ease;
 }
@@ -1586,58 +1606,62 @@ table.admin-table td:nth-child(6) {
   color: var(--muted);
 }
 .team-avatar-satellite {
-  width: 15%;
+  width: 10%;
   aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease;
 }
 .team-avatar-satellite.has-photo {
-  border-color: transparent;
+  border: 4px solid rgba(255,173,56,.46);
   background-size: cover;
   background-position: center;
+  box-shadow: 0 18px 34px -10px rgba(120,70,30,.4);
 }
 .team-satellite-caption {
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 8px;
+  margin-top: 12px;
   white-space: nowrap;
   text-align: center;
 }
 .team-satellite-name {
-  font-size: 0.85rem;
+  font-size: clamp(.8rem,1.5vw,1.05rem);
   font-weight: 800;
   color: var(--text);
-  background: var(--dark3);
-  padding: 3px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  color: #3a2118;
+  background: rgba(255,255,255,.62);
+  padding: 8px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.75);
+  box-shadow: 0 10px 28px -10px rgba(64,43,36,.18);
+  backdrop-filter: blur(18px);
 }
 .team-satellite-role {
-  font-size: 0.72rem;
+  font-size: clamp(.68rem,1.15vw,.85rem);
   font-weight: 700;
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-top: 3px;
+  color: #e8720d;
+  background: none;
+  -webkit-text-fill-color: #e8720d;
+  margin-top: 8px;
 }
 .team-avatar-center {
-  width: 22%;
+  width: 17%;
   aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
   border-color: transparent;
   background-color: var(--dark4);
   background-size: cover;
   background-position: center;
-  box-shadow: 0 0 0 3px var(--g2), 0 8px 20px -6px rgba(217, 24, 122, 0.4);
+  border: 6px solid #ff6c2c;
+  box-shadow: 0 0 0 5px rgba(255,255,255,.55),0 30px 60px -12px rgba(255,90,20,.45),0 0 46px 4px rgba(255,120,40,.28);
   color: var(--text);
   z-index: 2;
 }
 .team-founder-caption {
   position: absolute;
-  top: 64%;
+  top: 62%;
   left: 50%;
   width: 62%;
   transform: translateX(-50%);
@@ -1646,16 +1670,15 @@ table.admin-table td:nth-child(6) {
 }
 .team-founder-name {
   font-weight: 900;
-  font-size: 1.05rem;
-  color: var(--text);
+  font-size: clamp(1.1rem,2vw,1.6rem);
+  color: #3a2118;
 }
 .team-founder-role {
-  font-size: 0.85rem;
+  font-size: clamp(.8rem,1.4vw,.95rem);
   font-weight: 700;
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #e8720d;
+  background: none;
+  -webkit-text-fill-color: #e8720d;
   margin-top: 0.2rem;
 }
 .team-crown {
@@ -1669,4 +1692,9 @@ table.admin-table td:nth-child(6) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 720px) {
+  .team-heading { padding: 1.25rem 1.4rem; }
+  .team-orbit { border-radius: 24px; min-width: 650px; }
+  .team-section { overflow-x: auto; padding-inline: .25rem; }
 }

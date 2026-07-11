@@ -117,7 +117,9 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
     return () => observer.disconnect();
   }, []);
 
-  const radius = size * 0.38;
+  // Matches the approved 1300×1210 composition: satellites sit roughly
+  // 30% of the board width away from the founder.
+  const radius = size * 0.3;
   const angleFor = (i) => (i / members.length) * 2 * Math.PI - Math.PI / 2;
 
   return (
