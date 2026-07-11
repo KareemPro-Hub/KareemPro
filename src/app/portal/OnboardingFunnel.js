@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
+import "./portal-dashboard.css";
 
 function AboutIcon() {
   return (
