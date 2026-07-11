@@ -104,7 +104,7 @@ export default function AdminShell({ children }) {
               </button>
             </form>
             <div className="account-copy">
-              <b>كريم محمد</b>
+              <b>كريم عبد الصادق</b>
               <span>مدير المنصة</span>
             </div>
             <div className="avatar">

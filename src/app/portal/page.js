@@ -218,7 +218,7 @@ export default async function PortalPage() {
                 </div>
               )}
 
-              <div className="section-heading" style={{ marginTop: "1.6rem" }}>
+              <div className="section-heading" style={{ marginTop: "1.6rem" }} id="workflow">
                 <span className="section-heading-icon">🛠️</span>
                 مراحل الإنتاج
               </div>

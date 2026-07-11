@@ -601,7 +601,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   <strong>تم الاتفاق بين:</strong>
                 </p>
                 <p>
-                  الطرف الأول: <strong>كريم محمد</strong> — ويشار إليه بـ: Kareem Pro - CEO
+                  الطرف الأول: <strong>كريم عبد الصادق</strong> — ويشار إليه بـ: Kareem Pro - CEO
                 </p>
                 <p>
                   والطرف الثاني: <strong>{clientName}</strong> — ويشار إليه باسم: العميل
@@ -658,7 +658,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 <div className="contract-signoff">
                   <div>
                     <div className="who">الطرف الأول</div>
-                    <div>كريم محمد</div>
+                    <div>كريم عبد الصادق</div>
                     <div className="role">Kareem Pro — CEO</div>
                   </div>
                   <div className="signed-badge">
