@@ -4,6 +4,7 @@ import ProjectActions from "./ProjectActions";
 import { clientFinance, sumFinances } from "@/lib/adminFinance";
 import { getAdminTimeline } from "@/lib/timeline";
 import { timeAgo } from "@/lib/timeAgo";
+import AdminMoneyPrivacy from "./AdminMoneyPrivacy";
 
 const LOGO_COLORS = ["coral", "cyan", "violet"];
 
@@ -82,24 +83,29 @@ export default async function AdminOverview() {
 
   return (
     <section className="view active">
-      <div className="hero-card" style={{ gridTemplateColumns: "1.2fr 1fr" }}>
+      <div className="hero-card">
         <div>
-          <span className="eyebrow">إجمالي المُحصَّل حتى الآن</span>
+          <span className="eyebrow">الدخل الصافي حتى الآن</span>
           <div className="income-wrap">
             <div className="income">
-              <span dir="ltr">{Number(totals.collected).toLocaleString("en-US")}</span>
-              <span style={{ fontSize: "0.5em", marginRight: "6px" }}>ريال</span>
+              <AdminMoneyPrivacy value={totals.collected} />
             </div>
           </div>
           <p className="positive">
-            <span>{(clients || []).length} عميل · {allProjects.length} مشروع</span>
+            ↗ <span>{(clients || []).length} عميل · {allProjects.length} مشروع</span>
           </p>
         </div>
+        <div className="spark">
+          <svg viewBox="0 0 500 125" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="adminSpark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffb343" stopOpacity=".5"/><stop offset="1" stopColor="#ff922e" stopOpacity="0"/></linearGradient></defs>
+            <path className="area" fill="url(#adminSpark)" d="M0,110 C40,104 58,90 95,93 S150,60 188,72 S245,95 276,60 S330,50 356,58 S410,25 500,14 L500,125 L0,125Z"/>
+            <path className="line" d="M0,110 C40,104 58,90 95,93 S150,60 188,72 S245,95 276,60 S330,50 356,58 S410,25 500,14"/>
+          </svg>
+          <div className="spark-label"><b>{activeProjects.length} مشاريع</b><span>قيد التنفيذ</span></div>
+        </div>
         <div className="hero-side">
-          <span>المستحق القادم</span>
-          <b>
-            <Money value={totals.pending} />
-          </b>
+          <span>المتاح للتحصيل</span>
+          <b><AdminMoneyPrivacy value={totals.pending} /></b>
           <a href="/admin/wallet">عرض المحفظة ←</a>
         </div>
       </div>

@@ -5,8 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
-  { href: "/admin/clients/new", label: "عميل جديد", desc: "أضف بيانات عميل" },
   { href: "/admin/projects/new", label: "مشروع جديد", desc: "ابدأ مساحة عمل" },
+  { href: "/admin/clients/new", label: "عميل جديد", desc: "أضف بيانات عميل" },
+  { href: "/admin/pipeline", label: "عرض سعر", desc: "أنشئ عرضًا احترافيًا" },
+  { href: "/admin/wallet", label: "فاتورة جديدة", desc: "سجّل مستحقاتك" },
+  { href: "/admin/tasks", label: "مهمة جديدة", desc: "خطط لخطوتك التالية" },
+  { href: "/admin/delivery", label: "موعد جديد", desc: "جدول تسليمًا" },
 ];
 
 const NAV_GROUPS = [
@@ -100,7 +104,7 @@ export default function AdminShell({ children }) {
               </button>
             </form>
             <div className="account-copy">
-              <b>كريم عبد الصادق</b>
+              <b>كريم محمد</b>
               <span>مدير المنصة</span>
             </div>
             <div className="avatar">
@@ -122,7 +126,7 @@ export default function AdminShell({ children }) {
               <form className="search" onSubmit={handleSearch}>
                 <span>⌕</span>
                 <input
-                  placeholder="ابحث عن عميل بالاسم أو البريد..."
+                placeholder="ابحث عن مشروع أو عميل..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />

@@ -200,6 +200,7 @@
 .kp-dashboard .card.project-header-block{background:linear-gradient(135deg,#fff4e6,#ffe9f0)}
 .kp-dashboard h1.title,.kp-dashboard h2.title{color:var(--ink)}
 .kp-dashboard .timeline-note{color:#c8551d}
+.kp-dashboard .admin-private-money{display:inline-flex;align-items:center;gap:7px}.kp-dashboard .admin-private-money button{border:0;background:#ffffff18;color:#fff;width:29px;height:29px;border-radius:9px;cursor:pointer}.kp-dashboard .admin-riyal{font-size:.42em;color:#d8bca8}.kp-dashboard .spark .line{stroke:#ffb343;filter:drop-shadow(0 0 5px #ff922e)}
 
 .kp-dashboard .process-step{border-inline-start-color:var(--line)}
 .kp-dashboard .process-dot{border-color:var(--line)}
