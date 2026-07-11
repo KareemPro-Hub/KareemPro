@@ -225,3 +225,12 @@
 
 .kp-dashboard .more{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;transition:background .15s ease,color .15s ease}
 .kp-dashboard .more:hover{background:#eef4fb;color:#ef6a14}
+
+/* Approved sidebar brand lockup — measured from the supplied 500×160 reference. */
+.kp-dashboard .sidebar .brand{direction:ltr;display:flex;align-items:center;justify-content:flex-start;gap:11px;padding:0 10px 24px;text-decoration:none}
+.kp-dashboard .sidebar .brand-mark{width:52px;height:52px;flex:0 0 52px;padding:10px;border-radius:17px}
+.kp-dashboard .sidebar .brand-mark img{width:100%;height:100%;object-fit:contain}
+.kp-dashboard .sidebar .brand>div:last-child{direction:ltr;text-align:center;min-width:0}
+.kp-dashboard .sidebar .brand b{display:block;color:#fff;background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#fff;font-size:21px;font-weight:900;line-height:1.15;white-space:nowrap}
+.kp-dashboard .sidebar .brand b i{color:#ffad42;-webkit-text-fill-color:#ffad42}
+.kp-dashboard .sidebar .brand>div:last-child>span{display:block;margin-top:9px;color:#dec5b2;font-size:17px;font-weight:700;line-height:1.15;white-space:nowrap;text-align:center}
