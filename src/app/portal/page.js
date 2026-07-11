@@ -114,28 +114,34 @@ export default async function PortalPage() {
 
   return (
     <div className="client-dashboard">
-      <header className="client-dashboard-header">
+      <aside className="client-sidebar">
         <a href="/" className="client-dashboard-brand">
-          <img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" />
+          <span className="client-logo"><img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" /></span>
           <span><b>Kareem</b> <i>Pro</i><small>بوابة العميل</small></span>
         </a>
-        <form action="/auth/signout" method="post">
-          <button type="submit" className="client-logout">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M13 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5" /></svg>
-            تسجيل الخروج
-          </button>
-        </form>
-      </header>
+        <nav className="client-nav">
+          <a className="active" href="#overview"><span>⌂</span> نظرة عامة</a>
+          <a href="#projects"><span>▦</span> مشاريعي</a>
+          <a href="#payments"><span>◈</span> الدفعات والفواتير</a>
+          <a href="#workflow"><span>▤</span> الملفات والتسليمات</a>
+          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer"><span>◌</span> المحادثات</a>
+          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer"><span>؟</span> الدعم الفني</a>
+        </nav>
+        <div className="client-account">
+          <span className="client-account-avatar">{(clientName || "ع").trim().charAt(0)}</span>
+          <div><b>{clientName}</b><small>عميل Kareem Pro</small></div>
+          <form action="/auth/signout" method="post"><button type="submit" aria-label="تسجيل الخروج">↪</button></form>
+        </div>
+      </aside>
 
       <main className="client-dashboard-main">
-        <section className="client-welcome">
+        <header className="client-dashboard-header">
           <div>
-            <span>مساحة مشروعك</span>
-            <h1>أهلًا بك، {clientName}</h1>
-            <p>تابع تقدم مشروعك، مراحل التنفيذ، والمدفوعات من مكان واحد.</p>
+            <h1>أهلًا {clientName}، مشروعك يتقدم بثبات</h1>
+            <p>كل تفاصيل التنفيذ والدفعات والاعتمادات في مكان واحد.</p>
           </div>
-          <div className="client-welcome-mark" aria-hidden="true">KP</div>
-        </section>
+          <span className="client-head-avatar">{(clientName || "ع").trim().charAt(0)}</span>
+        </header>
 
       {!projects || projects.length === 0 ? (
         onboardingContent
@@ -162,8 +168,18 @@ export default async function PortalPage() {
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
-            <div className="card client-project-card" key={project.id}>
-              <div className="project-header-block">
+            <div className="client-project-wrap" id="projects" key={project.id}>
+              <div className="client-project-switch">
+                <div><span>المشروع الحالي</span><b>{project.title}</b><small>{pkgName}{pkgTagline ? ` · ${pkgTagline}` : ""}</small></div>
+                <span className="client-status-pill">{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
+              </div>
+              <section className="client-progress-hero" id="overview">
+                <div className="client-ring" style={{ "--progress": `${progressPercent * 3.6}deg` }}><strong>{progressPercent}%</strong><span>نسبة الإنجاز</span></div>
+                <div className="client-hero-copy"><span>المرحلة الحالية</span><h2>{clientTimeline[clientCurrentIdx]?.title || clientTimeline[0]?.title}</h2><p>{clientTimeline[clientCurrentIdx]?.desc || "بدأنا تجهيز مشروعك."}</p><div><i style={{ width: `${progressPercent}%` }} /></div><small>المرحلة {Math.max(clientCurrentIdx + 1, 1)} من {clientTimeline.length}</small></div>
+                <div className="client-hero-meta"><div><span>مدة التنفيذ المتوقعة</span><b>{getEstimatedDuration(project.package_name)}</b></div><div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div></div>
+              </section>
+              <div className="card client-project-card">
+              <div className="project-header-block" id="payments">
                 <div className="project-package-badge">
                   <span className="project-package-name">{pkgName}</span>
                   {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
@@ -300,6 +316,7 @@ export default async function PortalPage() {
                     )}
                   </div>
                 ))}
+              </div>
               </div>
             </div>
           );
