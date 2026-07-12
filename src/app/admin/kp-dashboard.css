@@ -234,3 +234,4 @@
 .kp-dashboard .sidebar .brand b{display:block;color:#fff;background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#fff;font-size:21px;font-weight:900;line-height:1.15;white-space:nowrap}
 .kp-dashboard .sidebar .brand b i{color:#ffad42;-webkit-text-fill-color:#ffad42}
 .kp-dashboard .sidebar .brand>div:last-child>span{display:block;margin-top:9px;color:#dec5b2;font-size:17px;font-weight:700;line-height:1.15;white-space:nowrap;text-align:center}
+.kp-dashboard .nav-link.active{display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;font-weight:800;text-align:center}
