@@ -33,7 +33,13 @@ export default function NewProjectForm({ clients }) {
 
       <div className="field">
         <label>اسم المشروع</label>
-        <input type="text" name="title" required placeholder="مثال: منصة إدارة العيادات" />
+        <input
+          type="text"
+          name="title"
+          required
+          defaultValue="مشروعك مع Kareem Pro"
+          placeholder="مثال: منصة إدارة العيادات"
+        />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>

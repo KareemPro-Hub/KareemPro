@@ -27,6 +27,7 @@ export default function NewProposalForm({ clientId }) {
             type="text"
             name="project_title"
             required
+            defaultValue="مشروعك مع Kareem Pro"
             placeholder="مثال: منصة تعليمية متكاملة"
           />
         </div>
