@@ -14,6 +14,14 @@ const STATUS_LABEL = {
   completed: "مكتملة",
 };
 
+const PAY_STATUS_STYLE = {
+  paid: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
+  in_progress: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
+  completed: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
+  awaiting_payment: { color: "#c1590a", bg: "rgba(255,140,40,.14)", icon: "…", ring: "linear-gradient(135deg,#ff7b27,#ffad38)" },
+  upcoming: { color: "#8a7466", bg: "rgba(120,70,30,.08)", icon: "…", ring: "linear-gradient(135deg,#c8b6a6,#a68f7c)" },
+};
+
 export default async function PortalPage() {
   const supabase = await createClient();
   const {
@@ -153,6 +161,16 @@ export default async function PortalPage() {
           const paidCount = stages.filter((s) =>
             ["paid", "in_progress", "completed"].includes(s.status)
           ).length;
+          const paidAmount = stages
+            .filter((s) => ["paid", "in_progress", "completed"].includes(s.status))
+            .reduce((sum, s) => sum + Number(s.amount || 0), 0);
+          const paidPercent = project.package_price
+            ? Math.round((paidAmount / Number(project.package_price)) * 100)
+            : 0;
+          const isCompleted = project.status === "completed";
+          const statusDot = isCompleted
+            ? { color: "#2f8a4e", gradient: "linear-gradient(135deg,#3fae66,#2f8a4e)" }
+            : { color: "#c1590a", gradient: "linear-gradient(135deg,#ff7b27,#ffad38)" };
           const clientTimeline = getClientTimeline(project.package_name);
           const clientCurrentKey = adminKeyToClientKey(
             project.package_name,
@@ -170,16 +188,57 @@ export default async function PortalPage() {
           return (
             <div className="client-project-wrap" id="projects" key={project.id}>
               <div className="project-luxe-top">
-                <div className="project-luxe-status">
+                <div className="project-luxe-status" style={{ "--dot-color": statusDot.color, "--dot-gradient": statusDot.gradient }}>
                   <span className="project-luxe-dot"><i /><i /></span>
-                  <span>{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
+                  <span>{isCompleted ? "مكتمل" : "قيد التنفيذ"}</span>
                 </div>
                 <div className="project-luxe-badge">
-                  <div className="project-luxe-badge-name"><span className="project-luxe-badge-dot" /><span className="project-luxe-badge-name-text">{pkgName}</span><span className="project-luxe-badge-dot" /></div>
-                  <div className="project-luxe-badge-price">
-                    <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-                    <RiyalIcon size="0.6em" />
+                  <div className="project-luxe-badge-col">
+                    <div className="project-luxe-badge-name"><span className="project-luxe-badge-dot" /><span className="project-luxe-badge-name-text">{pkgName}</span></div>
+                    <div className="project-luxe-badge-price">
+                      <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
+                      <RiyalIcon size="0.6em" />
+                    </div>
+                    <div className="project-luxe-paid-wrap">
+                      <div className="project-luxe-paid-track"><i style={{ width: `${Math.min(Math.max(paidPercent, 0), 100)}%` }} /></div>
+                      <small>تم سداد {paidPercent}% من إجمالي المبلغ</small>
+                    </div>
                   </div>
+                  {stages.length > 0 && (
+                    <>
+                      <div className="project-luxe-badge-divider" />
+                      <div className="project-luxe-payments-col">
+                        {stages.map((stage) => {
+                          const st = PAY_STATUS_STYLE[stage.status] || PAY_STATUS_STYLE.upcoming;
+                          const pct = project.package_price
+                            ? Math.round((Number(stage.amount || 0) / Number(project.package_price)) * 100)
+                            : 0;
+                          return (
+                            <div className="project-luxe-payment-row" key={stage.id}>
+                              <div className="project-luxe-payment-left">
+                                <span className="project-luxe-payment-node" style={{ background: st.ring }}>
+                                  {st.icon}
+                                </span>
+                                <div>
+                                  <div className="project-luxe-payment-title">الدفعة {stage.stage_number}</div>
+                                  <div className="project-luxe-payment-pct">{pct}% من الإجمالي</div>
+                                </div>
+                              </div>
+                              <div className="project-luxe-payment-right">
+                                <div className="project-luxe-payment-amount">
+                                  <span dir="ltr">{Number(stage.amount || 0).toLocaleString("en-US")}</span>
+                                  <RiyalIcon size="0.55em" />
+                                </div>
+                                <span className="project-luxe-payment-status" style={{ color: st.color, background: st.bg }}>
+                                  {STATUS_LABEL[stage.status] || stage.status}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
               <section className="client-progress-hero" id="overview">
