@@ -137,8 +137,8 @@ export default async function PortalPage() {
       <main className="client-dashboard-main">
         <header className="client-dashboard-header">
           <div>
-            <h1>أهلًا {clientName}، مشروعك يتقدم بثبات</h1>
-            <p>كل تفاصيل التنفيذ والدفعات والاعتمادات في مكان واحد.</p>
+            <h1>أهلًا بك، طموحك الرقمي يولد عملاقًا.</h1>
+            <p>لمتابعة مسار مشروعك، الميزانية، والقرارات لحظةً بلحظة.</p>
           </div>
           <span className="client-head-avatar">{(clientName || "ع").trim().charAt(0)}</span>
         </header>
@@ -170,7 +170,6 @@ export default async function PortalPage() {
           return (
             <div className="client-project-wrap" id="projects" key={project.id}>
               <div className="client-project-switch">
-                <div><span>المشروع الحالي</span><b>{project.title}</b><small>{pkgName}{pkgTagline ? ` · ${pkgTagline}` : ""}</small></div>
                 <span className="client-status-pill">{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
               </div>
               <section className="client-progress-hero" id="overview">
