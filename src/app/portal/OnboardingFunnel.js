@@ -83,6 +83,7 @@ const TEAM_MEMBERS = [
   { name: "ندى رحيم", role: "Office Documentation Specialist", photo: "/team/nada-rahim.jpg" },
 ];
 const PORTFOLIO_COVERS={"مونتاج احترافي":["https://img.youtube.com/vi/X4k2BYJuKbk/hqdefault.jpg"],"عرض مرئي":["https://img.youtube.com/vi/XA5TXQpjNrc/hqdefault.jpg"],"تعليق صوتي":["https://img.youtube.com/vi/g94wHiCSEDk/hqdefault.jpg"],"ريلز وسناب":["https://img.youtube.com/vi/zhNVbDO2lcw/hqdefault.jpg","https://img.youtube.com/vi/OG7rtRnAjvQ/hqdefault.jpg","https://img.youtube.com/vi/lMWqyAV96SI/hqdefault.jpg"]};
+const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احترافي يصنع من كل لقطة قصة تستحق المشاهدة.","عرض مرئي":"نصنع من فكرتك عرضًا بصريًا يترك أثرًا لا يُنسى.","تعليق صوتي":"نمنح عملك صوتًا يليق بقيمته.","ريلز وسناب":"نستخرج من التفاصيل الصغيرة قصة تستحق المشاهدة.","منصات وتطبيقات":"نحوّل فكرتك إلى منصة رقمية تليق بقيمة مشروعك."};
 
 // Hub-and-spoke team diagram: a center "founder" avatar with satellite
 // member avatars that burst outward from the center the first time the
@@ -388,8 +389,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 </div>
                 <div className="works-detail">
                   <h3>{portfolio[portfolioIndex]?.title}</h3>
-                  <p>{portfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
-                  {portfolio[portfolioIndex]?.link_url && <a href={portfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a>}
+                  <p>{PORTFOLIO_DESCRIPTIONS[portfolio[portfolioIndex]?.title] || portfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
+                  {portfolio[portfolioIndex]?.link_url ? <a href={portfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
                 </div>
                 </>
               ) : (
