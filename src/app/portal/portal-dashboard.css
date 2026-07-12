@@ -71,5 +71,27 @@
    column width and centering the row restores the taller pricing-card look. */
 .client-dashboard .package-grid,.onboarding-funnel-light .package-grid{grid-template-columns:repeat(auto-fit,minmax(230px,290px));justify-content:center}.client-dashboard .package-card,.onboarding-funnel-light .package-card{min-height:540px}.client-dashboard .team-orbit-lines line,.onboarding-funnel-light .team-orbit-lines line{stroke:#ece2d8}
 
-@media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:1fr auto}.hero-meta-col,.hero-divider{display:none}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}}
-@media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center;padding:28px 22px}.hero-meta-col,.hero-divider{display:none}.project-luxe-top{flex-direction:column}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}}
+.stages-accordion-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;margin-top:1.6rem}
+.stages-accordion-col{display:flex;flex-direction:column;gap:18px}
+.stages-accordion-heading-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.stages-accordion-heading{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#ff7b27,#ffad38);border-radius:16px;padding:10px 26px;box-shadow:0 14px 30px -10px rgba(232,114,13,.45);font-size:17px;font-weight:900;color:#fff;white-space:nowrap}
+.stages-accordion-heading-icon{font-size:15px}
+.stages-accordion-subheading{font-size:13px;font-weight:400;color:#8a6a4a}
+.stages-accordion-card{position:relative;border-radius:26px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 26px 56px -24px rgba(120,70,30,.28),inset 0 1px 0 rgba(255,255,255,.9);padding:6px 22px}
+.stages-accordion-row{position:relative;display:flex;align-items:flex-start;gap:14px;padding:16px 2px;cursor:pointer;border-bottom:1px solid rgba(120,70,30,.1)}
+.stages-accordion-row.last{border-bottom:0}
+.stages-accordion-node{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;box-shadow:0 10px 20px -8px rgba(120,70,30,.35);margin-top:2px}
+.stages-accordion-row-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stages-accordion-row-title-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stages-accordion-row-title{font-size:15.5px;font-weight:900;color:#3a2118}
+.stages-accordion-badge{font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:99px;white-space:nowrap}
+.stages-accordion-row-desc{font-size:13px;font-weight:400;color:#8a6a4a;line-height:1.7;margin:6px 0 0;max-width:640px}
+.stages-accordion-row-amount{font-size:13px;font-weight:700;color:#3a2118;margin:6px 0 0;display:flex;align-items:baseline;gap:.2rem}
+.stages-accordion-chevron{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#c1873f;background:rgba(120,70,30,.06);transform:rotate(90deg);transition:transform .25s ease;margin-top:2px}
+.stages-accordion-chevron.open{transform:rotate(-90deg)}
+.stages-accordion-instructions{margin-top:12px;background:rgba(217,72,58,.08);border:1px solid rgba(217,72,58,.2);border-radius:14px;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.stages-accordion-instructions p{margin:0;font-size:12.5px;font-weight:700;color:#b93a2e;line-height:1.8}
+.stages-accordion-instructions a{color:#b93a2e;text-decoration:underline}
+.stages-accordion-empty{padding:24px 8px;text-align:center;color:#8a6a4a;font-size:13px}
+@media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:1fr auto}.hero-meta-col,.hero-divider{display:none}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center;padding:28px 22px}.hero-meta-col,.hero-divider{display:none}.project-luxe-top{flex-direction:column}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}

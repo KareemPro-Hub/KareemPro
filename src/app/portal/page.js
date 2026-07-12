@@ -3,32 +3,10 @@ import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
+import StagesAccordion from "./StagesAccordion";
 import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
+import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
-
-const STATUS_LABEL = {
-  upcoming: "لم تبدأ بعد",
-  awaiting_payment: "بانتظار السداد",
-  paid: "تم السداد",
-  in_progress: "جاري التنفيذ",
-  completed: "مكتملة",
-};
-
-const PAY_STATUS_STYLE = {
-  paid: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
-  in_progress: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
-  completed: { color: "#2f8a4e", bg: "rgba(47,138,78,.12)", icon: "✓", ring: "linear-gradient(135deg,#3fae66,#2f8a4e)" },
-  awaiting_payment: { color: "#c1590a", bg: "rgba(255,140,40,.14)", icon: "…", ring: "linear-gradient(135deg,#ff7b27,#ffad38)" },
-  upcoming: { color: "#8a7466", bg: "rgba(120,70,30,.08)", icon: "…", ring: "linear-gradient(135deg,#c8b6a6,#a68f7c)" },
-};
-
-const PAY_STATUS_LABEL = {
-  paid: "مدفوعة",
-  in_progress: "مدفوعة",
-  completed: "مدفوعة",
-  awaiting_payment: "بانتظار السداد",
-  upcoming: "قيد الانتظار",
-};
 
 export default async function PortalPage() {
   const supabase = await createClient();
@@ -285,100 +263,11 @@ export default async function PortalPage() {
                 </div>
               )}
 
-              <div className="section-heading" style={{ marginTop: "1.6rem" }} id="workflow">
-                <span className="section-heading-icon">🛠️</span>
-                مراحل الإنتاج
-              </div>
-              <p className="muted" style={{ marginBottom: "0.4rem" }}>
-                أين يقف مشروعك الآن في التنفيذ — منفصلة عن مراحل السداد بالأسفل.
-              </p>
-              <div className="process-timeline" style={{ marginTop: "1rem" }}>
-                {clientTimeline.map((item, idx) => {
-                  const state =
-                    clientCurrentIdx === -1
-                      ? idx === 0
-                        ? "current"
-                        : "upcoming"
-                      : idx < clientCurrentIdx
-                      ? "completed"
-                      : idx === clientCurrentIdx
-                      ? "current"
-                      : "upcoming";
-                  return (
-                    <div className={`process-step ${state}`} key={item.key}>
-                      <span className="process-dot">
-                        {state === "completed" ? <CheckIcon size="0.85em" /> : idx + 1}
-                      </span>
-                      <div className="process-body">
-                        <span className="process-title">{item.title}</span>
-                        <span className="process-desc">{item.desc}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="section-heading" style={{ marginTop: "1.8rem" }}>
-                <span className="section-heading-icon">💳</span>
-                مراحل السداد
-              </div>
-              <p className="muted" style={{ marginBottom: "0.4rem" }}>
-                مراحل سداد قيمة الباقة على دفعات، منفصلة عن مراحل الإنتاج بالأعلى.
-              </p>
-              <div className="stage-timeline" style={{ marginTop: "1rem" }}>
-                {stages.map((stage) => (
-                  <div className={`stage ${stage.status}`} key={stage.id}>
-                    <span className="stage-dot">{stage.stage_number}</span>
-                    <div className="stage-head">
-                      <span className="stage-title">{stage.title}</span>
-                      <span className={`stage-status ${stage.status}`}>
-                        {STATUS_LABEL[stage.status] || stage.status}
-                      </span>
-                    </div>
-                    {stage.description && (
-                      <p className="stage-desc">{stage.description}</p>
-                    )}
-                    <p className="stage-amount">
-                      قيمة المرحلة:{" "}
-                      <span>
-                        <span dir="ltr">{Number(stage.amount).toLocaleString("en-US")}</span>
-                        <RiyalIcon />
-                      </span>
-                    </p>
-                    {stage.status === "awaiting_payment" && (
-                      <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>
-                        <p style={{ margin: "0 0 0.7rem 0" }}>
-                          هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
-                          <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>.
-                        </p>
-                        <p style={{ margin: "0 0 0.7rem 0" }}>
-                          نزّل ملف بيانات المستفيد وأضفه في تطبيق الراجحي لكي يتم
-                          التحويل الدولي بنجاح:{" "}
-                          <a
-                            href="/kareem-pro-bank-beneficiary-guide.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="notice-link"
-                          >
-                            تحميل بيانات المستفيد (PDF)
-                          </a>
-                        </p>
-                        <p style={{ margin: 0 }}>
-                          بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب على الرقم{" "}
-                          <a
-                            href="https://wa.me/966507069605"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="notice-link"
-                          >
-                            966507069605+
-                          </a>{" "}
-                          لننطلق مباشرة.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <StagesAccordion
+                clientTimeline={clientTimeline}
+                clientCurrentIdx={clientCurrentIdx}
+                stages={stages}
+              />
               </div>
             </div>
           );
