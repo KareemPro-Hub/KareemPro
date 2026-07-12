@@ -172,9 +172,7 @@ export default async function PortalPage() {
             ? Math.round((paidAmount / Number(project.package_price)) * 100)
             : 0;
           const isCompleted = project.status === "completed";
-          const statusDot = isCompleted
-            ? { color: "#2f8a4e", gradient: "linear-gradient(135deg,#3fae66,#2f8a4e)" }
-            : { color: "#c1590a", gradient: "linear-gradient(135deg,#ff7b27,#ffad38)" };
+          const isOnHold = project.status === "on_hold" || project.status === "cancelled";
           const clientTimeline = getClientTimeline(project.package_name);
           const clientCurrentKey = adminKeyToClientKey(
             project.package_name,
@@ -187,6 +185,14 @@ export default async function PortalPage() {
             : clientTimeline.length > 1
             ? Math.round((Math.max(clientCurrentIdx, 0) / (clientTimeline.length - 1)) * 100)
             : 0;
+          const isNotStarted = !isCompleted && !isOnHold && progressPercent === 0;
+          const statusDot = isCompleted
+            ? { label: "مكتمل", color: "#2f8a4e", gradient: "linear-gradient(135deg,#3fae66,#2f8a4e)" }
+            : isOnHold
+            ? { label: "متوقف", color: "#b93a2e", gradient: "linear-gradient(135deg,#d1483a,#b93a2e)" }
+            : isNotStarted
+            ? { label: "في الانتظار", color: "#2a6fb0", gradient: "linear-gradient(135deg,#4a92d6,#2a6fb0)" }
+            : { label: "العمل مستمر", color: "#2f8a4e", gradient: "linear-gradient(135deg,#3fae66,#2f8a4e)" };
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
@@ -194,7 +200,7 @@ export default async function PortalPage() {
               <div className="project-luxe-top">
                 <div className="project-luxe-status" style={{ "--dot-color": statusDot.color, "--dot-gradient": statusDot.gradient }}>
                   <span className="project-luxe-dot"><i /><i /></span>
-                  <span>{isCompleted ? "مكتمل" : "قيد التنفيذ"}</span>
+                  <span>{statusDot.label}</span>
                 </div>
                 <div className="project-luxe-badge">
                   <div className="project-luxe-badge-col">
@@ -311,11 +317,6 @@ export default async function PortalPage() {
                   );
                 })}
               </div>
-              <p className="timeline-note" style={{ marginTop: "1rem" }}>
-                مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}،
-                حسب سرعة إرسال البيانات ومراجعة المتاجر.
-              </p>
-
               <div className="section-heading" style={{ marginTop: "1.8rem" }}>
                 <span className="section-heading-icon">💳</span>
                 مراحل السداد
