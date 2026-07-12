@@ -170,9 +170,15 @@ export default async function PortalPage() {
           return (
             <div className="client-project-wrap" id="projects" key={project.id}>
               <div className="client-project-switch">
-                <div className="project-badge-compact">
-                  <span className="project-badge-compact-name">{pkgName}</span>
-                  {pkgTagline && <span className="project-badge-compact-tagline"> · {pkgTagline}</span>}
+                <div className="project-badge-compact project-badge-large">
+                  <div className="project-badge-compact-top">
+                    <span className="project-badge-compact-name">{pkgName}</span>
+                    {pkgTagline && <span className="project-badge-compact-tagline"> · {pkgTagline}</span>}
+                  </div>
+                  <div className="project-badge-price">
+                    <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
+                    <RiyalIcon size="0.7em" />
+                  </div>
                 </div>
                 <span className="client-status-pill">{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
               </div>
@@ -181,13 +187,7 @@ export default async function PortalPage() {
                 <div className="client-hero-copy"><span>المرحلة الحالية</span><h2>{clientTimeline[clientCurrentIdx]?.title || clientTimeline[0]?.title}</h2><p>{clientTimeline[clientCurrentIdx]?.desc || "بدأنا تجهيز مشروعك."}</p><div><i style={{ width: `${progressPercent}%` }} /></div><small>المرحلة {Math.max(clientCurrentIdx + 1, 1)} من {clientTimeline.length}</small></div>
                 <div className="client-hero-meta"><div><span>مدة التنفيذ المتوقعة</span><b>{getEstimatedDuration(project.package_name)}</b></div><div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div></div>
               </section>
-              <div className="card client-project-card">
-              <div className="project-header-block" id="payments">
-                <div className="project-price-display">
-                  <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-                  <RiyalIcon size="0.7em" />
-                </div>
-              </div>
+              <div className="card client-project-card" id="payments">
               <div style={{ marginTop: "1.2rem" }}>
                 <div className="progress-head-row">
                   <span className="progress-label">نسبة الإنجاز الكلي</span>
