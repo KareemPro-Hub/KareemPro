@@ -138,7 +138,7 @@ export default async function PortalPage() {
         <header className="client-dashboard-header">
           <div>
             <h1>أهلًا بك، طموحك الرقمي يولد عملاقًا.</h1>
-            <p>لمتابعة مسار مشروعك، الميزانية، والقرارات لحظةً بلحظة.</p>
+            <p>تتابع مسار مشروعك، الميزانية، والقرارات لحظةً بلحظة.</p>
           </div>
           <span className="client-head-avatar">{(clientName || "ع").trim().charAt(0)}</span>
         </header>
