@@ -170,6 +170,10 @@ export default async function PortalPage() {
           return (
             <div className="client-project-wrap" id="projects" key={project.id}>
               <div className="client-project-switch">
+                <div className="project-badge-compact">
+                  <span className="project-badge-compact-name">{pkgName}</span>
+                  {pkgTagline && <span className="project-badge-compact-tagline"> · {pkgTagline}</span>}
+                </div>
                 <span className="client-status-pill">{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
               </div>
               <section className="client-progress-hero" id="overview">
@@ -179,12 +183,6 @@ export default async function PortalPage() {
               </section>
               <div className="card client-project-card">
               <div className="project-header-block" id="payments">
-                <div className="project-package-badge">
-                  <span className="project-package-name">{pkgName}</span>
-                  {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
-                </div>
-                <div className="project-price-divider" />
-                <span className="project-price-label">قيمة الباقة</span>
                 <div className="project-price-display">
                   <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
                   <RiyalIcon size="0.7em" />
