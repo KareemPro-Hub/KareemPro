@@ -126,10 +126,10 @@ export default async function PortalPage() {
             <span className="ico nav-image-icon"><img src="/admin-ui/icons/checklist.png" alt="" /></span> مراحل الإنتاج والسداد
           </a>
           <a href="#workflow">
-            <span><FilesIcon size="1.1em" /></span> الملفات والتسليمات
+            <span><FilesIcon size="1.5em" /></span> الملفات والتسليمات
           </a>
           <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
-            <span><SupportIcon size="1.1em" /></span> الدعم الفني
+            <span><SupportIcon size="1.5em" /></span> الدعم الفني
           </a>
         </nav>
         <div className="client-account">
