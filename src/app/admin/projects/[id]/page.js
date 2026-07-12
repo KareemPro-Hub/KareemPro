@@ -1,9 +1,9 @@
 import { requireAdmin } from "@/lib/admin";
 import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
+import AddStageModal from "./AddStageModal";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
-import { addStage } from "@/app/admin/actions";
 import { getAdminTimeline, getEstimatedDuration } from "@/lib/timeline";
 
 export default async function ProjectDetailPage({ params }) {
@@ -33,38 +33,40 @@ export default async function ProjectDetailPage({ params }) {
 
   return (
     <section className="view active">
-      <a href="/admin/projects" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للوحة التحكم
+      <a href="/admin/projects" className="proj-detail-back">
+        رجوع للوحة التحكم ←
       </a>
 
-      <div className="card project-header-block">
-        <div className="project-package-badge">
-          <span className="project-package-name">{pkgName}</span>
-          {pkgTagline && <span className="project-package-tagline">{pkgTagline}</span>}
+      <div className="proj-detail-hero">
+        <div className="proj-detail-badge">
+          <div className="proj-detail-badge-name">{pkgName}</div>
+          {pkgTagline && <div className="proj-detail-badge-tagline">{pkgTagline}</div>}
         </div>
-        <div className="project-price-divider" />
-        <span className="project-price-label">قيمة الباقة</span>
-        <div className="project-price-display">
+        <div className="proj-detail-hero-divider" />
+        <div className="proj-detail-price-label">قيمة الباقة</div>
+        <div className="proj-detail-price">
           <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-          <RiyalIcon size="0.7em" />
+          <RiyalIcon size="0.55em" />
         </div>
       </div>
 
-      <div className="card">
-        <div className="section-heading">
-          <span className="section-heading-icon">🛠️</span>
-          مسار الإنتاج
+      <div className="proj-detail-section">
+        <div className="proj-detail-section-head">
+          <div className="proj-detail-section-title">
+            <span className="proj-detail-section-icon">🛠️</span>
+            مسار الإنتاج
+          </div>
+          {isProjectCompleted && (
+            <span className="proj-detail-completed-badge">
+              <CheckIcon size="0.9em" /> المشروع مكتمل
+            </span>
+          )}
         </div>
-        {isProjectCompleted && (
-          <span className="project-completed-badge">
-            <CheckIcon size="0.95em" />
-            المشروع مكتمل
-          </span>
-        )}
-        <p className="muted" style={{ marginBottom: "1.2rem" }}>
+        <p className="muted" style={{ marginBottom: "0.6rem" }}>
           أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
         </p>
-        <div className="process-timeline">
+
+        <div className="proj-detail-list">
           {adminTimeline.map((item, idx) => {
             const state =
               currentIdx === -1
@@ -77,23 +79,28 @@ export default async function ProjectDetailPage({ params }) {
                 ? "current"
                 : "upcoming";
             return (
-              <div className={`process-step ${state}`} key={item.key}>
-                <span className="process-dot">
-                  {state === "completed" ? <CheckIcon size="0.85em" /> : idx + 1}
-                </span>
-                <div className="process-body">
-                  <span className="process-title">{item.title}</span>
-                  <span className="process-desc">{item.desc}</span>
+              <div className="proj-detail-row" key={item.key}>
+                <div className="proj-detail-row-text">
+                  <div className="proj-detail-row-title">{item.title}</div>
+                  <div className="proj-detail-row-desc">{item.desc}</div>
+                </div>
+                <div className="proj-detail-row-node-col">
+                  <span className={`proj-detail-node ${state}`}>
+                    {state === "completed" ? <CheckIcon size="0.85em" /> : idx + 1}
+                  </span>
+                  {idx < adminTimeline.length - 1 && <span className="proj-detail-node-line" />}
                 </div>
               </div>
             );
           })}
         </div>
-        <p className="timeline-note" style={{ marginTop: "1rem" }}>
-          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب
-          سرعة إرسال البيانات ومراجعة المتاجر.
+
+        <p className="proj-detail-note">
+          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب سرعة إرسال البيانات
+          ومراجعة المتاجر.
         </p>
-        <div style={{ marginTop: "1.4rem" }}>
+
+        <div className="proj-detail-timeline-actions">
           <TimelineActions
             projectId={project.id}
             currentStep={project.timeline_step || usableSteps[0]}
@@ -102,36 +109,21 @@ export default async function ProjectDetailPage({ params }) {
         </div>
       </div>
 
-      <div className="card">
-        <div className="section-heading">
-          <span className="section-heading-icon">💳</span>
-          المراحل المالية (السداد)
+      <div className="proj-detail-section">
+        <div className="proj-detail-section-head">
+          <div className="proj-detail-section-title">
+            <span className="proj-detail-section-icon">💳</span>
+            المراحل المالية (السداد)
+          </div>
+          <AddStageModal projectId={project.id} />
         </div>
-        <div className="stage-timeline" style={{ marginTop: "1.2rem" }}>
+
+        <div className="proj-detail-list">
           {stages.map((stage) => (
             <StageCard stage={stage} key={stage.id} />
           ))}
           {stages.length === 0 && <p className="muted">لسه مفيش مراحل سداد مضافة.</p>}
         </div>
-
-        <form action={addStage} style={{ marginTop: "1.4rem" }}>
-          <input type="hidden" name="project_id" value={project.id} />
-          <div className="field">
-            <label>عنوان المرحلة</label>
-            <input type="text" name="title" required placeholder="مثال: الدفعة الأولى" />
-          </div>
-          <div className="field">
-            <label>وصف مختصر (اختياري)</label>
-            <textarea name="description" rows={2} />
-          </div>
-          <div className="field">
-            <label>المبلغ (ريال)</label>
-            <input type="number" name="amount" min="0" step="0.01" required />
-          </div>
-          <button type="submit" className="btn btn-outline btn-sm">
-            + إضافة مرحلة سداد
-          </button>
-        </form>
       </div>
     </section>
   );

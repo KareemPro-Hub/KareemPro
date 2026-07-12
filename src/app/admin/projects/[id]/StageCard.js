@@ -2,15 +2,14 @@
 
 import { useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
-import CheckIcon from "@/app/components/CheckIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
 
-const STATUS_LABEL = {
-  upcoming: "لم تبدأ بعد",
-  awaiting_payment: "بانتظار السداد",
-  paid: "تم السداد",
-  in_progress: "جاري التنفيذ",
-  completed: "مكتملة",
+const STATUS_META = {
+  upcoming: { label: "لم تبدأ بعد", color: "#7a6a5a", bg: "rgba(120,100,80,.1)" },
+  awaiting_payment: { label: "بانتظار السداد", color: "#c1590a", bg: "rgba(255,173,56,.18)" },
+  paid: { label: "تم السداد", color: "#2f8a4e", bg: "rgba(47,138,78,.14)" },
+  in_progress: { label: "جاري التنفيذ", color: "#2a6fb0", bg: "rgba(42,111,176,.12)" },
+  completed: { label: "مكتملة", color: "#2f8a4e", bg: "rgba(47,138,78,.14)" },
 };
 
 const NEXT_ACTION = {
@@ -37,6 +36,7 @@ export default function StageCard({ stage }) {
 
   const action = NEXT_ACTION[stage.status];
   const prevStatus = PREV_STATUS[stage.status];
+  const meta = STATUS_META[stage.status] || STATUS_META.upcoming;
 
   function run(target) {
     setError(null);
@@ -85,124 +85,105 @@ export default function StageCard({ stage }) {
 
   if (isEditing) {
     return (
-      <div className={`stage ${stage.status}`}>
-        <span className="stage-dot">{stage.stage_number}</span>
-        <form action={handleSave} style={{ marginTop: "0.6rem" }}>
-          <input type="hidden" name="stage_id" value={stage.id} />
-          <div className="field">
-            <label>عنوان المرحلة</label>
-            <input type="text" name="title" required defaultValue={stage.title} />
-          </div>
-          <div className="field">
-            <label>وصف مختصر (اختياري)</label>
-            <textarea name="description" rows={2} defaultValue={stage.description || ""} />
-          </div>
-          <div className="field">
-            <label>المبلغ (ريال)</label>
-            <input
-              type="number"
-              name="amount"
-              min="0"
-              step="0.01"
-              required
-              defaultValue={stage.amount}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "0.6rem", marginTop: "0.8rem" }}>
-            <button type="submit" className="btn btn-primary btn-sm" disabled={isPending}>
-              {isPending ? "جارِ الحفظ..." : "حفظ التعديل"}
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline btn-sm"
-              onClick={() => setIsEditing(false)}
-              disabled={isPending}
-            >
-              تراجع
-            </button>
-          </div>
-          {error && (
-            <div className="notice notice-error" style={{ marginTop: "0.6rem" }}>
-              {error}
+      <div className="proj-detail-row">
+        <div className="proj-detail-row-text">
+          <form action={handleSave} className="proj-detail-edit-form">
+            <input type="hidden" name="stage_id" value={stage.id} />
+            <div className="field">
+              <label>عنوان المرحلة</label>
+              <input type="text" name="title" required defaultValue={stage.title} />
             </div>
-          )}
-        </form>
+            <div className="field">
+              <label>وصف مختصر (اختياري)</label>
+              <textarea name="description" rows={2} defaultValue={stage.description || ""} />
+            </div>
+            <div className="field">
+              <label>المبلغ (ريال)</label>
+              <input type="number" name="amount" min="0" step="0.01" required defaultValue={stage.amount} />
+            </div>
+            <div className="proj-detail-edit-actions">
+              <button type="submit" className="proj-detail-btn primary" disabled={isPending}>
+                {isPending ? "جارِ الحفظ..." : "حفظ"}
+              </button>
+              <button
+                type="button"
+                className="proj-detail-btn"
+                onClick={() => setIsEditing(false)}
+                disabled={isPending}
+              >
+                إلغاء
+              </button>
+            </div>
+            {error && (
+              <div className="notice notice-error" style={{ marginTop: "0.6rem" }}>
+                {error}
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`stage ${stage.status}`}>
-      <span className="stage-dot">{stage.stage_number}</span>
-      <div className="stage-head">
-        <span className="stage-title">{stage.title}</span>
-        <span className={`stage-status ${stage.status}`}>
-          {STATUS_LABEL[stage.status] || stage.status}
+    <div className="proj-detail-row">
+      <div className="proj-detail-row-text">
+        <div className="proj-detail-row-title">{stage.title}</div>
+        {stage.description && <div className="proj-detail-row-desc">{stage.description}</div>}
+        <div className="proj-detail-row-amount">
+          <span dir="ltr">{Number(stage.amount).toLocaleString("en-US")}</span>
+          <RiyalIcon size="0.6em" />
+        </div>
+
+        <div className="proj-detail-row-actions">
+          <button
+            type="button"
+            className="proj-detail-btn"
+            onClick={() => setIsEditing(true)}
+            disabled={isPending}
+          >
+            تعديل
+          </button>
+
+          {action && (
+            <button
+              className="proj-detail-btn primary"
+              onClick={() => run(action.target)}
+              disabled={isPending}
+            >
+              {isPending ? "جارِ التنفيذ..." : action.label}
+            </button>
+          )}
+
+          {prevStatus && (
+            <button className="proj-detail-btn" onClick={handleCancel} disabled={isPending}>
+              {isPending ? "جارِ الإلغاء..." : "إلغاء"}
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="proj-detail-btn danger"
+            onClick={handleDelete}
+            disabled={isPending}
+          >
+            {isPending ? "جارِ الحذف..." : "حذف"}
+          </button>
+        </div>
+
+        {error && (
+          <div className="notice notice-error" style={{ marginTop: "0.6rem" }}>
+            {error}
+          </div>
+        )}
+      </div>
+
+      <div className="proj-detail-row-node-col">
+        <span className="proj-detail-node">{stage.stage_number}</span>
+        <span className="proj-detail-status-badge" style={{ color: meta.color, background: meta.bg }}>
+          {meta.label}
         </span>
       </div>
-      {stage.description && <p className="stage-desc">{stage.description}</p>}
-      <p className="stage-amount">
-        <span dir="ltr">{Number(stage.amount).toLocaleString("en-US")}</span>
-        <RiyalIcon />
-      </p>
-
-      <div
-        style={{
-          marginTop: "0.9rem",
-          display: "flex",
-          gap: "0.6rem",
-          flexWrap: "wrap",
-          alignItems: "center",
-        }}
-      >
-        <button
-          type="button"
-          className="btn btn-outline btn-sm"
-          onClick={() => setIsEditing(true)}
-          disabled={isPending}
-        >
-          تعديل
-        </button>
-
-        {stage.status === "completed" && (
-          <span className="muted">
-            اكتملت <CheckIcon size="0.85em" />
-          </span>
-        )}
-        {action && (
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => run(action.target)}
-            disabled={isPending}
-          >
-            {isPending ? "جارِ التنفيذ..." : action.label}
-          </button>
-        )}
-        {prevStatus && (
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={handleCancel}
-            disabled={isPending}
-          >
-            {isPending ? "جارِ الإلغاء..." : "إلغاء"}
-          </button>
-        )}
-
-        <button
-          type="button"
-          className="btn btn-outline btn-sm btn-danger"
-          onClick={handleDelete}
-          disabled={isPending}
-        >
-          {isPending ? "جارِ الحذف..." : "حذف"}
-        </button>
-      </div>
-
-      {error && (
-        <div className="notice notice-error" style={{ marginTop: "0.6rem" }}>
-          {error}
-        </div>
-      )}
     </div>
   );
 }

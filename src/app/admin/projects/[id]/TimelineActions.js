@@ -33,14 +33,14 @@ export default function TimelineActions({ projectId, currentStep, steps }) {
     <div>
       <div style={{ display: "flex", gap: "0.6rem" }}>
         <button
-          className="btn btn-outline btn-sm"
+          className="proj-detail-btn"
           onClick={() => move(prevStep)}
           disabled={isPending || !prevStep}
         >
           ← رجوع مرحلة
         </button>
         <button
-          className="btn btn-primary btn-sm"
+          className="proj-detail-btn primary"
           onClick={() => move(nextStep)}
           disabled={isPending || !nextStep}
         >
