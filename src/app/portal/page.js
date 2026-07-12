@@ -22,6 +22,14 @@ const PAY_STATUS_STYLE = {
   upcoming: { color: "#8a7466", bg: "rgba(120,70,30,.08)", icon: "…", ring: "linear-gradient(135deg,#c8b6a6,#a68f7c)" },
 };
 
+const PAY_STATUS_LABEL = {
+  paid: "مدفوعة",
+  in_progress: "مدفوعة",
+  completed: "مدفوعة",
+  awaiting_payment: "قيد الانتظار",
+  upcoming: "قيد الانتظار",
+};
+
 export default async function PortalPage() {
   const supabase = await createClient();
   const {
@@ -227,7 +235,7 @@ export default async function PortalPage() {
                                   <RiyalIcon size="0.55em" />
                                 </div>
                                 <span className="project-luxe-payment-status" style={{ color: st.color, background: st.bg }}>
-                                  {STATUS_LABEL[stage.status] || stage.status}
+                                  {PAY_STATUS_LABEL[stage.status] || stage.status}
                                 </span>
                               </div>
                             </div>
