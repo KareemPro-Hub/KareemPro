@@ -27,7 +27,7 @@ export default async function AdminClientsPage({ searchParams }) {
         <div className="panel-head">
           <div>
             <span className="overline">مساحة العمل</span>
-            <h2>العملاء {q && <span className="muted" style={{ fontSize: "0.7em" }}>— نتائج البحث عن "{params.q}"</span>}</h2>
+            <h2>أصحاب المشاريع {q && <span className="muted" style={{ fontSize: "0.7em" }}>— نتائج البحث عن "{params.q}"</span>}</h2>
           </div>
           <a className="text-btn" href="/admin/clients/new">
             + عميل جديد

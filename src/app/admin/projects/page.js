@@ -53,7 +53,7 @@ export default async function AdminProjectsPage() {
                 <span>{pkgName} — {projectStatusLabel(p.status)}</span>
               </div>
               <div className="client">
-                <span>العميل</span>
+                <span>صاحب المشروع</span>
                 <b>{p.clientName}</b>
               </div>
               <div className="deadline">

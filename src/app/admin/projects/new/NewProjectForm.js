@@ -20,9 +20,9 @@ export default function NewProjectForm({ clients }) {
   return (
     <form action={createProject}>
       <div className="field">
-        <label>العميل</label>
+        <label>صاحب المشروع</label>
         <select name="client_id" required>
-          <option value="">اختر العميل</option>
+          <option value="">اختر صاحب المشروع</option>
           {clients.map((c) => (
             <option key={c.id} value={c.id}>
               {c.full_name} — {c.email}

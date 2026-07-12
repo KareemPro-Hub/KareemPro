@@ -95,7 +95,7 @@ export default function ClientActions({ clientId, clientName }) {
           e.preventDefault();
           open ? closeMenu() : openMenu();
         }}
-        aria-label="خيارات العميل"
+        aria-label="خيارات صاحب المشروع"
         style={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
       >
         <MoreIcon />
@@ -171,7 +171,7 @@ export default function ClientActions({ clientId, clientName }) {
                 fontWeight: 700,
               }}
             >
-              <TrashIcon /> {isDeleting ? "جارِ الحذف..." : "حذف العميل نهائيًا"}
+              <TrashIcon /> {isDeleting ? "جارِ الحذف..." : "حذف صاحب المشروع نهائيًا"}
             </button>
 
             {error && (

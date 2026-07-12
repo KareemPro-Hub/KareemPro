@@ -3,7 +3,7 @@
 // (contracted / collected / pending) is defined exactly once.
 
 export const PROPOSAL_LABEL = {
-  pending: "بانتظار قرار العميل",
+  pending: "بانتظار قرار صاحب المشروع",
   accepted: "تمت الموافقة ✅",
   rejected: "مرفوض ⚠️",
 };

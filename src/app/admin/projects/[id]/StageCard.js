@@ -69,7 +69,7 @@ export default function StageCard({ stage }) {
   function handleDelete() {
     if (
       !window.confirm(
-        `متأكد إنك عايز تحذف مرحلة "${stage.title}"؟ هيتم حذفها نهائيًا من عندك وعند العميل.`
+        `متأكد إنك عايز تحذف مرحلة "${stage.title}"؟ هيتم حذفها نهائيًا من عندك وعند صاحب المشروع.`
       )
     )
       return;

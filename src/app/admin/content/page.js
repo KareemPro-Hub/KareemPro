@@ -27,7 +27,7 @@ export default async function AdminContentPage() {
         المحتوى العام
       </h1>
       <p className="muted" style={{ marginBottom: "1.6rem" }}>
-        هذا المحتوى يظهر لكل العملاء الجدد قبل ما يشوفوا العرض الفني الخاص بيهم.
+        هذا المحتوى يظهر لكل أصحاب المشاريع الجدد قبل ما يشوفوا العرض الفني الخاص بيهم.
       </p>
 
       <div className="card">
@@ -101,7 +101,7 @@ export default async function AdminContentPage() {
             <input type="url" name="image_url" placeholder="https://..." />
           </div>
           <div className="field">
-            <label>رابط المشروع/الخدمة (اختياري — يفتح عند ضغط العميل على الكارت)</label>
+            <label>رابط المشروع/الخدمة (اختياري — يفتح عند ضغط صاحب المشروع على الكارت)</label>
             <input type="url" name="link_url" placeholder="https://..." />
           </div>
           <div className="field">
@@ -116,7 +116,7 @@ export default async function AdminContentPage() {
 
       <div className="card">
         <h2 className="title" style={{ fontSize: "1.1rem" }}>
-          آراء العملاء
+          آراء أصحاب المشاريع
         </h2>
 
         {(testimonials || []).map((t) => (
@@ -146,7 +146,7 @@ export default async function AdminContentPage() {
 
         <form action={addTestimonial} style={{ marginTop: "1.2rem" }}>
           <div className="field">
-            <label>اسم العميل</label>
+            <label>اسم صاحب المشروع</label>
             <input type="text" name="client_name" required />
           </div>
           <div className="field">

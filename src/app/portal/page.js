@@ -117,7 +117,7 @@ export default async function PortalPage() {
       <aside className="client-sidebar">
         <a href="/" className="client-dashboard-brand">
           <span className="client-logo"><img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" /></span>
-          <span><b>Kareem</b> <i>Pro</i><small>بوابة العميل</small></span>
+          <span><b>Kareem</b> <i>Pro</i><small>بوابة صاحب المشروع</small></span>
         </a>
         <nav className="client-nav">
           <a className="active" href="#overview"><span>⌂</span> نظرة عامة</a>

@@ -3,7 +3,7 @@ import NewProposalForm from "./NewProposalForm";
 import DeleteProposalButton from "./DeleteProposalButton";
 
 const STATUS_LABEL = {
-  pending: "بانتظار قرار العميل",
+  pending: "بانتظار قرار صاحب المشروع",
   accepted: "تمت الموافقة ✅",
   rejected: "مرفوض ⚠️",
 };
@@ -21,7 +21,7 @@ export default async function ClientProposalPage({ params }) {
   if (!client) {
     return (
       <section className="view active">
-        <p className="muted">العميل غير موجود.</p>
+        <p className="muted">صاحب المشروع غير موجود.</p>
       </section>
     );
   }

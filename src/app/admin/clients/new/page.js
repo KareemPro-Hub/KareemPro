@@ -16,7 +16,7 @@ export default async function NewClientPage() {
         </p>
         <form action={inviteClient}>
           <div className="field">
-            <label>اسم العميل</label>
+            <label>اسم صاحب المشروع</label>
             <input type="text" name="full_name" required />
           </div>
           <div className="field">
@@ -28,7 +28,7 @@ export default async function NewClientPage() {
             <input type="text" name="phone" dir="ltr" />
           </div>
           <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
-            إرسال الدعوة وإضافة العميل
+            إرسال الدعوة وإضافة صاحب المشروع
           </button>
         </form>
       </div>

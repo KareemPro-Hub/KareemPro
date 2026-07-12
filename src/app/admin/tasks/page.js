@@ -48,7 +48,7 @@ export default async function AdminTasksPage() {
           </div>
         </div>
         <p className="muted" style={{ marginBottom: "1rem" }}>
-          قائمة حقيقية من العناصر اللي محتاجة إجراء منك — عروض بانتظار قرار العميل، ودفعات محتاجة تأكيد استلام.
+          قائمة حقيقية من العناصر اللي محتاجة إجراء منك — عروض بانتظار قرار صاحب المشروع، ودفعات محتاجة تأكيد استلام.
         </p>
         {items.length === 0 && <p className="muted">لا يوجد شيء بانتظار إجراء الآن 🎉</p>}
         {items.map((item) => (

@@ -36,7 +36,7 @@ export default function NewProposalForm({ clientId }) {
         الباقات
       </h2>
       <p className="muted" style={{ marginBottom: "1rem" }}>
-        العميل هيشوف الباقات دي ويختار منها واحدة لما يوافق.
+        صاحب المشروع هيشوف الباقات دي ويختار منها واحدة لما يوافق.
       </p>
 
       {packages.map((pkg, i) => (

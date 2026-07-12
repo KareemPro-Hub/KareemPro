@@ -188,7 +188,7 @@ export default async function AdminOverview() {
                   <span>{pkgName}</span>
                 </div>
                 <div className="client">
-                  <span>العميل</span>
+                  <span>صاحب المشروع</span>
                   <b>{p.client.full_name}</b>
                 </div>
                 <div className="deadline">

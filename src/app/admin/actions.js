@@ -20,7 +20,7 @@ const DEFAULT_PACKAGES = [
       "موقع احترافي متكامل لعرض مشروعك أو خدماتك.",
       "تصميم متجاوب يعمل بكفاءة على الجوال والكمبيوتر.",
       "ربط مباشر بواتساب ووسائل التواصل الاجتماعي.",
-      "نموذج تواصل لاستقبال طلبات العملاء.",
+      "نموذج تواصل لاستقبال طلبات أصحاب المشاريع.",
       "ربط الدومين الرسمي والتأكد من جاهزيته للإطلاق.",
       "مناسبة لأصحاب الأفكار والمشاريع في بدايتها.",
       "طريقة السداد: دفعتان.",
@@ -141,7 +141,7 @@ export async function inviteClient(formData) {
       )
     )?.id;
 
-  if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب العميل");
+  if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب صاحب المشروع");
 
   const { error: upsertError } = await admin
     .from("clients")
@@ -404,7 +404,7 @@ export async function resendInvite(clientId) {
   await requireAdmin();
   const admin = createAdminClient();
 
-  if (!clientId) throw new Error("معرّف العميل مفقود");
+  if (!clientId) throw new Error("معرّف صاحب المشروع مفقود");
 
   const { data: client, error: clientError } = await admin
     .from("clients")
@@ -412,7 +412,7 @@ export async function resendInvite(clientId) {
     .eq("id", clientId)
     .single();
 
-  if (clientError || !client) throw new Error("تعذر العثور على العميل");
+  if (clientError || !client) throw new Error("تعذر العثور على صاحب المشروع");
 
   const { error } = await admin.auth.resetPasswordForEmail(client.email, {
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/set-password`,
@@ -428,7 +428,7 @@ export async function deleteClient(clientId) {
   await requireAdmin();
   const admin = createAdminClient();
 
-  if (!clientId) throw new Error("معرّف العميل مفقود");
+  if (!clientId) throw new Error("معرّف صاحب المشروع مفقود");
 
   const { error } = await admin.auth.admin.deleteUser(clientId);
   if (error) throw new Error(error.message);
@@ -494,7 +494,7 @@ export async function addTestimonial(formData) {
   const role = formData.get("role")?.toString().trim() || null;
   const quote = formData.get("quote")?.toString().trim();
   const avatar_url = formData.get("avatar_url")?.toString().trim() || null;
-  if (!client_name || !quote) throw new Error("اسم العميل ونص الرأي مطلوبين");
+  if (!client_name || !quote) throw new Error("اسم صاحب المشروع ونص الرأي مطلوبين");
 
   const { error } = await admin.from("testimonials").insert({ client_name, role, quote, avatar_url });
   if (error) throw new Error(error.message);
@@ -526,7 +526,7 @@ export async function createProposal(formData) {
   const features = formData.getAll("package_features[]").map((v) => v.toString().trim());
   const featured = formData.getAll("package_featured[]").map((v) => v.toString() === "true");
 
-  if (!client_id || !project_title) throw new Error("العميل وعنوان المشروع مطلوبين");
+  if (!client_id || !project_title) throw new Error("صاحب المشروع وعنوان المشروع مطلوبان");
   if (names.length === 0 || !names[0]) throw new Error("أضف باقة واحدة على الأقل");
 
   const { data: proposal, error: proposalError } = await admin

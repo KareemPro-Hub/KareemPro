@@ -32,7 +32,7 @@ export default async function AdminPipelinePage() {
             <img src="/admin-ui/icons/target.png" alt="بانتظار قرار" />
           </div>
           <div>
-            <span>بانتظار قرار العميل</span>
+            <span>بانتظار قرار صاحب المشروع</span>
             <b>{counts.pending || 0}</b>
           </div>
         </article>
