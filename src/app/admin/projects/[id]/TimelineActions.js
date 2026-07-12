@@ -37,7 +37,7 @@ export default function TimelineActions({ projectId, currentStep, steps }) {
           onClick={() => move(prevStep)}
           disabled={isPending || !prevStep}
         >
-          <span>رجوع مرحلة</span> <span>→</span>
+          <span>→</span> <span>رجوع مرحلة</span>
         </button>
         <button
           className="proj-detail-btn primary"
@@ -48,7 +48,7 @@ export default function TimelineActions({ projectId, currentStep, steps }) {
             "جارِ التحديث..."
           ) : nextStep ? (
             <>
-              <span>←</span> <span>المرحلة التالية</span>
+              <span>المرحلة التالية</span> <span>←</span>
             </>
           ) : (
             <>
