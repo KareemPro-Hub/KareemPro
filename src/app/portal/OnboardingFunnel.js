@@ -258,7 +258,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
         ))}
       </div>
 
-      <div className="card funnel-card">
+      <div className={`card funnel-card${stepIndex === 2 ? " works-funnel-card" : ""}`}>
         {stepIndex < 4 && (
           <div className="funnel-nav funnel-nav-top">
             <button
