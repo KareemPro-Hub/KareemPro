@@ -169,22 +169,38 @@ export default async function PortalPage() {
 
           return (
             <div className="client-project-wrap" id="projects" key={project.id}>
-              <div className="client-project-switch">
-                <div className="project-badge-compact project-badge-large">
-                  <div className="project-badge-compact-top">
-                    <span className="project-badge-compact-name">{pkgName}</span>
-                  </div>
-                  <div className="project-badge-price">
+              <div className="project-luxe-top">
+                <div className="project-luxe-status">
+                  <span className="project-luxe-dot"><i /><i /></span>
+                  <span>{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
+                </div>
+                <div className="project-luxe-badge">
+                  <div className="project-luxe-badge-name"><span className="project-luxe-badge-dot" /><span className="project-luxe-badge-name-text">{pkgName}</span><span className="project-luxe-badge-dot" /></div>
+                  <div className="project-luxe-badge-price">
                     <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
-                    <RiyalIcon size="0.7em" />
+                    <RiyalIcon size="0.6em" />
                   </div>
                 </div>
-                <span className="client-status-pill">{project.status === "completed" ? "مكتمل" : "قيد التنفيذ"}</span>
               </div>
               <section className="client-progress-hero" id="overview">
-                <div className="client-ring" style={{ "--progress": `${progressPercent * 3.6}deg` }}><strong>{progressPercent}%</strong><span>نسبة الإنجاز</span></div>
-                <div className="client-hero-copy"><span>المرحلة الحالية</span><h2>{clientTimeline[clientCurrentIdx]?.title || clientTimeline[0]?.title}</h2><p>{clientTimeline[clientCurrentIdx]?.desc || "بدأنا تجهيز مشروعك."}</p><div><i style={{ width: `${progressPercent}%` }} /></div><small>المرحلة {Math.max(clientCurrentIdx + 1, 1)} من {clientTimeline.length}</small></div>
-                <div className="client-hero-meta"><div><span>مدة التنفيذ المتوقعة</span><b>{getEstimatedDuration(project.package_name)}</b></div><div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div></div>
+                <div className="hero-meta-col">
+                  <div><span>مدة التنفيذ المتوقعة</span><b>{getEstimatedDuration(project.package_name)}</b></div>
+                  <div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div>
+                </div>
+                <div className="hero-divider" />
+                <div className="hero-copy-col">
+                  <span>المرحلة الحالية</span>
+                  <h2>{clientTimeline[clientCurrentIdx]?.title || clientTimeline[0]?.title}</h2>
+                  <p>{clientTimeline[clientCurrentIdx]?.desc || "بدأنا تجهيز مشروعك."}</p>
+                  <div className="hero-progress-track"><i style={{ width: `${progressPercent}%` }} /></div>
+                  <small>المرحلة {Math.max(clientCurrentIdx + 1, 1)} من {clientTimeline.length}</small>
+                </div>
+                <div className="hero-ring-col">
+                  <div className="hero-ring" style={{ "--progress": `${progressPercent}%` }}>
+                    <div className="hero-ring-inner"><strong>{progressPercent}%</strong></div>
+                  </div>
+                  <span>نسبة الإنجاز</span>
+                </div>
               </section>
               <div className="card client-project-card" id="payments">
               <div style={{ marginTop: "1.2rem" }}>
