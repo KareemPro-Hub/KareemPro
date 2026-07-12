@@ -1,61 +1,76 @@
 import { requireAdmin } from "@/lib/admin";
-import { PROPOSAL_LABEL } from "@/lib/adminFinance";
+import PipelineBoard from "./PipelineBoard";
 
-const STATUS_DOT = {
-  pending: "coral-bg",
-  accepted: "cyan-bg",
-  rejected: "violet-bg",
-};
+function timeAgoLabel(dateStr) {
+  const diffMs = Date.now() - new Date(dateStr).getTime();
+  const days = Math.floor(diffMs / 86400000);
+  if (days <= 0) return "اليوم";
+  if (days === 1) return "أمس";
+  return `قبل ${days} أيام`;
+}
 
 export default async function AdminPipelinePage() {
   const { supabase } = await requireAdmin();
 
   const { data: clients } = await supabase
     .from("clients")
-    .select("id, full_name, proposals(id, status, created_at, decided_at, project_title)")
+    .select(
+      "id, full_name, proposals(id, status, created_at, decided_at, project_title, selected_package_id, proposal_packages(id, name, price))"
+    )
     .order("created_at", { ascending: false });
 
   const proposals = (clients || [])
     .flatMap((c) => (c.proposals || []).map((pr) => ({ ...pr, clientId: c.id, clientName: c.full_name })))
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  const counts = proposals.reduce(
-    (acc, p) => ({ ...acc, [p.status]: (acc[p.status] || 0) + 1 }),
-    {}
-  );
+  const items = proposals.map((p) => {
+    const selectedPkg = (p.proposal_packages || []).find((pk) => pk.id === p.selected_package_id);
+    return {
+      id: p.id,
+      clientId: p.clientId,
+      clientName: p.clientName,
+      projectTitle: p.project_title || `عرض ${p.clientName}`,
+      status: p.status,
+      packageName: selectedPkg ? selectedPkg.name.split("|")[0].trim() : null,
+      amount: selectedPkg ? Number(selectedPkg.price) : null,
+      createdAt: p.created_at,
+      dateLabel: new Date(p.created_at).toLocaleDateString("ar-SA", { day: "numeric", month: "long" }),
+    };
+  });
+
+  const counts = {
+    pending: items.filter((i) => i.status === "pending").length,
+    accepted: items.filter((i) => i.status === "accepted").length,
+    rejected: items.filter((i) => i.status === "rejected").length,
+  };
+  const totalAcceptedValue = items
+    .filter((i) => i.status === "accepted" && i.amount)
+    .reduce((sum, i) => sum + i.amount, 0);
+
+  // Real recent-events feed: derived from actual proposal created_at/decided_at
+  // timestamps — not fabricated demo activity.
+  const recentEvents = proposals
+    .flatMap((p) => {
+      const events = [
+        { time: p.created_at, icon: "📄", text: `تم إنشاء عرض جديد لـ ${p.clientName}` },
+      ];
+      if (p.decided_at) {
+        events.push(
+          p.status === "accepted"
+            ? { time: p.decided_at, icon: "✅", text: `تمت الموافقة على عرض "${p.project_title || p.clientName}"` }
+            : p.status === "rejected"
+            ? { time: p.decided_at, icon: "✕", text: `تم رفض عرض "${p.project_title || p.clientName}"` }
+            : null
+        );
+      }
+      return events.filter(Boolean);
+    })
+    .sort((a, b) => new Date(b.time) - new Date(a.time))
+    .slice(0, 5)
+    .map((ev) => ({ ...ev, timeLabel: timeAgoLabel(ev.time) }));
 
   return (
     <section className="view active">
-      <div className="stats">
-        <article>
-          <div className="stat-icon orange custom-stat-icon">
-            <img src="/admin-ui/icons/target.png" alt="بانتظار قرار" />
-          </div>
-          <div>
-            <span>بانتظار قرار صاحب المشروع</span>
-            <b>{counts.pending || 0}</b>
-          </div>
-        </article>
-        <article>
-          <div className="stat-icon green custom-stat-icon">
-            <img src="/admin-ui/icons/checklist.png" alt="تمت الموافقة" />
-          </div>
-          <div>
-            <span>تمت الموافقة</span>
-            <b>{counts.accepted || 0}</b>
-          </div>
-        </article>
-        <article>
-          <div className="stat-icon purple custom-stat-icon">
-            <img src="/admin-ui/icons/report.png" alt="مرفوض" />
-          </div>
-          <div>
-            <span>مرفوض</span>
-            <b>{counts.rejected || 0}</b>
-          </div>
-        </article>
-      </div>
-
       <div className="panel">
         <div className="panel-head">
           <div>
@@ -63,30 +78,13 @@ export default async function AdminPipelinePage() {
             <h2>كل العروض الفنية والمالية</h2>
           </div>
         </div>
-        {proposals.length === 0 && <p className="muted">لسه مفيش عروض اتبعتت.</p>}
-        <div className="timeline" style={{ gridTemplateColumns: "1fr" }}>
-          {proposals.map((p) => (
-            <a
-              key={p.id}
-              href={`/admin/proposal/${p.clientId}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <div>
-                <time>
-                  <b>{new Date(p.created_at).getDate()}</b>
-                  {new Date(p.created_at).toLocaleDateString("ar-SA", { month: "short" })}
-                </time>
-                <i className={`dot ${STATUS_DOT[p.status] || "coral-bg"}`} />
-                <p>
-                  <b>{p.project_title || `عرض ${p.clientName}`}</b>
-                  <span>
-                    {p.clientName} — {PROPOSAL_LABEL[p.status] || p.status}
-                  </span>
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
+
+        <PipelineBoard
+          items={items}
+          counts={counts}
+          totalAcceptedValue={totalAcceptedValue}
+          recentEvents={recentEvents}
+        />
       </div>
     </section>
   );
