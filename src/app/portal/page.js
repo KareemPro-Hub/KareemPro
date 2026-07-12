@@ -140,7 +140,6 @@ export default async function PortalPage() {
           <a href="#projects"><span>▦</span> مشاريعي</a>
           <a href="#payments"><span>◈</span> الدفعات والفواتير</a>
           <a href="#workflow"><span>▤</span> الملفات والتسليمات</a>
-          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer"><span>◌</span> المحادثات</a>
           <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer"><span>؟</span> الدعم الفني</a>
         </nav>
         <div className="client-account">
