@@ -158,9 +158,6 @@ export default async function PortalPage() {
           const stages = (project.stages || []).sort(
             (a, b) => a.stage_number - b.stage_number
           );
-          const paidCount = stages.filter((s) =>
-            ["paid", "in_progress", "completed"].includes(s.status)
-          ).length;
           const paidAmount = stages
             .filter((s) => ["paid", "in_progress", "completed"].includes(s.status))
             .reduce((sum, s) => sum + Number(s.amount || 0), 0);
@@ -262,20 +259,6 @@ export default async function PortalPage() {
                 </div>
               </section>
               <div className="card client-project-card" id="payments">
-              <div style={{ marginTop: "1.2rem" }}>
-                <div className="progress-head-row">
-                  <span className="progress-label">نسبة الإنجاز الكلي</span>
-                  <span className="progress-percent">{progressPercent}%</span>
-                </div>
-                <div className="progress-track">
-                  <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-                </div>
-              </div>
-
-              <p className="muted" style={{ marginTop: "0.8rem", textAlign: "center" }}>
-                {paidCount} من {stages.length} مراحل قيد السداد أو منتهية
-              </p>
-
               {isProjectCompleted && (
                 <div className="project-completed-banner">
                   <span className="project-completed-icon">
