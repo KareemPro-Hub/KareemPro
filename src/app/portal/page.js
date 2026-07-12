@@ -26,7 +26,7 @@ const PAY_STATUS_LABEL = {
   paid: "مدفوعة",
   in_progress: "مدفوعة",
   completed: "مدفوعة",
-  awaiting_payment: "قيد الانتظار",
+  awaiting_payment: "بانتظار السداد",
   upcoming: "قيد الانتظار",
 };
 
