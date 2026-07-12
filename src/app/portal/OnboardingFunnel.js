@@ -346,14 +346,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           )}
 
           {stepIndex === 2 && (
-            <section className="portfolio-showcase">
-              <div className="portfolio-showcase-nav">
-                <button type="button" className="portfolio-next" onClick={goNext}>التالي</button>
-                <button type="button" className="portfolio-prev" onClick={goBack}>السابق</button>
-              </div>
+            <section className="works-showcase">
               <h2>روائعنا البصرية والتقنية</h2>
               {portfolio && portfolio.length > 0 ? (
-                <div className="portfolio-grid">
+                <div className="works-grid">
                   {portfolio.map((item) => {
                     const Wrapper = item.link_url ? "a" : "div";
                     const wrapperProps = item.link_url
@@ -361,22 +357,22 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       : {};
                     const hasStack = Number(item.stack_count) > 1;
                     return (
-                      <div className="portfolio-stack" key={item.id}>
+                      <div className="works-stack" key={item.id}>
                         {hasStack && (
                           <>
-                            <div className="portfolio-stack-layer layer-2" />
-                            <div className="portfolio-stack-layer layer-1" />
+                            <div className="works-stack-layer layer-2" />
+                            <div className="works-stack-layer layer-1" />
                           </>
                         )}
-                        <Wrapper className="portfolio-item" {...wrapperProps}>
+                        <Wrapper className="works-card" {...wrapperProps}>
                           <div
-                            className="portfolio-item-bg"
+                            className="works-card-bg"
                             style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
                           />
-                          <div className="portfolio-item-tint" />
-                          <div className="portfolio-item-shade" />
+                          <div className="works-card-tint" />
+                          <div className="works-card-shade" />
                           {hasStack && (
-                            <span className="portfolio-stack-badge">
+                            <span className="works-stack-badge">
                               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="4" y="4" width="12" height="12" rx="2" />
                                 <path d="M8 20h12a2 2 0 0 0 2 -2v-12" />
@@ -384,10 +380,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                               +{item.stack_count - 1} أعمال أخرى
                             </span>
                           )}
-                          <div className="portfolio-item-body">
-                            <div className="portfolio-item-title">{item.title}</div>
+                          <div className="works-card-body">
+                            <div className="works-card-title">{item.title}</div>
                             {item.link_url && (
-                              <span className="portfolio-item-cta">
+                              <span className="works-card-cta">
                                 شاهد كل الأعمال
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                   <line x1="19" y1="12" x2="5" y2="12" />
