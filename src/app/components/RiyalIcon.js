@@ -1,9 +1,9 @@
 // Official Saudi Riyal currency symbol — replaces the word "ريال" / "SAR"
 // everywhere an amount is shown on the site.
-export default function RiyalIcon({ size = "0.85em", style = {} }) {
+export default function RiyalIcon({ size = "0.85em", tone = "light", style = {} }) {
   return (
     <img
-      src="/riyal-symbol-white.png"
+      src={tone === "dark" ? "/riyal-symbol-black.png" : "/riyal-symbol-white.png"}
       alt="ريال"
       style={{
         height: size,

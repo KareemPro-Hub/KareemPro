@@ -367,7 +367,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     const coverImages=PORTFOLIO_COVERS[item.title]||[item.image_url].filter(Boolean);
                     return (
                       <button type="button" className={`works-slide${offset === 0 ? " active" : ""}`} key={item.id} onClick={() => setPortfolioIndex(index)} style={{ "--offset": offset }}>
-                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className="works-card-bg" style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>} 
+                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className="works-card-bg" style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
                           <div className="works-card-shade" />
                           {hasStack && (
                             <span className="works-stack-badge">
@@ -467,7 +467,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}
                         <div className="package-price">
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
-                          <RiyalIcon size="0.7em" />
+                          <RiyalIcon size="0.7em" tone="dark" />
                         </div>
                         <div className="package-launch-note">أسعار إطلاق لفترة محدودة لأول عملائنا.</div>
                       </div>
@@ -615,7 +615,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   قيمة الباقة:{" "}
                   <strong>
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
-                    <RiyalIcon size="0.8em" /> سعودي
+                    <RiyalIcon size="0.8em" tone="dark" /> سعودي
                   </strong>
                 </p>
 
