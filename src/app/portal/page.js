@@ -113,7 +113,7 @@ export default async function PortalPage() {
       <aside className="client-sidebar">
         <a href="/" className="client-dashboard-brand">
           <span className="client-logo"><img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" /></span>
-          <span><b>Kareem</b> <i>Pro</i><small>بوابة صاحب المشروع</small></span>
+          <span><b>Kareem</b> <i>Pro</i><small>بوابة النخبة</small></span>
         </a>
         <nav className="client-nav">
           <a className="active" href="#overview">
@@ -134,7 +134,7 @@ export default async function PortalPage() {
         </nav>
         <div className="client-account">
           <span className="client-account-avatar">{(clientName || "ع").trim().charAt(0)}</span>
-          <div><b>{clientName}</b><small>عميل Kareem Pro</small></div>
+          <div><b>{clientName}</b><small>صاحب مشروع</small></div>
           <form action="/auth/signout" method="post"><button type="submit" aria-label="تسجيل الخروج">↪</button></form>
         </div>
       </aside>
