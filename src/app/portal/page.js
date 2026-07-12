@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import FilesIcon from "@/app/components/FilesIcon";
+import SupportIcon from "@/app/components/SupportIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
 import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
@@ -128,7 +129,7 @@ export default async function PortalPage() {
             <span><FilesIcon size="1.1em" /></span> الملفات والتسليمات
           </a>
           <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
-            <span>؟</span> الدعم الفني
+            <span><SupportIcon size="1.1em" /></span> الدعم الفني
           </a>
         </nav>
         <div className="client-account">
