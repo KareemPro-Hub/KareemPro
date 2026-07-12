@@ -1,6 +1,33 @@
 import { requireAdmin } from "@/lib/admin";
-import { getAdminTimeline, getEstimatedDuration } from "@/lib/timeline";
-import { projectStatusLabel } from "@/lib/adminFinance";
+import { getEstimatedDuration } from "@/lib/timeline";
+import DeliveryActionCard from "./DeliveryActionCard";
+
+const AVATAR_PALETTE = [
+  "linear-gradient(135deg,#ff7b27,#ffad38)",
+  "linear-gradient(135deg,#e8720d,#c1590a)",
+  "linear-gradient(135deg,#ffad38,#e8720d)",
+];
+
+const ACTION_TYPES = [
+  {
+    key: "invoice",
+    icon: "🧾",
+    title: "إصدار الفاتورة",
+    desc: "إصدار الفاتورة النهائية للمشروع وإرسالها للعميل.",
+  },
+  {
+    key: "review",
+    icon: "⭐",
+    title: "طلب تقييم",
+    desc: "إرسال رسالة للعميل لطلب تقييم بعد استلام المشروع.",
+  },
+  {
+    key: "confirm",
+    icon: "✔️",
+    title: "تأكيد الاستلام",
+    desc: "تأكيد استلام العميل للمشروع بشكل نهائي وإغلاق الملف.",
+  },
+];
 
 export default async function AdminDeliveryPage() {
   const { supabase } = await requireAdmin();
@@ -26,65 +53,59 @@ export default async function AdminDeliveryPage() {
 
         {projects.length === 0 && <p className="muted">لسه مفيش مشاريع.</p>}
 
-        {projects.map((p) => {
-          const adminTimeline = getAdminTimeline(p.package_name);
-          const usableSteps = adminTimeline.map((s) => s.key);
-          const currentIdx = usableSteps.indexOf(p.timeline_step);
+        <div className="delivery-luxe-list">
+          {projects.map((p, idx) => {
+            const doneMap = {
+              invoice: p.invoice_sent_at,
+              review: p.review_requested_at,
+              confirm: p.delivery_confirmed_at,
+            };
+            const allDone = ACTION_TYPES.every((t) => !!doneMap[t.key]);
 
-          return (
-            <div key={p.id} style={{ borderTop: "1px solid var(--line)", padding: "18px 0" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "10px" }}>
-                <div>
-                  <b style={{ fontSize: "13px" }}>{p.title}</b>
-                  <span style={{ fontSize: "11px", color: "#8b99af", marginRight: "8px" }}>
-                    {p.clientName} — {projectStatusLabel(p.status)}
-                  </span>
-                </div>
-                <a className="text-btn" href={`/admin/projects/${p.id}`}>
-                  فتح المشروع ←
-                </a>
-              </div>
-              <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                {adminTimeline.map((step, idx) => {
-                  const state =
-                    currentIdx === -1
-                      ? idx === 0
-                        ? "current"
-                        : "upcoming"
-                      : idx < currentIdx
-                      ? "done"
-                      : idx === currentIdx
-                      ? "current"
-                      : "upcoming";
-                  const bg =
-                    state === "done" ? "#ddf9ef" : state === "current" ? "#fff0dc" : "#f1f6fc";
-                  const color =
-                    state === "done" ? "#23b584" : state === "current" ? "#f39732" : "#8b99af";
-                  return (
+            return (
+              <div className="delivery-luxe-card" key={p.id}>
+                <div className="delivery-luxe-head">
+                  <div className="delivery-luxe-identity">
                     <span
-                      key={step.key}
-                      title={step.title}
-                      style={{
-                        fontSize: "10px",
-                        padding: "5px 9px",
-                        borderRadius: "8px",
-                        background: bg,
-                        color,
-                        fontWeight: 700,
-                        whiteSpace: "nowrap",
-                      }}
+                      className="delivery-luxe-avatar"
+                      style={{ background: AVATAR_PALETTE[idx % AVATAR_PALETTE.length] }}
                     >
-                      {idx + 1}. {step.title}
+                      {(p.clientName || "؟").trim().charAt(0)}
                     </span>
-                  );
-                })}
+                    <div>
+                      <div className="delivery-luxe-name">
+                        {p.title}{" "}
+                        <a className="delivery-luxe-open" href={`/admin/projects/${p.id}`}>
+                          فتح المشروع ←
+                        </a>
+                      </div>
+                      <div className="delivery-luxe-sub">
+                        {p.clientName} — المدة المتوقعة: {getEstimatedDuration(p.package_name)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`delivery-luxe-ready${allDone ? " done" : " pending"}`}>
+                    {allDone ? "تم التسليم بالكامل" : "قيد إجراءات التسليم"}
+                  </div>
+                </div>
+
+                <div className="delivery-luxe-grid">
+                  {ACTION_TYPES.map((t) => (
+                    <DeliveryActionCard
+                      key={t.key}
+                      projectId={p.id}
+                      actionKey={t.key}
+                      icon={t.icon}
+                      title={t.title}
+                      desc={t.desc}
+                      doneAt={doneMap[t.key]}
+                    />
+                  ))}
+                </div>
               </div>
-              <p style={{ fontSize: "10px", color: "#8b99af", marginTop: "8px" }}>
-                مدة التنفيذ المتوقعة: {getEstimatedDuration(p.package_name)}
-              </p>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

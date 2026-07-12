@@ -308,3 +308,32 @@
 .kp-dashboard .tasks-luxe-amount{flex-shrink:0;font-size:17px;font-weight:900;color:#3a2118;white-space:nowrap}
 @media(max-width:900px){.kp-dashboard .tasks-luxe-summary{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.kp-dashboard .tasks-luxe-summary{grid-template-columns:1fr}.kp-dashboard .tasks-luxe-row{flex-wrap:wrap}}
+
+/* ══════════ مركز التسليم — luxe glass ══════════ */
+.kp-dashboard .delivery-luxe-list{display:flex;flex-direction:column;gap:18px}
+.kp-dashboard .delivery-luxe-card{position:relative;border-radius:26px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 26px 56px -24px rgba(120,70,30,.26),inset 0 1px 0 rgba(255,255,255,.9);padding:26px 30px}
+.kp-dashboard .delivery-luxe-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 10% 10%,rgba(255,173,56,.14),transparent 45%);pointer-events:none}
+.kp-dashboard .delivery-luxe-head{position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:14px}
+.kp-dashboard .delivery-luxe-identity{display:flex;align-items:center;gap:14px}
+.kp-dashboard .delivery-luxe-avatar{width:48px;height:48px;flex-shrink:0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;box-shadow:0 12px 24px -10px rgba(232,114,13,.4)}
+.kp-dashboard .delivery-luxe-name{font-size:18px;font-weight:900;color:#3a2118;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kp-dashboard .delivery-luxe-sub{font-size:13.5px;font-weight:400;color:#8a6a4a;margin-top:3px}
+.kp-dashboard .delivery-luxe-open{font-size:12.5px;font-weight:700;color:#c1590a;text-decoration:none}
+.kp-dashboard .delivery-luxe-open:hover{color:#e8720d}
+.kp-dashboard .delivery-luxe-ready{font-size:12.5px;font-weight:700;padding:6px 16px;border-radius:99px;white-space:nowrap}
+.kp-dashboard .delivery-luxe-ready.done{color:#2f8a4e;background:rgba(47,138,78,.12)}
+.kp-dashboard .delivery-luxe-ready.pending{color:#c1590a;background:rgba(255,173,56,.16)}
+.kp-dashboard .delivery-luxe-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kp-dashboard .delivery-luxe-action{position:relative;border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;background:rgba(255,255,255,.55);border:1px solid rgba(120,70,30,.1)}
+.kp-dashboard .delivery-luxe-action.done{background:rgba(47,138,78,.06);border-color:rgba(47,138,78,.2)}
+.kp-dashboard .delivery-luxe-action-top{display:flex;align-items:center;justify-content:space-between}
+.kp-dashboard .delivery-luxe-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,255,255,.6)}
+.kp-dashboard .delivery-luxe-status{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap;color:#9a6a3a;background:rgba(120,70,30,.08)}
+.kp-dashboard .delivery-luxe-status.done{color:#2f8a4e;background:rgba(47,138,78,.12)}
+.kp-dashboard .delivery-luxe-title{font-size:15.5px;font-weight:900;color:#3a2118;margin-top:14px}
+.kp-dashboard .delivery-luxe-desc{font-size:13px;font-weight:400;color:#8a6a4a;line-height:1.6;margin-top:4px;flex:1}
+.kp-dashboard .delivery-luxe-btn{margin-top:14px;border:none;border-radius:12px;padding:10px 0;font-size:13.5px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;box-shadow:0 10px 20px -8px rgba(232,114,13,.5)}
+.kp-dashboard .delivery-luxe-btn.done{background:rgba(47,138,78,.14);color:#2f8a4e;box-shadow:none}
+.kp-dashboard .delivery-luxe-btn:disabled{opacity:.6;cursor:default}
+@media(max-width:900px){.kp-dashboard .delivery-luxe-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.kp-dashboard .delivery-luxe-grid{grid-template-columns:1fr}}

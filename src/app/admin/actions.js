@@ -357,6 +357,40 @@ export async function updateTimelineStep(projectId, stepKey) {
   revalidatePath("/portal");
 }
 
+// ── Toggle one of the 3 delivery/closeout actions for a project (invoice
+// issued / review requested / final receipt confirmed). Each is a real
+// timestamp column, so "done" reflects something that actually happened —
+// clicking again clears it in case it was marked by mistake. ──
+const DELIVERY_ACTION_FIELDS = {
+  invoice: "invoice_sent_at",
+  review: "review_requested_at",
+  confirm: "delivery_confirmed_at",
+};
+
+export async function toggleDeliveryAction(projectId, actionKey) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const field = DELIVERY_ACTION_FIELDS[actionKey];
+  if (!projectId || !field) throw new Error("بيانات غير صحيحة");
+
+  const { data: project, error: fetchError } = await admin
+    .from("projects")
+    .select(field)
+    .eq("id", projectId)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  const isDone = !!project[field];
+  const { error } = await admin
+    .from("projects")
+    .update({ [field]: isDone ? null : new Date().toISOString() })
+    .eq("id", projectId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/delivery");
+}
+
 // ── Change a project's status (active / on_hold / completed / cancelled) —
 // separate from the production timeline_step, this is the high-level state
 // shown as a badge across the dashboard. ──
