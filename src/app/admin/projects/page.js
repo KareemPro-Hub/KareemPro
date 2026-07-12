@@ -3,8 +3,13 @@ import Money from "@/app/components/Money";
 import ProjectActions from "../ProjectActions";
 import { getAdminTimeline } from "@/lib/timeline";
 import { projectStatusLabel } from "@/lib/adminFinance";
+import { STATUS_DOT_COLORS } from "../AdminIcons";
 
-const LOGO_COLORS = ["coral", "cyan", "violet"];
+const AVATAR_PALETTE = [
+  "linear-gradient(135deg,#ff7b27,#ffad38)",
+  "linear-gradient(135deg,#e8720d,#c1590a)",
+  "linear-gradient(135deg,#ffad38,#e8720d)",
+];
 
 export default async function AdminProjectsPage() {
   const { supabase } = await requireAdmin();
@@ -33,47 +38,67 @@ export default async function AdminProjectsPage() {
 
         {projects.length === 0 && <p className="muted">لسه مفيش مشاريع.</p>}
 
-        {projects.map((p, i) => {
-          const adminTimeline = getAdminTimeline(p.package_name);
-          const usableSteps = adminTimeline.map((s) => s.key);
-          const currentIdx = usableSteps.indexOf(p.timeline_step);
-          const percent =
-            currentIdx === -1 ? 0 : Math.round(((currentIdx + 1) / usableSteps.length) * 100);
-          const [pkgName] = (p.package_name || "").split("|").map((s) => s.trim());
+        <div className="proj-luxe-card">
+          {projects.map((p, i) => {
+            const adminTimeline = getAdminTimeline(p.package_name);
+            const usableSteps = adminTimeline.map((s) => s.key);
+            const currentIdx = usableSteps.indexOf(p.timeline_step);
+            const percent =
+              currentIdx === -1 ? 0 : Math.round(((currentIdx + 1) / usableSteps.length) * 100);
+            const [pkgName] = (p.package_name || "").split("|").map((s) => s.trim());
+            const isLast = i === projects.length - 1;
 
-          return (
-            <div className="project-row" key={p.id}>
-              <div className={`project-logo ${LOGO_COLORS[i % LOGO_COLORS.length]}`}>
-                {(p.title || "؟").trim().charAt(0)}
-              </div>
-              <div className="project-name">
-                <a href={`/admin/projects/${p.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                  <b>{p.title}</b>
-                </a>
-                <span>{pkgName} — {projectStatusLabel(p.status)}</span>
-              </div>
-              <div className="client">
-                <span>صاحب المشروع</span>
-                <b>{p.clientName}</b>
-              </div>
-              <div className="deadline">
-                <span>قيمة الباقة</span>
-                <b>
-                  <Money value={p.package_price} />
-                </b>
-              </div>
-              <div className="progress">
-                <span>
-                  <b>{percent}%</b> مكتمل
+            return (
+              <div className={`proj-luxe-row${isLast ? " last" : ""}`} key={p.id}>
+                <span
+                  className="proj-luxe-avatar"
+                  style={{ background: AVATAR_PALETTE[i % AVATAR_PALETTE.length] }}
+                >
+                  {(p.title || "؟").trim().charAt(0)}
                 </span>
-                <i>
-                  <u style={{ width: `${percent}%` }} />
-                </i>
+
+                <div className="proj-luxe-name-block">
+                  <a href={`/admin/projects/${p.id}`} className="proj-luxe-title">
+                    {p.title}
+                  </a>
+                  <div className="proj-luxe-status-line">
+                    <span
+                      className="proj-luxe-status-dot"
+                      style={{ background: STATUS_DOT_COLORS[p.status] || "#98a6bd" }}
+                    />
+                    <span>
+                      {projectStatusLabel(p.status)} — {pkgName}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="proj-luxe-block">
+                  <span className="proj-luxe-label">صاحب المشروع</span>
+                  <b>{p.clientName}</b>
+                </div>
+
+                <div className="proj-luxe-block">
+                  <span className="proj-luxe-label">قيمة الباقة</span>
+                  <b>
+                    <Money value={p.package_price} />
+                  </b>
+                </div>
+
+                <div className="proj-luxe-progress-block">
+                  <span className="proj-luxe-label">نسبة الإنجاز</span>
+                  <div className="proj-luxe-progress-row">
+                    <span className="proj-luxe-progress-percent">{percent}%</span>
+                    <div className="proj-luxe-progress-track">
+                      <div className="proj-luxe-progress-fill" style={{ width: `${percent}%` }} />
+                    </div>
+                  </div>
+                </div>
+
+                <ProjectActions projectId={p.id} projectTitle={p.title} currentStatus={p.status} />
               </div>
-              <ProjectActions projectId={p.id} projectTitle={p.title} currentStatus={p.status} />
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
