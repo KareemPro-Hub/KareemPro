@@ -4,7 +4,7 @@ import TimelineActions from "./TimelineActions";
 import AddStageModal from "./AddStageModal";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
-import { getAdminTimeline, getEstimatedDuration } from "@/lib/timeline";
+import { getAdminTimeline } from "@/lib/timeline";
 
 export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
@@ -94,11 +94,6 @@ export default async function ProjectDetailPage({ params }) {
             );
           })}
         </div>
-
-        <p className="proj-detail-note">
-          مدة التنفيذ المتوقعة: {getEstimatedDuration(project.package_name)}، حسب سرعة إرسال البيانات
-          ومراجعة المتاجر.
-        </p>
 
         <div className="proj-detail-timeline-actions">
           <TimelineActions

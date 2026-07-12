@@ -6,7 +6,7 @@ import FilesIcon from "@/app/components/FilesIcon";
 import SupportIcon from "@/app/components/SupportIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
-import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
+import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
 
@@ -243,7 +243,6 @@ export default async function PortalPage() {
               </div>
               <section className="client-progress-hero" id="overview">
                 <div className="hero-meta-col">
-                  <div><span>مدة التنفيذ المتوقعة</span><b>{getEstimatedDuration(project.package_name)}</b></div>
                   <div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div>
                 </div>
                 <div className="hero-divider" />

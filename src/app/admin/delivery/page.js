@@ -1,5 +1,4 @@
 import { requireAdmin } from "@/lib/admin";
-import { getEstimatedDuration } from "@/lib/timeline";
 import DeliveryActionCard from "./DeliveryActionCard";
 
 const AVATAR_PALETTE = [
@@ -79,9 +78,7 @@ export default async function AdminDeliveryPage() {
                           فتح المشروع ←
                         </a>
                       </div>
-                      <div className="delivery-luxe-sub">
-                        {p.clientName} — المدة المتوقعة: {getEstimatedDuration(p.package_name)}
-                      </div>
+                      <div className="delivery-luxe-sub">{p.clientName}</div>
                     </div>
                   </div>
                   <div className={`delivery-luxe-ready${allDone ? " done" : " pending"}`}>
