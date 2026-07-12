@@ -346,12 +346,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           )}
 
           {stepIndex === 2 && (
-            <>
-              <h2 className="title" style={{ fontSize: "1.2rem" }}>
-                روائعنا البصرية والتقنية
-              </h2>
+            <section className="portfolio-showcase">
+              <div className="portfolio-showcase-nav">
+                <button type="button" className="portfolio-next" onClick={goNext}>التالي</button>
+                <button type="button" className="portfolio-prev" onClick={goBack}>السابق</button>
+              </div>
+              <h2>روائعنا البصرية والتقنية</h2>
               {portfolio && portfolio.length > 0 ? (
-                <div className="portfolio-grid" style={{ marginTop: "1.2rem" }}>
+                <div className="portfolio-grid">
                   {portfolio.map((item) => {
                     const Wrapper = item.link_url ? "a" : "div";
                     const wrapperProps = item.link_url
@@ -404,7 +406,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   قريبًا هنشاركك نماذج من أعمالنا هنا.
                 </p>
               )}
-            </>
+            </section>
           )}
 
           {stepIndex === 3 && (
