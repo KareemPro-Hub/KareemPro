@@ -10,7 +10,7 @@ import { sendStagePaymentEmail } from "@/lib/email";
 // Automatically attached to every new client on invite, so they see the
 // full technical & financial offer the moment they log in — no manual step.
 // Edit these constants any time to change the standard packages everyone gets.
-const DEFAULT_PROPOSAL_TITLE = "باقات طموحك الإبداعي";
+const DEFAULT_PROPOSAL_TITLE = "مشروعك مع Kareem Pro";
 const DEFAULT_PACKAGES = [
   {
     name: "الباقة الاقتصادية|للبداية السريعة بأقل تكلفة",

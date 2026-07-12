@@ -67,7 +67,7 @@ const fakeTestimonials = [
 
 const fakeProposal = {
   id: "preview",
-  project_title: "باقات طموحك الإبداعي",
+  project_title: "مشروعك مع Kareem Pro",
   status: "pending",
   selected_package_id: null,
   proposal_packages: [
