@@ -82,6 +82,7 @@ const TEAM_MEMBERS = [
   { name: "مريم أحمد", role: "Graphic & Visual Designer", photo: "/team/mariam-ahmed.jpg" },
   { name: "ندى رحيم", role: "Office Documentation Specialist", photo: "/team/nada-rahim.jpg" },
 ];
+const PORTFOLIO_COVERS={"مونتاج احترافي":["https://img.youtube.com/vi/X4k2BYJuKbk/hqdefault.jpg"],"عرض مرئي":["https://img.youtube.com/vi/XA5TXQpjNrc/hqdefault.jpg"],"تعليق صوتي":["https://img.youtube.com/vi/g94wHiCSEDk/hqdefault.jpg"],"ريلز وسناب":["https://img.youtube.com/vi/zhNVbDO2lcw/hqdefault.jpg","https://img.youtube.com/vi/OG7rtRnAjvQ/hqdefault.jpg","https://img.youtube.com/vi/lMWqyAV96SI/hqdefault.jpg"]};
 
 // Hub-and-spoke team diagram: a center "founder" avatar with satellite
 // member avatars that burst outward from the center the first time the
@@ -363,12 +364,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     if (offset > portfolio.length / 2) offset -= portfolio.length;
                     if (offset < -portfolio.length / 2) offset += portfolio.length;
                     const hasStack = Number(item.stack_count) > 1;
+                    const coverImages=PORTFOLIO_COVERS[item.title]||[item.image_url].filter(Boolean);
                     return (
                       <button type="button" className={`works-slide${offset === 0 ? " active" : ""}`} key={item.id} onClick={() => setPortfolioIndex(index)} style={{ "--offset": offset }}>
-                          <div
-                            className="works-card-bg"
-                            style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
-                          />
+                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className="works-card-bg" style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>} 
                           <div className="works-card-shade" />
                           {hasStack && (
                             <span className="works-stack-badge">
