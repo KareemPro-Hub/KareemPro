@@ -191,6 +191,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const [signerName, setSignerName] = useState("");
   const [agree, setAgree] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
+  const [portfolioIndex, setPortfolioIndex] = useState(0);
   const [error, setError] = useState(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -347,29 +348,27 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
           {stepIndex === 2 && (
             <section className="works-showcase">
-              <h2>روائعنا البصرية والتقنية</h2>
+              <div className="works-carousel-head">
+                <div className="works-arrows">
+                  <button type="button" onClick={() => portfolio?.length && setPortfolioIndex((portfolioIndex - 1 + portfolio.length) % portfolio.length)}>‹</button>
+                  <button type="button" onClick={() => portfolio?.length && setPortfolioIndex((portfolioIndex + 1) % portfolio.length)}>›</button>
+                </div>
+                <h2>نماذج من إبداعاتنا</h2>
+              </div>
               {portfolio && portfolio.length > 0 ? (
-                <div className="works-grid">
-                  {portfolio.map((item) => {
-                    const Wrapper = item.link_url ? "a" : "div";
-                    const wrapperProps = item.link_url
-                      ? { href: item.link_url, target: "_blank", rel: "noopener noreferrer" }
-                      : {};
+                <>
+                <div className="works-carousel">
+                  {portfolio.map((item, index) => {
+                    let offset = index - portfolioIndex;
+                    if (offset > portfolio.length / 2) offset -= portfolio.length;
+                    if (offset < -portfolio.length / 2) offset += portfolio.length;
                     const hasStack = Number(item.stack_count) > 1;
                     return (
-                      <div className="works-stack" key={item.id}>
-                        {hasStack && (
-                          <>
-                            <div className="works-stack-layer layer-2" />
-                            <div className="works-stack-layer layer-1" />
-                          </>
-                        )}
-                        <Wrapper className="works-card" {...wrapperProps}>
+                      <button type="button" className={`works-slide${offset === 0 ? " active" : ""}`} key={item.id} onClick={() => setPortfolioIndex(index)} style={{ "--offset": offset }}>
                           <div
                             className="works-card-bg"
                             style={item.image_url ? { backgroundImage: `url(${item.image_url})` } : undefined}
                           />
-                          <div className="works-card-tint" />
                           <div className="works-card-shade" />
                           {hasStack && (
                             <span className="works-stack-badge">
@@ -382,21 +381,18 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           )}
                           <div className="works-card-body">
                             <div className="works-card-title">{item.title}</div>
-                            {item.link_url && (
-                              <span className="works-card-cta">
-                                شاهد كل الأعمال
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                  <line x1="19" y1="12" x2="5" y2="12" />
-                                  <polyline points="11 6 5 12 11 18" />
-                                </svg>
-                              </span>
-                            )}
                           </div>
-                        </Wrapper>
-                      </div>
+                          {offset === 0 && <span className="works-play">▶</span>}
+                      </button>
                     );
                   })}
                 </div>
+                <div className="works-detail">
+                  <h3>{portfolio[portfolioIndex]?.title}</h3>
+                  <p>{portfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
+                  {portfolio[portfolioIndex]?.link_url && <a href={portfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a>}
+                </div>
+                </>
               ) : (
                 <p className="muted" style={{ marginTop: "1rem" }}>
                   قريبًا هنشاركك نماذج من أعمالنا هنا.
