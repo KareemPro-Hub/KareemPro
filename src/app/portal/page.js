@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
+import FilesIcon from "@/app/components/FilesIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
 import { getClientTimeline, adminKeyToClientKey, getEstimatedDuration } from "@/lib/timeline";
@@ -124,7 +125,7 @@ export default async function PortalPage() {
             <span className="ico nav-image-icon"><img src="/admin-ui/icons/checklist.png" alt="" /></span> مراحل الإنتاج والسداد
           </a>
           <a href="#workflow">
-            <span className="ico nav-image-icon"><img src="/admin-ui/icons/closure.png" alt="" /></span> الملفات والتسليمات
+            <span><FilesIcon size="1.1em" /></span> الملفات والتسليمات
           </a>
           <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
             <span>؟</span> الدعم الفني
