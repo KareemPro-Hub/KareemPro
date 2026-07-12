@@ -126,24 +126,6 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
 
   return (
     <div className="team-orbit" ref={containerRef}>
-      <svg className="team-orbit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {members.map((_, i) => {
-          const angle = angleFor(i);
-          const x = 50 + 38 * Math.cos(angle);
-          const y = 50 + 38 * Math.sin(angle);
-          return (
-            <line
-              key={i}
-              x1="50"
-              y1="50"
-              x2={x}
-              y2={y}
-              className={visible ? "team-line-visible" : ""}
-              style={{ transitionDelay: `${150 + i * 80}ms` }}
-            />
-          );
-        })}
-      </svg>
       <div className="team-avatar team-avatar-center" style={{ backgroundImage: `url(${centerPhoto})` }}>
         <span className="team-crown">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
