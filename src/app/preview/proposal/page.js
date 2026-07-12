@@ -89,7 +89,7 @@ const fakeProposal = {
     },
     {
       id: "pkg-2",
-      name: "الباقة الأساسية|للانطلاق السريع بأقل تكلفة",
+      name: "الباقة الأساسية|منصة احترافية بدون تطبيقات",
       price: 2500,
       is_featured: false,
       sort_order: 1,

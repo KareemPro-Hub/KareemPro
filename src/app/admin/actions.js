@@ -27,7 +27,7 @@ const DEFAULT_PACKAGES = [
     ].join("\n"),
   },
   {
-    name: "الباقة الأساسية|للانطلاق السريع بأقل تكلفة",
+    name: "الباقة الأساسية|منصة احترافية بدون تطبيقات",
     price: 2500,
     is_featured: false,
     features: [
