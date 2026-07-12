@@ -173,7 +173,6 @@ export default async function PortalPage() {
                 <div className="project-badge-compact project-badge-large">
                   <div className="project-badge-compact-top">
                     <span className="project-badge-compact-name">{pkgName}</span>
-                    {pkgTagline && <span className="project-badge-compact-tagline"> · {pkgTagline}</span>}
                   </div>
                   <div className="project-badge-price">
                     <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
