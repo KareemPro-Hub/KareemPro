@@ -235,3 +235,30 @@
 .kp-dashboard .sidebar .brand b i{color:#ffad42;-webkit-text-fill-color:#ffad42}
 .kp-dashboard .sidebar .brand>div:last-child>span{display:block;margin-top:9px;color:#dec5b2;font-size:17px;font-weight:700;line-height:1.15;white-space:nowrap;text-align:center}
 .kp-dashboard .nav-link.active{display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:600;font-family:inherit;text-align:center}
+.kp-dashboard .client-luxe-add-btn{display:flex;align-items:center;gap:8px;border:none;cursor:pointer;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:14px;box-shadow:0 14px 30px -10px rgba(232,114,13,.45);text-decoration:none}
+.kp-dashboard .client-luxe-add-btn span{font-size:16px;font-weight:900}
+.kp-dashboard .client-luxe-list{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.kp-dashboard .client-luxe-card{position:relative;border-radius:24px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 22px 48px -22px rgba(120,70,30,.26),inset 0 1px 0 rgba(255,255,255,.9);padding:24px 28px}
+.kp-dashboard .client-luxe-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 10% 10%,rgba(255,173,56,.16),transparent 45%),radial-gradient(circle at 92% 96%,rgba(255,123,39,.1),transparent 50%);pointer-events:none}
+.kp-dashboard .client-luxe-card>.more{position:absolute;left:14px;top:14px;background:rgba(120,70,30,.07);color:#8a6a4a}
+.kp-dashboard .client-luxe-card>.more:hover{background:rgba(120,70,30,.14)}
+.kp-dashboard .client-luxe-row{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px}
+.kp-dashboard .client-luxe-identity{display:flex;align-items:center;gap:14px;min-width:230px;flex:1 1 240px}
+.kp-dashboard .client-luxe-avatar{flex-shrink:0;width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#fff;box-shadow:0 12px 24px -8px rgba(120,70,30,.35)}
+.kp-dashboard .client-luxe-identity-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.kp-dashboard .client-luxe-identity-text b{font-size:17px;font-weight:900;color:#3a2118;white-space:nowrap}
+.kp-dashboard .client-luxe-identity-text span{font-size:13px;font-weight:400;color:#8a6a4a;direction:ltr;text-align:right}
+.kp-dashboard .client-luxe-block{display:flex;flex-direction:column;gap:6px;flex:1 1 180px}
+.kp-dashboard .client-luxe-block.center{align-items:center}
+.kp-dashboard .client-luxe-label{font-size:12.5px;font-weight:700;color:#9a6a3a}
+.kp-dashboard .client-luxe-project-link{font-size:15px;font-weight:700;color:#3a2118;text-decoration:underline;white-space:nowrap}
+.kp-dashboard .client-luxe-offer-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 15px;border-radius:99px;white-space:nowrap;text-decoration:none}
+.kp-dashboard .client-luxe-balance{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px;border-right:1px solid rgba(120,70,30,.14);border-left:1px solid rgba(120,70,30,.14);flex-shrink:0}
+.kp-dashboard .client-luxe-balance b{font-size:19px;font-weight:900;color:#3a2118}
+.kp-dashboard .client-luxe-split{display:flex;gap:20px;flex-shrink:0}
+.kp-dashboard .client-luxe-split>div{display:flex;flex-direction:column;align-items:center;gap:5px}
+.kp-dashboard .client-luxe-split b{font-size:17px;font-weight:900}
+.kp-dashboard .client-luxe-split b.collected{color:#2f8a4e}
+.kp-dashboard .client-luxe-split b.remaining{color:#b93a2e}
+.kp-dashboard .client-luxe-divider{width:1px;background:rgba(120,70,30,.14)}
+@media(max-width:900px){.kp-dashboard .client-luxe-balance{border:0;padding:0}}
