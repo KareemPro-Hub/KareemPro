@@ -114,11 +114,21 @@ export default async function PortalPage() {
           <span><b>Kareem</b> <i>Pro</i><small>بوابة صاحب المشروع</small></span>
         </a>
         <nav className="client-nav">
-          <a className="active" href="#overview"><span>⌂</span> نظرة عامة</a>
-          <a href="#projects"><span>▦</span> مشاريعي</a>
-          <a href="#payments"><span>◈</span> مراحل الإنتاج والسداد</a>
-          <a href="#workflow"><span>▤</span> الملفات والتسليمات</a>
-          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer"><span>؟</span> الدعم الفني</a>
+          <a className="active" href="#overview">
+            <span className="ico nav-image-icon"><img src="/admin-ui/icons/binocular.png" alt="" /></span> نظرة عامة
+          </a>
+          <a href="#projects">
+            <span className="ico nav-image-icon"><img src="/admin-ui/icons/project-management.png" alt="" /></span> إدارة مشاريعي
+          </a>
+          <a href="#payments">
+            <span className="ico nav-image-icon"><img src="/admin-ui/icons/checklist.png" alt="" /></span> مراحل الإنتاج والسداد
+          </a>
+          <a href="#workflow">
+            <span className="ico nav-image-icon"><img src="/admin-ui/icons/closure.png" alt="" /></span> الملفات والتسليمات
+          </a>
+          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
+            <span>؟</span> الدعم الفني
+          </a>
         </nav>
         <div className="client-account">
           <span className="client-account-avatar">{(clientName || "ع").trim().charAt(0)}</span>
