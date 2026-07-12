@@ -147,7 +147,7 @@
 .kp-dashboard .nav-link .ico{width:31px;min-width:31px;font-size:25px}.kp-dashboard .nav-image-icon img{width:29px;height:29px}.kp-dashboard .nav-link{gap:13px}
 .kp-dashboard .sidebar-foot .avatar{overflow:hidden;padding:0;border:2px solid rgba(255,255,255,.72);background:#fff}.kp-dashboard .sidebar-foot .avatar img{width:100%;height:100%;display:block;object-fit:cover;object-position:center top}
 .kp-dashboard .sidebar-foot.compact-account{padding:7px 9px;min-height:54px}.kp-dashboard .compact-account .avatar{width:40px;height:40px;flex:0 0 40px}.kp-dashboard .compact-account .avatar img{height:calc(100% + 5px);transform:translateY(-3px);object-position:center top}.kp-dashboard .compact-account b{font-size:14px}.kp-dashboard .compact-account button{margin-right:auto}
-.kp-dashboard .nav-link.active{justify-content:center;text-align:center}
+.kp-dashboard .nav-link.active{justify-content:flex-start;text-align:right}
 .kp-dashboard .welcome{width:max-content;max-width:100%}.kp-dashboard .welcome p{font-size:18px;line-height:1.65;width:100%;white-space:nowrap;text-align:center}
 
 /* Luxury glass account card */
@@ -234,7 +234,7 @@
 .kp-dashboard .sidebar .brand b{display:block;color:#fff;background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#fff;font-size:21px;font-weight:900;line-height:1.15;white-space:nowrap}
 .kp-dashboard .sidebar .brand b i{color:#ffad42;-webkit-text-fill-color:#ffad42}
 .kp-dashboard .sidebar .brand>div:last-child>span{display:block;margin-top:9px;color:#dec5b2;font-size:17px;font-weight:700;line-height:1.15;white-space:nowrap;text-align:center}
-.kp-dashboard .nav-link.active{display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:600;font-family:inherit;text-align:center}
+.kp-dashboard .nav-link.active{display:flex;align-items:center;justify-content:flex-start;gap:10px;font-size:15px;font-weight:600;font-family:inherit;text-align:right}
 .kp-dashboard .client-luxe-add-btn{display:flex;align-items:center;gap:8px;border:none;cursor:pointer;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:14px;box-shadow:0 14px 30px -10px rgba(232,114,13,.45);text-decoration:none}
 .kp-dashboard .client-luxe-add-btn span{font-size:16px;font-weight:900}
 .kp-dashboard .client-luxe-list{display:flex;flex-direction:column;gap:16px;margin-top:18px}
