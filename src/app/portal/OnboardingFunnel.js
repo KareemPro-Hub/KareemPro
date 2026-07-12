@@ -126,6 +126,10 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
 
   return (
     <div className="team-orbit" ref={containerRef}>
+      <div className="team-heading team-heading-compact">
+        <h2 className="title">فريق يصنع الفرق</h2>
+        <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
+      </div>
       <div className="team-avatar team-avatar-center" style={{ backgroundImage: `url(${centerPhoto})` }}>
         <span className="team-crown">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -313,14 +317,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
           {stepIndex === 1 && (
             <div className="team-section">
-              <div className="team-heading">
-                <span className="team-heading-bar" />
-                <h2 className="title" style={{ fontSize: "1.4rem" }}>
-                  فريق يصنع الفرق
-                </h2>
-                <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
-              </div>
-
               <TeamOrbit
                 members={TEAM_MEMBERS}
                 centerPhoto="/team/kareem-founder.jpg"
