@@ -13,7 +13,7 @@ const STATUS_META = {
 };
 
 const NEXT_ACTION = {
-  upcoming: { target: "awaiting_payment", label: "اطلب السداد الآن (يرسل إيميل)" },
+  upcoming: { target: "awaiting_payment", label: "اطلب السداد الآن" },
   awaiting_payment: { target: "paid", label: "تأكيد استلام الدفع" },
   paid: { target: "in_progress", label: "بدء تنفيذ المرحلة" },
   in_progress: { target: "completed", label: "إنهاء المرحلة" },
