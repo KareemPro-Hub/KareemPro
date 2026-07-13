@@ -26,28 +26,30 @@ const BANK_BENEFICIARY_GUIDE_URL = "https://kareempro.com/kareem-pro-bank-benefi
 // lock-screen push preview) — kept short on purpose so the notification
 // stays clean. The visible email body below is untouched.
 const STAGE_PAYMENT_PREVIEW_TEXT = "مشروعك ينتظر أول خطوة نحو التنفيذ 🚀";
-// Shows as the second line of the lock-screen notification (below the
-// subject). Deliberately a different short sentence — leaving the preview
-// blank made iOS fall back to repeating the subject as that second line.
-const STAGE_PAYMENT_PREVIEW_SUBTEXT = "نقترب أكثر من رؤية حلمك واقعًا.";
+// Second line of the lock-screen notification (below the subject). A real
+// blank string makes iOS fall back to repeating the subject as that second
+// line, so this is a zero-width space instead — technically non-empty (no
+// fallback duplication) but renders as nothing visible, giving a true
+// single-line notification per Kareem's request.
+const STAGE_PAYMENT_PREVIEW_SUBTEXT = "​";
 
-// Per-stage-number copy (subject + lock-screen second line) for the 4-stage
-// payment plan used across current packages. `stage.stage_number` picks the
-// pair; any stage number outside 1-4 falls back to the generic phrase above.
+// Per-stage-number subject (the only line shown on the lock screen) for the
+// 4-stage payment plan used across current packages. `stage.stage_number`
+// picks the phrase; any stage number outside 1-4 falls back to the generic
+// phrase above.
 const STAGE_PAYMENT_COPY_BY_NUMBER = {
-  1: { subject: "دُفعة السداد الأولى تبدأ الحلم.", subtext: "حلمك يبدأ من هنا 🚀" },
-  2: { subject: "دُفعة السداد الثانية تدفعنا للأمام.", subtext: "حلمك يتقدّم بثبات ⭐️" },
-  3: { subject: "دُفعة السداد الثالثة تُكمل الحلم.", subtext: "حلمك يوشك أن يرى النور 🎯" },
-  4: { subject: "دُفعة السداد الرابعة تُتمّ الرحلة.", subtext: "حلمك على بُعد خطوة 🎉" },
+  1: { subject: "دُفعة السداد الأولى تبدأ الحلم 🚀" },
+  2: { subject: "دُفعة السداد الثانية تدفعنا للأمام ⭐️" },
+  3: { subject: "دُفعة السداد الثالثة تُكمل الحلم 🎯" },
+  4: { subject: "دُفعة السداد الرابعة تُتمّ الرحلة 🎉" },
 };
 
 function stagePaymentNotificationCopy(stageNumber) {
-  return (
-    STAGE_PAYMENT_COPY_BY_NUMBER[stageNumber] || {
-      subject: STAGE_PAYMENT_PREVIEW_TEXT,
-      subtext: STAGE_PAYMENT_PREVIEW_SUBTEXT,
-    }
-  );
+  const entry = STAGE_PAYMENT_COPY_BY_NUMBER[stageNumber];
+  return {
+    subject: entry ? entry.subject : STAGE_PAYMENT_PREVIEW_TEXT,
+    subtext: STAGE_PAYMENT_PREVIEW_SUBTEXT,
+  };
 }
 
 // Shared white riyal-symbol markup for the dark-background email templates
