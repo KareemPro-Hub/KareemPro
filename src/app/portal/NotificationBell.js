@@ -49,7 +49,7 @@ export default function NotificationBell({ notifications }) {
   }
 
   function handleClearAll() {
-    if (!window.confirm("متأكد إنك عايز تمسح كل الإشعارات نهائيًا؟")) return;
+    if (!window.confirm("متأكد إنك عايز تمسح كل الإشعارات نهائيًا ؟")) return;
     startTransition(async () => {
       try {
         await clearAllNotifications();

@@ -6,7 +6,7 @@ export default function DeleteItemButton({ action, id, label }) {
   const [isPending, startTransition] = useTransition();
 
   function handleClick() {
-    if (!window.confirm(`متأكد إنك عايز تحذف ${label} ده؟`)) return;
+    if (!window.confirm(`متأكد إنك عايز تحذف ${label} ده ؟`)) return;
     startTransition(async () => {
       await action(id);
     });

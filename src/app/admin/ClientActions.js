@@ -57,7 +57,7 @@ export default function ClientActions({ clientId, clientName }) {
 
   function handleDelete() {
     const ok = window.confirm(
-      `متأكد إنك عايز تحذف "${clientName}"؟ هيتحذف حسابه ومشاريعه كلها نهائيًا، وهيقدر يسجل تاني كأنه عميل جديد.`
+      `متأكد إنك عايز تحذف "${clientName}" ؟ هيتحذف حسابه ومشاريعه كلها نهائيًا، وهيقدر يسجل تاني كأنه عميل جديد.`
     );
     if (!ok) return;
 

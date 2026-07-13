@@ -522,7 +522,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 رفض العرض
               </h2>
               <p className="muted" style={{ marginBottom: "1rem" }}>
-                ممكن تقولنا السبب؟ ده هيساعدنا نحسّن العرض ليك أو لغيرك.
+                ممكن تقولنا السبب ؟ ده هيساعدنا نحسّن العرض ليك أو لغيرك.
               </p>
               <div className="field">
                 <label>سبب الرفض</label>

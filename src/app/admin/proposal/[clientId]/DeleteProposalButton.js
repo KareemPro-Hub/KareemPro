@@ -9,7 +9,7 @@ export default function DeleteProposalButton({ proposalId }) {
   const router = useRouter();
 
   function handleClick() {
-    if (!window.confirm("متأكد إنك عايز تحذف العرض ده وتبدأ من جديد؟")) return;
+    if (!window.confirm("متأكد إنك عايز تحذف العرض ده وتبدأ من جديد ؟")) return;
     startTransition(async () => {
       await deleteProposal(proposalId);
       router.refresh();

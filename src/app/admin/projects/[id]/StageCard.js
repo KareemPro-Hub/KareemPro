@@ -50,7 +50,7 @@ export default function StageCard({ stage }) {
   }
 
   function handleCancel() {
-    if (!window.confirm("متأكد إنك عايز تلغي وترجع المرحلة للحالة السابقة؟")) return;
+    if (!window.confirm("متأكد إنك عايز تلغي وترجع المرحلة للحالة السابقة ؟")) return;
     run(prevStatus);
   }
 
@@ -69,7 +69,7 @@ export default function StageCard({ stage }) {
   function handleDelete() {
     if (
       !window.confirm(
-        `متأكد إنك عايز تحذف مرحلة "${stage.title}"؟ هيتم حذفها نهائيًا من عندك وعند صاحب المشروع.`
+        `متأكد إنك عايز تحذف مرحلة "${stage.title}" ؟ هيتم حذفها نهائيًا من عندك وعند صاحب المشروع.`
       )
     )
       return;

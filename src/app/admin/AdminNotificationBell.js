@@ -69,7 +69,7 @@ export default function AdminNotificationBell() {
   }
 
   function handleClearAll() {
-    if (!window.confirm("متأكد إنك عايز تمسح كل الإشعارات نهائيًا؟")) return;
+    if (!window.confirm("متأكد إنك عايز تمسح كل الإشعارات نهائيًا ؟")) return;
     startTransition(async () => {
       try {
         await clearAllAdminNotifications();

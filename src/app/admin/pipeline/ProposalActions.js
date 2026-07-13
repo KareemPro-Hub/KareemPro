@@ -55,7 +55,7 @@ export default function ProposalActions({ proposalId, clientId, projectTitle }) 
   }, [open, closeMenu]);
 
   function handleDelete() {
-    const ok = window.confirm(`متأكد إنك عايز تحذف عرض "${projectTitle}"؟ هيتحذف نهائيًا.`);
+    const ok = window.confirm(`متأكد إنك عايز تحذف عرض "${projectTitle}" ؟ هيتحذف نهائيًا.`);
     if (!ok) return;
 
     setError(null);

@@ -76,7 +76,7 @@ export default function ProjectActions({ projectId, projectTitle, currentStatus 
 
   function handleDelete() {
     const ok = window.confirm(
-      `متأكد إنك عايز تحذف مشروع "${projectTitle}"؟ هيتحذف نهائيًا هو وكل مراحل السداد بتاعته، والإجراء ده مايترجعش.`
+      `متأكد إنك عايز تحذف مشروع "${projectTitle}" ؟ هيتحذف نهائيًا هو وكل مراحل السداد بتاعته، والإجراء ده مايترجعش.`
     );
     if (!ok) return;
 

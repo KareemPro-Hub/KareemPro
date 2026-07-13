@@ -149,7 +149,7 @@ export default function AdminShell({ children }) {
             ×
           </button>
           <span className="overline">اختصار سريع</span>
-          <h2>ماذا تريد أن تنشئ؟</h2>
+          <h2>ماذا تريد أن تنشئ ؟</h2>
           <div className="action-grid">
             {QUICK_ACTIONS.map((a) => (
               <a key={a.href} href={a.href}>
