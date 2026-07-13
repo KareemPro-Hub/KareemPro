@@ -5,15 +5,18 @@ import { createClient } from "@/lib/supabase/server";
 // login and the admin login. Runs through the server Supabase client so the
 // session cookie is written with next/headers' cookies().set(), matching
 // what the middleware reads with.
+//
+// Everyone stays signed in until they explicitly log out — no "remember me"
+// toggle, no silent expiry. createClient() defaults to a long-lived cookie
+// (see lib/supabase/server.js), so we always use that default here.
 export async function POST(request) {
-  const { email, password, remember } = await request.json();
+  const { email, password } = await request.json();
 
   if (!email || !password) {
     return NextResponse.json({ error: "بيانات ناقصة." }, { status: 400 });
   }
 
-  // "تذكرني" unchecked -> session cookie only (gone once the browser closes).
-  const supabase = await createClient({ remember: remember !== false });
+  const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
