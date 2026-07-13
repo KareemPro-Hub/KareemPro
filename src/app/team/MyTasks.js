@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { setMyTaskDone } from "./actions";
-import { taskEffectiveStatus, taskDueLabel, formatTeamAmount } from "@/lib/teamTasks";
+import { taskEffectiveStatus, formatTeamAmount } from "@/lib/teamTasks";
 
 // The whole team-member portal, on purpose: one simple page, no sidebar, no
 // navigation — just "here's what you're owed, here's what's left to do."
@@ -62,26 +62,18 @@ export default function MyTasks({ tasks: initialTasks }) {
 
         {sorted.map((t) => {
           const eff = taskEffectiveStatus(t);
+          const hasProject = t.project_label && t.project_label !== "عام";
           return (
             <div className="team-portal-task-row" key={t.id}>
               <div className="team-portal-task-info">
                 <div className={`team-portal-task-title${eff === "done" ? " done" : ""}`}>{t.title}</div>
-                <div className="team-portal-task-meta">
-                  {t.project_label && t.project_label !== "عام" && (
-                    <span className="team-portal-project-badge">{t.project_label}</span>
-                  )}
-                  <span>{taskDueLabel(t)}</span>
-                  {t.amount != null && <span>{formatTeamAmount(t.amount)}</span>}
-                  {t.amount != null && (
-                    <span className={`team-portal-pay-badge${t.payment_status === "paid" ? " paid" : ""}`}>
-                      {t.payment_status === "paid" ? "تم الدفع" : "مستحق"}
-                    </span>
-                  )}
-                </div>
+                {hasProject && <div className="team-portal-task-project">{t.project_label}</div>}
               </div>
 
+              {t.amount != null && <div className="team-portal-task-amount">{formatTeamAmount(t.amount)}</div>}
+
               {eff === "done" ? (
-                <span className="team-portal-done-badge">منجزة ✓</span>
+                <span className="team-portal-done-badge">✓ منجزة</span>
               ) : (
                 <button
                   type="button"
@@ -89,7 +81,7 @@ export default function MyTasks({ tasks: initialTasks }) {
                   onClick={() => handleDone(t)}
                   disabled={isPending}
                 >
-                  تم الإنجاز ✓
+                  تم الإنجاز
                 </button>
               )}
             </div>

@@ -38,8 +38,8 @@ export default async function TeamPortalPage() {
 
       <main className="team-portal-main">
         <div className="team-portal-welcome">
-          <h1>أهلًا، {name}</h1>
-          <p>تابعي مهامك أول بأول</p>
+          <h1>أهلًا، {name} 👋</h1>
+          <p>هذه مهامك المطلوبة اليوم</p>
         </div>
 
         <MyTasks tasks={tasks || []} />
