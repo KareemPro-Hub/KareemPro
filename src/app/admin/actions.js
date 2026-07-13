@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
 import { sendStagePaymentEmail, sendTimelineProgressEmail } from "@/lib/email";
 import { getAdminTimeline } from "@/lib/timeline";
+import { createSignedFileUrl } from "@/lib/projectFiles";
 
 // ══════════════════ Client notifications ══════════════════
 // Small helper so every real, client-facing event (payment request/confirm,
@@ -728,4 +729,106 @@ export async function deleteProposal(proposalId) {
   const { error } = await admin.from("proposals").delete().eq("id", proposalId);
   if (error) throw new Error(error.message);
   revalidatePath("/admin");
+}
+
+// ══════════════════ Project files (real uploads/deliverables) ══════════════════
+const FILE_TYPES = ["design", "doc", "contract", "invoice", "link"];
+
+// ── Admin uploads a file (or adds a link) to a project's "الملفات
+// والتسليمات" list. formData carries either a real file (uploaded to the
+// private storage bucket) or an external_url for type "link". ──
+export async function addProjectFile(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const project_id = formData.get("project_id")?.toString();
+  const name = formData.get("name")?.toString().trim();
+  const type = formData.get("type")?.toString();
+  const stage_label = formData.get("stage_label")?.toString().trim() || null;
+  const external_url = formData.get("external_url")?.toString().trim() || null;
+  const file = formData.get("file");
+
+  if (!project_id || !name || !FILE_TYPES.includes(type)) {
+    throw new Error("بيانات الملف غير مكتملة");
+  }
+
+  const { data: project, error: projectError } = await admin
+    .from("projects")
+    .select("client_id")
+    .eq("id", project_id)
+    .single();
+  if (projectError) throw new Error(projectError.message);
+
+  let storage_path = null;
+  let size_bytes = null;
+
+  if (type === "link") {
+    if (!external_url) throw new Error("لازم تكتب رابط");
+  } else {
+    if (!file || typeof file === "string" || !file.size) {
+      throw new Error("لازم ترفع ملف");
+    }
+    const ext = file.name?.split(".").pop() || "bin";
+    storage_path = `${project_id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error: uploadError } = await admin.storage
+      .from("project-files")
+      .upload(storage_path, file, { contentType: file.type || undefined });
+    if (uploadError) throw new Error(uploadError.message);
+    size_bytes = file.size;
+  }
+
+  const { error } = await admin.from("project_files").insert({
+    project_id,
+    client_id: project.client_id,
+    name,
+    type,
+    stage_label,
+    storage_path,
+    external_url: type === "link" ? external_url : null,
+    size_bytes,
+  });
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${project_id}`);
+  revalidatePath("/portal");
+}
+
+// ── Admin deletes a file — removes the DB row and, if it was a real
+// upload (not a link), the underlying storage object too. ──
+export async function deleteProjectFile(fileId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!fileId) throw new Error("معرّف الملف مفقود");
+
+  const { data: file, error: fetchError } = await admin
+    .from("project_files")
+    .select("project_id, storage_path")
+    .eq("id", fileId)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  if (file.storage_path) {
+    await admin.storage.from("project-files").remove([file.storage_path]);
+  }
+
+  const { error } = await admin.from("project_files").delete().eq("id", fileId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${file.project_id}`);
+  revalidatePath("/portal");
+}
+
+// ── Admin gets a real download/open URL for a file — a signed storage URL
+// for real uploads, or the external URL as-is for "link" type entries. ──
+export async function getProjectFileUrl(fileId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { data: file, error } = await admin
+    .from("project_files")
+    .select("storage_path, external_url")
+    .eq("id", fileId)
+    .single();
+  if (error) throw new Error(error.message);
+  if (file.external_url) return file.external_url;
+  return createSignedFileUrl(file.storage_path);
 }

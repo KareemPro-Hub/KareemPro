@@ -10,10 +10,12 @@ import SupportIcon from "@/app/components/SupportIcon";
 // `data-view` on the scrollable panel drives that via CSS; we flip it
 // ourselves (instead of relying on the browser's native hash-jump) so the
 // section is already visible before we scroll to it.
+const VIEW_BY_HASH = { "#projects": "projects", "#workflow": "files", "#support": "support" };
+
 function applyView(hash) {
   const panel = document.querySelector(".client-dashboard-main");
   if (!panel) return;
-  panel.dataset.view = hash === "#projects" ? "projects" : hash === "#support" ? "support" : "detail";
+  panel.dataset.view = VIEW_BY_HASH[hash] || "detail";
 }
 
 export default function ClientNav() {

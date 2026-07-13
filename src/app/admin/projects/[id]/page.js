@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import AddStageModal from "./AddStageModal";
+import ProjectFilesSection from "./ProjectFilesSection";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import { getAdminTimeline } from "@/lib/timeline";
@@ -12,7 +13,7 @@ export default async function ProjectDetailPage({ params }) {
 
   const { data: project } = await supabase
     .from("projects")
-    .select("*, clients(*), stages(*)")
+    .select("*, clients(*), stages(*), project_files(*)")
     .eq("id", id)
     .single();
 
@@ -25,6 +26,9 @@ export default async function ProjectDetailPage({ params }) {
   }
 
   const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
+  const files = (project.project_files || []).sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
   const adminTimeline = getAdminTimeline(project.package_name);
   const usableSteps = adminTimeline.map((s) => s.key);
   const currentIdx = usableSteps.indexOf(project.timeline_step);
@@ -116,6 +120,8 @@ export default async function ProjectDetailPage({ params }) {
           {stages.length === 0 && <p className="muted">لسه مفيش مراحل سداد مضافة.</p>}
         </div>
       </div>
+
+      <ProjectFilesSection projectId={project.id} files={files} />
     </section>
   );
 }
