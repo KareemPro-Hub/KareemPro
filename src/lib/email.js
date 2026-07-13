@@ -31,6 +31,25 @@ const STAGE_PAYMENT_PREVIEW_TEXT = "مشروعك ينتظر أول خطوة نح
 // blank made iOS fall back to repeating the subject as that second line.
 const STAGE_PAYMENT_PREVIEW_SUBTEXT = "نقترب أكثر من رؤية حلمك واقعًا.";
 
+// Per-stage-number copy (subject + lock-screen second line) for the 4-stage
+// payment plan used across current packages. `stage.stage_number` picks the
+// pair; any stage number outside 1-4 falls back to the generic phrase above.
+const STAGE_PAYMENT_COPY_BY_NUMBER = {
+  1: { subject: "دُفعة السداد الأولى تبدأ الحلم.", subtext: "حلمك يبدأ من هنا 🚀" },
+  2: { subject: "دُفعة السداد الثانية تدفعنا للأمام.", subtext: "حلمك يتقدّم بثبات ⭐️" },
+  3: { subject: "دُفعة السداد الثالثة تُكمل الحلم.", subtext: "حلمك يوشك أن يرى النور 🎯" },
+  4: { subject: "دُفعة السداد الرابعة تُتمّ الرحلة.", subtext: "حلمك على بُعد خطوة 🎉" },
+};
+
+function stagePaymentNotificationCopy(stageNumber) {
+  return (
+    STAGE_PAYMENT_COPY_BY_NUMBER[stageNumber] || {
+      subject: STAGE_PAYMENT_PREVIEW_TEXT,
+      subtext: STAGE_PAYMENT_PREVIEW_SUBTEXT,
+    }
+  );
+}
+
 function stagePaymentTemplate({ clientName, projectTitle, stage, portalUrl }) {
   const amountValue = Number(stage.amount).toLocaleString("en-US");
   const riyal = `<img src="https://kareempro.com/riyal-symbol-white.png" alt="ريال" width="16" height="18" style="display:inline-block;vertical-align:-2px;margin:0 3px;" />`;
@@ -89,11 +108,12 @@ export async function sendStagePaymentEmail({
 }) {
   const resend = getResend();
   const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  const { subject, subtext } = stagePaymentNotificationCopy(stage.stage_number);
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,
-    subject: STAGE_PAYMENT_PREVIEW_TEXT,
-    text: STAGE_PAYMENT_PREVIEW_SUBTEXT,
+    subject,
+    text: subtext,
     html: stagePaymentTemplate({ clientName, projectTitle, stage, portalUrl }),
     attachments: [
       {
