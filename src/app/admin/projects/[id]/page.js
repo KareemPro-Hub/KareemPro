@@ -62,9 +62,13 @@ export default async function ProjectDetailPage({ params }) {
             </span>
           )}
         </div>
-        <p className="muted" style={{ marginBottom: "0.6rem" }}>
-          أين يقف المشروع الآن في التنفيذ — منفصل عن مراحل السداد بالأسفل.
-        </p>
+        <div className="proj-detail-timeline-actions proj-detail-timeline-actions-top">
+          <TimelineActions
+            projectId={project.id}
+            currentStep={project.timeline_step || usableSteps[0]}
+            steps={usableSteps}
+          />
+        </div>
 
         <div className="proj-detail-list">
           {adminTimeline.map((item, idx) => {
@@ -93,14 +97,6 @@ export default async function ProjectDetailPage({ params }) {
               </div>
             );
           })}
-        </div>
-
-        <div className="proj-detail-timeline-actions">
-          <TimelineActions
-            projectId={project.id}
-            currentStep={project.timeline_step || usableSteps[0]}
-            steps={usableSteps}
-          />
         </div>
       </div>
 
