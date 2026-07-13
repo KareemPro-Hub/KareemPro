@@ -338,6 +338,50 @@ export default async function PortalPage() {
         </div>
         </>
       )}
+
+      <section id="support">
+        <div className="client-support-wrap">
+          <div className="client-support-head">
+            <div className="client-support-head-badge">الدعم الفني</div>
+            <div className="client-support-head-sub">فريقنا جاهز لمساعدتك في أي وقت</div>
+          </div>
+
+          <div className="client-support-grid">
+            <div className="client-support-card whatsapp">
+              <div className="client-support-icon">💬</div>
+              <div className="client-support-title">تواصل عبر واتساب</div>
+              <div className="client-support-desc">أسرع طريقة للرد على استفساراتك ومتابعة طلبك أول بأول.</div>
+              <div className="client-support-value" dir="ltr">+966 50 706 9605</div>
+              <a
+                className="client-support-btn"
+                href="https://wa.me/966507069605"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                فتح واتساب
+              </a>
+            </div>
+
+            <div className="client-support-card email">
+              <div className="client-support-icon">✉️</div>
+              <div className="client-support-title">تواصل عبر البريد الإلكتروني</div>
+              <div className="client-support-desc">لإرسال الملفات والمستندات، أو الاستفسارات التفصيلية.</div>
+              <div className="client-support-value" dir="ltr">Egy.Kareem.Pro@gmail.com</div>
+              <a className="client-support-btn" href="mailto:Egy.Kareem.Pro@gmail.com">
+                إرسال إيميل
+              </a>
+            </div>
+          </div>
+
+          <div className="client-support-note">
+            <div className="client-support-note-head">
+              <span className="client-support-note-dot" />
+              <span className="client-support-note-title">سرعة الاستجابة لطلبات الدعم</span>
+            </div>
+            <p className="client-support-note-text">نحرص على الرد خلال لحظات في أوقات العمل الرسمية.</p>
+          </div>
+        </div>
+      </section>
       </main>
     </div>
   );

@@ -101,10 +101,44 @@
 @media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:1fr auto}.hero-meta-col,.hero-divider{display:none}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center;padding:28px 22px}.hero-meta-col,.hero-divider{display:none}.project-luxe-top{flex-direction:column}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 
-/* ══════════ تبديل العرض: "إدارة مشاريعي" معزولة تمامًا عن تفاصيل المشروع ══════════ */
+/* ══════════ تبديل العرض: "إدارة مشاريعي" و"الدعم الفني" معزولتان عن تفاصيل المشروع ══════════ */
 #projects{display:none}
+#support{display:none}
 .client-dashboard-main[data-view="projects"] #projects{display:block}
 .client-dashboard-main[data-view="projects"] #detail-view{display:none}
+.client-dashboard-main[data-view="support"] #support{display:block}
+.client-dashboard-main[data-view="support"] #detail-view{display:none}
+
+/* ══════════ الدعم الفني ══════════ */
+.client-support-wrap{display:flex;flex-direction:column;gap:26px;margin-bottom:26px}
+.client-support-head{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.client-support-head-badge{background:linear-gradient(135deg,#ff7b27,#ffad38);border-radius:16px;padding:11px 28px;box-shadow:0 14px 30px -10px rgba(232,114,13,.45);font-size:19px;font-weight:900;color:#fff}
+.client-support-head-sub{font-size:14.5px;font-weight:400;color:#8a6a4a}
+.client-support-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.client-support-card{position:relative;border-radius:26px;overflow:hidden;padding:32px 30px;display:flex;flex-direction:column;gap:16px;text-align:center;align-items:center}
+.client-support-card.whatsapp{background:linear-gradient(135deg,#1fae5e,#128a4b);box-shadow:0 26px 54px -22px rgba(18,138,75,.45)}
+.client-support-card.email{background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 26px 54px -22px rgba(120,70,30,.28),0 1px 0 rgba(255,255,255,.9) inset}
+.client-support-icon{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.client-support-card.whatsapp .client-support-icon{background:rgba(255,255,255,.16)}
+.client-support-card.email .client-support-icon{background:rgba(255,173,56,.18)}
+.client-support-title{font-size:18.5px;font-weight:900}
+.client-support-card.whatsapp .client-support-title{color:#fff}
+.client-support-card.email .client-support-title{color:#3a2118}
+.client-support-desc{font-size:13.5px;font-weight:400;line-height:1.7}
+.client-support-card.whatsapp .client-support-desc{color:rgba(255,255,255,.85)}
+.client-support-card.email .client-support-desc{color:#8a6a4a}
+.client-support-value{font-size:19px;font-weight:900;letter-spacing:.3px}
+.client-support-card.whatsapp .client-support-value{color:#fff}
+.client-support-card.email .client-support-value{color:#3a2118}
+.client-support-btn{text-decoration:none;font-size:14px;font-weight:900;border-radius:99px;padding:12px 30px}
+.client-support-card.whatsapp .client-support-btn{background:#fff;color:#128a4b;box-shadow:0 14px 30px -10px rgba(0,0,0,.25)}
+.client-support-card.email .client-support-btn{background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;box-shadow:0 14px 30px -10px rgba(232,114,13,.5)}
+.client-support-note{position:relative;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 22px 46px -24px rgba(120,70,30,.2);padding:26px 30px}
+.client-support-note-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.client-support-note-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#ff7b27,#ffad38)}
+.client-support-note-title{font-size:15.5px;font-weight:900;color:#3a2118}
+.client-support-note-text{font-size:13.5px;font-weight:400;color:#3a2118;line-height:1.7}
+@media(max-width:720px){.client-support-grid{grid-template-columns:1fr}}
 
 /* ══════════ إدارة مشاريعي (قائمة كل المشاريع) ══════════ */
 .my-projects-wrap{display:flex;flex-direction:column;gap:22px;margin-bottom:26px}

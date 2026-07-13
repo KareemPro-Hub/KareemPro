@@ -12,7 +12,8 @@ import SupportIcon from "@/app/components/SupportIcon";
 // section is already visible before we scroll to it.
 function applyView(hash) {
   const panel = document.querySelector(".client-dashboard-main");
-  if (panel) panel.dataset.view = hash === "#projects" ? "projects" : "detail";
+  if (!panel) return;
+  panel.dataset.view = hash === "#projects" ? "projects" : hash === "#support" ? "support" : "detail";
 }
 
 export default function ClientNav() {
@@ -69,7 +70,7 @@ export default function ClientNav() {
         </span>{" "}
         الملفات والتسليمات
       </a>
-      <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
+      <a className={active === "#support" ? "active" : ""} href="#support" onClick={(e) => handleClick(e, "#support")}>
         <span>
           <SupportIcon size="1.5em" />
         </span>{" "}
