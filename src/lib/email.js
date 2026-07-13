@@ -33,21 +33,32 @@ const STAGE_PAYMENT_PREVIEW_TEXT = "مشروعك ينتظر أول خطوة نح
 // single-line notification per Kareem's request.
 const STAGE_PAYMENT_PREVIEW_SUBTEXT = "​";
 
-// Per-stage-number subject (the only line shown on the lock screen) for the
-// 4-stage payment plan used across current packages. `stage.stage_number`
-// picks the phrase; any stage number outside 1-4 falls back to the generic
-// phrase above.
-const STAGE_PAYMENT_COPY_BY_NUMBER = {
-  1: { subject: "دُفعة السداد الأولى تبدأ الحلم 🚀" },
-  2: { subject: "دُفعة السداد الثانية تدفعنا للأمام ⭐️" },
-  3: { subject: "دُفعة السداد الثالثة تُكمل الحلم 🎯" },
-  4: { subject: "دُفعة السداد الرابعة تُتمّ الرحلة 🎉" },
+// Per-stage-number subject (the only line shown on the lock screen), split
+// by the package's total stage count — the wording differs depending on
+// whether a stage is the plan's last one ("تُحقق الحلم 🎉") or a middle one,
+// so a 3-stage plan's stage 2 reads differently than a 4-stage plan's stage 2.
+const STAGE_PAYMENT_COPY_BY_TOTAL = {
+  4: {
+    1: "دُفعة السداد الأولى تبدأ الحلم 🚀",
+    2: "دُفعة السداد الثانية تدفعنا للأمام ⭐️",
+    3: "دُفعة السداد الثالثة تُكمل الحلم 🎯",
+    4: "دُفعة السداد الرابعة تُحقق الحلم 🎉",
+  },
+  3: {
+    1: "دُفعة السداد الأولى تبدأ الحلم 🚀",
+    2: "دُفعة السداد الثانية تُكمل الحلم 🎯",
+    3: "دُفعة السداد الثالثة تُحقق الحلم 🎉",
+  },
+  2: {
+    1: "دُفعة السداد الأولى تبدأ الحلم 🚀",
+    2: "دُفعة السداد الثانية تُحقق الحلم 🎉",
+  },
 };
 
-function stagePaymentNotificationCopy(stageNumber) {
-  const entry = STAGE_PAYMENT_COPY_BY_NUMBER[stageNumber];
+function stagePaymentNotificationCopy(stageNumber, totalStages) {
+  const subject = STAGE_PAYMENT_COPY_BY_TOTAL[totalStages]?.[stageNumber];
   return {
-    subject: entry ? entry.subject : STAGE_PAYMENT_PREVIEW_TEXT,
+    subject: subject || STAGE_PAYMENT_PREVIEW_TEXT,
     subtext: STAGE_PAYMENT_PREVIEW_SUBTEXT,
   };
 }
@@ -111,10 +122,11 @@ export async function sendStagePaymentEmail({
   clientName,
   projectTitle,
   stage,
+  totalStages,
 }) {
   const resend = getResend();
   const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
-  const { subject, subtext } = stagePaymentNotificationCopy(stage.stage_number);
+  const { subject, subtext } = stagePaymentNotificationCopy(stage.stage_number, totalStages);
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,

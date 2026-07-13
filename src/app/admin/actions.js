@@ -288,11 +288,16 @@ export async function advanceStage(stageId, targetStatus) {
 
   if (targetStatus === "awaiting_payment") {
     const client = stage.projects.clients;
+    const { count: totalStages } = await admin
+      .from("stages")
+      .select("id", { count: "exact", head: true })
+      .eq("project_id", stage.project_id);
     const messageId = await sendStagePaymentEmail({
       to: client.email,
       clientName: client.full_name,
       projectTitle: stage.projects.title,
       stage,
+      totalStages,
     });
 
     await admin.from("payment_reminders").insert({
