@@ -202,6 +202,7 @@ export default async function PortalPage() {
         <section id="projects">
           <ClientProjectsList projects={projectCards} />
         </section>
+        <div id="detail-view">
         {projects.map((project, projectIdx) => {
           const stages = (project.stages || []).sort(
             (a, b) => a.stage_number - b.stage_number
@@ -334,6 +335,7 @@ export default async function PortalPage() {
             </div>
           );
         })}
+        </div>
         </>
       )}
       </main>

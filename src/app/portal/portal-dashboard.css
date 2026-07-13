@@ -101,6 +101,11 @@
 @media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:1fr auto}.hero-meta-col,.hero-divider{display:none}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center;padding:28px 22px}.hero-meta-col,.hero-divider{display:none}.project-luxe-top{flex-direction:column}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 
+/* ══════════ تبديل العرض: "إدارة مشاريعي" معزولة تمامًا عن تفاصيل المشروع ══════════ */
+#projects{display:none}
+.client-dashboard-main[data-view="projects"] #projects{display:block}
+.client-dashboard-main[data-view="projects"] #detail-view{display:none}
+
 /* ══════════ إدارة مشاريعي (قائمة كل المشاريع) ══════════ */
 .my-projects-wrap{display:flex;flex-direction:column;gap:22px;margin-bottom:26px}
 .my-projects-hero{position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(120deg,#3a2118,#5a3a22 55%,#7a4a26);box-shadow:0 30px 64px -26px rgba(90,50,20,.4);padding:30px 34px;display:flex;align-items:center;gap:16px}
