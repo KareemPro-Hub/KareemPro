@@ -4,17 +4,36 @@ import { useState } from "react";
 import { createProject } from "@/app/admin/actions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 
+// Standard payment-stage breakdown per package price — matches the exact
+// numbers Kareem quotes to clients, so the amounts don't need to be
+// calculated by hand every time one of these four package prices is used.
+const PACKAGE_STAGE_AMOUNTS = {
+  7500: [1500, 2000, 2000, 2000],
+  5500: [1500, 2000, 2000],
+  2500: [1000, 1500],
+  1500: [750, 750],
+};
+
 export default function NewProjectForm({ clients }) {
   const [stages, setStages] = useState([{ title: "", description: "", amount: "" }]);
+  const [autoFilled, setAutoFilled] = useState(false);
 
   function updateStage(i, field, value) {
     setStages((s) => s.map((st, idx) => (idx === i ? { ...st, [field]: value } : st)));
+    if (field === "amount") setAutoFilled(false);
   }
   function addStage() {
     setStages((s) => [...s, { title: "", description: "", amount: "" }]);
   }
   function removeStage(i) {
     setStages((s) => s.filter((_, idx) => idx !== i));
+  }
+
+  function handlePackagePriceBlur(e) {
+    const preset = PACKAGE_STAGE_AMOUNTS[Number(e.target.value)];
+    if (!preset) return;
+    setStages(preset.map((amount) => ({ title: "", description: "", amount })));
+    setAutoFilled(true);
   }
 
   return (
@@ -51,7 +70,14 @@ export default function NewProjectForm({ clients }) {
           <label>
             إجمالي سعر الباقة <RiyalIcon size="0.75em" />
           </label>
-          <input type="number" name="package_price" required min="0" step="0.01" />
+          <input
+            type="number"
+            name="package_price"
+            required
+            min="0"
+            step="0.01"
+            onBlur={handlePackagePriceBlur}
+          />
         </div>
       </div>
 
@@ -62,6 +88,7 @@ export default function NewProjectForm({ clients }) {
       </h2>
       <p className="muted" style={{ marginBottom: "1rem" }}>
         مجموع قيم المراحل من الأفضل يساوي سعر الباقة الكلي.
+        {autoFilled && " تم تعبئة قيم المراحل تلقائيًا حسب سعر الباقة — راجعها وأضف عناوين المراحل."}
       </p>
 
       {stages.map((stage, i) => (
