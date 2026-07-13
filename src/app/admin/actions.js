@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
-import { sendStagePaymentEmail } from "@/lib/email";
+import { sendStagePaymentEmail, sendTimelineProgressEmail } from "@/lib/email";
 import { getAdminTimeline } from "@/lib/timeline";
 
 // ══════════════════ Client notifications ══════════════════
@@ -446,7 +446,7 @@ export async function updateTimelineStep(projectId, stepKey) {
 
   const { data: project, error: fetchError } = await admin
     .from("projects")
-    .select("client_id, package_name, timeline_step")
+    .select("client_id, title, package_name, timeline_step, clients(email, full_name)")
     .eq("id", projectId)
     .single();
   if (fetchError) throw new Error(fetchError.message);
@@ -458,13 +458,23 @@ export async function updateTimelineStep(projectId, stepKey) {
 
   if (error) throw new Error(error.message);
 
-  // Only notify when actually moving forward (not the "رجوع مرحلة" undo).
+  // Only notify when actually moving forward (not the "رجوع مرحلة" undo) —
+  // fires both an email and an in-app notification for every real step.
   const steps = getAdminTimeline(project.package_name).map((s) => s.key);
   const prevIdx = steps.indexOf(project.timeline_step);
   const nextIdx = steps.indexOf(stepKey);
   if (nextIdx > prevIdx) {
     const stepTitle = getAdminTimeline(project.package_name).find((s) => s.key === stepKey)?.title;
     if (stepTitle) {
+      if (project.clients?.email) {
+        await sendTimelineProgressEmail({
+          to: project.clients.email,
+          clientName: project.clients.full_name,
+          projectTitle: project.title,
+          stepTitle,
+        });
+      }
+
       await notifyClient(admin, {
         clientId: project.client_id,
         projectId,
