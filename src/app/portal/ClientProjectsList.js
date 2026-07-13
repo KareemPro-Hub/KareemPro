@@ -15,6 +15,21 @@ const FILTERS = [
   { key: "on_hold", label: "متوقفة" },
 ];
 
+// "إدارة مشاريعي" hides the project-detail sections while it's active (see
+// ClientNav) — opening a project from here has to switch that view back to
+// "detail" first, or the target section would still be display:none and the
+// scroll/jump would silently do nothing.
+function openProject(e, href) {
+  e.preventDefault();
+  const panel = document.querySelector(".client-dashboard-main");
+  if (panel) panel.dataset.view = "detail";
+  history.replaceState(null, "", href);
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+  requestAnimationFrame(() => {
+    document.querySelector(href)?.scrollIntoView({ block: "start" });
+  });
+}
+
 // Real "my projects" overview — every card here is a real row from the
 // client's own `projects` table (no placeholder/fictional statuses like the
 // original mockup's "idea"/"queued" demo cards). Clicking a card jumps to
@@ -117,7 +132,9 @@ export default function ClientProjectsList({ projects }) {
 
               <div className="my-project-card-foot">
                 <span>{p.meta}</span>
-                <a href={`#project-detail-${p.id}`}>فتح المشروع ←</a>
+                <a href={`#project-detail-${p.id}`} onClick={(e) => openProject(e, `#project-detail-${p.id}`)}>
+                  فتح المشروع ←
+                </a>
               </div>
             </div>
           );
