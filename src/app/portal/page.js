@@ -148,7 +148,7 @@ export default async function PortalPage() {
       </aside>
 
       <main className="client-dashboard-main">
-        <header className="client-dashboard-header">
+        <header className="client-dashboard-header" id="overview">
           <div>
             <h1>أهلًا بك، طموحك الرقمي يولد عملاقًا.</h1>
             <p>هنا تتابع مسار مشروعك، الميزانية، والقرارات لحظةً بلحظة.</p>
@@ -252,7 +252,7 @@ export default async function PortalPage() {
                   )}
                 </div>
               </div>
-              <section className="client-progress-hero" id="overview">
+              <section className="client-progress-hero">
                 <div className="hero-meta-col">
                   <div><span>حالة المشروع</span><b>{project.status === "completed" ? "تم التسليم" : "العمل مستمر"}</b></div>
                 </div>
