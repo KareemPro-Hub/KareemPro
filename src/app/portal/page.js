@@ -2,11 +2,10 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
-import FilesIcon from "@/app/components/FilesIcon";
-import SupportIcon from "@/app/components/SupportIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
 import NotificationBell from "./NotificationBell";
+import ClientNav from "./ClientNav";
 import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
@@ -123,23 +122,7 @@ export default async function PortalPage() {
           <span className="client-logo"><img src="/admin-ui/icons/kareem-pro-logo.png" alt="Kareem Pro" /></span>
           <span><b>Kareem</b> <i>Pro</i><small>بوابة النخبة</small></span>
         </a>
-        <nav className="client-nav">
-          <a className="active" href="#overview">
-            <span className="ico nav-image-icon"><img src="/admin-ui/icons/binocular.png" alt="" /></span> نظرة عامة
-          </a>
-          <a href="#projects">
-            <span className="ico nav-image-icon"><img src="/admin-ui/icons/project-management.png" alt="" /></span> إدارة مشاريعي
-          </a>
-          <a href="#payments">
-            <span className="ico nav-image-icon"><img src="/admin-ui/icons/checklist.png" alt="" /></span> مراحل الإنتاج والسداد
-          </a>
-          <a href="#workflow">
-            <span><FilesIcon size="1.5em" /></span> الملفات والتسليمات
-          </a>
-          <a href="https://wa.me/966507069605" target="_blank" rel="noopener noreferrer">
-            <span><SupportIcon size="1.5em" /></span> الدعم الفني
-          </a>
-        </nav>
+        <ClientNav />
         <div className="client-account">
           <span className="client-account-avatar">{(clientName || "ع").trim().charAt(0)}</span>
           <div><b>{clientName}</b><small>صاحب مشروع</small></div>
