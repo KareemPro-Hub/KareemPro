@@ -155,7 +155,7 @@ export default function ClientFiles({ files }) {
       <div className="client-support-note">
         <div className="client-support-note-head">
           <span className="client-support-note-dot" />
-          <span className="client-support-note-title">عندك ملاحظات على تسليم معيّن؟</span>
+          <span className="client-support-note-title">عندك ملاحظات على تسليم معيّن ؟</span>
         </div>
         <p className="client-support-note-text">
           تواصل معنا وهنساعدك في أي استفسار حول ملفاتك.{" "}
