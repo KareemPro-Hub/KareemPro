@@ -8,6 +8,7 @@ import NotificationBell from "./NotificationBell";
 import ClientNav from "./ClientNav";
 import ClientProjectsList from "./ClientProjectsList";
 import ClientFiles from "./ClientFiles";
+import ClientNotes from "./ClientNotes";
 import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
@@ -31,7 +32,7 @@ export default async function PortalPage() {
 
   if (!user) redirect("/login");
 
-  const [{ data: projects }, { data: client }, { data: notifications }, { data: files }] =
+  const [{ data: projects }, { data: client }, { data: notifications }, { data: files }, { data: notes }] =
     await Promise.all([
       supabase
         .from("projects")
@@ -51,7 +52,14 @@ export default async function PortalPage() {
         .select("*")
         .eq("client_id", user.id)
         .order("created_at", { ascending: false }),
+      supabase
+        .from("client_notes")
+        .select("*, projects(title)")
+        .eq("client_id", user.id)
+        .order("created_at", { ascending: false }),
     ]);
+
+  const noteProjectOptions = (projects || []).map((p) => ({ id: p.id, label: p.title }));
 
   const clientName = client?.full_name || user.email;
 
@@ -208,6 +216,7 @@ export default async function PortalPage() {
         <>
         <section id="projects">
           <ClientProjectsList projects={projectCards} />
+          <ClientNotes notes={notes || []} projectOptions={noteProjectOptions} />
         </section>
         <div id="detail-view">
         {projects.map((project, projectIdx) => {

@@ -116,6 +116,26 @@ export async function sendProposalDecisionEmail(params) {
   return data?.id;
 }
 
+function clientNoteTemplate({ clientName, clientEmail, projectTitle, text }) {
+  const adminUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/admin/pipeline`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#1a1440;padding:40px 16px;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;" dir="rtl" lang="ar"><tr><td align="center"><table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#28224e;border:1px solid rgba(239,75,122,0.35);border-radius:18px;overflow:hidden;"><tr><td style="padding:0;line-height:0;"><div style="height:5px;width:100%;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);"></div></td></tr><tr><td style="padding:32px 32px 8px 32px;text-align:center;"><img src="https://kareempro.com/logo-transparent.png" width="42" height="47" alt="Kareem Pro" style="display:block;margin:0 auto 8px auto;"/><div dir="ltr" style="font-family:Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;color:#ffffff;">KAREEM <span style="color:#ff6e8f;">PRO</span></div></td></tr><tr><td style="padding:24px 32px 8px 32px;text-align:center;"><h1 style="margin:0 0 14px 0;font-size:21px;color:#ffffff;">ملاحظة جديدة من عميل 💬</h1><p style="margin:0 0 16px 0;font-size:15px;line-height:1.9;color:#cfd2ea;"><strong style="color:#ffffff;">${clientName}</strong> (<a href="mailto:${clientEmail}" style="color:#ffc266;font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,194,102,.55);">${clientEmail}</a>) أرسل ملاحظة بخصوص مشروع <strong style="color:#ffffff;">"${projectTitle}"</strong>.</p></td></tr><tr><td style="padding:0 32px 8px 32px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;"><tr><td style="padding:16px 20px;font-size:14px;line-height:1.9;color:#ffffff;font-weight:700;">${text}</td></tr></table></td></tr><tr><td style="padding:24px 32px 32px 32px;text-align:center;"><a href="${adminUrl}" style="display:inline-block;padding:14px 40px;border-radius:10px;background-color:#ef4b7a;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">فتح لوحة التحكم</a><p style="margin:22px 0 0 0;font-size:12px;color:#8b8fb5;">جميع الحقوق محفوظة © Kareem Pro</p></td></tr></table></td></tr></table>`;
+}
+
+// Notifies the admin by email whenever a client sends a note/idea from their
+// project portal — the "أرسلها لي وتوصلني فعلاً" reliability layer, on top
+// of the in-app admin notification.
+export async function sendClientNoteEmail({ clientName, clientEmail, projectTitle, text }) {
+  const resend = getResend();
+  const { data, error } = await resend.emails.send({
+    from: process.env.RESEND_FROM,
+    to: ADMIN_EMAIL,
+    subject: `💬 ملاحظة جديدة من ${clientName}`,
+    html: clientNoteTemplate({ clientName, clientEmail, projectTitle, text }),
+  });
+  if (error) throw new Error(error.message || "فشل إرسال إشعار الإدارة");
+  return data?.id;
+}
+
 // Sends the "please pay for this stage" email and returns the Resend message id.
 export async function sendStagePaymentEmail({
   to,
