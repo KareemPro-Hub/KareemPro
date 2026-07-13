@@ -1,0 +1,29 @@
+/* ══════════ بوابة فريق العمل — صفحة واحدة بسيطة، بدون أي تنقل ══════════ */
+.team-portal{min-height:100vh;background:radial-gradient(circle at 0 0,#ffe2b9 0,transparent 24%),radial-gradient(circle at 100% 100%,#ffd9a8 0,transparent 30%),linear-gradient(135deg,#f4f1ed,#fff,#edf0f2);direction:rtl}
+.team-portal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;max-width:760px;margin:0 auto}
+.team-portal-brand{display:flex;align-items:center;gap:10px;font-weight:900;color:#3a2118;font-size:16px}
+.team-portal-brand img{width:34px;height:38px;object-fit:contain}
+.team-portal-logout{border:1px solid rgba(120,70,30,.18);background:rgba(255,255,255,.7);color:#3a2118;font-size:13px;font-weight:700;border-radius:99px;padding:9px 18px;cursor:pointer;font-family:inherit}
+.team-portal-main{max-width:760px;margin:0 auto;padding:0 20px 60px;display:flex;flex-direction:column;gap:22px}
+.team-portal-welcome{text-align:center;padding:10px 0 4px}
+.team-portal-welcome h1{margin:0 0 8px;font-size:24px;font-weight:900;color:#3a2118}
+.team-portal-welcome p{margin:0;font-size:14.5px;color:#9a6a3a}
+.team-portal-wrap{display:flex;flex-direction:column;gap:20px}
+.team-portal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.team-portal-stat-card{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 20px 44px -22px rgba(120,70,30,.24),0 1px 0 rgba(255,255,255,.9) inset;padding:18px 16px;text-align:center}
+.team-portal-stat-label{font-size:12.5px;font-weight:700;color:#9a6a3a;margin-bottom:6px}
+.team-portal-stat-value{font-size:22px;font-weight:900;color:#3a2118}
+.team-portal-list{position:relative;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 26px 54px -24px rgba(120,70,30,.2);padding:10px 22px}
+.team-portal-task-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 2px;border-bottom:1px solid rgba(120,70,30,.08);flex-wrap:wrap}
+.team-portal-task-row:last-child{border-bottom:none}
+.team-portal-task-info{flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px}
+.team-portal-task-title{font-size:15.5px;font-weight:900;color:#3a2118}
+.team-portal-task-title.done{text-decoration:line-through;opacity:.55;font-weight:700}
+.team-portal-task-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:#9a6a3a}
+.team-portal-project-badge{background:rgba(255,173,56,.18);color:#c1590a;border-radius:99px;padding:3px 12px}
+.team-portal-pay-badge{background:rgba(185,58,46,.12);color:#b93a2e;border-radius:99px;padding:3px 12px}
+.team-portal-pay-badge.paid{background:rgba(47,138,78,.14);color:#2f8a4e}
+.team-portal-done-btn{flex-shrink:0;border:none;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;font-size:14px;font-weight:700;border-radius:99px;padding:12px 24px;cursor:pointer;box-shadow:0 12px 26px -8px rgba(232,114,13,.5);white-space:nowrap}
+.team-portal-done-btn:disabled{opacity:.6;cursor:default}
+.team-portal-done-badge{flex-shrink:0;font-size:13px;font-weight:700;color:#2f8a4e;background:rgba(47,138,78,.14);border-radius:99px;padding:9px 18px;white-space:nowrap}
+@media(max-width:600px){.team-portal-stats{grid-template-columns:1fr}.team-portal-task-row{flex-direction:column;align-items:stretch}.team-portal-done-btn,.team-portal-done-badge{align-self:flex-start}}

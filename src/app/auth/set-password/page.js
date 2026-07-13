@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-// Reached right after a client clicks their invite email link — they're
-// already authenticated at this point (the code was exchanged in
-// /auth/callback), they just need to pick a password so every future login
-// is a normal email+password sign-in, no more emails required.
-export default function SetPasswordPage() {
+// Reached right after a client (or team member) clicks their invite email
+// link — they're already authenticated at this point (the code was
+// exchanged in /auth/callback), they just need to pick a password so every
+// future login is a normal email+password sign-in, no more emails required.
+// `?role=team` (set on the invite's redirectTo by inviteTeamMember) sends
+// team members on to their own /team portal instead of /portal.
+function SetPasswordForm() {
+  const searchParams = useSearchParams();
+  const destination = searchParams.get("role") === "team" ? "/team" : "/portal";
+
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [status, setStatus] = useState("idle"); // idle | saving | error
@@ -36,7 +42,7 @@ export default function SetPasswordPage() {
       return;
     }
 
-    window.location.href = "/portal";
+    window.location.href = destination;
   }
 
   return (
@@ -92,5 +98,13 @@ export default function SetPasswordPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function SetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <SetPasswordForm />
+    </Suspense>
   );
 }

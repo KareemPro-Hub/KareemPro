@@ -29,8 +29,8 @@ export default async function AdminOverview() {
   const awaitingPaymentStages = allStages.filter((s) => s.status === "awaiting_payment");
   const completedStages = allStages.filter((s) => ["paid", "in_progress", "completed"].includes(s.status));
 
-  // Real, honest action-item preview (same source the /admin/tasks page uses
-  // in full) — no fabricated to-dos.
+  // Real, honest action-item preview (pending proposals + stages awaiting
+  // payment confirmation) — no fabricated to-dos.
   const actionItems = [
     ...pendingProposals.map((pr) => ({
       key: `proposal-${pr.id}`,
@@ -217,7 +217,7 @@ export default async function AdminOverview() {
               <span className="overline">خطة التنفيذ</span>
               <h2>يحتاج إجراء</h2>
             </div>
-            <a className="text-btn" href="/admin/tasks">
+            <a className="text-btn" href="/admin/pipeline">
               عرض الكل ←
             </a>
           </div>

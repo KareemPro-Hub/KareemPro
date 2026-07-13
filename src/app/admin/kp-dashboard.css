@@ -420,6 +420,49 @@
 @media(max-width:1100px){.kp-dashboard .pipeline-luxe-summary{grid-template-columns:repeat(2,1fr)}.kp-dashboard .pipeline-luxe-row,.kp-dashboard .pipeline-luxe-head-row{grid-template-columns:1.6fr 1fr .9fr .8fr}.kp-dashboard .pipeline-luxe-row>div:nth-child(6),.kp-dashboard .pipeline-luxe-head-row>div:nth-child(6){display:none}}
 @media(max-width:640px){.kp-dashboard .pipeline-luxe-summary{grid-template-columns:1fr}.kp-dashboard .pipeline-luxe-head-row{display:none}.kp-dashboard .pipeline-luxe-row{grid-template-columns:1fr;gap:6px;text-align:right}}
 
+/* ══════════ فريق العمل (لوحة المدير) ══════════ */
+.kp-dashboard .team-luxe-wrap{display:flex;flex-direction:column;gap:20px}
+.kp-dashboard .team-luxe-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.kp-dashboard .team-luxe-badge{background:linear-gradient(135deg,#ff7b27,#ffad38);border-radius:16px;padding:11px 28px;box-shadow:0 14px 30px -10px rgba(232,114,13,.45);font-size:20px;font-weight:900;color:#fff;white-space:nowrap}
+.kp-dashboard .team-luxe-btn{border:1px solid rgba(120,70,30,.18);background:#fff;color:#3a2118;font-size:14px;font-weight:700;border-radius:99px;padding:11px 24px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.kp-dashboard .team-luxe-btn.primary{border:none;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff;box-shadow:0 12px 26px -8px rgba(232,114,13,.5)}
+.kp-dashboard .team-luxe-btn.secondary{background:rgba(255,255,255,.7)}
+.kp-dashboard .team-luxe-btn:disabled{opacity:.6;cursor:default}
+.kp-dashboard .team-luxe-form{position:relative;border-radius:24px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 24px 50px -20px rgba(120,70,30,.26),0 1px 0 rgba(255,255,255,.9) inset;padding:26px 30px;display:flex;flex-direction:column;gap:16px}
+.kp-dashboard .team-luxe-form-title{font-size:17px;font-weight:900;color:#3a2118}
+.kp-dashboard .team-luxe-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.kp-dashboard .team-luxe-form-actions{display:flex;gap:10px}
+.kp-dashboard .team-luxe-members{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.kp-dashboard .team-luxe-member-card{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 20px 44px -20px rgba(120,70,30,.24),0 1px 0 rgba(255,255,255,.9) inset;padding:20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.kp-dashboard .team-luxe-member-name{font-size:16px;font-weight:900;color:#3a2118;white-space:nowrap}
+.kp-dashboard .team-luxe-member-role{font-size:12.5px;font-weight:700;color:#c1873f;white-space:nowrap}
+.kp-dashboard .team-luxe-member-stats{display:flex;gap:10px;margin-top:6px}
+.kp-dashboard .team-luxe-member-stat{display:flex;flex-direction:column;align-items:center;gap:2px}
+.kp-dashboard .team-luxe-member-stat .num{font-size:18px;font-weight:900}
+.kp-dashboard .team-luxe-member-stat .num.open{color:#c1590a}
+.kp-dashboard .team-luxe-member-stat .num.done{color:#2f8a4e}
+.kp-dashboard .team-luxe-member-stat .lbl{font-size:11px;font-weight:700;color:#9a6a3a}
+.kp-dashboard .team-luxe-member-divider{width:1px;background:rgba(120,70,30,.14)}
+.kp-dashboard .team-luxe-tasks-card{position:relative;border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 30px 64px -26px rgba(120,70,30,.2);padding:30px 36px}
+.kp-dashboard .team-luxe-tasks-title{font-size:18px;font-weight:900;color:#3a2118;margin-bottom:18px}
+.kp-dashboard .team-luxe-tasks-list{display:flex;flex-direction:column}
+.kp-dashboard .team-luxe-task-row{display:flex;align-items:center;gap:16px;padding:16px 4px;border-bottom:1px solid rgba(120,70,30,.1);flex-wrap:wrap}
+.kp-dashboard .team-luxe-task-row:last-child{border-bottom:none}
+.kp-dashboard .team-luxe-checkbox{flex-shrink:0;width:22px;height:22px;border-radius:8px;border:1.5px solid rgba(120,70,30,.3);background:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;padding:0}
+.kp-dashboard .team-luxe-checkbox.checked{background:linear-gradient(135deg,#3fae66,#2f8a4e);border-color:transparent}
+.kp-dashboard .team-luxe-task-info{flex:1;min-width:180px;display:flex;flex-direction:column;gap:2px}
+.kp-dashboard .team-luxe-task-title{font-size:15.5px;font-weight:900;color:#3a2118}
+.kp-dashboard .team-luxe-task-title.done{text-decoration:line-through;opacity:.55;font-weight:700}
+.kp-dashboard .team-luxe-task-sub{font-size:12.5px;font-weight:700;color:#9a6a3a}
+.kp-dashboard .team-luxe-task-due{font-size:13px;font-weight:700;color:#8a6a4a;white-space:nowrap}
+.kp-dashboard .team-luxe-task-amount{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:900;color:#3a2118;white-space:nowrap}
+.kp-dashboard .team-luxe-paid-badge{font-size:11px;font-weight:700;color:#2f8a4e;background:rgba(47,138,78,.14);border-radius:99px;padding:4px 11px}
+.kp-dashboard .team-luxe-pay-btn{border:1px solid rgba(120,70,30,.18);background:rgba(255,255,255,.7);color:#3a2118;font-size:11.5px;font-weight:700;border-radius:99px;padding:5px 12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.kp-dashboard .team-luxe-status{font-size:12px;font-weight:700;padding:5px 14px;border-radius:99px;white-space:nowrap}
+.kp-dashboard .team-luxe-delete{flex-shrink:0;border:none;background:transparent;color:#b93a2e;font-size:13px;cursor:pointer;opacity:.55;padding:2px 4px}
+.kp-dashboard .team-luxe-delete:hover{opacity:1}
+@media(max-width:640px){.kp-dashboard .team-luxe-task-row{flex-direction:column;align-items:stretch}}
+
 /* ══════════ صفحة المشروع (لوحة المدير) — luxe glass ══════════ */
 .kp-dashboard .proj-detail-back{font-size:14.5px;font-weight:700;color:#8a6a4a;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:6px}
 .kp-dashboard .proj-detail-back:hover{color:#c1590a}

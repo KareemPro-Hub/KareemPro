@@ -882,3 +882,119 @@ export async function deleteChecklistItem(itemId) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/pipeline");
 }
+
+// ══════════════════ فريق العمل (team members + their tasks) ══════════════════
+// A small internal work-assignment system — separate from clients — for
+// Kareem's own team. Members get a real login (same invite-email pattern as
+// inviteClient) to a stripped-down "/team" portal showing only their own
+// assigned tasks; Kareem manages members/tasks/pay from here.
+
+// ── Invite a new team member: Supabase Auth invite email + a matching
+// `team_members` row. Mirrors inviteClient, but the post-invite redirect
+// carries `role=team` so set-password sends them to /team instead of
+// /portal once they pick a password. ──
+export async function inviteTeamMember(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const full_name = formData.get("full_name")?.toString().trim();
+  const email = formData.get("email")?.toString().trim();
+  const role_title = formData.get("role_title")?.toString().trim() || null;
+
+  if (!full_name || !email) throw new Error("الاسم والبريد مطلوبين");
+
+  const nextParam = encodeURIComponent("/auth/set-password?role=team");
+  const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${nextParam}`,
+  });
+
+  if (inviteError) {
+    if (!inviteError.message?.includes("already")) {
+      throw new Error(inviteError.message);
+    }
+  }
+
+  const userId =
+    invited?.user?.id ??
+    (await admin.auth.admin.listUsers().then((r) => r.data.users.find((u) => u.email === email)))?.id;
+
+  if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب عضو الفريق");
+
+  const { error: upsertError } = await admin
+    .from("team_members")
+    .upsert({ id: userId, full_name, email, role_title }, { onConflict: "id" });
+  if (upsertError) throw new Error(upsertError.message);
+
+  revalidatePath("/admin/team");
+}
+
+// ── Adds a new task, assigned to one team member, with an optional
+// free-text project label (matches the design — not tied to a real
+// `projects` row, since team work isn't always client-project-specific)
+// and an optional price Kareem sets himself. ──
+export async function addTeamTask(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const title = formData.get("title")?.toString().trim();
+  const assignee_id = formData.get("assignee_id")?.toString().trim();
+  const project_label = formData.get("project_label")?.toString().trim() || "عام";
+  const due_date = formData.get("due_date")?.toString().trim() || null;
+  const amountRaw = formData.get("amount")?.toString().trim();
+  const amount = amountRaw ? Number(amountRaw) : null;
+
+  if (!title || !assignee_id) throw new Error("عنوان المهمة والعضو المكلّف مطلوبين");
+
+  const { error } = await admin
+    .from("team_tasks")
+    .insert({ title, assignee_id, project_label, due_date, amount });
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/team");
+  revalidatePath("/team");
+}
+
+// ── Admin can flip a task's done state too (not just the member). ──
+export async function toggleTeamTaskDone(taskId, isDone) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!taskId) throw new Error("معرّف المهمة مفقود");
+
+  const { error } = await admin
+    .from("team_tasks")
+    .update({ status: isDone ? "done" : "open", completed_at: isDone ? new Date().toISOString() : null })
+    .eq("id", taskId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/team");
+  revalidatePath("/team");
+}
+
+// ── Marks a task's price as actually paid out — separate from task
+// completion, same "money truth" pattern used for payment stages. ──
+export async function markTeamTaskPaid(taskId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!taskId) throw new Error("معرّف المهمة مفقود");
+
+  const { error } = await admin
+    .from("team_tasks")
+    .update({ payment_status: "paid", paid_at: new Date().toISOString() })
+    .eq("id", taskId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/team");
+}
+
+// ── Permanently deletes a task (e.g. added by mistake). ──
+export async function deleteTeamTask(taskId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!taskId) throw new Error("معرّف المهمة مفقود");
+
+  const { error } = await admin.from("team_tasks").delete().eq("id", taskId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/team");
+  revalidatePath("/team");
+}

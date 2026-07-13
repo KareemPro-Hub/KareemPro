@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AdminNotificationBell from "./AdminNotificationBell";
+import TeamIcon from "@/app/components/TeamIcon";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
@@ -10,7 +11,7 @@ const QUICK_ACTIONS = [
   { href: "/admin/clients/new", label: "عميل جديد", desc: "أضف بيانات عميل" },
   { href: "/admin/pipeline", label: "عرض سعر", desc: "أنشئ عرضًا احترافيًا" },
   { href: "/admin/wallet", label: "فاتورة جديدة", desc: "سجّل مستحقاتك" },
-  { href: "/admin/tasks", label: "مهمة جديدة", desc: "خطط لخطوتك التالية" },
+  { href: "/admin/team", label: "مهمة لفريق العمل", desc: "كلّف عضو فريق بمهمة" },
   { href: "/admin/delivery", label: "موعد جديد", desc: "جدول تسليمًا" },
 ];
 
@@ -22,7 +23,7 @@ const NAV_GROUPS = [
       { href: "/admin/pipeline", label: "تخطيط وإدارة", icon: "target" },
       { href: "/admin/clients", label: "أصحاب المشاريع", icon: "customer" },
       { href: "/admin/projects", label: "المشاريع", icon: "project-management" },
-      { href: "/admin/tasks", label: "المهام", icon: "schedule" },
+      { href: "/admin/team", label: "فريق العمل", iconComponent: TeamIcon },
     ],
   },
   {
@@ -87,7 +88,7 @@ export default function AdminShell({ children }) {
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="ico nav-image-icon">
-                      <img src={`/admin-ui/icons/${item.icon}.png`} alt="" />
+                      {item.iconComponent ? <item.iconComponent size="1.4em" /> : <img src={`/admin-ui/icons/${item.icon}.png`} alt="" />}
                     </span>
                     {item.label}
                   </a>

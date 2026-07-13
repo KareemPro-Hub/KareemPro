@@ -46,9 +46,16 @@ export async function middleware(request) {
     return NextResponse.redirect(url);
   }
 
+  // Protect the team portal (its own login page stays open).
+  if (path.startsWith("/team") && path !== "/team/login" && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/team/login";
+    return NextResponse.redirect(url);
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/portal/:path*", "/admin/:path*", "/auth/set-password"],
+  matcher: ["/portal/:path*", "/admin/:path*", "/team/:path*", "/auth/set-password"],
 };
