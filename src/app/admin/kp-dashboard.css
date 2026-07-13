@@ -193,7 +193,7 @@
 /* Balanced dashboard header after removing the date */
 .kp-dashboard header{min-height:112px;align-items:center;margin-bottom:23px}
 .kp-dashboard .welcome{display:flex;flex-direction:column;justify-content:center;align-items:center}
-.kp-dashboard .welcome h1{margin:0 0 5px;line-height:1.25}
+.kp-dashboard .welcome h1{margin:0 0 12px;line-height:1.25;color:#c1590a}
 .kp-dashboard .welcome p{margin:0;line-height:1.45}
 .kp-dashboard .header-actions{align-self:center}
 @media(max-width:760px){.kp-dashboard header{min-height:82px}.kp-dashboard .welcome{align-items:flex-start}.kp-dashboard .welcome p{text-align:right;white-space:normal}}
