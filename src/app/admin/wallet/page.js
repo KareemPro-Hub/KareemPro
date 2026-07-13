@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import Money from "@/app/components/Money";
+import RiyalIcon from "@/app/components/RiyalIcon";
 import { clientFinance, sumFinances } from "@/lib/adminFinance";
 import { timeAgo } from "@/lib/timeAgo";
 
@@ -31,18 +32,18 @@ export default async function AdminWalletPage() {
           <div className="income-wrap">
             <div className="income">
               <span dir="ltr">{Number(totals.contracted).toLocaleString("en-US")}</span>
-              <span style={{ fontSize: "0.5em", marginRight: "6px" }}>ريال</span>
+              <RiyalIcon tone="light" size="0.5em" />
             </div>
           </div>
         </div>
         <div className="hero-side">
           <span>المُحصَّل</span>
           <b>
-            <Money value={totals.collected} />
+            <Money value={totals.collected} tone="light" />
           </b>
           <span style={{ marginTop: "10px", display: "block" }}>المستحق</span>
           <b>
-            <Money value={totals.pending} />
+            <Money value={totals.pending} tone="light" />
           </b>
         </div>
       </div>

@@ -61,7 +61,7 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
             <span>💰 إجمالي قيمة العروض المقبولة</span>
           </div>
           <div className="pipeline-luxe-summary-count">
-            <Money value={totalAcceptedValue} size="0.6em" />
+            <Money value={totalAcceptedValue} size="0.6em" tone="light" />
           </div>
         </div>
       </div>

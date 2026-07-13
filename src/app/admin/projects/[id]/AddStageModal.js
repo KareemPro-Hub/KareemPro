@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { addStage } from "@/app/admin/actions";
+import RiyalIcon from "@/app/components/RiyalIcon";
 
 export default function AddStageModal({ projectId }) {
   const [open, setOpen] = useState(false);
@@ -54,7 +55,9 @@ export default function AddStageModal({ projectId }) {
                 <textarea name="description" rows={2} />
               </div>
               <div className="field">
-                <label>المبلغ (ريال)</label>
+                <label>
+                  المبلغ <RiyalIcon size="0.75em" />
+                </label>
                 <input type="number" name="amount" min="0" step="0.01" required />
               </div>
               <div className="proj-detail-modal-actions">

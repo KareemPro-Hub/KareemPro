@@ -98,7 +98,9 @@ export default function StageCard({ stage }) {
               <textarea name="description" rows={2} defaultValue={stage.description || ""} />
             </div>
             <div className="field">
-              <label>المبلغ (ريال)</label>
+              <label>
+                المبلغ <RiyalIcon size="0.75em" />
+              </label>
               <input type="number" name="amount" min="0" step="0.01" required defaultValue={stage.amount} />
             </div>
             <div className="proj-detail-edit-actions">
