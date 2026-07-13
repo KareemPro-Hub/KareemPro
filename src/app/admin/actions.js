@@ -841,7 +841,7 @@ export async function getProjectFileUrl(fileId) {
 
 // ── Admin adds a new checklist line and gets the inserted row back, so the
 // client component can push it straight into local state. ──
-export async function addChecklistItem(text) {
+export async function addChecklistItem(text, projectId) {
   await requireAdmin();
   const admin = createAdminClient();
   const clean = (text || "").toString().trim();
@@ -849,8 +849,8 @@ export async function addChecklistItem(text) {
 
   const { data, error } = await admin
     .from("admin_checklist")
-    .insert({ text: clean })
-    .select()
+    .insert({ text: clean, project_id: projectId || null })
+    .select("*, projects(title)")
     .single();
   if (error) throw new Error(error.message);
   revalidatePath("/admin/pipeline");

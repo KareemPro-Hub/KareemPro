@@ -9,7 +9,7 @@ import { addChecklistItem, toggleChecklistItem, deleteChecklistItem } from "@/ap
 // strikethrough, exactly as Kareem asked ("تنزل تحت ويتشطب عليها"). Local
 // state is updated optimistically so the reorder/strikethrough feels
 // instant, with the server action running behind it.
-export default function AdminChecklist({ items }) {
+export default function AdminChecklist({ items, projectOptions }) {
   const [list, setList] = useState(items);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
@@ -27,11 +27,12 @@ export default function AdminChecklist({ items }) {
 
   function handleAdd(formData) {
     const text = (formData.get("text") || "").toString().trim();
+    const projectId = (formData.get("project_id") || "").toString().trim() || null;
     if (!text) return;
     setError(null);
     startTransition(async () => {
       try {
-        const item = await addChecklistItem(text);
+        const item = await addChecklistItem(text, projectId);
         setList((prev) => [item, ...prev]);
         formRef.current?.reset();
       } catch (e) {
@@ -86,6 +87,14 @@ export default function AdminChecklist({ items }) {
       </div>
 
       <form ref={formRef} action={handleAdd} className="admin-checklist-form">
+        <select name="project_id" disabled={isPending} defaultValue="">
+          <option value="">بدون مشروع محدد</option>
+          {(projectOptions || []).map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.label}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           name="text"
@@ -114,7 +123,10 @@ export default function AdminChecklist({ items }) {
               onClick={() => handleToggle(item)}
               aria-label="تحديد كمنجزة"
             />
-            <span className="admin-checklist-text">{item.text}</span>
+            <span className="admin-checklist-text">
+              {item.projects?.title && <span className="admin-checklist-project">{item.projects.title}</span>}
+              {item.text}
+            </span>
             <button type="button" className="admin-checklist-delete" onClick={() => handleDelete(item)}>
               ✕
             </button>
@@ -133,7 +145,10 @@ export default function AdminChecklist({ items }) {
             >
               ✓
             </button>
-            <span className="admin-checklist-text">{item.text}</span>
+            <span className="admin-checklist-text">
+              {item.projects?.title && <span className="admin-checklist-project">{item.projects.title}</span>}
+              {item.text}
+            </span>
             <button type="button" className="admin-checklist-delete" onClick={() => handleDelete(item)}>
               ✕
             </button>

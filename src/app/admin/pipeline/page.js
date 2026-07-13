@@ -13,10 +13,21 @@ function timeAgoLabel(dateStr) {
 export default async function AdminPipelinePage() {
   const { supabase } = await requireAdmin();
 
-  const { data: checklistItems } = await supabase
-    .from("admin_checklist")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const [{ data: checklistItems }, { data: projectsRaw }] = await Promise.all([
+    supabase
+      .from("admin_checklist")
+      .select("*, projects(title)")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("projects")
+      .select("id, title, clients(full_name)")
+      .order("created_at", { ascending: false }),
+  ]);
+
+  const projectOptions = (projectsRaw || []).map((p) => ({
+    id: p.id,
+    label: p.clients?.full_name ? `${p.title} — ${p.clients.full_name}` : p.title,
+  }));
 
   const { data: clients } = await supabase
     .from("clients")
@@ -91,6 +102,7 @@ export default async function AdminPipelinePage() {
           totalAcceptedValue={totalAcceptedValue}
           recentEvents={recentEvents}
           checklistItems={checklistItems || []}
+          projectOptions={projectOptions}
         />
       </div>
     </section>

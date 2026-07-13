@@ -18,7 +18,7 @@ const FILTERS = [
   { key: "rejected", label: "مرفوضة" },
 ];
 
-export default function PipelineBoard({ items, counts, totalAcceptedValue, recentEvents, checklistItems }) {
+export default function PipelineBoard({ items, counts, totalAcceptedValue, recentEvents, checklistItems, projectOptions }) {
   const [filter, setFilter] = useState("all");
   const [q, setQ] = useState("");
 
@@ -136,7 +136,7 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
       </div>
 
       <div className="pipeline-luxe-bottom-row">
-        <AdminChecklist items={checklistItems || []} />
+        <AdminChecklist items={checklistItems || []} projectOptions={projectOptions || []} />
 
         <div className="pipeline-luxe-events">
           <div className="pipeline-luxe-events-title">آخر الأحداث</div>
