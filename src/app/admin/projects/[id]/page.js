@@ -56,18 +56,18 @@ export default async function ProjectDetailPage({ params }) {
             <span className="proj-detail-section-icon">🛠️</span>
             مسار الإنتاج
           </div>
-          {isProjectCompleted && (
-            <span className="proj-detail-completed-badge">
-              <CheckIcon size="0.9em" /> المشروع مكتمل
-            </span>
-          )}
-        </div>
-        <div className="proj-detail-timeline-actions proj-detail-timeline-actions-top">
-          <TimelineActions
-            projectId={project.id}
-            currentStep={project.timeline_step || usableSteps[0]}
-            steps={usableSteps}
-          />
+          <div className="proj-detail-timeline-actions-head">
+            {isProjectCompleted && (
+              <span className="proj-detail-completed-badge">
+                <CheckIcon size="0.9em" /> المشروع مكتمل
+              </span>
+            )}
+            <TimelineActions
+              projectId={project.id}
+              currentStep={project.timeline_step || usableSteps[0]}
+              steps={usableSteps}
+            />
+          </div>
         </div>
 
         <div className="proj-detail-list">
