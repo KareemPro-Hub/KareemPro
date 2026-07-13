@@ -47,12 +47,16 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
 
   // Automation: a project record is created immediately so the client sees
   // their production timeline right away — no manual admin step needed.
-  const { error: projectError } = await admin.from("projects").insert({
-    client_id: proposal.client_id,
-    title: proposal.project_title,
-    package_name: chosenPackage.name,
-    package_price: chosenPackage.price,
-  });
+  const { data: newProject, error: projectError } = await admin
+    .from("projects")
+    .insert({
+      client_id: proposal.client_id,
+      title: proposal.project_title,
+      package_name: chosenPackage.name,
+      package_price: chosenPackage.price,
+    })
+    .select()
+    .single();
   if (projectError) throw new Error(projectError.message);
 
   await sendProposalDecisionEmail({
@@ -62,6 +66,15 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
     packageName: chosenPackage.name,
     price: chosenPackage.price,
     projectTitle: proposal.project_title,
+  });
+
+  await admin.from("notifications").insert({
+    client_id: proposal.client_id,
+    project_id: newProject?.id || null,
+    type: "proposal_accepted",
+    message: `${proposal.clients.full_name} وافق على العرض ووقّع العقد — "${proposal.project_title}"`,
+    link: newProject ? `/admin/projects/${newProject.id}` : "/admin/pipeline",
+    for_admin: true,
   });
 
   revalidatePath("/portal");
@@ -106,5 +119,14 @@ export async function rejectProposal({ proposalId, reason }) {
     reason: trimmedReason,
   });
 
+  await admin.from("notifications").insert({
+    client_id: proposal.client_id,
+    type: "proposal_rejected",
+    message: `${proposal.clients.full_name} رفض العرض — "${proposal.project_title}"`,
+    link: "/admin/pipeline",
+    for_admin: true,
+  });
+
   revalidatePath("/portal");
+  revalidatePath("/admin");
 }

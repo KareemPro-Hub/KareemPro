@@ -49,3 +49,20 @@ export async function markAllNotificationsRead() {
 
   revalidatePath("/portal");
 }
+
+// ── Client permanently clears (deletes) all of their own notifications,
+// read or unread. Distinct from markAllNotificationsRead — this empties the
+// list entirely instead of just clearing the unread badge. ──
+export async function clearAllNotifications() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("يجب تسجيل الدخول");
+
+  const admin = createAdminClient();
+  const { error } = await admin.from("notifications").delete().eq("client_id", user.id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/portal");
+}

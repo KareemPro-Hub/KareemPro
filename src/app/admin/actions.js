@@ -23,6 +23,61 @@ async function notifyClient(admin, { clientId, projectId, type, message, link })
   });
 }
 
+// ══════════════════ Admin notifications ══════════════════
+// Fired from real client-side actions only (proposal accept/reject, in
+// portal/proposal-actions.js) — never fabricated here.
+
+// ── Admin fetches their own notification feed. ──
+export async function getAdminNotifications() {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { data, error } = await admin
+    .from("notifications")
+    .select("*")
+    .eq("for_admin", true)
+    .order("created_at", { ascending: false })
+    .limit(30);
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
+// ── Admin marks a single one of their own notifications as read. ──
+export async function markAdminNotificationRead(notificationId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!notificationId) return;
+  const { error } = await admin
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .eq("id", notificationId)
+    .eq("for_admin", true);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+}
+
+// ── Admin marks all of their notifications as read at once. ──
+export async function markAllAdminNotificationsRead() {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .eq("for_admin", true)
+    .is("read_at", null);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+}
+
+// ── Admin permanently clears (deletes) all of their notifications, read or
+// unread — separate from mark-all-read, this empties the list entirely. ──
+export async function clearAllAdminNotifications() {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const { error } = await admin.from("notifications").delete().eq("for_admin", true);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+}
+
 // ══════════════════ Default proposal template ══════════════════
 // Automatically attached to every new client on invite, so they see the
 // full technical & financial offer the moment they log in — no manual step.

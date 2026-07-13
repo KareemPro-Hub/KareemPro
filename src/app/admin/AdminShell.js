@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import AdminNotificationBell from "./AdminNotificationBell";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
@@ -131,11 +132,7 @@ export default function AdminShell({ children }) {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </form>
-              <button className="round notification-btn" type="button" aria-label="الإشعارات">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
-                </svg>
-              </button>
+              <AdminNotificationBell />
               <a className="mini-avatar" href="/admin" aria-label="حساب كريم">
                 <img src="/admin-ui/icons/kareem-avatar.jpg" alt="صورة كريم الشخصية" />
               </a>

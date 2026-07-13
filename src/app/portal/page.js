@@ -30,6 +30,7 @@ export default async function PortalPage() {
       .from("notifications")
       .select("*")
       .eq("client_id", user.id)
+      .eq("for_admin", false)
       .order("created_at", { ascending: false })
       .limit(30),
   ]);
