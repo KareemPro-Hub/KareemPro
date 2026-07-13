@@ -760,6 +760,33 @@ table.admin-table td:nth-child(6) {
   margin-bottom: 1.3rem;
 }
 
+.role-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0.35rem;
+  margin-bottom: 1.5rem;
+}
+.role-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.6rem 0.4rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.role-tab.active {
+  background-image: linear-gradient(90deg, #ffa826, #ff5535, #d9187a);
+  color: #fff;
+}
+
 .admin-auth-card h1.title {
   text-align: center;
 }

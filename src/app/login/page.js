@@ -17,9 +17,40 @@ function EyeIcon({ off }) {
   );
 }
 
+// One shared login screen for all three roles — the tab picked determines
+// which sign-in endpoint gets hit and where a successful login lands.
+// Deep-linking (e.g. middleware bouncing an unauthenticated /admin/clients
+// visit here) sets both ?role= and ?next= so the right tab is preselected
+// and the redirect still lands exactly where they were headed.
+const ROLES = {
+  admin: {
+    label: "المدير",
+    heading: "بوابة مدير المنصة",
+    sub: "دخول آمن للمدير — سجّل دخولك بالبريد وكلمة السر.",
+    endpoint: "/auth/admin-signin",
+    defaultNext: "/admin",
+  },
+  client: {
+    label: "النخبة",
+    heading: "بوابة صناع الإبداع",
+    sub: "سجّل دخولك بالبريد الإلكتروني وكلمة السر.",
+    endpoint: "/auth/signin",
+    defaultNext: "/portal",
+  },
+  team: {
+    label: "فريق العمل",
+    heading: "بوابة فريق العمل",
+    sub: "سجّلي دخولك بالبريد الإلكتروني وكلمة السر.",
+    endpoint: "/auth/signin",
+    defaultNext: "/team",
+  },
+};
+
 function LoginForm() {
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/portal";
+  const initialRole = searchParams.get("role");
+  const [role, setRole] = useState(ROLES[initialRole] ? initialRole : "client");
+  const next = searchParams.get("next") || ROLES[role].defaultNext;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +61,7 @@ function LoginForm() {
     e.preventDefault();
     setStatus("loading");
 
-    const res = await fetch("/auth/signin", {
+    const res = await fetch(ROLES[role].endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -41,7 +72,7 @@ function LoginForm() {
       return;
     }
 
-    window.location.href = next;
+    window.location.href = searchParams.get("next") || ROLES[role].defaultNext;
   }
 
   return (
@@ -57,10 +88,24 @@ function LoginForm() {
         </a>
 
         <div className="admin-auth-card">
-          <h1 className="title">
-            بوابة <span className="g-text">صناع الإبداع</span>
-          </h1>
-          <p className="muted">سجّل دخولك بالبريد الإلكتروني وكلمة السر.</p>
+          <div className="role-tabs">
+            {Object.entries(ROLES).map(([key, r]) => (
+              <button
+                key={key}
+                type="button"
+                className={`role-tab${role === key ? " active" : ""}`}
+                onClick={() => {
+                  setRole(key);
+                  setStatus("idle");
+                }}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+
+          <h1 className="title">{ROLES[role].heading}</h1>
+          <p className="muted">{ROLES[role].sub}</p>
 
           <form onSubmit={handleSubmit}>
             <div className="field">
