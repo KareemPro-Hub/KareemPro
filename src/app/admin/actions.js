@@ -5,6 +5,23 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
 import { sendStagePaymentEmail } from "@/lib/email";
+import { getAdminTimeline } from "@/lib/timeline";
+
+// ══════════════════ Client notifications ══════════════════
+// Small helper so every real, client-facing event (payment request/confirm,
+// stage progress, production-step move) drops a row the client sees as a
+// notification in their portal — never fabricated, only fired from actual
+// status changes below.
+async function notifyClient(admin, { clientId, projectId, type, message, link }) {
+  if (!clientId) return;
+  await admin.from("notifications").insert({
+    client_id: clientId,
+    project_id: projectId || null,
+    type,
+    message,
+    link: link || null,
+  });
+}
 
 // ══════════════════ Default proposal template ══════════════════
 // Automatically attached to every new client on invite, so they see the
@@ -285,6 +302,27 @@ export async function advanceStage(stageId, targetStatus) {
     });
   }
 
+  // Only notify on forward progress (not on the "إلغاء" undo, which reuses
+  // this same function to step a stage back).
+  const STAGE_STATUS_ORDER = { upcoming: 0, awaiting_payment: 1, paid: 2, in_progress: 3, completed: 4 };
+  if (STAGE_STATUS_ORDER[targetStatus] > STAGE_STATUS_ORDER[stage.status]) {
+    const NOTIFY_MESSAGE = {
+      awaiting_payment: `بانتظار السداد: "${stage.title}" — تم إرسال تفاصيل الدفع لبريدك الإلكتروني.`,
+      paid: `تم تأكيد استلام دفعة "${stage.title}". شكرًا لك.`,
+      in_progress: `بدأنا العمل على مرحلة "${stage.title}".`,
+      completed: `اكتملت مرحلة "${stage.title}" بنجاح.`,
+    }[targetStatus];
+    if (NOTIFY_MESSAGE) {
+      await notifyClient(admin, {
+        clientId: stage.projects.client_id,
+        projectId: stage.project_id,
+        type: "payment",
+        message: NOTIFY_MESSAGE,
+        link: "/portal#payments",
+      });
+    }
+  }
+
   revalidatePath(`/admin/projects/${stage.project_id}`);
   revalidatePath("/portal");
 }
@@ -346,12 +384,36 @@ export async function updateTimelineStep(projectId, stepKey) {
 
   if (!projectId || !stepKey) throw new Error("بيانات المرحلة غير مكتملة");
 
+  const { data: project, error: fetchError } = await admin
+    .from("projects")
+    .select("client_id, package_name, timeline_step")
+    .eq("id", projectId)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
   const { error } = await admin
     .from("projects")
     .update({ timeline_step: stepKey })
     .eq("id", projectId);
 
   if (error) throw new Error(error.message);
+
+  // Only notify when actually moving forward (not the "رجوع مرحلة" undo).
+  const steps = getAdminTimeline(project.package_name).map((s) => s.key);
+  const prevIdx = steps.indexOf(project.timeline_step);
+  const nextIdx = steps.indexOf(stepKey);
+  if (nextIdx > prevIdx) {
+    const stepTitle = getAdminTimeline(project.package_name).find((s) => s.key === stepKey)?.title;
+    if (stepTitle) {
+      await notifyClient(admin, {
+        clientId: project.client_id,
+        projectId,
+        type: "progress",
+        message: `تقدّم مشروعك لمرحلة: "${stepTitle}".`,
+        link: "/portal#payments",
+      });
+    }
+  }
 
   revalidatePath(`/admin/projects/${projectId}`);
   revalidatePath("/portal");

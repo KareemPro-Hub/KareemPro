@@ -6,6 +6,7 @@ import FilesIcon from "@/app/components/FilesIcon";
 import SupportIcon from "@/app/components/SupportIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
+import NotificationBell from "./NotificationBell";
 import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
@@ -18,13 +19,19 @@ export default async function PortalPage() {
 
   if (!user) redirect("/login");
 
-  const [{ data: projects }, { data: client }] = await Promise.all([
+  const [{ data: projects }, { data: client }, { data: notifications }] = await Promise.all([
     supabase
       .from("projects")
       .select("*, stages(*)")
       .eq("client_id", user.id)
       .order("created_at", { ascending: false }),
     supabase.from("clients").select("full_name").eq("id", user.id).maybeSingle(),
+    supabase
+      .from("notifications")
+      .select("*")
+      .eq("client_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(30),
   ]);
 
   const clientName = client?.full_name || user.email;
@@ -145,7 +152,10 @@ export default async function PortalPage() {
             <h1>أهلًا بك، طموحك الرقمي يولد عملاقًا.</h1>
             <p>هنا تتابع مسار مشروعك، الميزانية، والقرارات لحظةً بلحظة.</p>
           </div>
-          <span className="client-head-avatar">{(clientName || "ع").trim().charAt(0)}</span>
+          <div className="client-head-right">
+            <NotificationBell notifications={notifications || []} />
+            <span className="client-head-avatar">{(clientName || "ع").trim().charAt(0)}</span>
+          </div>
         </header>
 
       {!projects || projects.length === 0 ? (
