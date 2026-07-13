@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
+import { buildStagesForPackagePrice } from "@/lib/packageStages";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName }) {
@@ -58,6 +59,24 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
     .select()
     .single();
   if (projectError) throw new Error(projectError.message);
+
+  // Automation: standard packages (7500/5500/2500/1500) get their payment
+  // stages created immediately too, matching the same breakdown the admin
+  // uses when creating a project by hand — no manual step needed here either.
+  const stagePlan = buildStagesForPackagePrice(chosenPackage.price);
+  if (stagePlan && newProject) {
+    const { error: stagesError } = await admin.from("stages").insert(
+      stagePlan.map((s, i) => ({
+        project_id: newProject.id,
+        stage_number: i + 1,
+        title: s.title,
+        description: s.description,
+        amount: s.amount,
+        status: "upcoming",
+      }))
+    );
+    if (stagesError) throw new Error(stagesError.message);
+  }
 
   await sendProposalDecisionEmail({
     clientName: proposal.clients.full_name,
