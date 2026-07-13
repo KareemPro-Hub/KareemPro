@@ -101,6 +101,38 @@
 @media(max-width:1000px){.client-dashboard{grid-template-columns:210px 1fr}.client-progress-hero{grid-template-columns:1fr auto}.hero-meta-col,.hero-divider{display:none}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.client-dashboard{display:block;padding:8px}.client-sidebar{position:static;height:auto;min-height:0;margin-bottom:8px;padding:12px 14px}.client-nav{display:flex;overflow:auto}.client-nav a{white-space:nowrap;padding:10px 12px}.client-account{display:none}.client-dashboard-main{padding:18px;border-radius:22px}.client-dashboard-header h1{font-size:21px}.client-dashboard-header p{font-size:12px}.client-progress-hero{grid-template-columns:1fr;text-align:center;padding:28px 22px}.hero-meta-col,.hero-divider{display:none}.project-luxe-top{flex-direction:column}.project-luxe-badge{grid-template-columns:1fr}.project-luxe-badge-divider{display:none}.stages-accordion-grid{grid-template-columns:1fr}}
 
+/* ══════════ إدارة مشاريعي (قائمة كل المشاريع) ══════════ */
+.my-projects-wrap{display:flex;flex-direction:column;gap:22px;margin-bottom:26px}
+.my-projects-hero{position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(120deg,#3a2118,#5a3a22 55%,#7a4a26);box-shadow:0 30px 64px -26px rgba(90,50,20,.4);padding:30px 34px;display:flex;align-items:center;gap:16px}
+.my-projects-hero-icon{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.my-projects-hero-title{font-size:22px;font-weight:900;color:#fff}
+.my-projects-hero-sub{font-size:13.5px;font-weight:400;color:rgba(255,255,255,.65);margin-top:4px}
+.my-projects-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.my-projects-stat-card{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(120deg,#fffaf4,#fdeee0 55%,#fbe0c6);box-shadow:0 20px 44px -22px rgba(120,70,30,.24),0 1px 0 rgba(255,255,255,.9) inset;padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.my-projects-stat-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:#9a6a3a}
+.my-projects-stat-icon{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;background:rgba(120,70,30,.08)}
+.my-projects-stat-icon.active{background:rgba(47,138,78,.12)}
+.my-projects-stat-icon.completed{background:rgba(42,111,176,.12)}
+.my-projects-stat-icon.on_hold{background:rgba(185,58,46,.12)}
+.my-projects-stat-value{font-size:27px;font-weight:900;color:#3a2118}
+.my-projects-filters{display:flex;gap:10px;flex-wrap:wrap}
+.my-projects-filter{border:1px solid rgba(120,70,30,.18);background:rgba(255,255,255,.7);color:#3a2118;font-size:13px;font-weight:700;border-radius:99px;padding:9px 20px;cursor:pointer;font-family:inherit}
+.my-projects-filter.active{border-color:transparent;background:linear-gradient(135deg,#ff7b27,#ffad38);color:#fff}
+.my-projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.my-project-card{position:relative;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 22px 46px -24px rgba(120,70,30,.24);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.my-project-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.my-project-card-status{font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:99px;white-space:nowrap}
+.my-project-card-name-col{display:flex;flex-direction:column;gap:4px;text-align:right}
+.my-project-card-name{font-size:16px;font-weight:900;color:#3a2118}
+.my-project-card-package{font-size:12.5px;font-weight:700;color:#9a6a3a}
+.my-project-card-track{height:7px;border-radius:99px;background:rgba(120,70,30,.1);overflow:hidden}
+.my-project-card-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff7b27,#ffad38)}
+.my-project-card-track-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;font-weight:700;color:#9a6a3a}
+.my-project-card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(120,70,30,.08);font-size:12.5px;font-weight:700;color:#9a6a3a}
+.my-project-card-foot a{font-size:13px;font-weight:700;color:#c1590a;text-decoration:none}
+@media(max-width:1000px){.my-projects-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.my-projects-hero{padding:22px 20px}.my-projects-stats{grid-template-columns:1fr 1fr}.my-projects-grid{grid-template-columns:1fr}}
+
 /* ══════════ إشعارات العميل (جرس) ══════════ */
 .client-head-right{display:flex;align-items:center;gap:14px}
 .notif-bell-wrap{position:relative}

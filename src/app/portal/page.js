@@ -6,9 +6,21 @@ import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
 import NotificationBell from "./NotificationBell";
 import ClientNav from "./ClientNav";
+import ClientProjectsList from "./ClientProjectsList";
 import { getClientTimeline, adminKeyToClientKey } from "@/lib/timeline";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 import "./portal-dashboard.css";
+
+// Short "بدأ منذ ..." text for a project card, based on real created_at.
+function timeSinceStart(dateStr) {
+  const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+  if (days < 1) return "بدأ اليوم";
+  if (days < 7) return `بدأ منذ ${days} يوم`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 5) return `بدأ منذ ${weeks === 1 ? "أسبوع" : `${weeks} أسابيع`}`;
+  const months = Math.floor(days / 30);
+  return `بدأ منذ ${months === 1 ? "شهر" : `${months} أشهر`}`;
+}
 
 export default async function PortalPage() {
   const supabase = await createClient();
@@ -115,6 +127,47 @@ export default async function PortalPage() {
     }
   }
 
+  // Lightweight summary used by the "My Projects" list/filter view — same
+  // underlying fields as the detailed section below, just condensed into
+  // plain data for the client component.
+  const projectCards = (projects || []).map((project) => {
+    const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
+    const isCompleted = project.status === "completed";
+    const isOnHold = project.status === "on_hold" || project.status === "cancelled";
+    const clientTimeline = getClientTimeline(project.package_name);
+    const clientCurrentKey = adminKeyToClientKey(
+      project.package_name,
+      project.timeline_step || clientTimeline[0]?.key
+    );
+    const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
+    const isProjectCompleted = clientCurrentIdx === clientTimeline.length - 1;
+    const progressPercent = isProjectCompleted
+      ? 100
+      : clientTimeline.length > 1
+      ? Math.round((Math.max(clientCurrentIdx, 0) / (clientTimeline.length - 1)) * 100)
+      : 0;
+    const [pkgName] = (project.package_name || "").split("|").map((s) => s.trim());
+    const meta = isCompleted
+      ? "تم التسليم"
+      : isOnHold
+      ? project.status === "cancelled"
+        ? "تم إلغاء المشروع"
+        : "المشروع متوقف مؤقتًا"
+      : progressPercent === 0
+      ? "بانتظار بدء التنفيذ"
+      : timeSinceStart(project.created_at);
+
+    return {
+      id: project.id,
+      title: project.title,
+      packageName: pkgName,
+      statusKey: isCompleted ? "completed" : isOnHold ? "on_hold" : "active",
+      percent: progressPercent,
+      currentStage: clientTimeline[clientCurrentIdx]?.title || clientTimeline[0]?.title || "",
+      meta,
+    };
+  });
+
   return (
     <div className="client-dashboard">
       <aside className="client-sidebar">
@@ -145,7 +198,11 @@ export default async function PortalPage() {
       {!projects || projects.length === 0 ? (
         onboardingContent
       ) : (
-        projects.map((project) => {
+        <>
+        <section id="projects">
+          <ClientProjectsList projects={projectCards} />
+        </section>
+        {projects.map((project, projectIdx) => {
           const stages = (project.stages || []).sort(
             (a, b) => a.stage_number - b.stage_number
           );
@@ -180,7 +237,7 @@ export default async function PortalPage() {
           const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
           return (
-            <div className="client-project-wrap" id="projects" key={project.id}>
+            <div className="client-project-wrap" id={`project-detail-${project.id}`} key={project.id}>
               <div className="project-luxe-top">
                 <div className="project-luxe-status" style={{ "--dot-color": statusDot.color, "--dot-gradient": statusDot.gradient }}>
                   <span className="project-luxe-dot"><i /><i /></span>
@@ -254,7 +311,7 @@ export default async function PortalPage() {
                   <span>نسبة الإنجاز</span>
                 </div>
               </section>
-              <div className="card client-project-card" id="payments">
+              <div className="card client-project-card" id={projectIdx === 0 ? "payments" : `payments-${project.id}`}>
               {isProjectCompleted && (
                 <div className="project-completed-banner">
                   <span className="project-completed-icon">
@@ -276,7 +333,8 @@ export default async function PortalPage() {
               </div>
             </div>
           );
-        })
+        })}
+        </>
       )}
       </main>
     </div>
