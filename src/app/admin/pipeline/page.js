@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import PipelineBoard from "./PipelineBoard";
+import AdminChecklist from "./AdminChecklist";
 
 function timeAgoLabel(dateStr) {
   const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -11,6 +12,11 @@ function timeAgoLabel(dateStr) {
 
 export default async function AdminPipelinePage() {
   const { supabase } = await requireAdmin();
+
+  const { data: checklistItems } = await supabase
+    .from("admin_checklist")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   const { data: clients } = await supabase
     .from("clients")
@@ -75,7 +81,7 @@ export default async function AdminPipelinePage() {
         <div className="panel-head">
           <div>
             <span className="overline">تخطيط وإدارة</span>
-            <h2>كل العروض الفنية والمالية</h2>
+            <h2>هنا يتم هندسة الأفكار</h2>
           </div>
         </div>
 
@@ -84,6 +90,7 @@ export default async function AdminPipelinePage() {
           counts={counts}
           totalAcceptedValue={totalAcceptedValue}
           recentEvents={recentEvents}
+          checklistItems={checklistItems || []}
         />
       </div>
     </section>

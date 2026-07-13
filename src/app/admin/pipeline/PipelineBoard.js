@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Money from "@/app/components/Money";
 import ProposalActions from "./ProposalActions";
+import AdminChecklist from "./AdminChecklist";
 
 const STATUS_META = {
   pending: { icon: "⏳", label: "بانتظار الموافقة", color: "#c1590a", bg: "rgba(255,173,56,.18)" },
@@ -17,7 +18,7 @@ const FILTERS = [
   { key: "rejected", label: "مرفوضة" },
 ];
 
-export default function PipelineBoard({ items, counts, totalAcceptedValue, recentEvents }) {
+export default function PipelineBoard({ items, counts, totalAcceptedValue, recentEvents, checklistItems }) {
   const [filter, setFilter] = useState("all");
   const [q, setQ] = useState("");
 
@@ -134,18 +135,22 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
         })}
       </div>
 
-      <div className="pipeline-luxe-events">
-        <div className="pipeline-luxe-events-title">آخر الأحداث</div>
-        {recentEvents.length === 0 && <p className="muted">لا يوجد أحداث بعد.</p>}
-        {recentEvents.map((ev, idx) => (
-          <div className={`pipeline-luxe-event${idx === recentEvents.length - 1 ? " last" : ""}`} key={idx}>
-            <span className="pipeline-luxe-event-icon">{ev.icon}</span>
-            <div>
-              <div className="pipeline-luxe-event-time">{ev.timeLabel}</div>
-              <div className="pipeline-luxe-event-text">{ev.text}</div>
+      <div className="pipeline-luxe-bottom-row">
+        <AdminChecklist items={checklistItems || []} />
+
+        <div className="pipeline-luxe-events">
+          <div className="pipeline-luxe-events-title">آخر الأحداث</div>
+          {recentEvents.length === 0 && <p className="muted">لا يوجد أحداث بعد.</p>}
+          {recentEvents.map((ev, idx) => (
+            <div className={`pipeline-luxe-event${idx === recentEvents.length - 1 ? " last" : ""}`} key={idx}>
+              <span className="pipeline-luxe-event-icon">{ev.icon}</span>
+              <div>
+                <div className="pipeline-luxe-event-time">{ev.timeLabel}</div>
+                <div className="pipeline-luxe-event-text">{ev.text}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

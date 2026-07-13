@@ -832,3 +832,53 @@ export async function getProjectFileUrl(fileId) {
   if (file.external_url) return file.external_url;
   return createSignedFileUrl(file.storage_path);
 }
+
+// ══════════════════ Admin checklist (تخطيط وإدارة) ══════════════════
+// A simple standing to-do/notes list for the admin — extra client requests,
+// reminders, anything worth not forgetting. Checking an item off never
+// deletes it, it just flips `is_checked` (and stamps `checked_at`) so it can
+// sort to the bottom with a strikethrough on the client side.
+
+// ── Admin adds a new checklist line and gets the inserted row back, so the
+// client component can push it straight into local state. ──
+export async function addChecklistItem(text) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  const clean = (text || "").toString().trim();
+  if (!clean) throw new Error("اكتب ملاحظة أولاً");
+
+  const { data, error } = await admin
+    .from("admin_checklist")
+    .insert({ text: clean })
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/pipeline");
+  return data;
+}
+
+// ── Toggles an item's checked state on/off (never deletes). ──
+export async function toggleChecklistItem(itemId, isChecked) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!itemId) throw new Error("معرّف الملاحظة مفقود");
+
+  const { error } = await admin
+    .from("admin_checklist")
+    .update({ is_checked: isChecked, checked_at: isChecked ? new Date().toISOString() : null })
+    .eq("id", itemId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/pipeline");
+}
+
+// ── Permanently removes a checklist line (e.g. added by mistake) — separate
+// from checking it off, which is meant to persist. ──
+export async function deleteChecklistItem(itemId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!itemId) throw new Error("معرّف الملاحظة مفقود");
+
+  const { error } = await admin.from("admin_checklist").delete().eq("id", itemId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/pipeline");
+}
