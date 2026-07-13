@@ -26,6 +26,10 @@ const BANK_BENEFICIARY_GUIDE_URL = "https://kareempro.com/kareem-pro-bank-benefi
 // lock-screen push preview) — kept short on purpose so the notification
 // stays clean. The visible email body below is untouched.
 const STAGE_PAYMENT_PREVIEW_TEXT = "مشروعك ينتظر أول خطوة نحو التنفيذ 🚀";
+// Shows as the second line of the lock-screen notification (below the
+// subject). Deliberately a different short sentence — leaving the preview
+// blank made iOS fall back to repeating the subject as that second line.
+const STAGE_PAYMENT_PREVIEW_SUBTEXT = "نقترب أكثر من رؤية حلمك واقعًا.";
 
 function stagePaymentTemplate({ clientName, projectTitle, stage, portalUrl }) {
   const amountValue = Number(stage.amount).toLocaleString("en-US");
@@ -89,10 +93,7 @@ export async function sendStagePaymentEmail({
     from: process.env.RESEND_FROM,
     to,
     subject: STAGE_PAYMENT_PREVIEW_TEXT,
-    // Left as a single space on purpose: the subject line above already
-    // carries the short phrase. If this also repeated it, the lock-screen
-    // notification showed the same line twice (subject + preview snippet).
-    text: " ",
+    text: STAGE_PAYMENT_PREVIEW_SUBTEXT,
     html: stagePaymentTemplate({ clientName, projectTitle, stage, portalUrl }),
     attachments: [
       {
