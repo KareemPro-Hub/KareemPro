@@ -41,6 +41,13 @@ export default async function ProjectDetailPage({ params }) {
         رجوع للوحة التحكم ←
       </a>
 
+      <div className="proj-detail-title-bar">
+        <h1 className="proj-detail-title">{project.title}</h1>
+        {project.clients?.full_name && (
+          <div className="proj-detail-client">صاحب المشروع: {project.clients.full_name}</div>
+        )}
+      </div>
+
       <div className="proj-detail-hero">
         <div className="proj-detail-badge">
           <div className="proj-detail-badge-name">{pkgName}</div>

@@ -21,8 +21,8 @@ const NAV_GROUPS = [
     items: [
       { href: "/admin", label: "نظرة عامة", icon: "binocular" },
       { href: "/admin/pipeline", label: "تخطيط وإدارة", icon: "target" },
-      { href: "/admin/clients", label: "أصحاب المشاريع", icon: "customer" },
       { href: "/admin/projects", label: "المشاريع", icon: "project-management" },
+      { href: "/admin/clients", label: "أصحاب المشاريع", icon: "customer" },
       { href: "/admin/team", label: "فريق العمل", iconComponent: TeamIcon },
     ],
   },
