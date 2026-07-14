@@ -999,9 +999,29 @@
     }
     .footer-links a svg { width: 15px; height: 15px; flex-shrink: 0; }
     .footer-links a:hover { color: var(--text); background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+    .footer-payments {
+      max-width: 1200px; margin: 2rem auto 0; padding-top: 2rem;
+      border-top: 1px solid var(--border); text-align: center;
+    }
+    .footer-payments-label { color: var(--muted); font-size: 0.82rem; margin-bottom: 1rem; font-weight: 600; }
+    .footer-payments-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.7rem; }
+    .payment-chip {
+      height: 42px; padding: 0.5rem 1rem; border-radius: 10px;
+      background: rgba(255,255,255,0.94);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .payment-chip:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(255,63,164,0.22); }
+    .payment-chip img { height: 100%; max-width: 90px; object-fit: contain; }
+    @media (max-width: 480px) {
+      .payment-chip { height: 34px; padding: 0.4rem 0.7rem; }
+      .payment-chip img { max-width: 60px; }
+    }
+
     .footer-copy {
       width: 100%; text-align: center; color: var(--muted); font-size: 0.78rem;
-      padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 2rem;
+      margin-top: 1.6rem;
     }
 
     /* ── SCROLL TOP ── */
@@ -2094,6 +2114,20 @@
       <a href="#contact"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4V6Zm0 0 8 7 8-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>تواصل</a>
     </div>
   </div>
+
+  <div class="footer-payments">
+    <div class="footer-payments-label">💳 وسائل الدفع المتاحة</div>
+    <div class="footer-payments-row">
+      <div class="payment-chip"><img src="payments/kashier.png" alt="Kashier" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/visa.png" alt="Visa" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/mastercard.png" alt="Mastercard" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/apple-pay.png" alt="Apple Pay" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/instapay.png" alt="InstaPay" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/vodafone-cash.png" alt="فودافون كاش" loading="lazy" /></div>
+      <div class="payment-chip"><img src="payments/orange-cash.png" alt="أورنج كاش" loading="lazy" /></div>
+    </div>
+  </div>
+
   <div class="footer-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة.</div>
 </footer>
 
