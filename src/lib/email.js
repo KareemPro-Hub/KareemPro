@@ -90,7 +90,7 @@ function proposalDecisionTemplate({ clientName, clientEmail, status, packageName
   const emailProjectTitle = projectTitle;
 
   const bodyText = accepted
-    ? `<strong style="color:#ffffff;">${clientName}</strong> (<a href="mailto:${clientEmail}" style="color:#ffc266;font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,194,102,.55);">${clientEmail}</a>) وافق على العرض ووقّع العقد. جاهز تبدأ تجهز المشروع من لوحة التحكم.`
+    ? `<strong style="color:#ffffff;">${clientName}</strong> وافق على العرض ووقّع العقد.`
     : `<strong style="color:#ffffff;">${clientName}</strong> (<a href="mailto:${clientEmail}" style="color:#ffc266;font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,194,102,.55);">${clientEmail}</a>) رفض العرض المرسل له.`;
 
   const infoRows = accepted
