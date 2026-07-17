@@ -19,5 +19,21 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message }, { status: 401 });
   }
 
+  // The credentials are valid, but the admin tab is only for actual admins:
+  // otherwise a client/team account "succeeds" here then gets bounced around
+  // by requireAdmin with no explanation. Fail loudly and clean up instead.
+  const { data: adminRow } = await supabase
+    .from("admins")
+    .select("email")
+    .eq("email", email)
+    .maybeSingle();
+  if (!adminRow) {
+    await supabase.auth.signOut();
+    return NextResponse.json(
+      { error: "هذا الحساب ليس حساب مدير. اختر التبويب المناسب لك (النخبة أو فريق العمل)." },
+      { status: 403 }
+    );
+  }
+
   return NextResponse.json({ ok: true });
 }

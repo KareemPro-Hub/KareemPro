@@ -59,6 +59,17 @@ export default async function PortalPage() {
         .order("created_at", { ascending: false }),
     ]);
 
+  // Signed in but not a client: a team member who lands on /portal (e.g. via
+  // an old link) belongs on their own tasks page, not the client onboarding.
+  if (!client) {
+    const { data: teamMember } = await supabase
+      .from("team_members")
+      .select("id")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (teamMember) redirect("/team");
+  }
+
   const noteProjectOptions = (projects || []).map((p) => ({ id: p.id, label: p.title }));
 
   const clientName = client?.full_name || user.email;

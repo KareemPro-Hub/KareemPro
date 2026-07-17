@@ -468,12 +468,17 @@ export async function updateTimelineStep(projectId, stepKey) {
     const stepTitle = getAdminTimeline(project.package_name).find((s) => s.key === stepKey)?.title;
     if (stepTitle) {
       if (project.clients?.email) {
-        await sendTimelineProgressEmail({
-          to: project.clients.email,
-          clientName: project.clients.full_name,
-          projectTitle: project.title,
-          stepTitle,
-        });
+        try {
+          await sendTimelineProgressEmail({
+            to: project.clients.email,
+            clientName: project.clients.full_name,
+            projectTitle: project.title,
+            stepTitle,
+          });
+        } catch {
+          // The step already moved and the in-app notification below still
+          // lands — an email hiccup shouldn't fail the whole action.
+        }
       }
 
       await notifyClient(admin, {

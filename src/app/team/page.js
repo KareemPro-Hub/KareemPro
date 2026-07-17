@@ -20,7 +20,11 @@ export default async function TeamPortalPage() {
       .order("created_at", { ascending: false }),
   ]);
 
-  const name = member?.full_name || user.email;
+  // Signed in but not a team member (e.g. a client who typed /team by hand):
+  // send them to their own portal instead of showing an empty tasks page.
+  if (!member) redirect("/portal");
+
+  const name = member.full_name || user.email;
 
   return (
     <div className="team-portal">
