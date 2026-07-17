@@ -55,11 +55,14 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState("idle"); // idle | loading | error
+  const [status, setStatus] = useState("idle"); // idle | loading | error | sent
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [mode, setMode] = useState("login"); // login | forgot
 
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("loading");
+    setErrorMsg(null);
 
     const res = await fetch(ROLES[role].endpoint, {
       method: "POST",
@@ -68,11 +71,34 @@ function LoginForm() {
     });
 
     if (!res.ok) {
+      // Surface the server's own message when it has one (e.g. "this isn't
+      // an admin account") — fall back to the generic wrong-credentials line.
+      const body = await res.json().catch(() => null);
+      setErrorMsg(body?.error && res.status === 403 ? body.error : null);
       setStatus("error");
       return;
     }
 
     window.location.href = searchParams.get("next") || ROLES[role].defaultNext;
+  }
+
+  async function handleForgot(e) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg(null);
+
+    const res = await fetch("/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, role }),
+    });
+
+    if (!res.ok) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sent");
   }
 
   return (
@@ -97,6 +123,8 @@ function LoginForm() {
                 onClick={() => {
                   setRole(key);
                   setStatus("idle");
+                  setErrorMsg(null);
+                  setMode("login");
                 }}
               >
                 {r.label}
@@ -104,10 +132,14 @@ function LoginForm() {
             ))}
           </div>
 
-          <h1 className="title">{ROLES[role].heading}</h1>
-          <p className="muted">{ROLES[role].sub}</p>
+          <h1 className="title">{mode === "forgot" ? "استعادة كلمة السر" : ROLES[role].heading}</h1>
+          <p className="muted">
+            {mode === "forgot"
+              ? "اكتب بريدك الإلكتروني وهنبعت لك رابط تعيين كلمة سر جديدة."
+              : ROLES[role].sub}
+          </p>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={mode === "forgot" ? handleForgot : handleSubmit}>
             <div className="field">
               <label>البريد الإلكتروني</label>
               <input
@@ -121,33 +153,44 @@ function LoginForm() {
               />
             </div>
 
-            <div className="field">
-              <label>كلمة السر</label>
-              <div className="password-field-wrap">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  dir="ltr"
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? "إخفاء كلمة السر" : "إظهار كلمة السر"}
-                  tabIndex={-1}
-                >
-                  <EyeIcon off={showPassword} />
-                </button>
+            {mode === "login" && (
+              <div className="field">
+                <label>كلمة السر</label>
+                <div className="password-field-wrap">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    dir="ltr"
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "إخفاء كلمة السر" : "إظهار كلمة السر"}
+                    tabIndex={-1}
+                  >
+                    <EyeIcon off={showPassword} />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             {status === "error" && (
               <div className="notice notice-error">
-                البريد أو كلمة السر غير صحيحة.
+                {errorMsg ||
+                  (mode === "forgot"
+                    ? "حصل خطأ، جرب تاني."
+                    : "البريد أو كلمة السر غير صحيحة.")}
+              </div>
+            )}
+
+            {status === "sent" && (
+              <div className="notice" style={{ background: "rgba(46,204,113,.12)", border: "1px solid rgba(46,204,113,.35)", color: "#7be0a8" }}>
+                لو البريد ده مسجل عندنا، هيوصله رابط تعيين كلمة سر جديدة خلال دقائق. افحص صندوق الوارد و&quot;الرسائل غير المرغوبة&quot;.
               </div>
             )}
 
@@ -155,9 +198,26 @@ function LoginForm() {
               type="submit"
               className="btn btn-primary"
               style={{ width: "100%" }}
-              disabled={status === "loading"}
+              disabled={status === "loading" || (mode === "forgot" && status === "sent")}
             >
-              {status === "loading" ? "جارِ الدخول..." : "تسجيل الدخول"}
+              {status === "loading"
+                ? "لحظة واحدة..."
+                : mode === "forgot"
+                ? "إرسال رابط الاستعادة"
+                : "تسجيل الدخول"}
+            </button>
+
+            <button
+              type="button"
+              className="muted"
+              style={{ display: "block", margin: "14px auto 0", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontFamily: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
+              onClick={() => {
+                setMode(mode === "forgot" ? "login" : "forgot");
+                setStatus("idle");
+                setErrorMsg(null);
+              }}
+            >
+              {mode === "forgot" ? "رجوع لتسجيل الدخول" : "نسيت كلمة السر ؟"}
             </button>
           </form>
         </div>

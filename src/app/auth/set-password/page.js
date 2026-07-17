@@ -12,7 +12,8 @@ import { createClient } from "@/lib/supabase/client";
 // team members on to their own /team portal instead of /portal.
 function SetPasswordForm() {
   const searchParams = useSearchParams();
-  const destination = searchParams.get("role") === "team" ? "/team" : "/portal";
+  const roleParam = searchParams.get("role");
+  const destination = roleParam === "team" ? "/team" : roleParam === "admin" ? "/admin" : "/portal";
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
