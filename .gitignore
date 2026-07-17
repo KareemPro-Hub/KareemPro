@@ -15,7 +15,11 @@
 
 # next.js
 /.next/
+/.next_old*/
 /out/
+
+# renamed-instead-of-deleted leftovers (sandbox can't unlink on this mount)
+/_deleted_*/
 
 # production
 /build
