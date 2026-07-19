@@ -439,13 +439,16 @@ export async function deleteStage(stageId) {
 }
 
 // ── Apply a discount to a project's total price. Reduces package_price by
-// the discount amount, then absorbs the same amount out of the *unpaid*
-// stages only — starting from the last stage backward (so earlier,
-// already-communicated stage amounts stay untouched, and only the tail end
-// shrinks). Already-paid/in-progress/completed stages are never touched.
-// Fires a client-facing in-app notification, same channel as every other
-// payment event — no email (matches how "paid/in_progress/completed" stage
-// events already behave, per updateStageStatus above). ──
+// the discount amount, then spreads the new total evenly across the
+// *unpaid* stages only, using clean round-100 figures for every stage
+// except the last — which absorbs whatever's left so the sum lands exactly
+// right (e.g. 1500/2000/2000/2000 with a 1,600 discount becomes
+// 1500/1500/1500/1400, not the whole cut dumped on one stage).
+// Already-paid/in-progress/completed stages are never touched. The very
+// first time a discount lands on a project, the pre-discount stage amounts
+// are snapshotted so cancelProjectDiscount (below) can fully undo it later.
+// Fires a client-facing in-app notification + email, same as every other
+// payment event. ──
 export async function applyProjectDiscount(formData) {
   await requireAdmin();
   const admin = createAdminClient();
@@ -467,20 +470,36 @@ export async function applyProjectDiscount(formData) {
   const PAID_STATUSES = ["paid", "in_progress", "completed"];
   const unpaidStages = (project.stages || [])
     .filter((s) => !PAID_STATUSES.includes(s.status))
-    .sort((a, b) => b.stage_number - a.stage_number); // last stage first
+    .sort((a, b) => a.stage_number - b.stage_number); // ascending — last one absorbs the remainder
 
   const unpaidTotal = unpaidStages.reduce((sum, s) => sum + Number(s.amount || 0), 0);
-  if (unpaidStages.length === 0) throw new Error("لا يوجد مراحل غير مدفوعة لتطبيق الخصم عليها");
+  const n = unpaidStages.length;
+  if (n === 0) throw new Error("لا يوجد مراحل غير مدفوعة لتطبيق الخصم عليها");
   if (discountAmount > unpaidTotal) {
     throw new Error(`الخصم أكبر من المتبقي على العميل (${unpaidTotal.toLocaleString("en-US")} ريال)`);
   }
 
-  let remaining = discountAmount;
-  for (const stage of unpaidStages) {
-    if (remaining <= 0) break;
-    const reduction = Math.min(Number(stage.amount || 0), remaining);
-    const newAmount = Number(stage.amount || 0) - reduction;
-    remaining -= reduction;
+  // Snapshot the pre-discount stage amounts the first time a discount ever
+  // lands on this project — this is what makes a full, exact cancel later
+  // possible, even after several discounts stack up.
+  const isFirstDiscount = project.original_price == null;
+  const stageSnapshot = isFirstDiscount
+    ? Object.fromEntries((project.stages || []).map((s) => [s.id, Number(s.amount || 0)]))
+    : project.original_stage_amounts;
+
+  const newUnpaidTotal = unpaidTotal - discountAmount;
+  let share = Math.round(newUnpaidTotal / n / 100) * 100;
+  if (share < 0) share = 0;
+  if (share * (n - 1) > newUnpaidTotal) {
+    // Rounding pushed the shared amount too high for the last stage to
+    // absorb (small discount edge case) — fall back to a plain, unrounded
+    // even split instead.
+    share = Math.floor(newUnpaidTotal / n);
+  }
+
+  for (let i = 0; i < n; i++) {
+    const stage = unpaidStages[i];
+    const newAmount = i === n - 1 ? newUnpaidTotal - share * (n - 1) : share;
     const { error: stageError } = await admin
       .from("stages")
       .update({ amount: newAmount })
@@ -496,6 +515,7 @@ export async function applyProjectDiscount(formData) {
     .update({
       package_price: newPrice,
       original_price: project.original_price ?? oldPrice,
+      original_stage_amounts: stageSnapshot,
       discount_amount: (Number(project.discount_amount) || 0) + discountAmount,
       discount_note: note || project.discount_note,
       discount_applied_at: new Date().toISOString(),
@@ -528,6 +548,60 @@ export async function applyProjectDiscount(formData) {
   }
 
   revalidatePath(`/admin/projects/${project_id}`);
+  revalidatePath("/admin/clients");
+  revalidatePath("/admin/wallet");
+  revalidatePath("/admin");
+  revalidatePath("/portal");
+}
+
+// ── Fully undo every discount ever applied to a project — "as if it never
+// happened". Restores package_price and every stage's amount from the
+// snapshot taken by applyProjectDiscount the first time a discount landed,
+// then clears all discount-tracking fields. Silent on purpose (no client
+// notification/email) since this corrects an internal decision, not
+// something that happened to the client. ──
+export async function cancelProjectDiscount(projectId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!projectId) throw new Error("المشروع غير محدد");
+
+  const { data: project, error: fetchError } = await admin
+    .from("projects")
+    .select("*, stages(*)")
+    .eq("id", projectId)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  if (project.original_price == null || !project.original_stage_amounts) {
+    throw new Error("لا يوجد خصم مطبّق على هذا المشروع");
+  }
+
+  const snapshot = project.original_stage_amounts;
+  for (const stage of project.stages || []) {
+    if (Object.prototype.hasOwnProperty.call(snapshot, stage.id)) {
+      const { error: stageError } = await admin
+        .from("stages")
+        .update({ amount: Number(snapshot[stage.id]) })
+        .eq("id", stage.id);
+      if (stageError) throw new Error(stageError.message);
+    }
+  }
+
+  const { error: updateError } = await admin
+    .from("projects")
+    .update({
+      package_price: project.original_price,
+      original_price: null,
+      original_stage_amounts: null,
+      discount_amount: 0,
+      discount_note: null,
+      discount_applied_at: null,
+    })
+    .eq("id", projectId);
+  if (updateError) throw new Error(updateError.message);
+
+  revalidatePath(`/admin/projects/${projectId}`);
   revalidatePath("/admin/clients");
   revalidatePath("/admin/wallet");
   revalidatePath("/admin");

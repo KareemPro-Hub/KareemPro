@@ -3,6 +3,7 @@ import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import AddStageModal from "./AddStageModal";
 import DiscountModal from "./DiscountModal";
+import CancelDiscountButton from "./CancelDiscountButton";
 import ProjectFilesSection from "./ProjectFilesSection";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
@@ -68,7 +69,10 @@ export default async function ProjectDetailPage({ params }) {
             <span>خصم {Number(project.discount_amount).toLocaleString("en-US")} ريال</span>
           </div>
         )}
-        <DiscountModal projectId={project.id} packagePrice={project.package_price} />
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
+          <DiscountModal projectId={project.id} packagePrice={project.package_price} />
+          {Number(project.discount_amount) > 0 && <CancelDiscountButton projectId={project.id} />}
+        </div>
       </div>
 
       <div className="proj-detail-section">
