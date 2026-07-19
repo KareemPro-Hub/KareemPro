@@ -63,7 +63,10 @@ export default async function AdminWalletPage() {
               <div className="project-row" key={c.id} style={{ gridTemplateColumns: "42px 1.4fr 1fr 1fr" }}>
                 <div className="project-logo violet">{(c.full_name || "؟").trim().charAt(0)}</div>
                 <div className="project-name">
-                  <b>{c.full_name}</b>
+                  <b>
+                    {c.full_name}
+                    {c.is_test && <span className="client-luxe-test-badge">تجريبي</span>}
+                  </b>
                   <span>
                     قيمة العقد: <Money value={f.contracted} />
                   </span>

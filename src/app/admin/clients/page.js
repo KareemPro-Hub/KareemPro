@@ -69,7 +69,10 @@ export default async function AdminClientsPage({ searchParams }) {
                       {(c.full_name || "؟").trim().charAt(0)}
                     </span>
                     <div className="client-luxe-identity-text">
-                      <b>{c.full_name}</b>
+                      <b>
+                        {c.full_name}
+                        {c.is_test && <span className="client-luxe-test-badge">تجريبي</span>}
+                      </b>
                       <span dir="ltr">{c.email}</span>
                     </div>
                   </div>
