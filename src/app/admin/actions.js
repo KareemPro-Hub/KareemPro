@@ -347,7 +347,15 @@ export async function advanceStage(stageId, targetStatus) {
 
   if (updateError) throw new Error(updateError.message);
 
-  if (targetStatus === "awaiting_payment") {
+  // Every email/notification below only fires on forward progress — not on
+  // the "إلغاء" undo, which reuses this same function to step a stage back
+  // (e.g. paid → awaiting_payment). Before this check existed, undoing a
+  // paid stage back to "awaiting_payment" would silently resend the client
+  // the whole "please pay" email + log a duplicate payment_reminders row.
+  const STAGE_STATUS_ORDER = { upcoming: 0, awaiting_payment: 1, paid: 2, in_progress: 3, completed: 4 };
+  const isForwardProgress = STAGE_STATUS_ORDER[targetStatus] > STAGE_STATUS_ORDER[stage.status];
+
+  if (isForwardProgress && targetStatus === "awaiting_payment") {
     const client = stage.projects.clients;
     const { count: totalStages } = await admin
       .from("stages")
@@ -368,10 +376,7 @@ export async function advanceStage(stageId, targetStatus) {
     });
   }
 
-  // Only notify on forward progress (not on the "إلغاء" undo, which reuses
-  // this same function to step a stage back).
-  const STAGE_STATUS_ORDER = { upcoming: 0, awaiting_payment: 1, paid: 2, in_progress: 3, completed: 4 };
-  if (STAGE_STATUS_ORDER[targetStatus] > STAGE_STATUS_ORDER[stage.status]) {
+  if (isForwardProgress) {
     const NOTIFY_MESSAGE = {
       awaiting_payment: `بانتظار السداد: "${stage.title}" — تم إرسال تفاصيل الدفع لبريدك الإلكتروني.`,
       paid: `تم تأكيد استلام دفعة "${stage.title}". شكرًا لك.`,
