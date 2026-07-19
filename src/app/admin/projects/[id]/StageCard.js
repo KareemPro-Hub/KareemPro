@@ -12,10 +12,14 @@ const STATUS_META = {
   completed: { label: "مكتملة", color: "#2f8a4e", bg: "rgba(47,138,78,.14)" },
 };
 
+// "paid" is terminal on purpose — the client-facing production progress is
+// already tracked by the project's own "مسار الإنتاج" timeline above, so a
+// payment stage doesn't need its own separate "start/finish" pipeline once
+// it's been collected.
 const NEXT_ACTION = {
   upcoming: { target: "awaiting_payment", label: "اطلب السداد الآن" },
   awaiting_payment: { target: "paid", label: "تأكيد استلام الدفع" },
-  paid: { target: "in_progress", label: "بدء تنفيذ المرحلة" },
+  paid: null,
   in_progress: { target: "completed", label: "إنهاء المرحلة" },
   completed: null,
 };

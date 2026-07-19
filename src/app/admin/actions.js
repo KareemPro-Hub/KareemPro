@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
-import { sendStagePaymentEmail, sendTimelineProgressEmail, sendDiscountEmail } from "@/lib/email";
+import {
+  sendStagePaymentEmail,
+  sendTimelineProgressEmail,
+  sendDiscountEmail,
+  sendPaymentReceivedEmail,
+} from "@/lib/email";
 import { getAdminTimeline } from "@/lib/timeline";
 import { createSignedFileUrl } from "@/lib/projectFiles";
 
@@ -381,6 +386,20 @@ export async function advanceStage(stageId, targetStatus) {
         message: NOTIFY_MESSAGE,
         link: "/portal#payments",
       });
+    }
+
+    if (targetStatus === "paid" && stage.projects.clients?.email) {
+      try {
+        await sendPaymentReceivedEmail({
+          to: stage.projects.clients.email,
+          clientName: stage.projects.clients.full_name,
+          projectTitle: stage.projects.title,
+          stage,
+        });
+      } catch {
+        // The payment is already marked received and the in-app notification
+        // above still lands — a Resend hiccup shouldn't fail the whole action.
+      }
     }
   }
 
