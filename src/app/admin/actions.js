@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
-import { sendStagePaymentEmail, sendTimelineProgressEmail } from "@/lib/email";
+import { sendStagePaymentEmail, sendTimelineProgressEmail, sendDiscountEmail } from "@/lib/email";
 import { getAdminTimeline } from "@/lib/timeline";
 import { createSignedFileUrl } from "@/lib/projectFiles";
 
@@ -510,6 +510,22 @@ export async function applyProjectDiscount(formData) {
     message: `🎉 خبر سعيد! قررنا نطبّق خصم خاص بقيمة ${discountAmount.toLocaleString("en-US")} ريال على مشروعك — القيمة الإجمالية الجديدة أصبحت ${newPrice.toLocaleString("en-US")} ريال بدلاً من ${oldPrice.toLocaleString("en-US")} ريال. نتمنى لك تجربة رائعة معنا! ✨`,
     link: "/portal#payments",
   });
+
+  if (project.clients?.email) {
+    try {
+      await sendDiscountEmail({
+        to: project.clients.email,
+        clientName: project.clients.full_name,
+        projectTitle: project.title,
+        oldPrice,
+        newPrice,
+        discountAmount,
+      });
+    } catch {
+      // The discount already applied and the in-app notification above still
+      // lands — a Resend hiccup shouldn't fail the whole action.
+    }
+  }
 
   revalidatePath(`/admin/projects/${project_id}`);
   revalidatePath("/admin/clients");
