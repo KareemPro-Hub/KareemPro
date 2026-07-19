@@ -438,6 +438,86 @@ export async function deleteStage(stageId) {
   revalidatePath("/portal");
 }
 
+// ── Apply a discount to a project's total price. Reduces package_price by
+// the discount amount, then absorbs the same amount out of the *unpaid*
+// stages only — starting from the last stage backward (so earlier,
+// already-communicated stage amounts stay untouched, and only the tail end
+// shrinks). Already-paid/in-progress/completed stages are never touched.
+// Fires a client-facing in-app notification, same channel as every other
+// payment event — no email (matches how "paid/in_progress/completed" stage
+// events already behave, per updateStageStatus above). ──
+export async function applyProjectDiscount(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const project_id = formData.get("project_id")?.toString();
+  const discountAmount = Number(formData.get("discount_amount"));
+  const note = formData.get("note")?.toString().trim() || null;
+
+  if (!project_id) throw new Error("المشروع غير محدد");
+  if (!discountAmount || discountAmount <= 0) throw new Error("مبلغ الخصم غير صحيح");
+
+  const { data: project, error: fetchError } = await admin
+    .from("projects")
+    .select("*, clients(email, full_name), stages(*)")
+    .eq("id", project_id)
+    .single();
+  if (fetchError) throw new Error(fetchError.message);
+
+  const PAID_STATUSES = ["paid", "in_progress", "completed"];
+  const unpaidStages = (project.stages || [])
+    .filter((s) => !PAID_STATUSES.includes(s.status))
+    .sort((a, b) => b.stage_number - a.stage_number); // last stage first
+
+  const unpaidTotal = unpaidStages.reduce((sum, s) => sum + Number(s.amount || 0), 0);
+  if (unpaidStages.length === 0) throw new Error("لا يوجد مراحل غير مدفوعة لتطبيق الخصم عليها");
+  if (discountAmount > unpaidTotal) {
+    throw new Error(`الخصم أكبر من المتبقي على العميل (${unpaidTotal.toLocaleString("en-US")} ريال)`);
+  }
+
+  let remaining = discountAmount;
+  for (const stage of unpaidStages) {
+    if (remaining <= 0) break;
+    const reduction = Math.min(Number(stage.amount || 0), remaining);
+    const newAmount = Number(stage.amount || 0) - reduction;
+    remaining -= reduction;
+    const { error: stageError } = await admin
+      .from("stages")
+      .update({ amount: newAmount })
+      .eq("id", stage.id);
+    if (stageError) throw new Error(stageError.message);
+  }
+
+  const oldPrice = Number(project.package_price) || 0;
+  const newPrice = oldPrice - discountAmount;
+
+  const { error: updateError } = await admin
+    .from("projects")
+    .update({
+      package_price: newPrice,
+      original_price: project.original_price ?? oldPrice,
+      discount_amount: (Number(project.discount_amount) || 0) + discountAmount,
+      discount_note: note || project.discount_note,
+      discount_applied_at: new Date().toISOString(),
+    })
+    .eq("id", project_id);
+  if (updateError) throw new Error(updateError.message);
+
+  await notifyClient(admin, {
+    clientId: project.client_id,
+    projectId: project_id,
+    type: "payment",
+    message: `🎉 خبر سعيد! قررنا نطبّق خصم خاص بقيمة ${discountAmount.toLocaleString("en-US")} ريال على مشروعك — القيمة الإجمالية الجديدة أصبحت ${newPrice.toLocaleString("en-US")} ريال بدلاً من ${oldPrice.toLocaleString("en-US")} ريال. نتمنى لك تجربة رائعة معنا! ✨`,
+    link: "/portal#payments",
+  });
+
+  revalidatePath(`/admin/projects/${project_id}`);
+  revalidatePath("/admin/clients");
+  revalidatePath("/admin/wallet");
+  revalidatePath("/admin");
+  revalidatePath("/portal");
+}
+
 // ── Advance/rewind a project's production-process timeline step (1-10). ──
 export async function updateTimelineStep(projectId, stepKey) {
   await requireAdmin();

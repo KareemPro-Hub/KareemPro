@@ -518,6 +518,9 @@
 .kp-dashboard .proj-detail-timeline-actions-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 
 .kp-dashboard .proj-detail-add-trigger{border:1px solid rgba(255,140,40,.4);background:rgba(255,173,56,.14);color:#c1590a;font-size:14px;font-weight:700;border-radius:99px;padding:11px 26px;cursor:pointer;font-family:inherit}
+.kp-dashboard .proj-detail-discount-trigger{position:relative;border:1px solid rgba(47,138,78,.4);background:rgba(47,138,78,.1);color:#2f8a4e;font-size:14px;font-weight:700;border-radius:99px;padding:9px 22px;cursor:pointer;font-family:inherit}
+.kp-dashboard .proj-detail-discount-badge{position:relative;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:#2f8a4e;background:rgba(47,138,78,.1);border:1px solid rgba(47,138,78,.3);border-radius:99px;padding:6px 18px}
+.kp-dashboard .proj-detail-discount-old{color:#a08a78;text-decoration:line-through;font-weight:600}
 .kp-dashboard .proj-detail-modal-overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(58,33,24,.35);backdrop-filter:blur(4px)}
 .kp-dashboard .proj-detail-modal{position:relative;width:560px;max-width:90vw;max-height:85vh;overflow:auto;border-radius:24px;background:linear-gradient(150deg,#fffaf4,#fdeee0);box-shadow:0 40px 90px -20px rgba(90,50,20,.45);padding:34px 38px;display:flex;flex-direction:column;gap:20px}
 .kp-dashboard .proj-detail-modal-head{display:flex;align-items:center;justify-content:space-between}

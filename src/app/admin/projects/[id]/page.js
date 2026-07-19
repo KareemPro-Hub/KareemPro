@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
 import AddStageModal from "./AddStageModal";
+import DiscountModal from "./DiscountModal";
 import ProjectFilesSection from "./ProjectFilesSection";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
@@ -59,6 +60,15 @@ export default async function ProjectDetailPage({ params }) {
           <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
           <RiyalIcon size="0.55em" />
         </div>
+        {Number(project.discount_amount) > 0 && (
+          <div className="proj-detail-discount-badge">
+            <span className="proj-detail-discount-old" dir="ltr">
+              {Number(project.original_price).toLocaleString("en-US")}
+            </span>
+            <span>خصم {Number(project.discount_amount).toLocaleString("en-US")} ريال</span>
+          </div>
+        )}
+        <DiscountModal projectId={project.id} packagePrice={project.package_price} />
       </div>
 
       <div className="proj-detail-section">
