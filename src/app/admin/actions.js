@@ -10,7 +10,9 @@ import {
   sendDiscountEmail,
   sendPaymentReceivedEmail,
   sendMagicLinkEmail,
+  sendNewFileEmail,
 } from "@/lib/email";
+import { FILE_TYPE_META } from "@/lib/fileTypes";
 import { generatePaymentReceiptPdf } from "@/lib/pdfReceipt";
 
 const ARABIC_MONTHS = [
@@ -1171,7 +1173,7 @@ export async function addProjectFile(formData) {
 
   const { data: project, error: projectError } = await admin
     .from("projects")
-    .select("client_id")
+    .select("client_id, title, clients(full_name, email, phone)")
     .eq("id", project_id)
     .single();
   if (projectError) throw new Error(projectError.message);
@@ -1206,8 +1208,57 @@ export async function addProjectFile(formData) {
   });
   if (error) throw new Error(error.message);
 
+  // Tell the client a new deliverable landed — in-app notification + email
+  // (automatic), and the WhatsApp message the admin sends with one tap from
+  // the returned data. Auto-generated payment receipts skip this: they're
+  // inserted directly by advanceStage, which sends its own confirmation.
+  const typeMeta = FILE_TYPE_META[type] || FILE_TYPE_META.doc;
+
+  await notifyClient(admin, {
+    clientId: project.client_id,
+    projectId: project_id,
+    type: "file",
+    message: `📁 وصلك ملف جديد: "${name}" في قسم الملفات والتسليمات.`,
+    link: "/portal#files",
+  });
+
+  // One login link shared by the email and the WhatsApp message (a second
+  // one would invalidate the first — see inviteClient).
+  let loginUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  if (project.clients?.email) {
+    try {
+      loginUrl = await createClientLoginUrl(admin, project.clients.email);
+    } catch (linkError) {
+      console.error("[new-file] login link failed:", linkError);
+    }
+
+    try {
+      await sendNewFileEmail({
+        to: project.clients.email,
+        projectTitle: project.title,
+        fileName: name,
+        typeLabel: typeMeta.label,
+        typeIcon: typeMeta.icon,
+        loginUrl,
+      });
+    } catch {
+      // The file is already saved and the in-app notification landed — a
+      // Resend hiccup shouldn't fail the upload.
+    }
+  }
+
   revalidatePath(`/admin/projects/${project_id}`);
   revalidatePath("/portal");
+
+  return {
+    ok: true,
+    loginUrl,
+    projectTitle: project.title,
+    fileName: name,
+    typeLabel: typeMeta.label,
+    typeIcon: typeMeta.icon,
+    clientPhone: project.clients?.phone || null,
+  };
 }
 
 // ── Admin deletes a file — removes the DB row and, if it was a real

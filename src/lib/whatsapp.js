@@ -142,6 +142,19 @@ export function paymentConfirmedMessage({ clientName, stageTitle, amount }) {
   );
 }
 
+// Mirrors the new-file email word for word (same heading, same body, same
+// closing line) so the client gets one consistent message on both channels.
+export function newFileMessage({ projectTitle, fileName, typeLabel, typeIcon, loginUrl }) {
+  return (
+    `وصلك ملف جديد 📁\n\n` +
+    `أضفنا ملفًا جديدًا لمشروعك *"${projectTitle}"* في قسم "الملفات والتسليمات".\n\n` +
+    `📁 اسم الملف: *${fileName}*\n` +
+    `${typeIcon} النوع: *${typeLabel}*\n\n` +
+    `تقدر تستعرض الملف وتحمّله في أي وقت من لوحة التحكم الخاصة بك 👇\n` +
+    (loginUrl || PORTAL_URL)
+  );
+}
+
 export function discountMessage({ clientName, oldPrice, newPrice, discountAmount, loginUrl }) {
   const fmt = (v) => Number(v).toLocaleString("en-US");
   return (

@@ -3,26 +3,37 @@
 import { useRef, useState, useTransition } from "react";
 import { addProjectFile } from "@/app/admin/actions";
 import { FILE_TYPE_OPTIONS } from "@/lib/fileTypes";
+import WhatsAppButton from "./WhatsAppButton";
+import { newFileMessage } from "@/lib/whatsapp";
 
 export default function AddProjectFileModal({ projectId }) {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("design");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
+  const [added, setAdded] = useState(null);
   const formRef = useRef(null);
 
   function handleSubmit(formData) {
     setError(null);
     startTransition(async () => {
       try {
-        await addProjectFile(formData);
+        // The client's in-app notification + email (with its one-time login
+        // link) already went out server-side; the returned data lets us offer
+        // the matching WhatsApp message sharing the SAME link.
+        const res = await addProjectFile(formData);
         formRef.current?.reset();
         setType("design");
-        setOpen(false);
+        setAdded(res);
       } catch (e) {
         setError(e.message || "حصل خطأ");
       }
     });
+  }
+
+  function closeAll() {
+    setOpen(false);
+    setAdded(null);
   }
 
   return (
@@ -32,15 +43,44 @@ export default function AddProjectFileModal({ projectId }) {
       </button>
 
       {open && (
-        <div className="proj-detail-modal-overlay" onClick={() => !isPending && setOpen(false)}>
+        <div className="proj-detail-modal-overlay" onClick={() => !isPending && closeAll()}>
           <div className="proj-detail-modal" onClick={(e) => e.stopPropagation()}>
             <div className="proj-detail-modal-head">
-              <button type="button" className="proj-detail-modal-close" onClick={() => setOpen(false)} disabled={isPending}>
+              <button type="button" className="proj-detail-modal-close" onClick={closeAll} disabled={isPending}>
                 ✕
               </button>
-              <div className="proj-detail-modal-title">إضافة ملف أو رابط</div>
+              <div className="proj-detail-modal-title">{added ? "تم إضافة الملف" : "إضافة ملف أو رابط"}</div>
             </div>
 
+            {added ? (
+              <div style={{ textAlign: "center", padding: "0.6rem 0 0.2rem" }}>
+                <div style={{ fontSize: "34px", marginBottom: "8px" }}>📁</div>
+                <p className="muted" style={{ lineHeight: 1.9, marginBottom: "1.2rem" }}>
+                  الملف اتضاف، والإشعار والإيميل وصلوا للعميل.
+                  {added.clientPhone
+                    ? " فاضل تبعتله رسالة الواتساب — جاهزة وفيها رابط دخوله المباشر."
+                    : " ضيف رقم واتساب للعميل لو حابب تبعتله الرسالة على الواتساب كمان."}
+                </p>
+                {added.clientPhone && (
+                  <WhatsAppButton
+                    phone={added.clientPhone}
+                    text={newFileMessage({
+                      projectTitle: added.projectTitle,
+                      fileName: added.fileName,
+                      typeLabel: added.typeLabel,
+                      typeIcon: added.typeIcon,
+                      loginUrl: added.loginUrl,
+                    })}
+                    label="إرسال الملف على الواتساب"
+                  />
+                )}
+                <div style={{ marginTop: "1.2rem" }}>
+                  <button type="button" className="proj-detail-btn" onClick={closeAll}>
+                    تمام، إغلاق
+                  </button>
+                </div>
+              </div>
+            ) : (
             <form ref={formRef} action={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <input type="hidden" name="project_id" value={projectId} />
 
@@ -87,7 +127,7 @@ export default function AddProjectFileModal({ projectId }) {
                 <button type="submit" className="proj-detail-btn primary" disabled={isPending}>
                   {isPending ? "جارِ الحفظ..." : "حفظ"}
                 </button>
-                <button type="button" className="proj-detail-btn" onClick={() => setOpen(false)} disabled={isPending}>
+                <button type="button" className="proj-detail-btn" onClick={closeAll} disabled={isPending}>
                   إلغاء
                 </button>
               </div>
@@ -97,6 +137,7 @@ export default function AddProjectFileModal({ projectId }) {
                 </div>
               )}
             </form>
+            )}
           </div>
         </div>
       )}

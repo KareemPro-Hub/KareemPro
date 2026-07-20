@@ -231,6 +231,31 @@ export async function sendPaymentReceivedEmail({ to, clientName, projectTitle, s
 }
 
 // Same single-visible-line lock-screen trick used by the other templates.
+const NEW_FILE_PREVIEW_SUBTEXT = "​";
+
+// "A new file landed in your deliverables" — fired whenever an admin uploads
+// a file (or adds an external link) to a client's project. Wording is kept
+// identical to newFileMessage() in lib/whatsapp.js so both channels read the
+// same.
+function newFileTemplate({ projectTitle, fileName, typeLabel, typeIcon, portalUrl }) {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#1a1440;padding:40px 16px;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;" dir="rtl" lang="ar"><tr><td align="center"><table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#28224e;border:1px solid rgba(239,75,122,0.35);border-radius:18px;overflow:hidden;"><tr><td style="padding:0;line-height:0;"><div style="height:5px;width:100%;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);"></div></td></tr><tr><td style="padding:32px 32px 8px 32px;text-align:center;"><img src="https://kareempro.com/logo-transparent.png" width="42" height="47" alt="Kareem Pro" style="display:block;margin:0 auto 8px auto;"/><div dir="ltr" style="font-family:Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;color:#ffffff;">KAREEM <span style="color:#ff6e8f;">PRO</span></div></td></tr><tr><td style="padding:24px 32px 8px 32px;text-align:center;"><h1 style="margin:0 0 14px 0;font-size:21px;color:#ffffff;">وصلك ملف جديد 📁</h1><p style="margin:0 0 16px 0;font-size:15px;line-height:1.9;color:#cfd2ea;">أضفنا ملفًا جديدًا لمشروعك <strong style="color:#ffffff;">"${projectTitle}"</strong> في قسم "الملفات والتسليمات".</p></td></tr><tr><td style="padding:0 32px 8px 32px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;"><tr><td style="padding:16px 20px;text-align:center;"><div style="font-size:13px;color:#a9adcf;margin-bottom:6px;">اسم الملف</div><div style="font-size:19px;font-weight:900;color:#ffffff;">${fileName}</div><div style="margin-top:10px;display:inline-block;padding:5px 16px;border-radius:99px;background-color:rgba(47,138,78,.18);color:#8fe3ab;font-size:13px;font-weight:700;">${typeIcon} ${typeLabel}</div></td></tr></table></td></tr><tr><td style="padding:20px 32px 8px 32px;text-align:center;"><p style="margin:0;font-size:14px;line-height:1.9;color:#cfd2ea;">تقدر تستعرض الملف وتحمّله في أي وقت من لوحة التحكم الخاصة بك.</p></td></tr><tr><td style="padding:24px 32px 32px 32px;text-align:center;"><a href="${portalUrl}" style="display:inline-block;padding:14px 40px;border-radius:10px;background-color:#ef4b7a;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">فتح الملفات والتسليمات</a><p style="margin:22px 0 0 0;font-size:12px;color:#8b8fb5;">جميع الحقوق محفوظة © Kareem Pro</p></td></tr></table></td></tr></table>`;
+}
+
+export async function sendNewFileEmail({ to, projectTitle, fileName, typeLabel, typeIcon, loginUrl }) {
+  const resend = getResend();
+  const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  const { data, error } = await resend.emails.send({
+    from: process.env.RESEND_FROM,
+    to,
+    subject: `📁 وصلك ملف جديد: ${fileName}`,
+    text: NEW_FILE_PREVIEW_SUBTEXT,
+    html: newFileTemplate({ projectTitle, fileName, typeLabel, typeIcon, portalUrl }),
+  });
+  if (error) throw new Error(error.message || "فشل إرسال الإيميل");
+  return data?.id;
+}
+
+// Same single-visible-line lock-screen trick used by the other templates.
 const MAGIC_LINK_PREVIEW_SUBTEXT = "​";
 
 // The passwordless-login email — sent both as the welcome email when the
