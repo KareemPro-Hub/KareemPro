@@ -7,6 +7,7 @@ import TeamIcon from "@/app/components/TeamIcon";
 import WalletIcon from "@/app/components/WalletIcon";
 import DeliveryIcon from "@/app/components/DeliveryIcon";
 import TargetIcon from "@/app/components/TargetIcon";
+import ProjectsIcon from "@/app/components/ProjectsIcon";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
@@ -24,7 +25,7 @@ const NAV_GROUPS = [
     items: [
       { href: "/admin", label: "نظرة عامة", icon: "binocular" },
       { href: "/admin/pipeline", label: "تخطيط وإدارة", iconComponent: TargetIcon },
-      { href: "/admin/projects", label: "المشاريع", icon: "project-management" },
+      { href: "/admin/projects", label: "المشاريع", iconComponent: ProjectsIcon },
       { href: "/admin/clients", label: "أصحاب المشاريع", icon: "customer" },
       { href: "/admin/team", label: "فريق العمل", iconComponent: TeamIcon },
     ],
