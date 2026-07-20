@@ -80,8 +80,10 @@ export default function AdminShell({ children }) {
 
           <nav>
             {NAV_GROUPS.map((group) => (
+              {/* Group headings ("مساحة العمل" / "الإدارة والأداء") are
+                  intentionally not rendered — the grouping still controls the
+                  order and spacing, but the labels added visual noise. */}
               <div key={group.label}>
-                <p>{group.label}</p>
                 {group.items.map((item) => (
                   <a
                     key={item.href}
