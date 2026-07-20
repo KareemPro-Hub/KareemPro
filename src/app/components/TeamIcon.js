@@ -1,30 +1,22 @@
 // Three people (two behind, one in front) — used for "فريق العمل" nav links.
-// Stroke glyph driven by the `color` prop so it inherits the sidebar's
-// active/hover tint. Drawn inline (not a PNG) so it stays razor-sharp at any
-// size and needs no extra network request.
+// This is the official uploaded outline glyph: a single filled path whose
+// shape *is* the outline (thinner and wider than a stroked equivalent), so
+// it matches the rest of the sidebar's light weight. Filled with the
+// `color` prop so it inherits the active/hover tint.
+const TEAM_PATH =
+  "m17.979,23.359c.078.265-.073.542-.339.62-.047.014-.094.021-.141.021-.217,0-.416-.141-.479-.359-.631-2.144-2.695-3.641-5.021-3.641s-4.39,1.497-5.021,3.641c-.077.266-.357.416-.62.339-.266-.078-.417-.355-.339-.62.754-2.567,3.213-4.359,5.979-4.359s5.226,1.792,5.979,4.359Zm6-9c-.754-2.567-3.213-4.359-5.979-4.359-.276,0-.5.224-.5.5s.224.5.5.5c2.325,0,4.39,1.497,5.021,3.641.063.219.263.359.479.359.047,0,.094-.007.141-.021.266-.078.417-.355.339-.62Zm-17.479-3.859c0-.276-.224-.5-.5-.5C3.233,10,.774,11.792.021,14.359c-.078.265.073.542.339.62.047.014.094.021.141.021.217,0,.416-.141.479-.359.631-2.144,2.695-3.641,5.021-3.641.276,0,.5-.224.5-.5Zm5.5-1.5c2.206,0,4,1.794,4,4s-1.794,4-4,4-4-1.794-4-4,1.794-4,4-4Zm-3,4c0,1.654,1.346,3,3,3s3-1.346,3-3-1.346-3-3-3-3,1.346-3,3Zm5-9c0-2.206,1.794-4,4-4s4,1.794,4,4-1.794,4-4,4-4-1.794-4-4Zm1,0c0,1.654,1.346,3,3,3s3-1.346,3-3-1.346-3-3-3-3,1.346-3,3Zm-13,0C2,1.794,3.794,0,6,0s4,1.794,4,4-1.794,4-4,4-4-1.794-4-4Zm1,0c0,1.654,1.346,3,3,3s3-1.346,3-3-1.346-3-3-3-3,1.346-3,3Z";
+
 export default function TeamIcon({ size = "1em", color = "currentColor", style = {} }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill={color}
       style={{ display: "inline-block", verticalAlign: "-0.15em", ...style }}
       aria-hidden="true"
     >
-      {/* back-left person */}
-      <circle cx="6" cy="4.6" r="2.6" />
-      <path d="M1.6 13.4a4.4 4.4 0 0 1 4.4-4.4" />
-      {/* back-right person */}
-      <circle cx="18" cy="4.6" r="2.6" />
-      <path d="M22.4 13.4a4.4 4.4 0 0 0-4.4-4.4" />
-      {/* front-center person */}
-      <circle cx="12" cy="11.4" r="2.8" />
-      <path d="M6.6 21.6a5.4 5.4 0 0 1 10.8 0" />
+      <path d={TEAM_PATH} />
     </svg>
   );
 }
