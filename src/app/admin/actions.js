@@ -724,7 +724,8 @@ export async function updateTimelineStep(projectId, stepKey) {
   const prevIdx = steps.indexOf(project.timeline_step);
   const nextIdx = steps.indexOf(stepKey);
   if (nextIdx > prevIdx) {
-    const stepTitle = getAdminTimeline(project.package_name).find((s) => s.key === stepKey)?.title;
+    const stepInfo = getAdminTimeline(project.package_name).find((s) => s.key === stepKey);
+    const stepTitle = stepInfo?.title;
     if (stepTitle) {
       if (project.clients?.email) {
         try {
@@ -733,6 +734,7 @@ export async function updateTimelineStep(projectId, stepKey) {
             clientName: project.clients.full_name,
             projectTitle: project.title,
             stepTitle,
+            stepDesc: stepInfo?.desc,
           });
         } catch {
           // The step already moved and the in-app notification below still
