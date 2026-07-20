@@ -58,7 +58,7 @@ export default async function AdminClientsPage({ searchParams }) {
 
             return (
               <div className="client-luxe-card" key={c.id}>
-                <ClientActions clientId={c.id} clientName={c.full_name} />
+                <ClientActions clientId={c.id} clientName={c.full_name} clientPhone={c.phone} />
 
                 <div className="client-luxe-row">
                   <div className="client-luxe-identity">

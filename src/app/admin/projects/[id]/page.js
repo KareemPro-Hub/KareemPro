@@ -7,7 +7,9 @@ import CancelDiscountButton from "./CancelDiscountButton";
 import ProjectFilesSection from "./ProjectFilesSection";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
+import WhatsAppButton from "./WhatsAppButton";
 import { getAdminTimeline } from "@/lib/timeline";
+import { buildWhatsAppUrl, progressMessage } from "@/lib/whatsapp";
 
 // Default serverless function duration (10s) isn't reliably enough for the
 // headless-Chromium payment-receipt PDF (see advanceStage → generatePaymentReceiptPdf)
@@ -42,6 +44,18 @@ export default async function ProjectDetailPage({ params }) {
   const currentIdx = usableSteps.indexOf(project.timeline_step);
   const isProjectCompleted = currentIdx === usableSteps.length - 1;
   const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
+
+  // WhatsApp follow-up for the timeline's current step — the green button
+  // next to the timeline header opens the client's chat with the approved
+  // progress message (step title + description) pre-typed.
+  const currentStep = currentIdx >= 0 ? adminTimeline[currentIdx] : null;
+  const progressWaUrl =
+    currentStep && project.clients?.phone
+      ? buildWhatsAppUrl(
+          project.clients.phone,
+          progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc })
+        )
+      : null;
 
   return (
     <section className="view active">
@@ -88,6 +102,7 @@ export default async function ProjectDetailPage({ params }) {
             مسار الإنتاج
           </div>
           <div className="proj-detail-timeline-actions-head">
+            {progressWaUrl && <WhatsAppButton url={progressWaUrl} label="إرسال التقدم" small />}
             {isProjectCompleted && (
               <span className="proj-detail-completed-badge">
                 <CheckIcon size="0.9em" /> المشروع مكتمل
@@ -142,7 +157,12 @@ export default async function ProjectDetailPage({ params }) {
 
         <div className="proj-detail-list">
           {stages.map((stage) => (
-            <StageCard stage={stage} key={stage.id} />
+            <StageCard
+              stage={stage}
+              clientName={project.clients?.full_name || ""}
+              clientPhone={project.clients?.phone || null}
+              key={stage.id}
+            />
           ))}
           {stages.length === 0 && <p className="muted">لسه مفيش مراحل سداد مضافة.</p>}
         </div>

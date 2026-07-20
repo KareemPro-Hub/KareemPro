@@ -220,7 +220,9 @@ export async function inviteClient(formData) {
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const phone = formData.get("phone")?.toString().trim() || null;
 
-  if (!full_name || !email) throw new Error("الاسم والبريد مطلوبين");
+  // Phone is mandatory now — the whole onboarding runs over WhatsApp
+  // (clients come from ads straight into WhatsApp; many never open email).
+  if (!full_name || !email || !phone) throw new Error("الاسم والبريد ورقم الواتساب مطلوبين");
 
   // No password is ever set — the account can only be entered via the
   // one-time email links. email_confirm skips the separate "confirm your
@@ -248,7 +250,9 @@ export async function inviteClient(formData) {
 
   if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب صاحب المشروع");
 
-  // The branded welcome email with the direct-login button.
+  // The branded welcome email with the direct-login button — automatic
+  // backup channel; the primary welcome goes out over WhatsApp (the form
+  // shows the ready-made WhatsApp button right after this action returns).
   const actionUrl = await createClientLoginUrl(admin, email);
   await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
 
@@ -263,7 +267,12 @@ export async function inviteClient(formData) {
   await ensureDefaultProposal(admin, userId);
 
   revalidatePath("/admin");
-  redirect("/admin");
+
+  // A SECOND one-time login link, separate from the one inside the welcome
+  // email above (each link is single-use, so the WhatsApp message needs its
+  // own). The form uses it to open WhatsApp with the welcome message ready.
+  const waLoginUrl = await createClientLoginUrl(admin, email);
+  return { ok: true, loginUrl: waLoginUrl, full_name, phone };
 }
 
 // ── Create a project with its stages for an existing client. ──

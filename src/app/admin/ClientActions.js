@@ -4,8 +4,9 @@ import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { deleteClient, resendInvite, generateClientLoginLink } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
+import { buildWhatsAppUrl, welcomeMessage } from "@/lib/whatsapp";
 
-export default function ClientActions({ clientId, clientName }) {
+export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const [isDeleting, startDelete] = useTransition();
@@ -87,16 +88,25 @@ export default function ClientActions({ clientId, clientName }) {
     });
   }
 
-  // Generates a one-time direct-login URL and puts it on the clipboard,
-  // ready to paste into WhatsApp — the client taps it and lands in their
-  // portal signed in, typing nothing.
+  // Generates a fresh one-time direct-login URL, then either opens the
+  // client's WhatsApp chat with the full welcome message pre-typed (when a
+  // phone is on file) or falls back to copying the bare link to the
+  // clipboard so Kareem can paste it anywhere.
   function handleCopyLoginLink() {
     setError(null);
     setCopied(false);
     startCopy(async () => {
       try {
         const url = await generateClientLoginLink(clientId);
-        await navigator.clipboard.writeText(url);
+        if (clientPhone) {
+          const waUrl = buildWhatsAppUrl(
+            clientPhone,
+            welcomeMessage({ clientName, loginUrl: url })
+          );
+          window.open(waUrl, "_blank", "noopener,noreferrer");
+        } else {
+          await navigator.clipboard.writeText(url);
+        }
         setCopied(true);
       } catch (e) {
         setError(e.message || "حصل خطأ أثناء إنشاء الرابط");
@@ -197,7 +207,13 @@ export default function ClientActions({ clientId, clientName }) {
                 </svg>
               )}
               <span style={{ flex: 1 }}>
-                {isCopying ? "جارِ إنشاء الرابط..." : copied ? "اتنسخ — ابعته واتساب ✅" : "نسخ رابط دخول (واتساب)"}
+                {isCopying
+                  ? "جارِ تجهيز الرسالة..."
+                  : copied
+                  ? clientPhone
+                    ? "اتفتح الواتساب — اضغط إرسال ✅"
+                    : "الرابط اتنسخ ✅"
+                  : "رسالة ترحيب واتساب (رابط دخول)"}
               </span>
             </button>
 

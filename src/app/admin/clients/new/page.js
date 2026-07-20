@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/lib/admin";
-import { inviteClient } from "@/app/admin/actions";
+import NewClientForm from "./NewClientForm";
 
 export default async function NewClientPage() {
   await requireAdmin();
@@ -12,25 +12,11 @@ export default async function NewClientPage() {
       <div className="card" style={{ marginTop: "1.2rem" }}>
         <h1 className="title">إضافة عميل جديد</h1>
         <p className="muted" style={{ marginBottom: "1.5rem" }}>
-          هيوصل للعميل إيميل ترحيبي فيه زر دخول مباشر للوحة تحكمه — من غير اسم مستخدم أو كلمة سر.
+          بعد الإنشاء هتبعت له رسالة ترحيب جاهزة على الواتساب فيها زر دخول مباشر
+          للوحة تحكمه — من غير اسم مستخدم أو كلمة سر. (وإيميل ترحيبي بيتبعت
+          تلقائيًا كنسخة احتياطية.)
         </p>
-        <form action={inviteClient}>
-          <div className="field">
-            <label>اسم صاحب المشروع</label>
-            <input type="text" name="full_name" required />
-          </div>
-          <div className="field">
-            <label>البريد الإلكتروني</label>
-            <input type="email" name="email" required dir="ltr" />
-          </div>
-          <div className="field">
-            <label>رقم الجوال (اختياري)</label>
-            <input type="text" name="phone" dir="ltr" />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
-            إرسال الدعوة وإضافة صاحب المشروع
-          </button>
-        </form>
+        <NewClientForm />
       </div>
     </section>
   );

@@ -3,6 +3,8 @@
 import { useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
+import { buildWhatsAppUrl, paymentRequestMessage, paymentConfirmedMessage } from "@/lib/whatsapp";
+import WhatsAppButton from "./WhatsAppButton";
 
 const STATUS_META = {
   upcoming: { label: "لم تبدأ بعد", color: "#7a6a5a", bg: "rgba(120,100,80,.1)" },
@@ -33,7 +35,7 @@ const PREV_STATUS = {
   completed: "in_progress",
 };
 
-export default function StageCard({ stage }) {
+export default function StageCard({ stage, clientName, clientPhone }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
@@ -41,6 +43,19 @@ export default function StageCard({ stage }) {
   const action = NEXT_ACTION[stage.status];
   const prevStatus = PREV_STATUS[stage.status];
   const meta = STATUS_META[stage.status] || STATUS_META.upcoming;
+
+  // WhatsApp follow-up matching the stage's current state — "awaiting
+  // payment" gets the payment-request message, "paid" gets the confirmation.
+  // Kareem taps the green button right after advancing the stage, WhatsApp
+  // opens with the approved message pre-typed, and he presses Send himself.
+  const waMessage =
+    stage.status === "awaiting_payment"
+      ? paymentRequestMessage({ clientName, stageTitle: stage.title, amount: stage.amount })
+      : stage.status === "paid"
+      ? paymentConfirmedMessage({ clientName, stageTitle: stage.title, amount: stage.amount })
+      : null;
+  const waUrl = waMessage && clientPhone ? buildWhatsAppUrl(clientPhone, waMessage) : null;
+  const waLabel = stage.status === "awaiting_payment" ? "إرسال طلب السداد" : "إرسال التأكيد";
 
   function run(target) {
     setError(null);
@@ -160,6 +175,8 @@ export default function StageCard({ stage }) {
               {isPending ? "جارِ التنفيذ..." : action.label}
             </button>
           )}
+
+          {waUrl && <WhatsAppButton url={waUrl} label={waLabel} small />}
 
           {prevStatus && (
             <button className="proj-detail-btn" onClick={handleCancel} disabled={isPending}>
