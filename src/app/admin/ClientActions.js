@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { deleteClient, resendInvite, generateClientLoginLink } from "@/app/admin/actions";
+import { deleteClient, resendInvite, generateClientLoginLink, updateClient } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
 import { buildWhatsAppUrl, welcomeMessage } from "@/lib/whatsapp";
 
@@ -12,13 +12,28 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [isDeleting, startDelete] = useTransition();
   const [isResending, startResend] = useTransition();
   const [isCopying, startCopy] = useTransition();
+  const [isSaving, startSave] = useTransition();
+  const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
   const [resent, setResent] = useState(false);
   const [copied, setCopied] = useState(false);
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
-  const isPending = isDeleting || isResending || isCopying;
+  const isPending = isDeleting || isResending || isCopying || isSaving;
+
+  function handleSaveEdit(formData) {
+    setError(null);
+    startSave(async () => {
+      try {
+        await updateClient(formData);
+        setEditing(false);
+        closeMenu();
+      } catch (e) {
+        setError(e.message || "حصل خطأ أثناء الحفظ");
+      }
+    });
+  }
   const closeMenu = useCallback(() => setOpen(false), []);
 
   function openMenu() {
@@ -150,6 +165,88 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
               fontFamily: "inherit",
             }}
           >
+            {editing ? (
+              <form action={handleSaveEdit} style={{ display: "grid", gap: "8px" }}>
+                <input type="hidden" name="client_id" value={clientId} />
+                <div>
+                  <label style={{ fontSize: "11px", color: "#7a8699", display: "block", marginBottom: "3px" }}>
+                    الاسم
+                  </label>
+                  <input
+                    type="text"
+                    name="full_name"
+                    required
+                    defaultValue={clientName}
+                    style={{ width: "100%", padding: "7px 8px", fontSize: "12.5px", borderRadius: "7px", border: "1px solid #e9eef6", fontFamily: "inherit" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: "11px", color: "#7a8699", display: "block", marginBottom: "3px" }}>
+                    رقم الواتساب (بكود الدولة)
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    dir="ltr"
+                    placeholder="+9665xxxxxxxx"
+                    defaultValue={clientPhone || ""}
+                    style={{ width: "100%", padding: "7px 8px", fontSize: "12.5px", borderRadius: "7px", border: "1px solid #e9eef6", fontFamily: "inherit" }}
+                  />
+                </div>
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <button
+                    type="submit"
+                    disabled={isPending}
+                    style={{ flex: 1, background: "#172541", color: "#fff", border: 0, borderRadius: "7px", padding: "8px", fontSize: "12.5px", fontFamily: "inherit", cursor: "pointer", fontWeight: 700 }}
+                  >
+                    {isSaving ? "جارِ الحفظ..." : "حفظ"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditing(false)}
+                    disabled={isPending}
+                    style={{ flex: 1, background: "#f3f6fa", color: "#172541", border: 0, borderRadius: "7px", padding: "8px", fontSize: "12.5px", fontFamily: "inherit", cursor: "pointer" }}
+                  >
+                    إلغاء
+                  </button>
+                </div>
+                {error && <div style={{ fontSize: "11px", color: "#e0234a" }}>{error}</div>}
+              </form>
+            ) : (
+              <>
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={() => {
+                setError(null);
+                setEditing(true);
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                width: "100%",
+                textAlign: "right",
+                background: "#fff",
+                border: 0,
+                borderRadius: "8px",
+                padding: "9px 8px",
+                fontSize: "13px",
+                fontFamily: "inherit",
+                color: "#172541",
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z" />
+              </svg>
+              <span style={{ flex: 1 }}>
+                {clientPhone ? "تعديل البيانات" : "إضافة رقم واتساب"}
+              </span>
+            </button>
+
             <button
               type="button"
               disabled={isPending}
@@ -245,6 +342,8 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
 
             {error && (
               <div style={{ fontSize: "11px", color: "#e0234a", padding: "6px 8px 0" }}>{error}</div>
+            )}
+              </>
             )}
           </div>,
           document.body

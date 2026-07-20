@@ -936,6 +936,30 @@ export async function resendInvite(clientId) {
   });
 }
 
+// ── Update an existing client's basic details. Mainly here so clients who
+// were added before the WhatsApp-first system (and therefore have no phone
+// on file) can get a number added — without one, the WhatsApp buttons have
+// nothing to open. ──
+export async function updateClient(formData) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  const client_id = formData.get("client_id")?.toString();
+  const full_name = formData.get("full_name")?.toString().trim();
+  const phone = formData.get("phone")?.toString().trim() || null;
+
+  if (!client_id || !full_name) throw new Error("الاسم مطلوب");
+
+  const { error } = await admin
+    .from("clients")
+    .update({ full_name, phone })
+    .eq("id", client_id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/clients");
+}
+
 // ── Generate a one-time direct-login URL for a client and hand it back to
 // the admin UI — for sending manually over WhatsApp. The client taps the
 // link and lands in their portal signed in, typing nothing. Same one-time

@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 
-// Self-service "نسيت كلمة السر ؟" from the shared /login page. Sends the
-// Supabase recovery email; the link goes through /auth/callback (the proven
-// invite-flow path — the code exchange happens there) and lands on
-// /auth/set-password with the right ?role= so the user continues to their
-// own portal after picking a new password.
+// Self-service "نسيت كلمة السر ؟" from the shared /login page — ADMIN and
+// TEAM only (clients are passwordless and their tab doesn't show this link).
+// Sends the Supabase recovery email; the link goes through /auth/callback
+// and lands on /auth/set-password with the right ?role=.
 //
 // Always responds ok — never reveals whether an email is registered
 // (prevents account enumeration).
@@ -15,6 +14,16 @@ export async function POST(request) {
   if (!email) {
     return NextResponse.json({ error: "اكتب بريدك الإلكتروني أولاً." }, { status: 400 });
   }
+
+  // Never issue a password-recovery link for a client account — that would
+  // hand them a password again and reopen the flow we just retired.
+  const admin = createAdminClient();
+  const { data: client } = await admin
+    .from("clients")
+    .select("id")
+    .ilike("email", email.toString().trim().toLowerCase())
+    .maybeSingle();
+  if (client) return NextResponse.json({ ok: true });
 
   const safeRole = ["admin", "team", "client"].includes(role) ? role : "client";
   const nextParam = encodeURIComponent(`/auth/set-password?role=${safeRole}`);
