@@ -12,7 +12,7 @@ export default async function NewClientPage() {
       <div className="card" style={{ marginTop: "1.2rem" }}>
         <h1 className="title">إضافة عميل جديد</h1>
         <p className="muted" style={{ marginBottom: "1.5rem" }}>
-          هنبعت للعميل إيميل دعوة لإنشاء حساب الدخول للبوابة تلقائيًا.
+          هيوصل للعميل إيميل ترحيبي فيه زر دخول مباشر للوحة تحكمه — من غير اسم مستخدم أو كلمة سر.
         </p>
         <form action={inviteClient}>
           <div className="field">

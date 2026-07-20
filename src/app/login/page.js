@@ -33,9 +33,10 @@ const ROLES = {
   client: {
     label: "النخبة",
     heading: "بوابة صناع الإبداع",
-    sub: "سجّل دخولك بالبريد الإلكتروني وكلمة السر.",
-    endpoint: "/auth/signin",
+    sub: "اكتب بريدك الإلكتروني وهيوصلك رابط دخول مباشر — بدون كلمة سر.",
+    endpoint: "/auth/magic-link",
     defaultNext: "/portal",
+    passwordless: true,
   },
   team: {
     label: "فريق العمل",
@@ -63,6 +64,24 @@ function LoginForm() {
     e.preventDefault();
     setStatus("loading");
     setErrorMsg(null);
+
+    // Passwordless (clients): just an email — the server sends the one-time
+    // login link, and the "check your inbox" state takes it from there.
+    if (ROLES[role].passwordless) {
+      const res = await fetch(ROLES[role].endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("sent");
+      return;
+    }
 
     const res = await fetch(ROLES[role].endpoint, {
       method: "POST",
@@ -153,7 +172,7 @@ function LoginForm() {
               />
             </div>
 
-            {mode === "login" && (
+            {mode === "login" && !ROLES[role].passwordless && (
               <div className="field">
                 <label>كلمة السر</label>
                 <div className="password-field-wrap">
@@ -182,7 +201,7 @@ function LoginForm() {
             {status === "error" && (
               <div className="notice notice-error">
                 {errorMsg ||
-                  (mode === "forgot"
+                  (mode === "forgot" || ROLES[role].passwordless
                     ? "حصل خطأ، جرب تاني."
                     : "البريد أو كلمة السر غير صحيحة.")}
               </div>
@@ -190,7 +209,9 @@ function LoginForm() {
 
             {status === "sent" && (
               <div className="notice" style={{ background: "rgba(46,204,113,.12)", border: "1px solid rgba(46,204,113,.35)", color: "#7be0a8" }}>
-                لو البريد ده مسجل عندنا، هيوصله رابط تعيين كلمة سر جديدة خلال دقائق. افحص صندوق الوارد و&quot;الرسائل غير المرغوبة&quot;.
+                {ROLES[role].passwordless && mode === "login"
+                  ? "لو البريد ده مسجل عندنا، وصلك الآن إيميل فيه زر الدخول — افتح بريدك واضغط الزر وهتدخل مباشرة. افحص أيضًا \"الرسائل غير المرغوبة\"."
+                  : "لو البريد ده مسجل عندنا، هيوصله رابط تعيين كلمة سر جديدة خلال دقائق. افحص صندوق الوارد و\"الرسائل غير المرغوبة\"."}
               </div>
             )}
 
@@ -198,27 +219,31 @@ function LoginForm() {
               type="submit"
               className="btn btn-primary"
               style={{ width: "100%" }}
-              disabled={status === "loading" || (mode === "forgot" && status === "sent")}
+              disabled={status === "loading" || status === "sent"}
             >
               {status === "loading"
                 ? "لحظة واحدة..."
                 : mode === "forgot"
                 ? "إرسال رابط الاستعادة"
+                : ROLES[role].passwordless
+                ? "أرسل لي رابط الدخول"
                 : "تسجيل الدخول"}
             </button>
 
-            <button
-              type="button"
-              className="muted"
-              style={{ display: "block", margin: "14px auto 0", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontFamily: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
-              onClick={() => {
-                setMode(mode === "forgot" ? "login" : "forgot");
-                setStatus("idle");
-                setErrorMsg(null);
-              }}
-            >
-              {mode === "forgot" ? "رجوع لتسجيل الدخول" : "نسيت كلمة السر ؟"}
-            </button>
+            {!ROLES[role].passwordless && (
+              <button
+                type="button"
+                className="muted"
+                style={{ display: "block", margin: "14px auto 0", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontFamily: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                onClick={() => {
+                  setMode(mode === "forgot" ? "login" : "forgot");
+                  setStatus("idle");
+                  setErrorMsg(null);
+                }}
+              >
+                {mode === "forgot" ? "رجوع لتسجيل الدخول" : "نسيت كلمة السر ؟"}
+              </button>
+            )}
           </form>
         </div>
       </div>

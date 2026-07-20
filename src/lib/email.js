@@ -230,6 +230,37 @@ export async function sendPaymentReceivedEmail({ to, clientName, projectTitle, s
   return data?.id;
 }
 
+// Same single-visible-line lock-screen trick used by the other templates.
+const MAGIC_LINK_PREVIEW_SUBTEXT = "​";
+
+// The passwordless-login email — sent both as the welcome email when the
+// admin first adds a client (isWelcome) and as the regular "log me in" email
+// whenever a client requests access from the /login page. One click on the
+// button verifies the one-time token server-side (/auth/confirm) and lands
+// them straight in their portal — no username, no password, ever.
+function magicLinkTemplate({ clientName, actionUrl, isWelcome }) {
+  const heading = isWelcome ? `أهلاً بك يا ${clientName} 🎉` : `رابط الدخول الخاص بك 🔐`;
+  const body = isWelcome
+    ? `يسعدنا انضمامك إلى <strong style="color:#ffffff;">Kareem Pro</strong>! لوحة التحكم الخاصة بمشروعك جاهزة — اضغط الزر وستدخل مباشرة، بدون اسم مستخدم أو كلمة سر.`
+    : `اضغط الزر وستدخل إلى لوحة التحكم الخاصة بك مباشرة — بدون كلمة سر.`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#1a1440;padding:40px 16px;font-family:-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;" dir="rtl" lang="ar"><tr><td align="center"><table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#28224e;border:1px solid rgba(239,75,122,0.35);border-radius:18px;overflow:hidden;"><tr><td style="padding:0;line-height:0;"><div style="height:5px;width:100%;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);"></div></td></tr><tr><td style="padding:32px 32px 8px 32px;text-align:center;"><img src="https://kareempro.com/logo-transparent.png" width="42" height="47" alt="Kareem Pro" style="display:block;margin:0 auto 8px auto;"/><div dir="ltr" style="font-family:Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;color:#ffffff;">KAREEM <span style="color:#ff6e8f;">PRO</span></div></td></tr><tr><td style="padding:24px 32px 8px 32px;text-align:center;"><h1 style="margin:0 0 14px 0;font-size:21px;color:#ffffff;">${heading}</h1><p style="margin:0 0 16px 0;font-size:15px;line-height:1.9;color:#cfd2ea;">${body}</p></td></tr><tr><td style="padding:14px 32px 8px 32px;text-align:center;"><a href="${actionUrl}" style="display:inline-block;padding:16px 48px;border-radius:10px;background-color:#ef4b7a;background-image:linear-gradient(90deg,#ffa826,#ff5535,#d9187a);color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;">الدخول إلى لوحة التحكم</a></td></tr><tr><td style="padding:20px 32px 32px 32px;text-align:center;"><p style="margin:0;font-size:12px;line-height:1.9;color:#8b8fb5;">الرابط صالح لفترة محدودة ويُستخدم مرة واحدة. لو ما طلبتش هذا الإيميل تقدر تتجاهله بأمان.</p><p style="margin:14px 0 0 0;font-size:12px;color:#8b8fb5;">جميع الحقوق محفوظة © Kareem Pro</p></td></tr></table></td></tr></table>`;
+}
+
+// Sends the passwordless login email (welcome or regular) and returns the
+// Resend message id.
+export async function sendMagicLinkEmail({ to, clientName, actionUrl, isWelcome = false }) {
+  const resend = getResend();
+  const { data, error } = await resend.emails.send({
+    from: process.env.RESEND_FROM,
+    to,
+    subject: isWelcome ? `🎉 أهلاً بك في Kareem Pro — لوحة تحكمك جاهزة` : `🔐 رابط الدخول إلى لوحة التحكم`,
+    text: MAGIC_LINK_PREVIEW_SUBTEXT,
+    html: magicLinkTemplate({ clientName, actionUrl, isWelcome }),
+  });
+  if (error) throw new Error(error.message || "فشل إرسال الإيميل");
+  return data?.id;
+}
+
 // Sends the "you got a discount" email and returns the Resend message id.
 // Fired alongside the in-app notification whenever an admin applies a
 // discount via applyProjectDiscount (see admin/actions.js) — a Resend

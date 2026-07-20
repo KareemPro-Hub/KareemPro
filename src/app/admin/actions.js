@@ -9,6 +9,7 @@ import {
   sendTimelineProgressEmail,
   sendDiscountEmail,
   sendPaymentReceivedEmail,
+  sendMagicLinkEmail,
 } from "@/lib/email";
 import { generatePaymentReceiptPdf } from "@/lib/pdfReceipt";
 
@@ -191,41 +192,65 @@ async function ensureDefaultProposal(admin, clientId) {
   if (packagesError) throw new Error(packagesError.message);
 }
 
-// ── Invite a new client: creates their Supabase Auth user (magic-link invite
-// email goes out automatically) and a matching row in `clients`. ──
+// ── Generate a one-time passwordless login link for an existing auth user.
+// Uses Supabase's generateLink (token_hash flavor) so WE control the email —
+// the branded Resend template — instead of Supabase's generic mailer. The
+// link goes through /auth/confirm which verifies the token server-side and
+// drops the client straight into their portal, fully signed in. ──
+async function createClientLoginUrl(admin, email) {
+  const { data, error } = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+  });
+  if (error) throw new Error(error.message);
+  const tokenHash = data?.properties?.hashed_token;
+  if (!tokenHash) throw new Error("تعذر إنشاء رابط الدخول");
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?token_hash=${tokenHash}&type=magiclink&next=/portal`;
+}
+
+// ── Invite a new client — passwordless. Creates their Supabase Auth user
+// (no password, email pre-confirmed) + a matching `clients` row, then sends
+// the branded welcome email whose button logs them straight into the portal.
+// No username, no password, ever. ──
 export async function inviteClient(formData) {
   await requireAdmin();
   const admin = createAdminClient();
 
   const full_name = formData.get("full_name")?.toString().trim();
-  const email = formData.get("email")?.toString().trim();
+  const email = formData.get("email")?.toString().trim().toLowerCase();
   const phone = formData.get("phone")?.toString().trim() || null;
 
   if (!full_name || !email) throw new Error("الاسم والبريد مطلوبين");
 
-  const { data: invited, error: inviteError } =
-    await admin.auth.admin.inviteUserByEmail(email, {
-      // One click -> already authenticated -> straight to picking a password.
-      // From then on it's a normal email+password login, no more emails needed.
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/auth/set-password`,
-    });
+  // No password is ever set — the account can only be entered via the
+  // one-time email links. email_confirm skips the separate "confirm your
+  // email" step since the login link itself proves inbox ownership.
+  const { data: created, error: createError } = await admin.auth.admin.createUser({
+    email,
+    email_confirm: true,
+    user_metadata: { full_name },
+  });
 
-  if (inviteError) {
+  if (createError) {
     // If the user already exists, just look them up instead of failing.
-    if (!inviteError.message?.includes("already")) {
-      throw new Error(inviteError.message);
-    }
+    const alreadyExists =
+      createError.message?.includes("already") || createError.code === "email_exists";
+    if (!alreadyExists) throw new Error(createError.message);
   }
 
   const userId =
-    invited?.user?.id ??
+    created?.user?.id ??
     (
       await admin.auth.admin.listUsers().then((r) =>
-        r.data.users.find((u) => u.email === email)
+        r.data.users.find((u) => u.email?.toLowerCase() === email)
       )
     )?.id;
 
   if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب صاحب المشروع");
+
+  // The branded welcome email with the direct-login button.
+  const actionUrl = await createClientLoginUrl(admin, email);
+  await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
 
   const { error: upsertError } = await admin
     .from("clients")
