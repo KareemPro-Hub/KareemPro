@@ -385,7 +385,7 @@ export async function advanceStage(stageId, targetStatus) {
   if (isForwardProgress) {
     const NOTIFY_MESSAGE = {
       awaiting_payment: `بانتظار السداد: "${stage.title}" — تم إرسال تفاصيل الدفع لبريدك الإلكتروني.`,
-      paid: `تم تأكيد استلام دفعة "${stage.title}". شكرًا لك.`,
+      paid: `تم تأكيد استلام "${stage.title}". شكرًا لك.`,
       in_progress: `بدأنا العمل على مرحلة "${stage.title}".`,
       completed: `اكتملت مرحلة "${stage.title}" بنجاح.`,
     }[targetStatus];
