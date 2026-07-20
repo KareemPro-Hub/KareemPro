@@ -250,9 +250,12 @@ export async function inviteClient(formData) {
 
   if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب صاحب المشروع");
 
-  // The branded welcome email with the direct-login button — automatic
-  // backup channel; the primary welcome goes out over WhatsApp (the form
-  // shows the ready-made WhatsApp button right after this action returns).
+  // ONE login link shared by both the welcome email and the WhatsApp
+  // message. Generating a second link would silently INVALIDATE the first
+  // (Supabase keeps only the latest OTP per user — this exact bug shipped
+  // once: the email's link was dead on arrival because a second link was
+  // generated right after for WhatsApp). Single-use is fine here: whichever
+  // one the client taps first signs them in; the other becomes irrelevant.
   const actionUrl = await createClientLoginUrl(admin, email);
   await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
 
@@ -268,11 +271,8 @@ export async function inviteClient(formData) {
 
   revalidatePath("/admin");
 
-  // A SECOND one-time login link, separate from the one inside the welcome
-  // email above (each link is single-use, so the WhatsApp message needs its
-  // own). The form uses it to open WhatsApp with the welcome message ready.
-  const waLoginUrl = await createClientLoginUrl(admin, email);
-  return { ok: true, loginUrl: waLoginUrl, full_name, phone };
+  // Same single link as the email (see the invalidation note above).
+  return { ok: true, loginUrl: actionUrl, full_name, phone };
 }
 
 // ── Create a project with its stages for an existing client. ──

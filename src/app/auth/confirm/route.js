@@ -22,6 +22,10 @@ export async function GET(request) {
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`);
     }
+    // Surfaced in Vercel runtime logs — "otp_expired" here usually means the
+    // link was single-use and already consumed/invalidated (e.g. a newer
+    // link was generated for the same user), not an actual timeout.
+    console.error("[auth-confirm] verifyOtp failed:", error.code || "", error.message);
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth`);

@@ -4,6 +4,31 @@ import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
 import { buildWhatsAppUrl, welcomeMessage } from "@/lib/whatsapp";
 
+// Country dial codes for the WhatsApp number — any-country support, Saudi
+// first (most clients) then the rest of the region alphabetically-ish.
+const DIAL_CODES = [
+  { code: "966", label: "🇸🇦 السعودية +966" },
+  { code: "20", label: "🇪🇬 مصر +20" },
+  { code: "971", label: "🇦🇪 الإمارات +971" },
+  { code: "965", label: "🇰🇼 الكويت +965" },
+  { code: "974", label: "🇶🇦 قطر +974" },
+  { code: "973", label: "🇧🇭 البحرين +973" },
+  { code: "968", label: "🇴🇲 عُمان +968" },
+  { code: "962", label: "🇯🇴 الأردن +962" },
+  { code: "964", label: "🇮🇶 العراق +964" },
+  { code: "218", label: "🇱🇾 ليبيا +218" },
+  { code: "213", label: "🇩🇿 الجزائر +213" },
+  { code: "212", label: "🇲🇦 المغرب +212" },
+  { code: "216", label: "🇹🇳 تونس +216" },
+  { code: "249", label: "🇸🇩 السودان +249" },
+  { code: "967", label: "🇾🇪 اليمن +967" },
+  { code: "961", label: "🇱🇧 لبنان +961" },
+  { code: "970", label: "🇵🇸 فلسطين +970" },
+  { code: "963", label: "🇸🇾 سوريا +963" },
+  { code: "1", label: "🇺🇸 أمريكا/كندا +1" },
+  { code: "44", label: "🇬🇧 بريطانيا +44" },
+];
+
 // WhatsApp-first onboarding: after the account is created (and the backup
 // welcome email goes out automatically), the admin gets a big green button
 // that opens the client's WhatsApp chat with the approved welcome message —
@@ -16,6 +41,17 @@ export default function NewClientForm() {
 
   function handleSubmit(formData) {
     setError(null);
+
+    // Combine the dial-code select + local number into one full
+    // international number (strip any leading zeros the admin typed).
+    const dial = formData.get("dial")?.toString() || "";
+    const local = (formData.get("phone_local")?.toString() || "").replace(/\D/g, "").replace(/^0+/, "");
+    if (!local) {
+      setError("اكتب رقم الواتساب");
+      return;
+    }
+    formData.set("phone", `+${dial}${local}`);
+
     startTransition(async () => {
       try {
         const res = await inviteClient(formData);
@@ -85,7 +121,40 @@ export default function NewClientForm() {
       </div>
       <div className="field">
         <label>رقم الواتساب</label>
-        <input type="text" name="phone" required dir="ltr" placeholder="+9665xxxxxxxx" />
+        <div style={{ display: "flex", gap: "8px" }} dir="ltr">
+          <select
+            name="dial"
+            defaultValue="966"
+            style={{
+              width: "150px",
+              flexShrink: 0,
+              padding: "10px 8px",
+              borderRadius: "10px",
+              border: "1px solid #e2d8cb",
+              background: "#fff",
+              fontFamily: "inherit",
+              fontSize: "13px",
+              direction: "rtl",
+            }}
+          >
+            {DIAL_CODES.map((d) => (
+              <option key={d.code} value={d.code}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="tel"
+            name="phone_local"
+            required
+            dir="ltr"
+            placeholder="5xxxxxxxx"
+            style={{ flex: 1 }}
+          />
+        </div>
+        <small className="muted" style={{ display: "block", marginTop: "4px" }}>
+          اختر الدولة واكتب الرقم بدون الصفر الأول — يدعم أي دولة.
+        </small>
       </div>
       {error && (
         <div className="notice notice-error" style={{ marginBottom: "0.8rem" }}>
