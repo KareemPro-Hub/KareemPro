@@ -266,9 +266,11 @@ export async function sendMagicLinkEmail({ to, clientName, actionUrl, isWelcome 
 // discount via applyProjectDiscount (see admin/actions.js) — a Resend
 // hiccup here shouldn't fail the whole action, same pattern as the
 // timeline-progress email's try/catch wrapper.
-export async function sendDiscountEmail({ to, clientName, projectTitle, oldPrice, newPrice, discountAmount }) {
+export async function sendDiscountEmail({ to, clientName, projectTitle, oldPrice, newPrice, discountAmount, loginUrl }) {
   const resend = getResend();
-  const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  // One-time direct-login link when available (the button drops the client
+  // straight into their dashboard, signed in), plain portal URL otherwise.
+  const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,

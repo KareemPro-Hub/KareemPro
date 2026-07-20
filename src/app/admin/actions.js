@@ -698,7 +698,18 @@ export async function applyProjectDiscount(formData) {
     link: "/portal#payments",
   });
 
+  // ONE login link shared by the discount email and the WhatsApp message —
+  // generating a second would invalidate the first (Supabase keeps only the
+  // latest OTP per user). Falls back to the plain portal URL if the link
+  // can't be generated, so the message always has somewhere to point.
+  let loginUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   if (project.clients?.email) {
+    try {
+      loginUrl = await createClientLoginUrl(admin, project.clients.email);
+    } catch (linkError) {
+      console.error("[discount] login link failed:", linkError);
+    }
+
     try {
       await sendDiscountEmail({
         to: project.clients.email,
@@ -707,6 +718,7 @@ export async function applyProjectDiscount(formData) {
         oldPrice,
         newPrice,
         discountAmount,
+        loginUrl,
       });
     } catch {
       // The discount already applied and the in-app notification above still
@@ -719,6 +731,18 @@ export async function applyProjectDiscount(formData) {
   revalidatePath("/admin/wallet");
   revalidatePath("/admin");
   revalidatePath("/portal");
+
+  // Handed back so the admin UI can open WhatsApp with the discount message
+  // (same link as the email — see the note above).
+  return {
+    ok: true,
+    loginUrl,
+    clientName: project.clients?.full_name || "",
+    clientPhone: project.clients?.phone || null,
+    oldPrice,
+    newPrice,
+    discountAmount,
+  };
 }
 
 // ── Fully undo every discount ever applied to a project — "as if it never

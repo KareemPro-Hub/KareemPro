@@ -142,6 +142,20 @@ export function paymentConfirmedMessage({ clientName, stageTitle, amount }) {
   );
 }
 
+export function discountMessage({ clientName, oldPrice, newPrice, discountAmount, loginUrl }) {
+  const fmt = (v) => Number(v).toLocaleString("en-US");
+  return (
+    `خبر سعيد يا أ. ${clientName} 🎉\n\n` +
+    `لأنك شريك نجاح لا مجرد عميلٍ عابر، أهديناك خصمًا تستحقه على قيمة مشروعك.\n\n` +
+    `💰 القيمة قبل الخصم: ~${fmt(oldPrice)} ريال~\n` +
+    `✅ القيمة بعد الخصم: *${fmt(newPrice)} ريال*\n` +
+    `🎁 قيمة الخصم: *${fmt(discountAmount)} ريال*\n\n` +
+    `تم تحديث دفعات السداد تلقائيًا في لوحة تحكمك 👇\n\n` +
+    `نتمنى لك تجربة رائعة معنا، ونشكرك على ثقتك ❤️\n` +
+    (loginUrl || PORTAL_URL)
+  );
+}
+
 export function progressMessage({ stepTitle, stepDesc }) {
   const descLine = stepDesc ? `⚙️ ${stepDesc}\n\n` : "";
   return (
