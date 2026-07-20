@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
-import { buildWhatsAppUrl, paymentRequestMessage, paymentConfirmedMessage } from "@/lib/whatsapp";
+import { paymentRequestMessage, paymentConfirmedMessage } from "@/lib/whatsapp";
 import WhatsAppButton from "./WhatsAppButton";
 
 const STATUS_META = {
@@ -54,7 +54,6 @@ export default function StageCard({ stage, clientName, clientPhone }) {
       : stage.status === "paid"
       ? paymentConfirmedMessage({ clientName, stageTitle: stage.title, amount: stage.amount })
       : null;
-  const waUrl = waMessage && clientPhone ? buildWhatsAppUrl(clientPhone, waMessage) : null;
   const waLabel = stage.status === "awaiting_payment" ? "إرسال طلب السداد" : "إرسال التأكيد";
 
   function run(target) {
@@ -176,7 +175,9 @@ export default function StageCard({ stage, clientName, clientPhone }) {
             </button>
           )}
 
-          {waUrl && <WhatsAppButton url={waUrl} label={waLabel} small />}
+          {waMessage && clientPhone && (
+            <WhatsAppButton phone={clientPhone} text={waMessage} label={waLabel} small />
+          )}
 
           {prevStatus && (
             <button className="proj-detail-btn" onClick={handleCancel} disabled={isPending}>

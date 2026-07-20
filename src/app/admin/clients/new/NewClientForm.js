@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
-import { buildWhatsAppUrl, welcomeMessage } from "@/lib/whatsapp";
+import { openWhatsApp, welcomeMessage } from "@/lib/whatsapp";
 
 // Country dial codes for the WhatsApp number — any-country support, Saudi
 // first (most clients) then the rest of the region alphabetically-ish.
@@ -63,10 +63,7 @@ export default function NewClientForm() {
   }
 
   if (result) {
-    const waUrl = buildWhatsAppUrl(
-      result.phone,
-      welcomeMessage({ clientName: result.full_name, loginUrl: result.loginUrl })
-    );
+    const waText = welcomeMessage({ clientName: result.full_name, loginUrl: result.loginUrl });
     return (
       <div style={{ textAlign: "center", padding: "0.5rem 0" }}>
         <div style={{ fontSize: "40px", marginBottom: "10px" }}>✅</div>
@@ -78,9 +75,11 @@ export default function NewClientForm() {
           مكتوبة وفيها رابط الدخول المباشر، انت بس تضغط إرسال.
         </p>
         <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            openWhatsApp(result.phone, waText);
+          }}
           style={{
             display: "inline-flex",
             alignItems: "center",

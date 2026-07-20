@@ -4,7 +4,7 @@ import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { deleteClient, resendInvite, generateClientLoginLink, updateClient } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
-import { buildWhatsAppUrl, welcomeMessage } from "@/lib/whatsapp";
+import { openWhatsApp, welcomeMessage } from "@/lib/whatsapp";
 
 export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [open, setOpen] = useState(false);
@@ -114,11 +114,7 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
       try {
         const url = await generateClientLoginLink(clientId);
         if (clientPhone) {
-          const waUrl = buildWhatsAppUrl(
-            clientPhone,
-            welcomeMessage({ clientName, loginUrl: url })
-          );
-          window.open(waUrl, "_blank", "noopener,noreferrer");
+          await openWhatsApp(clientPhone, welcomeMessage({ clientName, loginUrl: url }));
         } else {
           await navigator.clipboard.writeText(url);
         }

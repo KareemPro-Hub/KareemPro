@@ -30,6 +30,38 @@ export function buildWhatsAppUrl(phone, text) {
   return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
 }
 
+// Opens the client's WhatsApp chat with the message pre-typed, and copies
+// the same message to the clipboard as a safety net.
+//
+// Why not a plain wa.me link everywhere: on desktop, wa.me hands the text to
+// the installed WhatsApp app, whose macOS build mangles emoji into "?" —
+// WhatsApp Web renders them correctly, so desktop goes straight to
+// web.whatsapp.com. Mobile keeps wa.me (it opens the native app properly).
+// Returns true when the clipboard copy also succeeded.
+export async function openWhatsApp(phone, text) {
+  const digits = normalizeWhatsAppPhone(phone);
+  if (!digits) return false;
+
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+
+  const url = isMobile
+    ? `https://wa.me/${digits}?text=${encodeURIComponent(text)}`
+    : `https://web.whatsapp.com/send?phone=${digits}&text=${encodeURIComponent(text)}`;
+
+  let copied = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    copied = true;
+  } catch {
+    // Clipboard permissions vary — the prefilled text is the primary path.
+  }
+
+  window.open(url, "_blank", "noopener,noreferrer");
+  return copied;
+}
+
 const PORTAL_URL = "https://kareempro.com/portal";
 
 // ── The four approved message templates (see the WhatsApp design mockups

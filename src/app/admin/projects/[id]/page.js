@@ -9,7 +9,7 @@ import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import WhatsAppButton from "./WhatsAppButton";
 import { getAdminTimeline } from "@/lib/timeline";
-import { buildWhatsAppUrl, progressMessage } from "@/lib/whatsapp";
+import { progressMessage } from "@/lib/whatsapp";
 
 // Default serverless function duration (10s) isn't reliably enough for the
 // headless-Chromium payment-receipt PDF (see advanceStage → generatePaymentReceiptPdf)
@@ -49,12 +49,9 @@ export default async function ProjectDetailPage({ params }) {
   // next to the timeline header opens the client's chat with the approved
   // progress message (step title + description) pre-typed.
   const currentStep = currentIdx >= 0 ? adminTimeline[currentIdx] : null;
-  const progressWaUrl =
+  const progressWaText =
     currentStep && project.clients?.phone
-      ? buildWhatsAppUrl(
-          project.clients.phone,
-          progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc })
-        )
+      ? progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc })
       : null;
 
   return (
@@ -102,7 +99,14 @@ export default async function ProjectDetailPage({ params }) {
             مسار الإنتاج
           </div>
           <div className="proj-detail-timeline-actions-head">
-            {progressWaUrl && <WhatsAppButton url={progressWaUrl} label="إرسال التقدم" small />}
+            {progressWaText && (
+              <WhatsAppButton
+                phone={project.clients.phone}
+                text={progressWaText}
+                label="إرسال التقدم"
+                small
+              />
+            )}
             {isProjectCompleted && (
               <span className="proj-detail-completed-badge">
                 <CheckIcon size="0.9em" /> المشروع مكتمل
