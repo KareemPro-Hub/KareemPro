@@ -323,6 +323,38 @@ export async function addStage(formData) {
 
 // ── Advance a stage's status. When moving into "awaiting_payment", fires the
 // payment-reminder email to the client. ──
+// ── Remove a stage's auto-generated PDF payment receipt(s) from both storage
+// and the client's "الملفات والتسليمات" — used when a payment confirmation is
+// undone ("إلغاء") or the stage is deleted ("حذف"), so the client never keeps
+// a receipt for a payment that officially no longer exists. Receipts are
+// matched by their storage_path pattern (…-receipt-<stageId>.pdf), which is
+// unique per stage. Failures are logged, never thrown — cleanup must not
+// block the undo/delete action itself. ──
+async function deleteStageReceiptFiles(admin, stageId, projectId) {
+  try {
+    const { data: receipts } = await admin
+      .from("project_files")
+      .select("id, storage_path")
+      .eq("project_id", projectId)
+      .eq("type", "invoice")
+      .like("storage_path", `%receipt-${stageId}%`);
+
+    if (!receipts?.length) return;
+
+    const paths = receipts.map((r) => r.storage_path).filter(Boolean);
+    if (paths.length) {
+      const { error: removeError } = await admin.storage.from("project-files").remove(paths);
+      if (removeError) console.error("[payment-receipt] storage cleanup failed:", removeError.message);
+    }
+    await admin
+      .from("project_files")
+      .delete()
+      .in("id", receipts.map((r) => r.id));
+  } catch (cleanupError) {
+    console.error("[payment-receipt] cleanup failed:", cleanupError);
+  }
+}
+
 export async function advanceStage(stageId, targetStatus) {
   await requireAdmin();
   const admin = createAdminClient();
@@ -360,6 +392,14 @@ export async function advanceStage(stageId, targetStatus) {
   // the whole "please pay" email + log a duplicate payment_reminders row.
   const STAGE_STATUS_ORDER = { upcoming: 0, awaiting_payment: 1, paid: 2, in_progress: 3, completed: 4 };
   const isForwardProgress = STAGE_STATUS_ORDER[targetStatus] > STAGE_STATUS_ORDER[stage.status];
+
+  // Undoing a confirmed payment ("إلغاء": paid → awaiting_payment or lower)
+  // invalidates the PDF receipt that was auto-attached on confirmation — pull
+  // it back out of the client's files so no receipt exists for a payment
+  // that's no longer confirmed.
+  if (STAGE_STATUS_ORDER[stage.status] >= STAGE_STATUS_ORDER.paid && STAGE_STATUS_ORDER[targetStatus] < STAGE_STATUS_ORDER.paid) {
+    await deleteStageReceiptFiles(admin, stageId, stage.project_id);
+  }
 
   if (isForwardProgress && targetStatus === "awaiting_payment") {
     const client = stage.projects.clients;
@@ -519,6 +559,10 @@ export async function deleteStage(stageId) {
     .eq("id", stageId)
     .single();
   if (fetchError) throw new Error(fetchError.message);
+
+  // Deleting a stage also deletes its auto-generated payment receipt (if the
+  // stage was ever confirmed paid) from the client's files.
+  await deleteStageReceiptFiles(admin, stageId, stage.project_id);
 
   const { error } = await admin.from("stages").delete().eq("id", stageId);
   if (error) throw new Error(error.message);
