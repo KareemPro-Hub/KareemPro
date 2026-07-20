@@ -543,6 +543,6 @@
    identical box makes the SVGs read noticeably larger. Fixing the SVG box
    a bit smaller than the PNG box equalises the *visual* mass, which is
    what actually matters in the sidebar. */
-.kp-dashboard .nav-link .nav-image-icon{width:26px;display:flex;align-items:center;justify-content:center}
-.kp-dashboard .nav-link .nav-image-icon svg{width:21px!important;height:21px!important}
-.kp-dashboard .nav-link .nav-image-icon img{width:26px;height:26px}
+.kp-dashboard .nav-link .nav-image-icon{width:30px;display:flex;align-items:center;justify-content:center}
+.kp-dashboard .nav-link .nav-image-icon svg{width:26px!important;height:26px!important}
+.kp-dashboard .nav-link .nav-image-icon img{width:30px;height:30px}
