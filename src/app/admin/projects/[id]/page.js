@@ -9,6 +9,12 @@ import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import { getAdminTimeline } from "@/lib/timeline";
 
+// Default serverless function duration (10s) isn't reliably enough for the
+// headless-Chromium payment-receipt PDF (see advanceStage → generatePaymentReceiptPdf)
+// triggered from this page's "تأكيد استلام الدفع" action — cold Chromium
+// launch + page render can take a few seconds on its own.
+export const maxDuration = 60;
+
 export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
   const { supabase } = await requireAdmin();

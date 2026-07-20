@@ -450,7 +450,9 @@ export async function advanceStage(stageId, targetStatus) {
         const { error: uploadError } = await admin.storage
           .from("project-files")
           .upload(storage_path, pdfBuffer, { contentType: "application/pdf" });
-        if (!uploadError) {
+        if (uploadError) {
+          console.error("[payment-receipt] storage upload failed:", uploadError.message);
+        } else {
           await admin.from("project_files").insert({
             project_id: stage.project_id,
             client_id: stage.projects.client_id,
@@ -462,9 +464,11 @@ export async function advanceStage(stageId, targetStatus) {
             size_bytes: pdfBuffer.length,
           });
         }
-      } catch {
+      } catch (receiptError) {
         // Same reasoning as the email above — the payment itself already
-        // succeeded, a PDF-generation hiccup shouldn't roll that back.
+        // succeeded, a PDF-generation hiccup shouldn't roll that back. Logged
+        // (not silent) so failures are diagnosable via Vercel runtime logs.
+        console.error("[payment-receipt] generation failed:", receiptError);
       }
     }
   }
