@@ -1,6 +1,6 @@
 import "./globals.css";
 
-const TITLE = "Kareem Pro — بوابة النخبة";
+const TITLE = "Kareem Pro — بوابة الدخول";
 const DESCRIPTION = "بوابة متابعة المشاريع والمراحل — Kareem Pro";
 
 export const metadata = {

@@ -26,7 +26,7 @@ export async function GET(request) {
     // skips pages that carry it, which killed the branded preview card. The
     // page is harmless to leave crawlable — every URL carries a unique
     // one-time token and is never linked from anywhere public.
-    `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Kareem Pro — بوابة النخبة</title>` +
+    `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Kareem Pro — بوابة الدخول</title>` +
       // Rich link preview (the big branded card) when the login link is
       // shared over WhatsApp — mirrors the homepage's OG tags. Without
       // these, WhatsApp renders a bare one-line card for this page.
