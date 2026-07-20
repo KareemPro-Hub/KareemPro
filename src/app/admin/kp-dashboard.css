@@ -537,3 +537,12 @@
 .kp-dashboard .proj-detail-node-line{display:none}
 .kp-dashboard .proj-detail-modal{padding:24px 22px}
 }
+
+/* Uniform nav icon sizing — the inline SVG glyphs draw edge-to-edge in a
+   24x24 box while the remaining PNGs carry ~15% internal padding, so an
+   identical box makes the SVGs read noticeably larger. Fixing the SVG box
+   a bit smaller than the PNG box equalises the *visual* mass, which is
+   what actually matters in the sidebar. */
+.kp-dashboard .nav-link .nav-image-icon{width:26px;display:flex;align-items:center;justify-content:center}
+.kp-dashboard .nav-link .nav-image-icon svg{width:21px!important;height:21px!important}
+.kp-dashboard .nav-link .nav-image-icon img{width:26px;height:26px}
