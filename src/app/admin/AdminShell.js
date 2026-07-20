@@ -6,6 +6,7 @@ import AdminNotificationBell from "./AdminNotificationBell";
 import TeamIcon from "@/app/components/TeamIcon";
 import WalletIcon from "@/app/components/WalletIcon";
 import DeliveryIcon from "@/app/components/DeliveryIcon";
+import TargetIcon from "@/app/components/TargetIcon";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
@@ -22,7 +23,7 @@ const NAV_GROUPS = [
     label: "مساحة العمل",
     items: [
       { href: "/admin", label: "نظرة عامة", icon: "binocular" },
-      { href: "/admin/pipeline", label: "تخطيط وإدارة", icon: "target" },
+      { href: "/admin/pipeline", label: "تخطيط وإدارة", iconComponent: TargetIcon },
       { href: "/admin/projects", label: "المشاريع", icon: "project-management" },
       { href: "/admin/clients", label: "أصحاب المشاريع", icon: "customer" },
       { href: "/admin/team", label: "فريق العمل", iconComponent: TeamIcon },
@@ -80,10 +81,10 @@ export default function AdminShell({ children }) {
 
           <nav>
             {NAV_GROUPS.map((group) => (
-              {/* Group headings ("مساحة العمل" / "الإدارة والأداء") are
-                  intentionally not rendered — the grouping still controls the
-                  order and spacing, but the labels added visual noise. */}
               <div key={group.label}>
+                {/* Group headings ("مساحة العمل" / "الإدارة والأداء") are
+                    intentionally not rendered — the grouping still controls
+                    order and spacing, the labels just added visual noise. */}
                 {group.items.map((item) => (
                   <a
                     key={item.href}
