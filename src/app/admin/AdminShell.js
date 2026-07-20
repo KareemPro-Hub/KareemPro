@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import AdminNotificationBell from "./AdminNotificationBell";
 import TeamIcon from "@/app/components/TeamIcon";
 import WalletIcon from "@/app/components/WalletIcon";
+import DeliveryIcon from "@/app/components/DeliveryIcon";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
@@ -30,7 +31,7 @@ const NAV_GROUPS = [
   {
     label: "الإدارة والأداء",
     items: [
-      { href: "/admin/delivery", label: "مركز التسليم", icon: "closure" },
+      { href: "/admin/delivery", label: "مركز التسليم", iconComponent: DeliveryIcon },
       { href: "/admin/wallet", label: "المحفظة", iconComponent: WalletIcon },
     ],
   },
