@@ -910,17 +910,42 @@ export async function resendInvite(clientId) {
 
   const { data: client, error: clientError } = await admin
     .from("clients")
+    .select("email, full_name")
+    .eq("id", clientId)
+    .single();
+
+  if (clientError || !client) throw new Error("تعذر العثور على صاحب المشروع");
+
+  // Passwordless: resending an "invite" now just means a fresh branded
+  // email whose button logs them straight in — no set-password step.
+  const actionUrl = await createClientLoginUrl(admin, client.email);
+  await sendMagicLinkEmail({
+    to: client.email,
+    clientName: client.full_name,
+    actionUrl,
+    isWelcome: true,
+  });
+}
+
+// ── Generate a one-time direct-login URL for a client and hand it back to
+// the admin UI — for sending manually over WhatsApp. The client taps the
+// link and lands in their portal signed in, typing nothing. Same one-time
+// token as the email flow, so a leaked/used link is worthless afterwards. ──
+export async function generateClientLoginLink(clientId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+
+  if (!clientId) throw new Error("معرّف صاحب المشروع مفقود");
+
+  const { data: client, error: clientError } = await admin
+    .from("clients")
     .select("email")
     .eq("id", clientId)
     .single();
 
   if (clientError || !client) throw new Error("تعذر العثور على صاحب المشروع");
 
-  const { error } = await admin.auth.resetPasswordForEmail(client.email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/set-password`,
-  });
-
-  if (error) throw new Error(error.message);
+  return await createClientLoginUrl(admin, client.email);
 }
 
 // ── Permanently delete a client. Removing the auth user cascades through the

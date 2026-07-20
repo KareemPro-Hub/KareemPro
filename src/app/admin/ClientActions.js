@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { deleteClient, resendInvite } from "@/app/admin/actions";
+import { deleteClient, resendInvite, generateClientLoginLink } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
 
 export default function ClientActions({ clientId, clientName }) {
@@ -10,12 +10,14 @@ export default function ClientActions({ clientId, clientName }) {
   const [coords, setCoords] = useState(null);
   const [isDeleting, startDelete] = useTransition();
   const [isResending, startResend] = useTransition();
+  const [isCopying, startCopy] = useTransition();
   const [error, setError] = useState(null);
   const [resent, setResent] = useState(false);
+  const [copied, setCopied] = useState(false);
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
-  const isPending = isDeleting || isResending;
+  const isPending = isDeleting || isResending || isCopying;
   const closeMenu = useCallback(() => setOpen(false), []);
 
   function openMenu() {
@@ -85,6 +87,23 @@ export default function ClientActions({ clientId, clientName }) {
     });
   }
 
+  // Generates a one-time direct-login URL and puts it on the clipboard,
+  // ready to paste into WhatsApp — the client taps it and lands in their
+  // portal signed in, typing nothing.
+  function handleCopyLoginLink() {
+    setError(null);
+    setCopied(false);
+    startCopy(async () => {
+      try {
+        const url = await generateClientLoginLink(clientId);
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+      } catch (e) {
+        setError(e.message || "حصل خطأ أثناء إنشاء الرابط");
+      }
+    });
+  }
+
   return (
     <>
       <button
@@ -144,7 +163,41 @@ export default function ClientActions({ clientId, clientName }) {
             >
               {resent ? <CheckIcon /> : <RefreshIcon />}
               <span style={{ flex: 1 }}>
-                {isResending ? "جارِ الإرسال..." : resent ? "تم إرسال الرابط" : "إعادة إرسال رابط الدعوة"}
+                {isResending ? "جارِ الإرسال..." : resent ? "تم إرسال الرابط" : "إعادة إرسال إيميل الدخول"}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={handleCopyLoginLink}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                width: "100%",
+                textAlign: "right",
+                background: "#fff",
+                border: 0,
+                borderRadius: "8px",
+                padding: "9px 8px",
+                fontSize: "13px",
+                fontFamily: "inherit",
+                color: "#172541",
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            >
+              {copied ? (
+                <CheckIcon />
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              )}
+              <span style={{ flex: 1 }}>
+                {isCopying ? "جارِ إنشاء الرابط..." : copied ? "اتنسخ — ابعته واتساب ✅" : "نسخ رابط دخول (واتساب)"}
               </span>
             </button>
 
