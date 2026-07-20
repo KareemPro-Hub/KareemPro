@@ -6,6 +6,11 @@ const nextConfig = {
     // never a direct upload, so this only needs to cover normal documents.
     serverActions: { bodySizeLimit: "15mb" },
   },
+  // @sparticuz/chromium ships a compressed headless-Chromium binary that
+  // must NOT be processed/bundled by webpack — used to generate the
+  // payment-receipt PDF (see src/lib/pdfReceipt.js) on Vercel's serverless
+  // Node runtime.
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
   async rewrites() {
     return {
       beforeFiles: [

@@ -10,6 +10,12 @@ import {
   sendDiscountEmail,
   sendPaymentReceivedEmail,
 } from "@/lib/email";
+import { generatePaymentReceiptPdf } from "@/lib/pdfReceipt";
+
+const ARABIC_MONTHS = [
+  "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+  "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر",
+];
 import { getAdminTimeline } from "@/lib/timeline";
 import { createSignedFileUrl } from "@/lib/projectFiles";
 
@@ -404,6 +410,61 @@ export async function advanceStage(stageId, targetStatus) {
       } catch {
         // The payment is already marked received and the in-app notification
         // above still lands — a Resend hiccup shouldn't fail the whole action.
+      }
+    }
+
+    // Drop a branded PDF receipt straight into the client's own "الملفات
+    // والتسليمات" section — same table/bucket as any admin-uploaded file, so
+    // it shows up automatically with zero extra steps. A rendering/upload
+    // hiccup here shouldn't fail the whole "confirm payment" action.
+    if (targetStatus === "paid") {
+      try {
+        const { data: allStages } = await admin
+          .from("stages")
+          .select("amount, status")
+          .eq("project_id", stage.project_id);
+        const PAID_LIKE = ["paid", "in_progress", "completed"];
+        const collected = (allStages || []).reduce(
+          (sum, s) => (PAID_LIKE.includes(s.status) ? sum + Number(s.amount || 0) : sum),
+          0
+        );
+        const remaining = Math.max(Number(stage.projects.package_price || 0) - collected, 0);
+
+        const now = new Date();
+        const dateValue = `${String(now.getDate()).padStart(2, "0")}/${String(now.getMonth() + 1).padStart(2, "0")}/${now.getFullYear()}`;
+        const dateLabel = `${now.getDate()} ${ARABIC_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+        const receiptNumber = `#${stage.id.slice(0, 8).toUpperCase()}`;
+
+        const pdfBuffer = await generatePaymentReceiptPdf({
+          receiptNumber,
+          dateLabel,
+          dateValue,
+          clientName: stage.projects.clients?.full_name || "",
+          projectTitle: stage.projects.title,
+          stageTitle: stage.title,
+          amount: stage.amount,
+          remaining,
+        });
+
+        const storage_path = `${stage.project_id}/${Date.now()}-receipt-${stage.id}.pdf`;
+        const { error: uploadError } = await admin.storage
+          .from("project-files")
+          .upload(storage_path, pdfBuffer, { contentType: "application/pdf" });
+        if (!uploadError) {
+          await admin.from("project_files").insert({
+            project_id: stage.project_id,
+            client_id: stage.projects.client_id,
+            name: `إيصال دفعة - ${stage.title}`,
+            type: "invoice",
+            stage_label: stage.title,
+            storage_path,
+            external_url: null,
+            size_bytes: pdfBuffer.length,
+          });
+        }
+      } catch {
+        // Same reasoning as the email above — the payment itself already
+        // succeeded, a PDF-generation hiccup shouldn't roll that back.
       }
     }
   }
