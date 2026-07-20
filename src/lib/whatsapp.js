@@ -69,7 +69,7 @@ const PORTAL_URL = "https://kareempro.com/portal";
 
 export function welcomeMessage({ clientName, loginUrl }) {
   return (
-    `أهلاً بك أ. ${clientName} 🤝\n\n` +
+    `أهلًا بك أ. ${clientName} 🤝\n\n` +
     `يسعدنا انضمامك إلى *Kareem Pro*.\n` +
     `لوحة التحكم الخاصة بمشروعك أصبحت جاهزة، ومنها تتابع كل شيء لحظة بلحظة:\n\n` +
     `📋 العرض الفني والمالي\n` +

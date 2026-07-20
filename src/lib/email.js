@@ -239,7 +239,7 @@ const MAGIC_LINK_PREVIEW_SUBTEXT = "​";
 // button verifies the one-time token server-side (/auth/confirm) and lands
 // them straight in their portal — no username, no password, ever.
 function magicLinkTemplate({ clientName, actionUrl, isWelcome }) {
-  const heading = isWelcome ? `أهلاً بك يا ${clientName} 🎉` : `رابط الدخول الخاص بك 🔐`;
+  const heading = isWelcome ? `أهلًا بك يا ${clientName} 🎉` : `رابط الدخول الخاص بك 🔐`;
   const body = isWelcome
     ? `يسعدنا انضمامك إلى <strong style="color:#ffffff;">Kareem Pro</strong>.<br/>لوحة التحكم الخاصة بمشروعك جاهزة — اضغط الزر وستدخل مباشرة، بدون اسم مستخدم أو كلمة سر.`
     : `اضغط الزر وستدخل إلى لوحة التحكم الخاصة بك مباشرة — بدون كلمة سر.`;
@@ -253,7 +253,7 @@ export async function sendMagicLinkEmail({ to, clientName, actionUrl, isWelcome 
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,
-    subject: isWelcome ? `🎉 أهلاً بك في Kareem Pro — لوحة تحكمك جاهزة` : `🔐 رابط الدخول إلى لوحة التحكم`,
+    subject: isWelcome ? `🎉 أهلًا بك في Kareem Pro — لوحة تحكمك جاهزة` : `🔐 رابط الدخول إلى لوحة التحكم`,
     text: MAGIC_LINK_PREVIEW_SUBTEXT,
     html: magicLinkTemplate({ clientName, actionUrl, isWelcome }),
   });
