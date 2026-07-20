@@ -24,6 +24,44 @@ export function normalizeWhatsAppPhone(phone) {
   return digits;
 }
 
+// Country dial codes for the WhatsApp-number fields (new client + edit
+// client). Saudi first (most clients), then the rest of the region.
+export const DIAL_CODES = [
+  { code: "966", label: "🇸🇦 السعودية +966" },
+  { code: "20", label: "🇪🇬 مصر +20" },
+  { code: "971", label: "🇦🇪 الإمارات +971" },
+  { code: "965", label: "🇰🇼 الكويت +965" },
+  { code: "974", label: "🇶🇦 قطر +974" },
+  { code: "973", label: "🇧🇭 البحرين +973" },
+  { code: "968", label: "🇴🇲 عُمان +968" },
+  { code: "962", label: "🇯🇴 الأردن +962" },
+  { code: "964", label: "🇮🇶 العراق +964" },
+  { code: "218", label: "🇱🇾 ليبيا +218" },
+  { code: "213", label: "🇩🇿 الجزائر +213" },
+  { code: "212", label: "🇲🇦 المغرب +212" },
+  { code: "216", label: "🇹🇳 تونس +216" },
+  { code: "249", label: "🇸🇩 السودان +249" },
+  { code: "967", label: "🇾🇪 اليمن +967" },
+  { code: "961", label: "🇱🇧 لبنان +961" },
+  { code: "970", label: "🇵🇸 فلسطين +970" },
+  { code: "963", label: "🇸🇾 سوريا +963" },
+  { code: "1", label: "🇺🇸 أمريكا/كندا +1" },
+  { code: "44", label: "🇬🇧 بريطانيا +44" },
+];
+
+// Splits a stored number back into { dial, local } so the edit form can
+// preselect the right country. Longest dial code wins (e.g. "1" vs "20").
+export function splitDialCode(phone) {
+  const digits = (phone || "").toString().replace(/\D/g, "");
+  if (!digits) return { dial: "966", local: "" };
+  const match = [...DIAL_CODES]
+    .sort((a, b) => b.code.length - a.code.length)
+    .find((d) => digits.startsWith(d.code));
+  return match
+    ? { dial: match.code, local: digits.slice(match.code.length) }
+    : { dial: "966", local: digits };
+}
+
 export function buildWhatsAppUrl(phone, text) {
   const digits = normalizeWhatsAppPhone(phone);
   if (!digits) return null;

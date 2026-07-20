@@ -4,7 +4,7 @@ import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { deleteClient, resendInvite, generateClientLoginLink, updateClient } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
-import { openWhatsApp, welcomeMessage } from "@/lib/whatsapp";
+import { openWhatsApp, welcomeMessage, DIAL_CODES, splitDialCode } from "@/lib/whatsapp";
 
 export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [open, setOpen] = useState(false);
@@ -24,6 +24,13 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
 
   function handleSaveEdit(formData) {
     setError(null);
+
+    // Same country-code + local-number split used by the new-client form,
+    // so an existing client's number can be corrected to any country.
+    const dial = formData.get("dial")?.toString() || "";
+    const local = (formData.get("phone_local")?.toString() || "").replace(/\D/g, "").replace(/^0+/, "");
+    formData.set("phone", local ? `+${dial}${local}` : "");
+
     startSave(async () => {
       try {
         await updateClient(formData);
@@ -178,16 +185,30 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
                 </div>
                 <div>
                   <label style={{ fontSize: "11px", color: "#7a8699", display: "block", marginBottom: "3px" }}>
-                    رقم الواتساب (بكود الدولة)
+                    رقم الواتساب
                   </label>
+                  <select
+                    name="dial"
+                    defaultValue={splitDialCode(clientPhone).dial}
+                    style={{ width: "100%", padding: "7px 8px", fontSize: "12.5px", borderRadius: "7px", border: "1px solid #e9eef6", fontFamily: "inherit", background: "#fff", marginBottom: "6px" }}
+                  >
+                    {DIAL_CODES.map((d) => (
+                      <option key={d.code} value={d.code}>
+                        {d.label}
+                      </option>
+                    ))}
+                  </select>
                   <input
                     type="tel"
-                    name="phone"
+                    name="phone_local"
                     dir="ltr"
-                    placeholder="+9665xxxxxxxx"
-                    defaultValue={clientPhone || ""}
+                    placeholder="5xxxxxxxx"
+                    defaultValue={splitDialCode(clientPhone).local}
                     style={{ width: "100%", padding: "7px 8px", fontSize: "12.5px", borderRadius: "7px", border: "1px solid #e9eef6", fontFamily: "inherit" }}
                   />
+                  <div style={{ fontSize: "10.5px", color: "#9aa5b5", marginTop: "3px" }}>
+                    اختر الدولة واكتب الرقم بدون الصفر الأول.
+                  </div>
                 </div>
                 <div style={{ display: "flex", gap: "6px" }}>
                   <button
