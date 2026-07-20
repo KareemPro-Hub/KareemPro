@@ -202,10 +202,13 @@ export default async function PortalPage() {
           <span><b>Kareem</b> <i>Pro</i><small>بوابة النخبة</small></span>
         </a>
         <ClientNav />
+        {/* No logout button on purpose — clients stay permanently signed in
+            on their device (the session auto-renews forever). The only time
+            they ever see a login screen is on a brand-new device, where the
+            one-time email link signs them back in. */}
         <div className="client-account">
           <span className="client-account-avatar">{(clientName || "ع").trim().charAt(0)}</span>
           <div><b>{clientName}</b><small>صاحب مشروع</small></div>
-          <form action="/auth/signout" method="post"><button type="submit" aria-label="تسجيل الخروج">↪</button></form>
         </div>
       </aside>
 
