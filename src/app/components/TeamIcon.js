@@ -10,7 +10,7 @@ export default function TeamIcon({ size = "1em", color = "currentColor", style =
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
-      strokeWidth="2"
+      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       style={{ display: "inline-block", verticalAlign: "-0.15em", ...style }}

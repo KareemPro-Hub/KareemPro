@@ -1,21 +1,26 @@
-// Wallet outline — used for the "المحفظة" nav link. Inline (not a PNG) so it
-// inherits the sidebar's active/hover tint through the `color` prop and stays
-// sharp at any size. Path is the uploaded wallet glyph, drawn as a filled
-// shape (the outline look comes from the path itself, not a stroke).
-const WALLET_PATH =
-  "M21,6H5c-.859,0-1.672-.372-2.235-.999,.55-.614,1.349-1.001,2.235-1.001H23c.553,0,1-.448,1-1s-.447-1-1-1H5C2.239,2,0,4.239,0,7v10c0,2.761,2.239,5,5,5H21c1.657,0,3-1.343,3-3V9c0-1.657-1.343-3-3-3Zm1,13c0,.551-.448,1-1,1H5c-1.654,0-3-1.346-3-3V6.998c.854,.639,1.904,1.002,3,1.002H21c.552,0,1,.449,1,1v10Zm-2-5c0,.552-.448,1-1,1s-1-.448-1-1,.448-1,1-1,1,.448,1,1Z";
-
+// Wallet outline — used for the "المحفظة" nav link. Drawn as a thin stroke
+// (not the uploaded filled path, which rendered too heavy next to the other
+// nav glyphs) so it matches the light, airy weight of the rest of the
+// sidebar. Inline SVG so it inherits the active/hover tint through `color`
+// and stays sharp at any size.
 export default function WalletIcon({ size = "1em", color = "currentColor", style = {} }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill={color}
+      fill="none"
+      stroke={color}
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       style={{ display: "inline-block", verticalAlign: "-0.15em", ...style }}
       aria-hidden="true"
     >
-      <path d={WALLET_PATH} />
+      {/* body + the flap that folds over the top edge */}
+      <path d="M3 6.5h16A2.5 2.5 0 0 1 21.5 9v9a2.5 2.5 0 0 1-2.5 2.5H6A3.5 3.5 0 0 1 2.5 17V6.2A2.7 2.7 0 0 1 5.2 3.5H20" />
+      {/* clasp */}
+      <circle cx="17.4" cy="13.6" r="1" />
     </svg>
   );
 }
