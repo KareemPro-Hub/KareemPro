@@ -62,7 +62,7 @@
 .kp-dashboard .ambient-a{background:#ffad3f}.kp-dashboard .ambient-b{background:#ef7b2d;opacity:.5}
 .kp-dashboard .sidebar{background:radial-gradient(circle at 26% 0,rgba(255,157,53,.19),transparent 30%),linear-gradient(155deg,rgba(58,31,19,.96),rgba(37,23,18,.9));box-shadow:0 32px 85px rgba(76,39,18,.3),inset 0 1px 0 rgba(255,255,255,.2)}
 .kp-dashboard .brand b i{color:#ffad42}.kp-dashboard .brand-mark{box-shadow:0 10px 28px rgba(221,106,30,.26)}
-.kp-dashboard .new-btn, .kp-dashboard .nav-link.active{background:var(--kp-gradient);box-shadow:0 12px 30px rgba(222,104,27,.28)}
+.kp-dashboard .nav-link.active{background:var(--kp-gradient);box-shadow:0 12px 30px rgba(222,104,27,.28)}.kp-dashboard .new-btn{background:linear-gradient(135deg,#e90e69 0%,#c21a86 52%,#7b2ff7 100%);box-shadow:0 12px 30px rgba(196,20,116,.34)}.kp-dashboard .new-btn:hover{box-shadow:0 15px 36px rgba(196,20,116,.45)}
 .kp-dashboard .nav-link em{background:linear-gradient(135deg,#ffb544,#ef7625)}
 .kp-dashboard .welcome h1 b, .kp-dashboard .overline, .kp-dashboard .text-btn, .kp-dashboard .hero-side button, .kp-dashboard .hero-side a{color:#e56b23}
 .kp-dashboard .hero-card{background:radial-gradient(circle at 13% 125%,rgba(255,169,52,.48),transparent 42%),radial-gradient(circle at 92% 0,rgba(217,91,24,.22),transparent 40%),linear-gradient(115deg,rgba(62,36,21,.97),rgba(105,48,19,.88));box-shadow:0 32px 70px rgba(88,43,17,.28),inset 0 1px 0 rgba(255,255,255,.25)}

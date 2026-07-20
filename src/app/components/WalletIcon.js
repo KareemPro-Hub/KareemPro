@@ -11,7 +11,7 @@ export default function WalletIcon({ size = "1em", color = "currentColor", style
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
-      strokeWidth="1.6"
+      strokeWidth="1.2"
       strokeLinecap="round"
       strokeLinejoin="round"
       style={{ display: "inline-block", verticalAlign: "-0.15em", ...style }}
