@@ -456,7 +456,7 @@ export async function advanceStage(stageId, targetStatus) {
           await admin.from("project_files").insert({
             project_id: stage.project_id,
             client_id: stage.projects.client_id,
-            name: `إيصال دفعة - ${stage.title}`,
+            name: `إيصال الدفعة "${stage.title}"`,
             type: "invoice",
             stage_label: stage.title,
             storage_path,

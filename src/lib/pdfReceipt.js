@@ -32,8 +32,12 @@ function receiptHtml({ receiptNumber, dateLabel, dateValue, clientName, projectT
   .brand img { width: 40px; height: 45px; }
   .brand-text { font-size: 15px; font-weight: 700; letter-spacing: 1px; color: #2a2a35; direction: ltr; }
   .brand-text span { color: #ff5535; }
-  .doc-meta { text-align: left; direction: ltr; font-size: 12px; color: #9a8f80; line-height: 1.8; }
+  .doc-meta { text-align: right; direction: rtl; font-size: 12px; color: #9a8f80; line-height: 1.8; }
   .doc-meta b { color: #2a2a35; font-size: 13px; }
+  /* The receipt number itself (letters+digits like #AABF0998) must stay a
+     single left-to-right run — without this it gets mangled by the bidi
+     algorithm when embedded in the surrounding Arabic (RTL) label text. */
+  .doc-meta .num { direction: ltr; unicode-bidi: embed; }
   .title-block { text-align: center; padding: 34px 56px 8px 56px; }
   .title-block h1 { font-size: 24px; font-weight: 700; margin: 0 0 6px 0; color: #1e2a3a; }
   .title-block p { margin: 0; font-size: 14px; color: #7a6a5a; }
@@ -66,11 +70,11 @@ function receiptHtml({ receiptNumber, dateLabel, dateValue, clientName, projectT
     <div class="topbar"></div>
     <div class="header">
       <div class="brand">
-        <img src="${logo}" />
         <div class="brand-text">KAREEM <span>PRO</span></div>
+        <img src="${logo}" />
       </div>
       <div class="doc-meta">
-        <div><b>إيصال رقم</b> ${receiptNumber}</div>
+        <div><b>إيصال رقم</b> <span class="num">${receiptNumber}</span></div>
         <div>${dateLabel}</div>
       </div>
     </div>
@@ -93,7 +97,7 @@ function receiptHtml({ receiptNumber, dateLabel, dateValue, clientName, projectT
 
     <div class="amount-card">
       <div class="label">المبلغ المستلَم — ${stageTitle}</div>
-      <div class="value">${amountValue} <img class="riyal" src="${riyal}" /></div>
+      <div class="value"><img class="riyal" src="${riyal}" /> ${amountValue}</div>
     </div>
 
     <div class="details-table">
@@ -107,13 +111,13 @@ function receiptHtml({ receiptNumber, dateLabel, dateValue, clientName, projectT
       </div>
       <div class="row remaining">
         <div class="k">المتبقي من قيمة المشروع</div>
-        <div class="v">${remainingValue} <img class="riyal-inline" src="${riyal}" /></div>
+        <div class="v"><img class="riyal-inline" src="${riyal}" /> ${remainingValue}</div>
       </div>
     </div>
 
     <div class="footer">
       <p>شكرًا لثقتك بنا، ونتطلع لإكمال رحلة مشروعك معك.</p>
-      <div class="tag">Kareem Pro © جميع الحقوق محفوظة</div>
+      <div class="tag"><span dir="ltr">Kareem Pro ©</span> جميع الحقوق محفوظة</div>
     </div>
   </div>
 </body>
