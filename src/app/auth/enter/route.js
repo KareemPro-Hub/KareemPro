@@ -1,25 +1,24 @@
 import { NextResponse } from "next/server";
 
-// Step 1 of the two-step login-link flow — a BOT SHIELD, not the verifier.
+// Step 1 of the platform login-link flow — a BOT SHIELD, not the verifier.
 //
 // Login links are single-use, and both WhatsApp and email clients prefetch
 // URLs to render link previews. If this route verified the token directly
 // on GET, the preview bot's fetch would consume it before the client ever
 // tapped the link — leaving them a dead link and a login screen. So this
 // route returns a tiny HTML page whose script immediately forwards the
-// browser to /auth/confirm/verify (the real verifier). Preview bots don't
+// browser to /auth/enter/verify (the real verifier). Preview bots don't
 // execute JavaScript, so the token survives until a real human arrives.
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url);
-  const token_hash = searchParams.get("token_hash");
-  const type = searchParams.get("type");
+  const t = searchParams.get("t");
   const next = searchParams.get("next") || "/portal";
 
-  if (!token_hash || !type) {
+  if (!t) {
     return NextResponse.redirect(`${origin}/login?error=auth`);
   }
 
-  const target = `${origin}/auth/confirm/verify?token_hash=${encodeURIComponent(token_hash)}&type=${encodeURIComponent(type)}&next=${encodeURIComponent(next)}`;
+  const target = `${origin}/auth/enter/verify?t=${encodeURIComponent(t)}&next=${encodeURIComponent(next)}`;
 
   return new NextResponse(
     // No robots "noindex" here on purpose: WhatsApp's link-preview crawler

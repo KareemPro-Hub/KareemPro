@@ -3,7 +3,7 @@ import { createClient, createAdminClient } from "@/lib/supabase/server";
 
 // Server-side email+password sign-in — now for ADMIN and TEAM only.
 //
-// Clients are fully passwordless (see /auth/magic-link + /auth/confirm):
+// Clients are fully passwordless (see /auth/magic-link + /auth/enter):
 // their stored password hashes were wiped when the system switched over, and
 // this route refuses client accounts outright so the old password path can
 // never be revived for them — even by someone hitting the endpoint directly.

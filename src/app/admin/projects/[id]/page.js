@@ -49,10 +49,7 @@ export default async function ProjectDetailPage({ params }) {
   // next to the timeline header opens the client's chat with the approved
   // progress message (step title + description) pre-typed.
   const currentStep = currentIdx >= 0 ? adminTimeline[currentIdx] : null;
-  const progressWaText =
-    currentStep && project.clients?.phone
-      ? progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc })
-      : null;
+  const canSendProgress = Boolean(currentStep && project.clients?.phone);
 
   return (
     <section className="view active">
@@ -99,10 +96,13 @@ export default async function ProjectDetailPage({ params }) {
             مسار الإنتاج
           </div>
           <div className="proj-detail-timeline-actions-head">
-            {progressWaText && (
+            {canSendProgress && (
               <WhatsAppButton
                 phone={project.clients.phone}
-                text={progressWaText}
+                buildText={(loginUrl) =>
+                  progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc, loginUrl })
+                }
+                projectId={project.id}
                 label="إرسال التقدم"
                 small
               />

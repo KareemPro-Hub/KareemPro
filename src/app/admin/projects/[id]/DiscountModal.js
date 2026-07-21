@@ -69,13 +69,15 @@ export default function DiscountModal({ projectId, packagePrice }) {
                 {applied.clientPhone && (
                   <WhatsAppButton
                     phone={applied.clientPhone}
-                    text={discountMessage({
-                      clientName: applied.clientName,
-                      oldPrice: applied.oldPrice,
-                      newPrice: applied.newPrice,
-                      discountAmount: applied.discountAmount,
-                      loginUrl: applied.loginUrl,
-                    })}
+                    buildText={() =>
+                      discountMessage({
+                        clientName: applied.clientName,
+                        oldPrice: applied.oldPrice,
+                        newPrice: applied.newPrice,
+                        discountAmount: applied.discountAmount,
+                        loginUrl: applied.loginUrl,
+                      })
+                    }
                     label="إرسال الخصم على الواتساب"
                   />
                 )}

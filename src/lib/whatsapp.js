@@ -119,7 +119,7 @@ export function welcomeMessage({ clientName, loginUrl }) {
   );
 }
 
-export function paymentRequestMessage({ clientName, stageTitle, amount }) {
+export function paymentRequestMessage({ clientName, stageTitle, amount, loginUrl }) {
   const amountValue = Number(amount).toLocaleString("en-US");
   return (
     `أ. ${clientName}، مشروعك جاهز لينطلق للمحطة القادمة 🚀\n\n` +
@@ -127,18 +127,18 @@ export function paymentRequestMessage({ clientName, stageTitle, amount }) {
     `💰 المبلغ المستحق: *${amountValue} ريال*\n\n` +
     `🏦 التحويل دولي من الراجحي إلى بنك مصر — ملف بيانات المستفيد بالخطوات موجود في لوحة التحكم وعلى إيميلك.\n\n` +
     `بعد التحويل، ابعت لنا صورة الإيصال هنا وننطلق مباشرة 🤝\n` +
-    PORTAL_URL
+    (loginUrl || PORTAL_URL)
   );
 }
 
-export function paymentConfirmedMessage({ clientName, stageTitle, amount }) {
+export function paymentConfirmedMessage({ clientName, stageTitle, amount, loginUrl }) {
   const amountValue = Number(amount).toLocaleString("en-US");
   return (
     `تم تأكيد استلام *"${stageTitle}"* بنجاح ✅\n\n` +
     `شكرًا لثقتك أ. ${clientName} ❤️\n\n` +
     `💰 المبلغ المستلَم: *${amountValue} ريال*\n\n` +
     `🧾 إيصال الاستلام الرسمي (PDF) أصبح جاهزًا في قسم "الملفات والتسليمات" بلوحة تحكمك 👇\n` +
-    PORTAL_URL
+    (loginUrl || PORTAL_URL)
   );
 }
 
@@ -169,13 +169,13 @@ export function discountMessage({ clientName, oldPrice, newPrice, discountAmount
   );
 }
 
-export function progressMessage({ stepTitle, stepDesc }) {
+export function progressMessage({ stepTitle, stepDesc, loginUrl }) {
   const descLine = stepDesc ? `⚙️ ${stepDesc}\n\n` : "";
   return (
     `مشروعك يتقدّم 🚀\n\n` +
     `دخلنا رسميًا مرحلة *"${stepTitle}"*:\n\n` +
     descLine +
     `تقدر تتابع كل خطوة لحظة بلحظة من لوحة التحكم 👇\n` +
-    PORTAL_URL
+    (loginUrl || PORTAL_URL)
   );
 }

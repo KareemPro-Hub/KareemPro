@@ -13,6 +13,7 @@ import {
   sendNewFileEmail,
 } from "@/lib/email";
 import { FILE_TYPE_META } from "@/lib/fileTypes";
+import { createLoginLink } from "@/lib/loginLinks";
 import { generatePaymentReceiptPdf } from "@/lib/pdfReceipt";
 
 const ARABIC_MONTHS = [
@@ -194,20 +195,18 @@ async function ensureDefaultProposal(admin, clientId) {
   if (packagesError) throw new Error(packagesError.message);
 }
 
-// ── Generate a one-time passwordless login link for an existing auth user.
-// Uses Supabase's generateLink (token_hash flavor) so WE control the email —
-// the branded Resend template — instead of Supabase's generic mailer. The
-// link goes through /auth/confirm which verifies the token server-side and
-// drops the client straight into their portal, fully signed in. ──
+// ── Issue a passwordless login link for a client, by email. Backed by our
+// own login_tokens table (see lib/loginLinks.js), so every message can carry
+// its own link and they all stay valid — Supabase's magic links would have
+// invalidated each other. ──
 async function createClientLoginUrl(admin, email) {
-  const { data, error } = await admin.auth.admin.generateLink({
-    type: "magiclink",
-    email,
-  });
-  if (error) throw new Error(error.message);
-  const tokenHash = data?.properties?.hashed_token;
-  if (!tokenHash) throw new Error("تعذر إنشاء رابط الدخول");
-  return `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?token_hash=${tokenHash}&type=magiclink&next=/portal`;
+  const { data: client } = await admin
+    .from("clients")
+    .select("id")
+    .ilike("email", email)
+    .maybeSingle();
+  if (!client) throw new Error("تعذر إنشاء رابط الدخول");
+  return await createLoginLink(admin, client.id);
 }
 
 // ── Invite a new client — passwordless. Creates their Supabase Auth user
@@ -443,12 +442,22 @@ export async function advanceStage(stageId, targetStatus) {
       .from("stages")
       .select("id", { count: "exact", head: true })
       .eq("project_id", stage.project_id);
+    // Own login link for THIS message (see lib/loginLinks.js) — the button
+    // must land the client inside their dashboard, never on a login screen.
+    let loginUrl = null;
+    try {
+      loginUrl = await createLoginLink(admin, stage.projects.client_id);
+    } catch (linkError) {
+      console.error("[stage-payment] login link failed:", linkError);
+    }
+
     const messageId = await sendStagePaymentEmail({
       to: client.email,
       clientName: client.full_name,
       projectTitle: stage.projects.title,
       stage,
       totalStages,
+      loginUrl,
     });
 
     await admin.from("payment_reminders").insert({
@@ -477,11 +486,18 @@ export async function advanceStage(stageId, targetStatus) {
 
     if (targetStatus === "paid" && stage.projects.clients?.email) {
       try {
+        let paidLoginUrl = null;
+        try {
+          paidLoginUrl = await createLoginLink(admin, stage.projects.client_id);
+        } catch (linkError) {
+          console.error("[payment-received] login link failed:", linkError);
+        }
         await sendPaymentReceivedEmail({
           to: stage.projects.clients.email,
           clientName: stage.projects.clients.full_name,
           projectTitle: stage.projects.title,
           stage,
+          loginUrl: paidLoginUrl,
         });
       } catch {
         // The payment is already marked received and the in-app notification
@@ -839,6 +855,10 @@ export async function updateTimelineStep(projectId, stepKey) {
             projectTitle: project.title,
             stepTitle,
             stepDesc: stepInfo?.desc,
+            loginUrl: await createLoginLink(admin, project.client_id).catch((e) => {
+              console.error("[progress] login link failed:", e);
+              return null;
+            }),
           });
         } catch {
           // The step already moved and the in-app notification below still
@@ -960,6 +980,25 @@ export async function resendInvite(clientId) {
     actionUrl,
     isWelcome: true,
   });
+}
+
+
+// ── Issue a login link for a project's client — called by the WhatsApp
+// buttons the moment the admin taps them, so the message always carries a
+// live link (and never disturbs the one already sent by email). ──
+export async function getProjectLoginLink(projectId) {
+  await requireAdmin();
+  const admin = createAdminClient();
+  if (!projectId) throw new Error("معرّف المشروع مفقود");
+
+  const { data: project, error } = await admin
+    .from("projects")
+    .select("client_id")
+    .eq("id", projectId)
+    .single();
+  if (error) throw new Error(error.message);
+
+  return await createLoginLink(admin, project.client_id);
 }
 
 // ── Update an existing client's basic details. Mainly here so clients who

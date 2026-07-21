@@ -48,11 +48,13 @@ export default function StageCard({ stage, clientName, clientPhone }) {
   // payment" gets the payment-request message, "paid" gets the confirmation.
   // Kareem taps the green button right after advancing the stage, WhatsApp
   // opens with the approved message pre-typed, and he presses Send himself.
-  const waMessage =
+  const buildWaText =
     stage.status === "awaiting_payment"
-      ? paymentRequestMessage({ clientName, stageTitle: stage.title, amount: stage.amount })
+      ? (loginUrl) =>
+          paymentRequestMessage({ clientName, stageTitle: stage.title, amount: stage.amount, loginUrl })
       : stage.status === "paid"
-      ? paymentConfirmedMessage({ clientName, stageTitle: stage.title, amount: stage.amount })
+      ? (loginUrl) =>
+          paymentConfirmedMessage({ clientName, stageTitle: stage.title, amount: stage.amount, loginUrl })
       : null;
   const waLabel = stage.status === "awaiting_payment" ? "إرسال طلب السداد" : "إرسال التأكيد";
 
@@ -175,8 +177,14 @@ export default function StageCard({ stage, clientName, clientPhone }) {
             </button>
           )}
 
-          {waMessage && clientPhone && (
-            <WhatsAppButton phone={clientPhone} text={waMessage} label={waLabel} small />
+          {buildWaText && clientPhone && (
+            <WhatsAppButton
+              phone={clientPhone}
+              buildText={buildWaText}
+              projectId={stage.project_id}
+              label={waLabel}
+              small
+            />
           )}
 
           {prevStatus && (

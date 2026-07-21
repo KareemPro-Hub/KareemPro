@@ -143,9 +143,12 @@ export async function sendStagePaymentEmail({
   projectTitle,
   stage,
   totalStages,
+  loginUrl,
 }) {
   const resend = getResend();
-  const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  // Direct-login link when available so the button lands them inside their
+  // dashboard signed in — never on a login screen.
+  const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { subject, subtext } = stagePaymentNotificationCopy(stage.stage_number, totalStages);
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
@@ -178,9 +181,9 @@ function timelineProgressTemplate({ clientName, projectTitle, stepTitle, stepDes
 
 // Sends the "your project moved to a new stage" email and returns the
 // Resend message id. Fired only on forward progress (see admin/actions.js).
-export async function sendTimelineProgressEmail({ to, clientName, projectTitle, stepTitle, stepDesc }) {
+export async function sendTimelineProgressEmail({ to, clientName, projectTitle, stepTitle, stepDesc, loginUrl }) {
   const resend = getResend();
-  const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,
@@ -216,9 +219,9 @@ function paymentReceivedTemplate({ clientName, projectTitle, stage, portalUrl })
 // message id. Fired the moment an admin marks a stage as "paid" (see
 // advanceStage in admin/actions.js) — a Resend hiccup shouldn't fail the
 // whole action, same try/catch pattern as the other stage-related emails.
-export async function sendPaymentReceivedEmail({ to, clientName, projectTitle, stage }) {
+export async function sendPaymentReceivedEmail({ to, clientName, projectTitle, stage, loginUrl }) {
   const resend = getResend();
-  const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
+  const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
     to,
@@ -261,7 +264,7 @@ const MAGIC_LINK_PREVIEW_SUBTEXT = "​";
 // The passwordless-login email — sent both as the welcome email when the
 // admin first adds a client (isWelcome) and as the regular "log me in" email
 // whenever a client requests access from the /login page. One click on the
-// button verifies the one-time token server-side (/auth/confirm) and lands
+// button verifies the token server-side (/auth/enter) and lands
 // them straight in their portal — no username, no password, ever.
 function magicLinkTemplate({ clientName, actionUrl, isWelcome }) {
   const heading = isWelcome ? `أهلًا بك يا ${clientName} 🎉` : `رابط الدخول الخاص بك 🔐`;
