@@ -647,7 +647,7 @@ export async function applyProjectDiscount(formData) {
 
   const { data: project, error: fetchError } = await admin
     .from("projects")
-    .select("*, clients(email, full_name), stages(*)")
+    .select("*, clients(email, full_name, phone), stages(*)")
     .eq("id", project_id)
     .single();
   if (fetchError) throw new Error(fetchError.message);
