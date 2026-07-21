@@ -4,7 +4,6 @@ import { useRef, useState, useTransition } from "react";
 import { applyProjectDiscount } from "@/app/admin/actions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import WhatsAppButton from "./WhatsAppButton";
-import { discountMessage } from "@/lib/whatsapp";
 
 export default function DiscountModal({ projectId, packagePrice }) {
   const [open, setOpen] = useState(false);
@@ -69,15 +68,14 @@ export default function DiscountModal({ projectId, packagePrice }) {
                 {applied.clientPhone && (
                   <WhatsAppButton
                     phone={applied.clientPhone}
-                    buildText={() =>
-                      discountMessage({
-                        clientName: applied.clientName,
-                        oldPrice: applied.oldPrice,
-                        newPrice: applied.newPrice,
-                        discountAmount: applied.discountAmount,
-                        loginUrl: applied.loginUrl,
-                      })
-                    }
+                    kind="discount"
+                    data={{
+                      clientName: applied.clientName,
+                      oldPrice: applied.oldPrice,
+                      newPrice: applied.newPrice,
+                      discountAmount: applied.discountAmount,
+                      loginUrl: applied.loginUrl,
+                    }}
                     label="إرسال الخصم على الواتساب"
                   />
                 )}

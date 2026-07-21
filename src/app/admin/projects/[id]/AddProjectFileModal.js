@@ -4,7 +4,6 @@ import { useRef, useState, useTransition } from "react";
 import { addProjectFile } from "@/app/admin/actions";
 import { FILE_TYPE_OPTIONS } from "@/lib/fileTypes";
 import WhatsAppButton from "./WhatsAppButton";
-import { newFileMessage } from "@/lib/whatsapp";
 
 export default function AddProjectFileModal({ projectId }) {
   const [open, setOpen] = useState(false);
@@ -64,15 +63,14 @@ export default function AddProjectFileModal({ projectId }) {
                 {added.clientPhone && (
                   <WhatsAppButton
                     phone={added.clientPhone}
-                    buildText={() =>
-                      newFileMessage({
-                        projectTitle: added.projectTitle,
-                        fileName: added.fileName,
-                        typeLabel: added.typeLabel,
-                        typeIcon: added.typeIcon,
-                        loginUrl: added.loginUrl,
-                      })
-                    }
+                    kind="newFile"
+                    data={{
+                      projectTitle: added.projectTitle,
+                      fileName: added.fileName,
+                      typeLabel: added.typeLabel,
+                      typeIcon: added.typeIcon,
+                      loginUrl: added.loginUrl,
+                    }}
                     label="إرسال الملف على الواتساب"
                   />
                 )}

@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
-import { paymentRequestMessage, paymentConfirmedMessage } from "@/lib/whatsapp";
 import WhatsAppButton from "./WhatsAppButton";
 
 const STATUS_META = {
@@ -48,13 +47,11 @@ export default function StageCard({ stage, clientName, clientPhone }) {
   // payment" gets the payment-request message, "paid" gets the confirmation.
   // Kareem taps the green button right after advancing the stage, WhatsApp
   // opens with the approved message pre-typed, and he presses Send himself.
-  const buildWaText =
+  const waKind =
     stage.status === "awaiting_payment"
-      ? (loginUrl) =>
-          paymentRequestMessage({ clientName, stageTitle: stage.title, amount: stage.amount, loginUrl })
+      ? "paymentRequest"
       : stage.status === "paid"
-      ? (loginUrl) =>
-          paymentConfirmedMessage({ clientName, stageTitle: stage.title, amount: stage.amount, loginUrl })
+      ? "paymentConfirmed"
       : null;
   const waLabel = stage.status === "awaiting_payment" ? "إرسال طلب السداد" : "إرسال التأكيد";
 
@@ -177,10 +174,11 @@ export default function StageCard({ stage, clientName, clientPhone }) {
             </button>
           )}
 
-          {buildWaText && clientPhone && (
+          {waKind && clientPhone && (
             <WhatsAppButton
               phone={clientPhone}
-              buildText={buildWaText}
+              kind={waKind}
+              data={{ clientName, stageTitle: stage.title, amount: stage.amount }}
               projectId={stage.project_id}
               label={waLabel}
               small

@@ -1,8 +1,28 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { openWhatsApp } from "@/lib/whatsapp";
+import {
+  openWhatsApp,
+  welcomeMessage,
+  paymentRequestMessage,
+  paymentConfirmedMessage,
+  progressMessage,
+  discountMessage,
+  newFileMessage,
+} from "@/lib/whatsapp";
 import { getProjectLoginLink } from "@/app/admin/actions";
+
+// Message builders keyed by kind. Callers pass plain data (`kind` + `data`)
+// rather than a function, because a Server Component may render this button
+// and functions can't cross the server→client boundary.
+const BUILDERS = {
+  welcome: welcomeMessage,
+  paymentRequest: paymentRequestMessage,
+  paymentConfirmed: paymentConfirmedMessage,
+  progress: progressMessage,
+  discount: discountMessage,
+  newFile: newFileMessage,
+};
 
 // Small green WhatsApp action button — opens the client's chat with a
 // pre-typed message (nothing is ever sent automatically; Kareem presses
@@ -10,24 +30,26 @@ import { getProjectLoginLink } from "@/app/admin/actions";
 //
 // The login link is minted at CLICK time, not at page render: rendering the
 // page must never issue tokens, and the link inside the message has to be
-// live when it's sent. `buildText(loginUrl)` assembles the final message
-// once the link exists.
+// live when it's sent. When `data.loginUrl` is already set (the action that
+// just ran returned one), that link is used as-is instead.
 //
 // Goes through openWhatsApp() rather than a plain href because the macOS
 // WhatsApp desktop app mangles emoji in prefilled text (they arrive as "?"),
 // while WhatsApp Web handles them correctly — see lib/whatsapp.js.
-export default function WhatsAppButton({ phone, buildText, projectId, label, small = false }) {
+export default function WhatsAppButton({ phone, kind, data, projectId, label, small = false }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
-  if (!phone || !buildText) return null;
+  const build = BUILDERS[kind];
+  if (!phone || !build) return null;
 
   function handleClick(e) {
     e.preventDefault();
     setError(null);
     startTransition(async () => {
       try {
-        const loginUrl = projectId ? await getProjectLoginLink(projectId) : null;
-        await openWhatsApp(phone, buildText(loginUrl));
+        const loginUrl =
+          data?.loginUrl || (projectId ? await getProjectLoginLink(projectId) : null);
+        await openWhatsApp(phone, build({ ...data, loginUrl }));
       } catch (err) {
         setError(err.message || "تعذر تجهيز الرسالة");
       }

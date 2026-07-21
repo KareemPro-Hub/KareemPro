@@ -9,7 +9,6 @@ import RiyalIcon from "@/app/components/RiyalIcon";
 import CheckIcon from "@/app/components/CheckIcon";
 import WhatsAppButton from "./WhatsAppButton";
 import { getAdminTimeline } from "@/lib/timeline";
-import { progressMessage } from "@/lib/whatsapp";
 
 // Default serverless function duration (10s) isn't reliably enough for the
 // headless-Chromium payment-receipt PDF (see advanceStage → generatePaymentReceiptPdf)
@@ -99,9 +98,8 @@ export default async function ProjectDetailPage({ params }) {
             {canSendProgress && (
               <WhatsAppButton
                 phone={project.clients.phone}
-                buildText={(loginUrl) =>
-                  progressMessage({ stepTitle: currentStep.title, stepDesc: currentStep.desc, loginUrl })
-                }
+                kind="progress"
+                data={{ stepTitle: currentStep.title, stepDesc: currentStep.desc }}
                 projectId={project.id}
                 label="إرسال التقدم"
                 small
