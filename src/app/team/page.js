@@ -9,7 +9,7 @@ export default async function TeamPortalPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login?role=team");
+  if (!user) redirect("/team/login");
 
   const [{ data: member }, { data: tasks }] = await Promise.all([
     supabase.from("team_members").select("full_name").eq("id", user.id).maybeSingle(),

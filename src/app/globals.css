@@ -771,6 +771,9 @@ table.admin-table td:nth-child(6) {
 }
 .role-tab {
   flex: 1;
+  display: block;
+  text-align: center;
+  text-decoration: none;
   border: none;
   background: transparent;
   color: var(--muted);

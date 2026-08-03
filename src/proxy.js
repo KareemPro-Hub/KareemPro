@@ -1,8 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 
-export async function middleware(request) {
+export async function proxy(request) {
   let response = NextResponse.next({ request });
+  const path = request.nextUrl.pathname;
+
+  // Dedicated login pages are public and do not need a Supabase session check.
+  if (path === "/admin/login" || path === "/team/login") {
+    return response;
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -29,8 +35,6 @@ export async function middleware(request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const path = request.nextUrl.pathname;
-
   // Everyone lands on the same shared /login screen (3-way role tabs) —
   // ?role= preselects the right tab and ?next= sends them back to the exact
   // page they were trying to reach.
@@ -42,20 +46,20 @@ export async function middleware(request) {
     return NextResponse.redirect(url);
   }
 
-  // Protect the admin area (its own /admin/login just bounces to /login?role=admin).
-  if (path.startsWith("/admin") && path !== "/admin/login" && !user) {
+  // Protect the admin area and send unauthenticated users to its dedicated login.
+  if (path.startsWith("/admin") && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("role", "admin");
+    url.pathname = "/admin/login";
+    url.searchParams.delete("role");
     url.searchParams.set("next", path);
     return NextResponse.redirect(url);
   }
 
-  // Protect the team portal (its own /team/login just bounces to /login?role=team).
-  if (path.startsWith("/team") && path !== "/team/login" && !user) {
+  // Protect the team portal and send unauthenticated users to its dedicated login.
+  if (path.startsWith("/team") && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("role", "team");
+    url.pathname = "/team/login";
+    url.searchParams.delete("role");
     url.searchParams.set("next", path);
     return NextResponse.redirect(url);
   }

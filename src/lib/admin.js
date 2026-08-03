@@ -10,7 +10,7 @@ export async function requireAdmin() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login?role=admin");
+  if (!user) redirect("/admin/login");
 
   const { data: adminRow } = await supabase
     .from("admins")
@@ -18,7 +18,7 @@ export async function requireAdmin() {
     .eq("email", user.email)
     .maybeSingle();
 
-  if (!adminRow) redirect("/login?role=admin");
+  if (!adminRow) redirect("/admin/login");
 
   return { supabase, user };
 }

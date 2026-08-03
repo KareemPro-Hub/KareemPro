@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 function EyeIcon({ off }) {
   return off ? (
@@ -28,6 +28,7 @@ const ROLES = {
     heading: "بوابة مدير المنصة",
     sub: "دخول آمن للمدير — سجّل دخولك بالبريد وكلمة السر.",
     endpoint: "/auth/admin-signin",
+    loginPath: "/admin/login",
     defaultNext: "/admin",
   },
   team: {
@@ -35,15 +36,21 @@ const ROLES = {
     heading: "بوابة فريق العمل",
     sub: "سجّلي دخولك بالبريد الإلكتروني وكلمة السر.",
     endpoint: "/auth/signin",
+    loginPath: "/team/login",
     defaultNext: "/team",
   },
 };
 
 function LoginForm() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const initialRole = searchParams.get("role");
-  const [role, setRole] = useState(ROLES[initialRole] ? initialRole : "admin");
-  const next = searchParams.get("next") || ROLES[role].defaultNext;
+  const requestedRole =
+    pathname === "/team/login"
+      ? "team"
+      : pathname === "/admin/login"
+        ? "admin"
+        : searchParams.get("role");
+  const role = ROLES[requestedRole] ? requestedRole : "admin";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -109,19 +116,19 @@ function LoginForm() {
         <div className="admin-auth-card">
           <div className="role-tabs">
             {Object.entries(ROLES).map(([key, r]) => (
-              <button
+              <a
                 key={key}
-                type="button"
+                href={r.loginPath}
                 className={`role-tab${role === key ? " active" : ""}`}
+                aria-current={role === key ? "page" : undefined}
                 onClick={() => {
-                  setRole(key);
                   setStatus("idle");
                   setErrorMsg(null);
                   setMode("login");
                 }}
               >
                 {r.label}
-              </button>
+              </a>
             ))}
           </div>
 
