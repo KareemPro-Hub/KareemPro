@@ -339,15 +339,22 @@ nav{
 @media(max-width:640px){.pk-sub{min-height:0}}
 
 /* LOGOS MARQUEE */
-.lg-wrap{margin-top:3rem;position:relative;overflow:hidden;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
-  mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.lg-track{display:flex;gap:3.2rem;width:max-content;animation:lgScroll 46s linear infinite}
+.lg-wrap{margin-top:3rem;position:relative;overflow:hidden;padding:.6rem 0;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+  mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.lg-track{display:flex;gap:1.05rem;width:max-content;animation:lgScroll 58s linear infinite}
 .lg-wrap:hover .lg-track{animation-play-state:paused}
 @keyframes lgScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.lg-track img{height:56px;width:auto;object-fit:contain;flex:none;
-  filter:grayscale(1) brightness(1.9);opacity:.62;transition:filter .3s,opacity .3s,transform .3s}
-.lg-track img:hover{filter:none;opacity:1;transform:scale(1.08)}
+.lg-chip{
+  width:176px;height:94px;border-radius:14px;flex:none;
+  background:rgba(255,255,255,.94);
+  display:flex;align-items:center;justify-content:center;padding:.85rem 1.1rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+  transition:transform .3s,box-shadow .3s;
+}
+.lg-chip:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 10px 26px rgba(255,63,164,.25)}
+.lg-chip img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+@media(max-width:640px){.lg-chip{width:140px;height:78px;padding:.7rem .85rem}}
 
 /* WHO */
 .who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1.15rem;margin-top:3rem;text-align:start}
@@ -535,55 +542,38 @@ footer a{color:var(--g1);text-decoration:none}
   </div>
   <div class="lg-wrap">
     <div class="lg-track">
-          <img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" />
-          <img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" />
-          <img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" />
-          <img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" />
-          <img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" />
-          <img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" />
-          <img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" />
-          <img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" />
-          <img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" />
-          <img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" />
-          <img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" />
-          <img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" />
-          <img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" />
-          <img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" />
-          <img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" />
-          <img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" />
-          <img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" />
-          <img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" />
-          <img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" />
-          <img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" />
-          <img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" />
-          <img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" />
-          <img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" />
-          <img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" />
-          <img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" />
-          <img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" />
-          <img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" />
-          <img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" />
-          <img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" />
-          <img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" />
-          <img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" />
-          <img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" />
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap center">
-    <span class="sec-tag">◆ ماذا تشمل منصتك</span>
-    <h2 class="sec-title">كل ما تحتاجه <span class="g-text">جاهزاً</span> من أول يوم</h2>
-    <p class="sec-sub">لا إضافات ولا اشتراكات شهرية على منصات جاهزة — منصة مبنية لك، وتملكها بالكامل.</p>
-
-    <div class="grid" style="text-align:start">
-      <div class="card"><div class="ico">👤</div><h3>تسجيل الطلاب</h3><p>حساب لكل طالب، تسجيل ودخول آمن، وسجل كامل لتقدّمه داخل الدورات.</p></div>
-      <div class="card"><div class="ico">▶️</div><h3>عرض الدروس</h3><p>فيديو محمي، ملفات ومرفقات، وترتيب الدروس في وحدات ومسارات واضحة.</p></div>
-      <div class="card"><div class="ico">📝</div><h3>الاختبارات</h3><p>بنك أسئلة، تصحيح آلي، نتائج فورية، وشهادات إتمام باسم أكاديميتك.</p></div>
-      <div class="card"><div class="ico">💳</div><h3>الاشتراكات والدفع</h3><p>باقات وأسعار، دفع إلكتروني (مدى · Apple Pay · بطاقات)، وأكواد خصم.</p></div>
-      <div class="card"><div class="ico">📊</div><h3>لوحة الإدارة</h3><p>تضيف الدورات والدروس بنفسك، تتابع الطلاب والإيرادات، بدون أي كود.</p></div>
-      <div class="card"><div class="ico">📱</div><h3>تطبيق جوال</h3><p>نسخة iPhone و Android من منصتك، بهويتك واسمك على المتاجر.</p></div>
+          <div class="lg-chip"><img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
+          <div class="lg-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
     </div>
   </div>
 </section>
