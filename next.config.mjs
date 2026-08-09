@@ -26,6 +26,8 @@ const nextConfig = {
       beforeFiles: [
         // Serve the existing static marketing site untouched at the homepage.
         { source: "/", destination: "/index.html" },
+        // Dedicated landing page for the educational-platform service.
+        { source: "/edu-platform", destination: "/edu-platform.html" },
       ],
     };
   },
