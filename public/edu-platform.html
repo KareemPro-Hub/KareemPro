@@ -110,10 +110,16 @@ nav{
 }
 .eyebrow .e-ico svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .voice-badge svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.edge-ico{width:104px;height:104px;border-radius:26px;flex:none;display:flex;align-items:center;justify-content:center;
-  border:1.5px solid transparent;background:linear-gradient(rgba(14,19,49,.9),rgba(14,19,49,.9)) padding-box, var(--grad) border-box;
-  box-shadow:0 14px 40px rgba(217,24,122,.28)}
-.edge-ico svg{width:50px;height:50px;fill:none;stroke:url(#eduGrad);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.edge-ico{
+  width:132px;height:132px;border-radius:34px;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--grad);
+  box-shadow:0 20px 54px rgba(217,24,122,.42), inset 0 2px 0 rgba(255,255,255,.22);
+  transition:transform .4s cubic-bezier(.34,1.3,.5,1),box-shadow .4s;
+}
+.edge:hover .edge-ico{transform:translateY(-6px) rotate(-3deg);box-shadow:0 28px 66px rgba(255,85,53,.5), inset 0 2px 0 rgba(255,255,255,.25)}
+.edge-ico svg{width:64px;height:64px;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.edge-ico svg path{fill:#fff;stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
 @media(max-width:600px){
   .eyebrow{gap:.65rem;padding-inline-end:1.35rem}
   .eyebrow .e-ico{width:34px;height:34px}
@@ -211,9 +217,18 @@ nav{
 
 /* SECTION HEADS */
 .sec-tag{
-  display:inline-block;font-size:.82rem;color:var(--g3);font-weight:700;
-  letter-spacing:.6px;margin-bottom:.7rem;
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding-block:.45rem;padding-inline-start:.55rem;padding-inline-end:1.2rem;
+  border:1px solid rgba(217,24,122,.32);border-radius:999px;
+  background:linear-gradient(120deg,rgba(217,24,122,.14),rgba(255,168,38,.06));
+  color:#f6ebf6;font-weight:700;font-size:1rem;letter-spacing:.3px;line-height:1;
+  margin-bottom:1.1rem;
 }
+.sec-tag::before{
+  content:'';flex:none;width:10px;height:10px;border-radius:50%;background:var(--grad);
+  box-shadow:0 0 0 4px rgba(217,24,122,.16),0 2px 8px rgba(217,24,122,.6);
+}
+@media(max-width:600px){.sec-tag{font-size:.9rem;padding-inline-end:1rem}}
 .sec-title{font-weight:900;font-size:clamp(1.5rem,3.6vw,2.35rem);line-height:1.45;margin-bottom:.8rem}
 .sec-sub{color:var(--muted);font-weight:300;max-width:640px;font-size:1.02rem}
 .center{text-align:center}
@@ -303,12 +318,12 @@ nav{
 
 /* EDGE */
 .edge{
-  border:1px solid rgba(255,168,38,.28);border-radius:26px;padding:2.8rem 2.4rem;
+  border:1px solid rgba(255,168,38,.3);border-radius:28px;padding:2.9rem 2.6rem;
   background:linear-gradient(140deg,rgba(255,168,38,.09),rgba(217,24,122,.07));
   display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;
 }
-.edge h2{font-weight:900;font-size:clamp(1.35rem,3vw,2rem);line-height:1.55;margin-bottom:.9rem}
-.edge p{color:#d8cbd8;font-weight:300;line-height:2;max-width:640px}
+.edge h2{font-weight:900;font-size:clamp(1.4rem,3.1vw,2.05rem);line-height:1.55;margin-bottom:1rem}
+.edge p{color:#ddd0dd;font-weight:400;font-size:1.02rem;line-height:2;max-width:600px}
 .edge-list{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
 .pill{border:1px solid var(--border);background:rgba(10,14,38,.5);border-radius:999px;padding:.45rem 1.05rem;font-size:.86rem;color:#e4d8e4}
 
@@ -365,23 +380,14 @@ nav{
 .pk-note{margin-top:2.2rem;color:var(--muted);font-weight:300;font-size:.88rem;line-height:1.9}
 @media(max-width:640px){.pk-sub{min-height:0}}
 
-/* LOGOS MARQUEE */
-.lg-wrap{margin-top:3rem;position:relative;overflow:hidden;padding:.6rem 0;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
-  mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-.lg-track{display:flex;gap:1.05rem;width:max-content;animation:lgScroll 58s linear infinite}
-.lg-wrap:hover .lg-track{animation-play-state:paused}
-@keyframes lgScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.lg-chip{
-  width:176px;height:94px;border-radius:14px;flex:none;
-  background:rgba(255,255,255,.94);
-  display:flex;align-items:center;justify-content:center;padding:.85rem 1.1rem;
-  box-shadow:0 4px 14px rgba(0,0,0,.18);
-  transition:transform .3s,box-shadow .3s;
-}
-.lg-chip:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 10px 26px rgba(255,63,164,.25)}
-.lg-chip img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-@media(max-width:640px){.lg-chip{width:140px;height:78px;padding:.7rem .85rem}}
+/* LOGOS — static wall */
+.lg-wall{max-width:1080px;margin:2.8rem auto 0;display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:2.2rem 1.6rem;align-items:center;justify-items:center}
+.lg-wall img{max-width:100%;height:46px;width:auto;object-fit:contain;display:block;
+  filter:brightness(0) invert(1);opacity:.72;transition:opacity .3s,transform .3s}
+.lg-wall img:hover{opacity:1;transform:scale(1.09)}
+@media(max-width:1000px){.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
+@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem 1.1rem}.lg-wall img{height:36px}}
 
 /* WHO */
 .who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1.15rem;margin-top:3rem;text-align:start}
@@ -467,7 +473,11 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 @media(max-width:900px){
   .showcase{grid-template-columns:1fr}
-  .edge{grid-template-columns:1fr}
+  .edge{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .edge p{margin-inline:auto}
+  .edge-list{justify-content:center}
+  .edge-ico{width:104px;height:104px;border-radius:28px;margin-inline:auto}
+  .edge-ico svg{width:50px;height:50px}
   .voice{grid-template-columns:1fr;padding:1.6rem}
   .voice-badge{width:60px;height:60px;font-size:1.5rem}
   section{padding:4rem 0}
@@ -548,7 +558,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="proof">
   <div class="wrap">
-    <span class="sec-tag">◆ نموذج حقيقي على أرض الواقع</span>
+    <span class="sec-tag">نموذج حقيقي على أرض الواقع</span>
     <h2 class="sec-title">منصة <span class="g-text">قدرات المغربي</span></h2>
     <p class="sec-sub">منصة تعليمية كاملة — من الفكرة حتى الإطلاق: موقع، تطبيق جوال، ولوحة إدارة يديرها صاحب المنصة بنفسه.</p>
 
@@ -568,7 +578,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <div class="voice">
       <div class="voice-badge"><svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3.5"/><path d="M8.5 21.5h7"/></svg></div>
       <div>
-        <span class="sec-tag">◆ شهادة صوتية من صاحب المنصة</span>
+        <span class="sec-tag">شهادة صوتية من صاحب المنصة</span>
         <div class="player">
           <button class="play-btn" id="playBtn" aria-label="تشغيل الشهادة الصوتية">▶</button>
           <div class="bars" id="bars" aria-hidden="true"></div>
@@ -588,51 +598,35 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="clients" style="padding-top:1rem">
   <div class="wrap center">
-    <span class="sec-tag">◆ من وثقوا بنا</span>
+    <span class="sec-tag">من وثقوا بنا</span>
     <h2 class="sec-title">جهات <span class="g-text">حكومية وتعليمية</span> اشتغلنا معها</h2>
     <p class="sec-sub">أكثر من 50 جهة داخل المملكة وخارجها على مدار 11 عاماً.</p>
   </div>
-  <div class="lg-wrap">
-    <div class="lg-track">
-          <div class="lg-chip"><img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" /></div>
-          <div class="lg-chip"><img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" /></div>
+  <div class="wrap">
+    <div class="lg-wall">
+      <img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" />
+      <img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" />
+      <img src="clients/client-20.png" alt="جامعة الملك سعود" loading="lazy" />
+      <img src="clients/client-21.png" alt="جامعة جازان" loading="lazy" />
+      <img src="clients/client-41.png" alt="قدرات المغربي" loading="lazy" />
+      <img src="clients/client-38.png" alt="أكاديمية العناية" loading="lazy" />
+      <img src="clients/client-40.png" alt="مركز الطائف العلمي" loading="lazy" />
+      <img src="clients/client-43.png" alt="مدارس الجودة الأهلية" loading="lazy" />
+      <img src="clients/client-01.png" alt="وزارة الداخلية" loading="lazy" />
+      <img src="clients/client-02.png" alt="وزارة الصحة" loading="lazy" />
+      <img src="clients/client-05.png" alt="النيابة العامة" loading="lazy" />
+      <img src="clients/client-10.png" alt="المركز الوطني لتنمية القطاع غير الربحي" loading="lazy" />
+      <img src="clients/client-15.png" alt="إدارة النشاط الطلابي بالطائف" loading="lazy" />
+      <img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" />
+      <img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" />
+      <img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" />
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap center">
-    <span class="sec-tag">◆ كيف نعمل</span>
+    <span class="sec-tag">كيف نعمل</span>
     <h2 class="sec-title">من الفكرة إلى <span class="g-text">الإطلاق</span> في 4 خطوات</h2>
 
     <div class="steps" style="text-align:start">
@@ -648,12 +642,11 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="wrap">
     <div class="edge">
       <div>
-        <span class="sec-tag">◆ ما الذي يميّزنا</span>
+        <span class="sec-tag">ما الذي يميّزنا</span>
         <h2>نبني المنصة .. <span class="g-text">ونصنع الفيديو الذي يطلقها</span></h2>
         <p>
-          معظم المطورين يسلّمونك منصة ثم يتركونك تبحث عن مصمم ومونتير ومعلّق صوتي.
-          هنا كل ذلك تحت سقف واحد: 11 عاماً في المونتاج والتعليق الصوتي والهوية البصرية،
-          إلى جانب البرمجة — فتخرج منصتك جاهزة للإطلاق، لا مجرد جاهزة للتشغيل.
+          معظم المطورين يسلّمونك منصة .. ثم يتركونك تبحث عن مصمم ومونتير ومعلّق صوتي.
+          هنا كل ذلك تحت سقف واحد — فتخرج منصتك <b style="color:#fbf3fb;font-weight:700">جاهزة للإطلاق</b>، لا مجرد جاهزة للتشغيل.
         </p>
         <div class="edge-list">
           <span class="pill">تصميم الهوية</span>
@@ -663,14 +656,19 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
           <span class="pill">عرض تقديمي للمستثمرين</span>
         </div>
       </div>
-      <div class="edge-ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="14.5" rx="2.4"/><path d="M2.5 7 6 2.6l3.4 4.4M9.4 7l3.4-4.4L16.2 7"/><path d="M2.5 12h19"/></svg></div>
+      <div class="edge-ico">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="4.6" width="20" height="14.8" rx="3.4"/>
+            <path d="M10.1 9.4 15.4 12l-5.3 2.6z"/>
+          </svg>
+        </div>
     </div>
   </div>
 </section>
 
 <section id="who">
   <div class="wrap center">
-    <span class="sec-tag">◆ لمن هذه الخدمة</span>
+    <span class="sec-tag">لمن هذه الخدمة</span>
     <h2 class="sec-title">هل أنت <span class="g-text">واحد منهم</span>؟</h2>
 
     <div class="who-grid">
@@ -695,7 +693,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="compare">
   <div class="wrap center">
-    <span class="sec-tag">◆ لماذا منصة خاصة</span>
+    <span class="sec-tag">لماذا منصة خاصة</span>
     <h2 class="sec-title">منصتك الخاصة <span class="g-text">مقابل</span> المنصات الجاهزة</h2>
     <p class="sec-sub">قبل أن تقرر، هذه هي الفروق التي تظهر بعد أول سنة من التشغيل.</p>
 
@@ -720,7 +718,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="pricing">
   <div class="wrap center">
-    <span class="sec-tag">◆ الباقات والأسعار</span>
+    <span class="sec-tag">الباقات والأسعار</span>
     <h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>
     <p class="sec-sub">اختر الباقة الأقرب لمشروعك، ونضبط التفاصيل معاً في الاستشارة المجانية.</p>
 
@@ -798,7 +796,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section>
   <div class="wrap center">
-    <span class="sec-tag">◆ أسئلة شائعة</span>
+    <span class="sec-tag">أسئلة شائعة</span>
     <h2 class="sec-title">قبل أن تبدأ</h2>
 
     <div class="faq" style="text-align:start">

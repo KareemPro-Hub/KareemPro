@@ -142,7 +142,19 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 }
 
 /* SECTION HEADS */
-.sec-tag{display:inline-block;font-size:.8rem;color:var(--g3);font-weight:700;letter-spacing:.6px;margin-bottom:.6rem}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding-block:.45rem;padding-inline-start:.55rem;padding-inline-end:1.2rem;
+  border:1px solid rgba(217,24,122,.32);border-radius:999px;
+  background:linear-gradient(120deg,rgba(217,24,122,.14),rgba(255,168,38,.06));
+  color:#f6ebf6;font-weight:700;font-size:1rem;letter-spacing:.3px;line-height:1;
+  margin-bottom:1.1rem;
+}
+.sec-tag::before{
+  content:'';flex:none;width:10px;height:10px;border-radius:50%;background:var(--grad);
+  box-shadow:0 0 0 4px rgba(217,24,122,.16),0 2px 8px rgba(217,24,122,.6);
+}
+@media(max-width:600px){.sec-tag{font-size:.9rem;padding-inline-end:1rem}}
 .sec-title{font-weight:900;font-size:clamp(1.45rem,3.4vw,2.25rem);line-height:1.45;margin-bottom:.7rem}
 .sec-sub{color:var(--muted);font-weight:300;max-width:660px;font-size:1rem}
 .center .sec-sub{margin-inline:auto}
@@ -203,17 +215,14 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .voice-who{margin-top:1rem;font-size:.88rem;color:var(--muted)}
 .voice-who b{color:var(--text);font-weight:700}
 
-/* LOGOS */
-.lg-wrap{margin-top:2.6rem;position:relative;overflow:hidden;padding:.6rem 0;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-.lg-track{display:flex;gap:1rem;width:max-content;animation:lgScroll 58s linear infinite}
-.lg-wrap:hover .lg-track{animation-play-state:paused}
-@keyframes lgScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.lg-chip{width:172px;height:92px;border-radius:14px;flex:none;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;
-  padding:.8rem 1rem;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:transform .3s}
-.lg-chip:hover{transform:translateY(-4px) scale(1.05)}
-.lg-chip img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-@media(max-width:640px){.lg-chip{width:138px;height:76px}}
+/* LOGOS — static wall */
+.lg-wall{max-width:1080px;margin:2.8rem auto 0;display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:2.2rem 1.6rem;align-items:center;justify-items:center}
+.lg-wall img{max-width:100%;height:46px;width:auto;object-fit:contain;display:block;
+  filter:brightness(0) invert(1);opacity:.72;transition:opacity .3s,transform .3s}
+.lg-wall img:hover{opacity:1;transform:scale(1.09)}
+@media(max-width:1000px){.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
+@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem 1.1rem}.lg-wall img{height:36px}}
 
 /* COMPARE */
 .cmp{margin-top:2.8rem;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;max-width:940px;margin-inline:auto;text-align:start}
@@ -368,7 +377,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ نتكلم بصراحة</span>
+    <span class="sec-tag">نتكلم بصراحة</span>
     <h2 class="sec-title" id="painTitle"></h2>
     <p class="sec-sub" id="painSub"></p>
     <div class="pain-grid" id="pains"></div>
@@ -377,7 +386,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="proof" class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ نماذج على أرض الواقع</span>
+    <span class="sec-tag">نماذج على أرض الواقع</span>
     <h2 class="sec-title" id="proofTitle"></h2>
     <p class="sec-sub" id="proofSub"></p>
     <div id="proofBody"></div>
@@ -387,16 +396,16 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section class="rv" style="padding-top:1rem">
   <div class="wrap center">
-    <span class="sec-tag">◆ من وثقوا بنا</span>
+    <span class="sec-tag">من وثقوا بنا</span>
     <h2 class="sec-title">جهات <span class="g-text">حكومية وتعليمية وتجارية</span> اشتغلنا معها</h2>
     <p class="sec-sub">أكثر من 50 جهة داخل المملكة وخارجها على مدار 11 عامًا.</p>
   </div>
-  <div class="lg-wrap"><div class="lg-track" id="lgTrack"></div></div>
+  <div class="wrap"><div class="lg-wall" id="lgTrack"></div></div>
 </section>
 
 <section class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ لماذا نظام خاص بك</span>
+    <span class="sec-tag">لماذا نظام خاص بك</span>
     <h2 class="sec-title">نظامك الخاص <span class="g-text">مقابل</span> الحلول الجاهزة</h2>
     <p class="sec-sub">هذه هي الفروق التي تظهر بعد أول سنة من التشغيل.</p>
     <div class="cmp">
@@ -414,7 +423,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ كيف نعمل</span>
+    <span class="sec-tag">كيف نعمل</span>
     <h2 class="sec-title">من الفكرة إلى <span class="g-text">الإطلاق</span> في 4 خطوات</h2>
     <div class="steps">
       <div class="step"><div class="step-n">1</div><h3>استشارة مجانية</h3><p>نفهم نشاطك وعملاءك وطريقة عملك الحالية — مكالمة قصيرة على الواتساب.</p></div>
@@ -427,7 +436,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section id="pricing" class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ الباقات والأسعار</span>
+    <span class="sec-tag">الباقات والأسعار</span>
     <h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>
     <p class="sec-sub">نفس الباقات تنطبق على كل الخدمات — الفرق في نطاق المشروع نحدده معًا في الاستشارة.</p>
     <div class="pk-grid" id="pkGrid"></div>
@@ -446,7 +455,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <section class="rv">
   <div class="wrap center">
-    <span class="sec-tag">◆ أسئلة شائعة</span>
+    <span class="sec-tag">أسئلة شائعة</span>
     <h2 class="sec-title">قبل أن تبدأ</h2>
     <div class="faq" id="faq"></div>
   </div>
@@ -721,7 +730,7 @@ function render(k){
 
   document.getElementById('voiceBox').innerHTML = d.voice ? (
     '<div class="voice"><div class="voice-badge">'+SV('<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3.5"/>')+'</div><div>'+
-    '<span class="sec-tag">◆ شهادة صوتية من صاحب المنصة</span>'+
+    '<span class="sec-tag">شهادة صوتية من صاحب المنصة</span>'+
     '<div class="player"><button class="play-btn" id="playBtn" aria-label="تشغيل"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></button>'+
     '<div class="bars" id="bars"></div><span class="p-time" id="pTime">0:00</span>'+
     '<audio id="au" preload="none" src="testimonials/qudrat-owner.mp3"></audio></div>'+
@@ -767,7 +776,7 @@ document.getElementById('cmpA').innerHTML = CMP_A.map(function(x){ return '<li>'
 document.getElementById('cmpB').innerHTML = CMP_B.map(function(x){ return '<li>'+CHK+'<span>'+x+'</span></li>'; }).join('');
 document.getElementById('grBox').innerHTML = GRS.map(function(x){ return '<div>'+SV('<path d="M12 2.8 4.5 6v6c0 4.5 3.2 7.9 7.5 9.2 4.3-1.3 7.5-4.7 7.5-9.2V6z"/><path d="M9 12.2l2.1 2.1L15.4 10"/>')+x+'</div>'; }).join('');
 document.getElementById('faq').innerHTML = FAQS.map(function(f){ return '<details class="q"><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>'; }).join('');
-document.getElementById('lgTrack').innerHTML = LOGOS.concat(LOGOS).map(function(c){ return '<div class="lg-chip"><img src="clients/'+c+'" alt="" loading="lazy" /></div>'; }).join('');
+document.getElementById('lgTrack').innerHTML = LOGOS.map(function(c){ return '<img src="clients/'+c+'" alt="" loading="lazy" />'; }).join('');
 document.getElementById('pkGrid').innerHTML = PKGS.map(function(p){
   return '<div class="pk'+(p[3]?' pk-best':'')+'">'+(p[3]?'<span class="pk-tag">الأكثر طلبًا</span>':'')+
     '<span class="pk-name">'+p[0]+'</span><span class="pk-sub">'+p[1]+'</span>'+
