@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"كم تستغرق مدة بناء المنصة ؟","acceptedAnswer":{"@type":"Answer","text":"منصة أساسية بدورات واشتراكات: من 3 إلى 5 أسابيع. مع تطبيق جوال واختبارات متقدمة: 6 إلى 9 أسابيع."}},
+{"@type":"Question","name":"كم تستغرق مدة بناء المنصة ؟","acceptedAnswer":{"@type":"Answer","text":"بناء المنصة وحدها (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع."}},
 {"@type":"Question","name":"هل المنصة باسمي أنا ودومين خاص بي ؟","acceptedAnswer":{"@type":"Answer","text":"نعم، المنصة باسمك وهويتك ودومينك الخاص، وأنت المالك الكامل للكود وقاعدة البيانات دون اشتراك شهري."}},
 {"@type":"Question","name":"هل يمكن استقبال المدفوعات إلكترونياً ؟","acceptedAnswer":{"@type":"Answer","text":"نعم، نربط بوابة دفع سعودية تدعم مدى وApple Pay والبطاقات الائتمانية مع أكواد خصم وباقات اشتراك."}},
 {"@type":"Question","name":"ماذا لو لم أكن أفهم في التقنية ؟","acceptedAnswer":{"@type":"Answer","text":"لوحة الإدارة مصممة بالعربية ليستخدمها مدرّب لا مبرمج، مع تدريب مسجّل عليها بعد التسليم."}},
@@ -405,7 +405,7 @@ nav{
 .final p{color:var(--muted);font-weight:300;margin-bottom:2rem}
 .final small{display:block;margin-top:1.3rem;color:var(--muted);font-size:.85rem}
 
-/* FLOAT + FOOTER */
+/* FLOAT */
 .float{
   position:fixed;inset-inline-start:1.4rem;bottom:1.4rem;z-index:999;
   display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;
@@ -414,8 +414,23 @@ nav{
   transition:transform .2s;
 }
 .float:hover{transform:translateY(-3px) scale(1.03)}
-footer{border-top:1px solid var(--border);padding:2.4rem 0;text-align:center;color:var(--muted);font-size:.86rem;font-weight:300;position:relative;z-index:2}
-footer a{color:var(--g1);text-decoration:none}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-index:2}
+.ft-top{max-width:1180px;margin:0 auto;padding:2.4rem 1.6rem 1.8rem;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;flex-wrap:wrap}
+.ft-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text)}
+.ft-brand img{width:40px;height:40px;object-fit:contain}
+.ft-brand b{display:block;font-weight:900;font-size:1rem;letter-spacing:.4px;line-height:1.3}
+.ft-brand span{display:block;font-size:.76rem;color:var(--muted);font-weight:300;line-height:1.4}
+.ft-links{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ft-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:400;
+  padding:.45rem .95rem;border-radius:999px;border:1px solid transparent;transition:color .25s,background .25s,border-color .25s}
+.ft-links a:hover{color:var(--text);background:rgba(217,24,122,.12);border-color:rgba(217,24,122,.32)}
+.ft-copy{border-top:1px solid var(--border);text-align:center;padding:1.1rem 1.6rem;color:var(--muted);font-size:.8rem;font-weight:300}
+@media(max-width:700px){
+  .ft-top{flex-direction:column;text-align:center;gap:1.2rem;padding-bottom:1.4rem}
+  .ft-links{justify-content:center}
+}
 
 @media(max-width:900px){
   .showcase{grid-template-columns:1fr}
@@ -584,7 +599,7 @@ footer a{color:var(--g1);text-decoration:none}
     <h2 class="sec-title">من الفكرة إلى <span class="g-text">الإطلاق</span> في 4 خطوات</h2>
 
     <div class="steps" style="text-align:start">
-      <div class="step"><div class="step-n">1</div><h3>استشارة مجانية</h3><p>نفهم محتواك، طلابك، وطريقة بيعك للدورات — 15 دقيقة على الواتساب.</p></div>
+      <div class="step"><div class="step-n">1</div><h3>استشارة مجانية</h3><p>نفهم محتواك، طلابك، وطريقة بيعك للدورات — مكالمة قصيرة على الواتساب.</p></div>
       <div class="step"><div class="step-n">2</div><h3>التصميم والهوية</h3><p>نصمم واجهات المنصة بهويتك، وتعتمدها قبل بدء أي برمجة.</p></div>
       <div class="step"><div class="step-n">3</div><h3>البناء والاختبار</h3><p>نبني المنصة ونختبرها معك على بيانات حقيقية قبل التسليم.</p></div>
       <div class="step"><div class="step-n">4</div><h3>الإطلاق والتدريب</h3><p>نطلق المنصة، ندرّبك على لوحة الإدارة، ونصنع لك فيديو الإطلاق.</p></div>
@@ -751,7 +766,7 @@ footer a{color:var(--g1);text-decoration:none}
 
     <div class="faq" style="text-align:start">
       <details class="q"><summary>كم تستغرق مدة بناء المنصة ؟</summary>
-        <p>منصة أساسية بدورات واشتراكات: من 3 إلى 5 أسابيع. مع تطبيق جوال واختبارات متقدمة: 6 إلى 9 أسابيع. تُحدَّد المدة بدقة بعد الاستشارة ونلتزم بها.</p></details>
+        <p>بناء المنصة وحدها (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع. تُحدَّد المدة بدقة بعد الاستشارة ونلتزم بها.</p></details>
       <details class="q"><summary>هل المنصة باسمي أنا ودومين خاص بي ؟</summary>
         <p>نعم. المنصة باسمك وهويتك ودومينك الخاص، وأنت المالك الكامل للكود وقاعدة البيانات. لا اشتراك شهري تدفعه لنا للاستمرار.</p></details>
       <details class="q"><summary>هل يمكن استقبال المدفوعات إلكترونياً ؟</summary>
@@ -770,18 +785,28 @@ footer a{color:var(--g1);text-decoration:none}
   <div class="wrap">
     <div class="final">
       <h2>جاهز تبدأ <span class="g-text">منصتك التعليمية</span>؟</h2>
-      <p>ابدأ باستشارة مجانية 15 دقيقة — نفهم فكرتك ونعطيك تصوراً واضحاً بالمدة والتكلفة، بدون أي التزام.</p>
+      <p>ابدأ باستشارة مجانية — نفهم فكرتك ونعطيك تصوراً واضحاً بالمدة والتكلفة، بدون أي التزام.</p>
       <a class="btn btn-wa" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
-      <small>الرد خلال ساعات العمل · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
+      <small>الرد خلال لحظات · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    Kareem Pro — منصات وتطبيقات تعليمية · <a href="/">الموقع الرئيسي</a> · <a href="/refund-policy.html">سياسة الاسترجاع</a>
-    <div style="margin-top:.5rem;opacity:.7">© 2026 جميع الحقوق محفوظة</div>
+  <div class="ft-top">
+    <a class="ft-brand" href="/">
+      <img src="logo-transparent.png" alt="Kareem Pro" />
+      <div><b>KAREEM PRO</b><span>منصات وتطبيقات تعليمية</span></div>
+    </a>
+    <nav class="ft-links">
+      <a href="/">الموقع الرئيسي</a>
+      <a href="/platforms">كل الخدمات</a>
+      <a href="#pricing">الباقات والأسعار</a>
+      <a href="/refund-policy.html">سياسة الاسترجاع</a>
+      <a href="#wa" data-wa>تواصل معنا</a>
+    </nav>
   </div>
+  <div class="ft-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة</div>
 </footer>
 
 <a class="float" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
