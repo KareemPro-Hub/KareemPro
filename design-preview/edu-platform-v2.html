@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071125" />
+  <title>تصور جديد — منصة تعليمية | Kareem Pro</title>
+  <meta name="description" content="تصور تصميمي جديد لصفحة إنشاء المنصات التعليمية من Kareem Pro." />
+  <link rel="icon" href="../public/logo-transparent.png" />
+  <style>
+    @font-face {
+      font-family: "Frutiger Arabic";
+      src: url("../public/FrutigerLTArabic45Light.ttf") format("truetype");
+      font-weight: 300;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Frutiger Arabic";
+      src: url("../public/FrutigerLTArabic55Roman.ttf") format("truetype");
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Frutiger Arabic";
+      src: url("../public/FrutigerLTArabic65Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Frutiger Arabic";
+      src: url("../public/frutigerltarabic75black.ttf") format("truetype");
+      font-weight: 900;
+      font-display: swap;
+    }
+
+    :root {
+      --navy: #071125;
+      --navy-soft: #0d1a35;
+      --ink: #0b1630;
+      --muted: #5f6b80;
+      --line: #e4e8ef;
+      --paper: #f5f7fb;
+      --white: #ffffff;
+      --orange: #ff7a2f;
+      --coral: #ff5535;
+      --magenta: #d9187a;
+      --green: #177a53;
+      --shadow: 0 24px 80px rgba(3, 12, 31, .16);
+      --glass-light: rgba(255, 255, 255, .68);
+      --glass-dark: rgba(255, 255, 255, .09);
+      --glass-line: rgba(255, 255, 255, .28);
+      --glass-shadow: 0 20px 55px rgba(2, 9, 24, .22), inset 0 1px 0 rgba(255, 255, 255, .35);
+      --radius: 22px;
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: "Frutiger Arabic", Tahoma, sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .container { width: min(calc(100% - 40px), var(--container)); margin-inline: auto; }
+    .section { padding: 112px 0; }
+    .section-head { max-width: 680px; margin-bottom: 52px; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .section-title {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 3.2vw, 3.35rem);
+      line-height: 1.22;
+      letter-spacing: -.025em;
+      font-weight: 900;
+    }
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.14rem;
+      line-height: 1.9;
+    }
+    .accent { color: var(--coral); }
+    .btn {
+      min-height: 54px;
+      padding: 0 25px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -120%;
+      right: -18%;
+      width: 48%;
+      height: 330%;
+      opacity: .5;
+      transform: rotate(24deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+      transition: right .55s ease;
+      pointer-events: none;
+    }
+    .btn:hover::before { right: 78%; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      color: var(--white);
+      background: var(--coral);
+      box-shadow: 0 14px 34px rgba(255, 85, 53, .24);
+    }
+    .btn-primary:hover { background: #ec4528; }
+    .btn-ghost {
+      color: var(--white);
+      border-color: var(--glass-line);
+      background: linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 12px 30px rgba(0,0,0,.1);
+    }
+    .btn-ghost:hover { background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.07)); }
+    .btn-dark { color: var(--white); background: var(--navy); }
+
+    /* Header */
+    .site-header {
+      height: 76px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      overflow: hidden;
+      background: var(--glass-light);
+      border-bottom: 1px solid rgba(255,255,255,.72);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: 0 12px 36px rgba(7,17,37,.06), inset 0 -1px 0 rgba(11,22,48,.07);
+    }
+    .site-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(118deg, rgba(255,255,255,.72), rgba(255,255,255,.2) 42%, rgba(255,255,255,.5));
+      pointer-events: none;
+    }
+    .site-header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 12%;
+      width: 34%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.98), transparent);
+      pointer-events: none;
+    }
+    .nav {
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; }
+    .brand strong { font-family: Arial, sans-serif; font-size: 1.02rem; letter-spacing: .08em; color: var(--navy); }
+    .nav-actions { display: flex; align-items: center; gap: 24px; }
+    .nav-link { text-decoration: none; color: #3e4960; font-size: .95rem; font-weight: 700; }
+    .nav .btn { min-height: 44px; padding-inline: 20px; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: var(--white);
+      background: var(--navy);
+      min-height: 700px;
+      display: grid;
+      align-items: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -12% -70% auto;
+      width: 760px;
+      height: 760px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,24,122,.18), rgba(217,24,122,0) 68%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 10%;
+      left: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 46% 54% 62% 38% / 43% 40% 60% 57%;
+      background: linear-gradient(145deg, rgba(255,168,38,.1), rgba(217,24,122,.08));
+      border: 1px solid rgba(255,255,255,.11);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      backdrop-filter: blur(20px) saturate(145%);
+      box-shadow: inset 18px 20px 44px rgba(255,255,255,.04), inset -18px -20px 44px rgba(217,24,122,.05);
+      transform: rotate(-18deg);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      align-items: center;
+      gap: 84px;
+      padding-block: 76px 88px;
+    }
+    .hero-copy { max-width: 620px; }
+    .hero h1 {
+      margin: 0 0 22px;
+      font-size: clamp(3.2rem, 5.2vw, 5.7rem);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+      font-weight: 900;
+    }
+    .hero h1 span { color: var(--coral); }
+    .hero p {
+      margin: 0;
+      max-width: 590px;
+      color: #c8cfdd;
+      font-size: clamp(1.08rem, 1.5vw, 1.3rem);
+      line-height: 1.95;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
+    .hero-note { display: flex; align-items: center; gap: 10px; margin-top: 26px; color: #9fa9bd; font-size: .9rem; }
+    .hero-note::before { content: ""; width: 28px; height: 1px; background: var(--coral); }
+    .hero-media { position: relative; min-height: 520px; }
+    .hero-media::before {
+      content: "";
+      position: absolute;
+      inset: 58px 28px 34px 18px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 38px;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.025));
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 30px 80px rgba(0,0,0,.18);
+      transform: rotate(-3deg);
+    }
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      top: 24px;
+      left: 8px;
+      width: 104px;
+      height: 104px;
+      border-radius: 42% 58% 54% 46% / 45% 42% 58% 55%;
+      background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.28);
+      -webkit-backdrop-filter: blur(14px) saturate(170%);
+      backdrop-filter: blur(14px) saturate(170%);
+      box-shadow: inset 12px 12px 24px rgba(255,255,255,.1), inset -10px -10px 22px rgba(217,24,122,.05), 0 18px 40px rgba(0,0,0,.2);
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+    .media-main {
+      position: absolute;
+      inset: 0 0 84px 52px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transform: rotate(-1.6deg);
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,.3);
+      background: linear-gradient(140deg, rgba(255,255,255,.16), rgba(255,255,255,.045));
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      backdrop-filter: blur(16px) saturate(150%);
+      box-shadow: var(--glass-shadow);
+    }
+    .media-main::after {
+      content: "";
+      position: absolute;
+      inset: 8px 8px auto 8px;
+      height: 24%;
+      border-radius: 18px 18px 55% 55%;
+      background: linear-gradient(180deg, rgba(255,255,255,.16), transparent);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .media-main img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+    .media-phone {
+      position: absolute;
+      width: 39%;
+      aspect-ratio: 4/5.6;
+      left: 0;
+      bottom: 0;
+      overflow: hidden;
+      border-radius: 24px;
+      padding: 6px;
+      border: 1px solid rgba(255,255,255,.52);
+      background: linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.2));
+      -webkit-backdrop-filter: blur(18px) saturate(165%);
+      backdrop-filter: blur(18px) saturate(165%);
+      box-shadow: 0 26px 70px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.9);
+      transform: rotate(3.2deg);
+    }
+    .media-phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; }
+    .project-stamp {
+      position: absolute;
+      right: 22px;
+      bottom: 28px;
+      padding: 12px 16px;
+      color: var(--white);
+      background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.07));
+      border: 1px solid rgba(255,255,255,.28);
+      -webkit-backdrop-filter: blur(18px) saturate(170%);
+      backdrop-filter: blur(18px) saturate(170%);
+      border-radius: 10px;
+      font-size: .86rem;
+      font-weight: 700;
+      box-shadow: 0 14px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.28);
+    }
+
+    /* Real work */
+    .case { background: var(--white); }
+    .work-list { display: grid; gap: 34px; }
+    .work-item {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      min-height: 480px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(245,247,251,.72));
+      border: 1px solid rgba(255,255,255,.92);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      backdrop-filter: blur(20px) saturate(145%);
+      box-shadow: 0 22px 55px rgba(7,17,37,.07), inset 0 1px 0 rgba(255,255,255,.9);
+      border-radius: var(--radius);
+    }
+    .work-item.reverse { grid-template-columns: .92fr 1.08fr; }
+    .work-visual { position: relative; min-height: 430px; overflow: hidden; }
+    .work-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease; }
+    .work-item:hover .work-visual img { transform: scale(1.025); }
+    .work-type {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      padding: 9px 13px;
+      color: var(--white);
+      background: linear-gradient(135deg, rgba(7,17,37,.78), rgba(7,17,37,.5));
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 700;
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 28px rgba(0,0,0,.16);
+    }
+    .work-info { padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .work-info h3 { margin: 0 0 14px; font-size: clamp(2rem, 3vw, 3rem); line-height: 1.2; }
+    .work-info > p { margin: 0; color: var(--muted); font-size: 1.04rem; }
+    .work-points { margin: 28px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .work-points li { position: relative; padding-right: 22px; color: #3c4860; }
+    .work-points li::before { content: ""; position: absolute; right: 0; top: .72em; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+    .case-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 30px; text-decoration: none; color: var(--coral); font-weight: 700; }
+
+    /* Benefits */
+    .benefits { background: var(--paper); }
+    .benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid #dbe0e9; }
+    .benefit { padding: 40px 34px 12px; border-left: 1px solid #dbe0e9; }
+    .benefit:last-child { border-left: 0; }
+    .benefit-num { color: var(--coral); font-weight: 900; font-size: 1rem; }
+    .benefit h3 { margin: 30px 0 10px; font-size: 1.55rem; }
+    .benefit p { margin: 0; color: var(--muted); }
+
+    /* Process */
+    .process { background: var(--white); }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); position: relative; }
+    .steps::before { content: ""; position: absolute; top: 25px; right: 9%; left: 9%; height: 1px; background: #d6dbe5; }
+    .step { position: relative; padding-inline: 18px; text-align: center; }
+    .step-index {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 24px;
+      border: 1px solid #ffb7a9;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      z-index: 1;
+      color: var(--coral);
+      background: var(--white);
+      font-weight: 900;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 1.16rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.75; }
+
+    /* Testimonial */
+    .testimonial { padding: 0 0 112px; background: var(--white); }
+    .quote-band {
+      min-height: 360px;
+      padding: 64px 70px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      align-items: center;
+      gap: 60px;
+      color: var(--white);
+      background: var(--navy);
+      border-radius: 24px;
+    }
+    .quote-band::after {
+      content: "“";
+      position: absolute;
+      left: 45px;
+      top: -44px;
+      color: rgba(255,255,255,.06);
+      font-family: Georgia, serif;
+      font-size: 18rem;
+      line-height: 1;
+    }
+    .quote-text { position: relative; z-index: 1; }
+    .quote-text blockquote { margin: 0 0 26px; font-size: clamp(1.45rem, 2.2vw, 2rem); line-height: 1.75; font-weight: 700; }
+    .quote-author strong { display: block; font-size: 1rem; }
+    .quote-author span { color: #aab4c7; font-size: .9rem; }
+    .quote-image { height: 260px; overflow: hidden; border-radius: 18px; transform: rotate(-2deg); box-shadow: 0 20px 55px rgba(0,0,0,.32); }
+    .quote-image img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Pricing */
+    .pricing { background: var(--paper); }
+    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #dce1ea; background: var(--white); }
+    .price-card { padding: 42px 36px 36px; border-left: 1px solid #dce1ea; display: flex; flex-direction: column; }
+    .price-card:last-child { border-left: 0; }
+    .price-card.featured {
+      position: relative;
+      border-top: 1px solid rgba(255,255,255,.88);
+      padding-top: 38px;
+      background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(255,85,53,.055));
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      backdrop-filter: blur(24px) saturate(150%);
+      box-shadow: 0 24px 65px rgba(7,17,37,.1), inset 0 1px 0 rgba(255,255,255,.95);
+      z-index: 1;
+    }
+    .price-card.featured::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 12%;
+      left: 12%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--coral), var(--magenta), transparent);
+      box-shadow: 0 3px 16px rgba(255,85,53,.28);
+    }
+    .price-card h3 { margin: 0; font-size: 1.32rem; }
+    .price-card .for { margin: 7px 0 28px; color: var(--muted); font-size: .92rem; }
+    .price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 28px; }
+    .price b { color: var(--coral); font-size: 2.9rem; line-height: 1; letter-spacing: -.03em; }
+    .price span { color: var(--muted); font-size: .88rem; }
+    .price-list { list-style: none; padding: 0; margin: 0 0 34px; display: grid; gap: 13px; color: #3e4960; }
+    .price-list li { position: relative; padding-right: 22px; }
+    .price-list li::before { content: ""; position: absolute; right: 0; top: .7em; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+    .price-card .btn { margin-top: auto; }
+    .price-card:not(.featured) .btn { border-color: #cbd2dd; color: var(--ink); }
+    .price-note { margin: 22px auto 0; max-width: 850px; text-align: center; color: var(--muted); font-size: .88rem; }
+
+    /* FAQ */
+    .faq { background: var(--white); }
+    .faq-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 90px; align-items: start; }
+    .faq-list { border-top: 1px solid var(--line); }
+    details { border-bottom: 1px solid var(--line); }
+    summary {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 1.06rem;
+      font-weight: 700;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--coral); font-size: 1.5rem; font-weight: 300; }
+    details[open] summary::after { content: "−"; }
+    details p { margin: -4px 0 24px; color: var(--muted); }
+
+    /* CTA + footer */
+    .final-cta { padding: 100px 0; text-align: center; color: var(--white); background: var(--navy); }
+    .final-cta h2 { margin: 0 0 14px; font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1.25; }
+    .final-cta p { margin: 0 auto 30px; max-width: 610px; color: #b9c2d3; font-size: 1.12rem; }
+    .footer { padding: 24px 0; color: #68738a; background: var(--white); font-size: .86rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-brand { display: flex; align-items: center; gap: 9px; font-family: Arial, sans-serif; font-weight: 700; color: var(--navy); }
+    .footer-brand img { width: 28px; height: 28px; }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .btn { transition: none; }
+    }
+
+    @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+      .site-header { background: rgba(255,255,255,.96); }
+      .btn-ghost, .project-stamp, .work-type { background: rgba(20,31,55,.95); }
+      .hero-media::before, .hero-media::after { background: rgba(255,255,255,.08); }
+      .media-main { background: #15213a; }
+      .media-phone { background: #f7f8fb; }
+      .work-item, .price-card.featured { background: var(--white); }
+    }
+
+    @media (max-width: 1000px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 54px; padding-top: 66px; }
+      .hero-copy { max-width: 760px; }
+      .hero-media { min-height: 560px; max-width: 760px; width: 100%; margin-inline: auto; }
+      .faq-grid { grid-template-columns: 1fr; gap: 48px; }
+      .work-item, .work-item.reverse { grid-template-columns: 1fr; }
+      .work-item.reverse .work-visual { order: 0; }
+      .work-visual { min-height: 390px; }
+      .quote-band { grid-template-columns: 1fr 240px; padding: 50px; }
+      .benefit-grid, .price-grid { grid-template-columns: 1fr; }
+      .benefit { border-left: 0; border-bottom: 1px solid #dbe0e9; padding-inline: 0; }
+      .price-card { border-left: 0; border-bottom: 1px solid #dce1ea; }
+      .price-card:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(calc(100% - 30px), var(--container)); }
+      .section { padding: 76px 0; }
+      .site-header { height: 68px; }
+      .brand img { width: 35px; height: 35px; }
+      .brand strong { font-size: .88rem; }
+      .nav-link { display: none; }
+      .nav .btn { min-height: 42px; padding-inline: 15px; font-size: .88rem; }
+      .hero { min-height: auto; }
+      .hero-grid { padding: 58px 0 68px; gap: 44px; }
+      .hero h1 { font-size: clamp(2.65rem, 12vw, 4rem); }
+      .hero p { font-size: 1rem; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; }
+      .hero-note { font-size: .82rem; }
+      .hero-media { min-height: 380px; }
+      .media-main { inset: 0 0 58px 28px; padding: 5px; border-radius: 20px; }
+      .media-main img { border-radius: 15px; }
+      .media-phone { width: 41%; padding: 4px; border-radius: 16px; }
+      .media-phone img { border-radius: 12px; }
+      .hero-media::after { width: 72px; height: 72px; left: -2px; top: 12px; }
+      .project-stamp { right: 10px; bottom: 8px; font-size: .73rem; padding: 8px 10px; }
+      .section-head { margin-bottom: 36px; }
+      .work-list { gap: 22px; }
+      .work-item { min-height: 0; border-radius: 16px; }
+      .work-visual { min-height: 260px; }
+      .work-info { padding: 32px 24px 36px; }
+      .work-info h3 { font-size: 2rem; }
+      .work-type { top: 16px; right: 16px; }
+      .steps { grid-template-columns: 1fr; gap: 0; }
+      .steps::before { top: 24px; bottom: 24px; right: 25px; left: auto; width: 1px; height: auto; }
+      .step { display: grid; grid-template-columns: 52px 1fr; text-align: right; gap: 18px; padding: 0 0 34px; }
+      .step-index { margin: 0; }
+      .step h3 { margin-top: 4px; }
+      .step p { grid-column: 2; margin-top: -28px; }
+      .testimonial { padding-bottom: 76px; }
+      .quote-band { grid-template-columns: 1fr; padding: 38px 26px; gap: 30px; border-radius: 18px; }
+      .quote-text blockquote { font-size: 1.3rem; }
+      .quote-image { height: 210px; order: -1; }
+      .price-card { padding: 34px 25px 30px; }
+      .price-card.featured { padding-top: 30px; }
+      .price b { font-size: 2.45rem; }
+      .faq-grid { gap: 26px; }
+      .final-cta { padding: 76px 0; }
+      .final-cta .btn { width: 100%; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Kareem Pro">
+        <img src="../public/logo-transparent.png" alt="" />
+        <strong>KAREEM PRO</strong>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="#case-study">نموذج حي</a>
+        <a class="btn btn-primary" href="#pricing">ابدأ مشروعك</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <h1>منصتك التعليمية، <span>باسمك</span> وتحت إدارتك.</h1>
+          <p>نحوّل محتواك ودوراتك إلى منصة تعليمية متكاملة — موقع وتطبيق ولوحة إدارة — جاهزة للبيع والنمو.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pricing">احصل على تصور مجاني
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#case-study">شاهد منصة قدرات المغربي</a>
+          </div>
+          <div class="hero-note">جلسة أولى مجانية لتحديد الاحتياج والمدة والتكلفة</div>
+        </div>
+
+        <div class="hero-media reveal" aria-label="نموذج منصة قدرات المغربي">
+          <div class="media-main"><img src="../public/qudrat-preview.webp" alt="واجهة منصة قدرات المغربي على الويب" /></div>
+          <div class="media-phone"><img src="../public/qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على الجوال" /></div>
+          <div class="project-stamp">مشروع حقيقي · قدرات المغربي</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section case" id="case-study">
+      <div class="container">
+        <div class="section-head center reveal">
+          <h2 class="section-title">مشروعات حقيقية، وليست مجرد تصورات</h2>
+          <p class="section-copy">نماذج بُنيت لتخدم نشاطًا حقيقيًا، بهوية مستقلة وتجربة تناسب جمهور كل مشروع.</p>
+        </div>
+
+        <div class="work-list">
+          <article class="work-item reveal">
+            <div class="work-visual">
+              <img src="../public/qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" />
+              <span class="work-type">منصة تعليمية + تطبيق</span>
+            </div>
+            <div class="work-info">
+              <h3>قدرات المغربي</h3>
+              <p>منصة تعليمية متكاملة انتقلت من فكرة ومحتوى تدريبي إلى تجربة يستطيع صاحبها إدارتها بنفسه، ويصل إليها الطالب من الويب أو التطبيق.</p>
+              <ul class="work-points">
+                <li>موقع تعليمي باسم ودومين مستقل</li>
+                <li>تطبيق iOS وAndroid للطلاب</li>
+                <li>لوحة لإدارة المحتوى والاشتراكات</li>
+              </ul>
+              <a class="case-link" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">زيارة المنصة
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="work-item reverse reveal">
+            <div class="work-info">
+              <h3>إبداع ميديا</h3>
+              <p>منصة أعمال لوكالة تصميم وإنتاج مرئي، تنظّم خدماتها ومشروعاتها ومحتواها داخل تجربة عربية واضحة تعكس هوية الوكالة.</p>
+              <ul class="work-points">
+                <li>معرض أعمال غني بالصور والفيديو</li>
+                <li>صفحات خدمات وطلبات مهيأة للعملاء</li>
+                <li>تصميم متجاوب بهوية مستقلة</li>
+              </ul>
+              <a class="case-link" href="https://ebda3-media.com/" target="_blank" rel="noopener">زيارة المنصة
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+            <div class="work-visual">
+              <img src="../public/ebda3-preview.webp" alt="منصة إبداع ميديا" />
+              <span class="work-type">منصة أعمال وإنتاج مرئي</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section benefits">
+      <div class="container">
+        <div class="section-head center reveal">
+          <h2 class="section-title">كل ما تحتاجه لتدير تعليمك باحتراف</h2>
+          <p class="section-copy">ثلاثة أجزاء أساسية تعمل معًا، بدون تشتيت أو أدوات منفصلة.</p>
+        </div>
+        <div class="benefit-grid reveal">
+          <article class="benefit"><span class="benefit-num">01</span><h3>بيع الدورات</h3><p>باقات وأسعار ومدفوعات إلكترونية وتسليم تلقائي للمحتوى بعد الاشتراك.</p></article>
+          <article class="benefit"><span class="benefit-num">02</span><h3>إدارة الطلاب</h3><p>حساب لكل طالب، متابعة للتقدم، ورسائل وتنبيهات من مكان واحد.</p></article>
+          <article class="benefit"><span class="benefit-num">03</span><h3>قياس النتائج</h3><p>اختبارات وتقارير واضحة تساعدك على تحسين المحتوى واتخاذ القرار.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process">
+      <div class="container">
+        <div class="section-head center reveal">
+          <h2 class="section-title">من الفكرة إلى منصة تعمل</h2>
+          <p class="section-copy">مسار واضح تعرف خلاله ماذا يحدث ومتى.</p>
+        </div>
+        <div class="steps reveal">
+          <article class="step"><div class="step-index">01</div><h3>نفهم مشروعك</h3><p>نحدد جمهورك ومحتواك وطريقة البيع المناسبة.</p></article>
+          <article class="step"><div class="step-index">02</div><h3>نصمم التجربة</h3><p>نعرض الواجهات عليك وتعتمدها قبل البرمجة.</p></article>
+          <article class="step"><div class="step-index">03</div><h3>نبني ونختبر</h3><p>ننفذ المنصة ونختبرها على الأجهزة المختلفة.</p></article>
+          <article class="step"><div class="step-index">04</div><h3>نطلق وندرّبك</h3><p>نطلق المنصة وندربك على إدارتها خطوة بخطوة.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonial">
+      <div class="container">
+        <div class="quote-band reveal">
+          <div class="quote-text">
+            <blockquote>«كريم فهم الفكرة من أول جلسة، وسلّمني منصة وتطبيقًا بلوحة تحكم أقدر أضيف فيها الدروس بنفسي.»</blockquote>
+            <div class="quote-author"><strong>أ. المغربي</strong><span>مؤسس منصة قدرات المغربي</span></div>
+          </div>
+          <div class="quote-image"><img src="../public/qudrat-app-preview.webp" alt="تطبيق منصة قدرات المغربي" /></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing">
+      <div class="container">
+        <div class="section-head center reveal">
+          <h2 class="section-title">ابدأ بالحجم المناسب لك</h2>
+          <p class="section-copy">ثلاثة مستويات واضحة، والتفاصيل النهائية تتحدد بعد فهم مشروعك.</p>
+        </div>
+        <div class="price-grid reveal">
+          <article class="price-card">
+            <h3>الباقة الأساسية</h3><p class="for">منصة احترافية بدون تطبيقات</p>
+            <div class="price"><span>تبدأ من</span><b>2,500</b><span>ر.س</span></div>
+            <ul class="price-list"><li>منصة تعليمية متجاوبة</li><li>بوابة دفع وحماية للمحتوى</li><li>ربط الدومين والتجهيز للإطلاق</li></ul>
+            <a class="btn" href="#final">ناقش الباقة</a>
+          </article>
+          <article class="price-card featured">
+            <h3>الباقة المتميزة</h3><p class="for">الأفضل لمعظم المشاريع</p>
+            <div class="price"><span>تبدأ من</span><b>5,500</b><span>ر.س</span></div>
+            <ul class="price-list"><li>كل مميزات الباقة الأساسية</li><li>تطبيق iOS وAndroid بنظام WebView</li><li>دعم فني لمدة 6 أشهر</li></ul>
+            <a class="btn btn-primary" href="#final">ناقش الباقة</a>
+          </article>
+          <article class="price-card">
+            <h3>الباقة الاحترافية</h3><p class="for">للمشاريع القابلة للتوسع</p>
+            <div class="price"><span>تبدأ من</span><b>7,500</b><span>ر.س</span></div>
+            <ul class="price-list"><li>كل مميزات الباقة المتميزة</li><li>تطبيقات Native أسرع وأكثر ثباتًا</li><li>دعم فني لمدة عام كامل</li></ul>
+            <a class="btn" href="#final">ناقش الباقة</a>
+          </article>
+        </div>
+        <p class="price-note">الأسعار بالريال السعودي، ولا تشمل الرسوم الخارجية مثل الدومين والاستضافة وحسابات متاجر التطبيقات.</p>
+      </div>
+    </section>
+
+    <section class="section faq">
+      <div class="container faq-grid">
+        <div class="reveal"><h2 class="section-title">أسئلة قبل البداية</h2><p class="section-copy">إجابات مختصرة على أكثر ما يُسأل قبل تنفيذ المنصة.</p></div>
+        <div class="faq-list reveal">
+          <details><summary>كم تستغرق مدة بناء المنصة ؟</summary><p>تبدأ المنصة الأساسية عادةً من 3 إلى 5 أسابيع، وتُحدد المدة بدقة بعد معرفة الخصائص المطلوبة.</p></details>
+          <details><summary>هل المنصة باسمي ودومين خاص بي ؟</summary><p>نعم، تُسلَّم المنصة بهويتك ودومينك، وتكون إدارتها وبياناتها تحت تحكمك.</p></details>
+          <details><summary>هل يمكن استقبال المدفوعات إلكترونيًا ؟</summary><p>نعم، يمكن ربط بوابة الدفع المناسبة لطبيعة مشروعك ودولة التشغيل.</p></details>
+          <details><summary>ماذا يحدث بعد التسليم ؟</summary><p>ندربك على لوحة الإدارة، ونوفر الدعم الفني حسب الباقة المتفق عليها.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="final">
+      <div class="container reveal">
+        <h2>جاهز تحوّل خبرتك إلى منصة ؟</h2>
+        <p>جلسة مجانية نحدد فيها احتياجك، والمدة، والتكلفة بوضوح.</p>
+        <a class="btn btn-primary" href="https://wa.me/966507069605" target="_blank" rel="noopener">ابدأ عبر واتساب</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><img src="../public/logo-transparent.png" alt="" /> KAREEM PRO</div>
+      <div>تصور تصميمي للعرض والمراجعة · 2026</div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
