@@ -751,11 +751,11 @@
       background: var(--grad); display: flex; align-items: center; justify-content: center;
       box-shadow: 0 8px 24px rgba(217,24,122,0.5);
     }
-    .edu-cta-ico svg {
-      width: 32px; height: 32px; fill: none; stroke: #fff; stroke-width: 1.7;
-      stroke-linecap: round; stroke-linejoin: round;
+    .edu-cta-ico img {
+      width: 34px; height: 34px; object-fit: contain;
+      filter: brightness(0) invert(1);
     }
-    .edu-cta-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 0.12rem; min-width: 0; }
+    .edu-cta-txt { display: flex; flex-direction: column; align-items: center; gap: 0.15rem; min-width: 0; }
     .edu-cta-txt b {
       font-weight: 900; font-size: 1.12rem; line-height: 1.35; color: #fbf3fb;
       letter-spacing: 0.1px;
@@ -765,18 +765,34 @@
       background: var(--grad-text); -webkit-background-clip: text;
       -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .edu-cta-arrow {
-      font-size: 1.3rem; color: var(--g1); flex: none; line-height: 1;
-      transition: transform 0.3s;
+    .edu-cta-go {
+      width: 40px; height: 40px; border-radius: 50%; flex: none;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid rgba(255,168,38,0.55); background: rgba(255,168,38,0.08);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      animation: eduNudge 2.2s ease-in-out infinite;
     }
-    .edu-cta:hover .edu-cta-arrow { transform: translateX(-6px); }
+    .edu-cta-go svg {
+      width: 19px; height: 19px; fill: none; stroke: var(--g1);
+      stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+      transition: stroke 0.3s;
+    }
+    @keyframes eduNudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-5px); }
+    }
+    .edu-cta:hover .edu-cta-go {
+      background: var(--grad); border-color: transparent; animation: none; transform: translateX(-6px) scale(1.08);
+    }
+    .edu-cta:hover .edu-cta-go svg { stroke: #fff; }
     @media (max-width: 560px) {
       .edu-cta { gap: 0.7rem; padding-inline-end: 1.15rem; }
       .edu-cta-ico { width: 48px; height: 48px; }
-      .edu-cta-ico svg { width: 26px; height: 26px; }
+      .edu-cta-ico img { width: 27px; height: 27px; }
       .edu-cta-txt b { font-size: 0.97rem; }
       .edu-cta-txt i { font-size: 0.76rem; }
-      .edu-cta-arrow { font-size: 1.1rem; }
+      .edu-cta-go { width: 34px; height: 34px; }
+      .edu-cta-go svg { width: 16px; height: 16px; }
     }
 
     /* ── TESTIMONIALS ── */
@@ -1502,20 +1518,14 @@
     <div class="section-header reveal" style="margin-top: 3.5rem;" id="platforms">
       <h2 class="section-title">إبداعٌ يتجسد <span class="g-text">رقميًا</span></h2>
       <a class="edu-cta" href="/edu-platform">
-        <span class="edu-cta-ico">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4.6 3.6h14.8l2.2 5.1H2.4z"/>
-            <path d="M2.4 8.7a3 3 0 0 0 5.9 0 3 3 0 0 0 5.9 0 3 3 0 0 0 5.9 0"/>
-            <path d="M4.5 11.2v9.2h15v-9.2"/>
-            <path d="M9.6 20.4v-5.6h4.8v5.6"/>
-            <path d="M2.6 20.4h18.8"/>
-          </svg>
-        </span>
+        <span class="edu-cta-ico"><img src="icon-click-platform.png" alt="" aria-hidden="true" /></span>
         <span class="edu-cta-txt">
           <b>تحتاج متجر أو منصة احترافية ؟!</b>
           <i>اعرف التفاصيل والباقات والأسعار</i>
         </span>
-        <span class="edu-cta-arrow">←</span>
+        <span class="edu-cta-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+        </span>
       </a>
     </div>
     <div class="sites-grid">
