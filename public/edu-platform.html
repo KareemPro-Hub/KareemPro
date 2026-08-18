@@ -104,13 +104,22 @@ nav{
   50%{box-shadow:0 12px 42px rgba(255,85,53,.34)}
 }
 .eyebrow .e-ico{
-  width:38px;height:38px;border-radius:50%;background:var(--grad);flex:none;
-  display:flex;align-items:center;justify-content:center;font-size:1.12rem;
+  width:40px;height:40px;border-radius:50%;background:var(--grad);flex:none;
+  display:flex;align-items:center;justify-content:center;
   box-shadow:0 6px 18px rgba(217,24,122,.45);
 }
+.eyebrow .e-ico svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.voice-badge svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.edge-ico{width:104px;height:104px;border-radius:26px;flex:none;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid transparent;background:linear-gradient(rgba(14,19,49,.9),rgba(14,19,49,.9)) padding-box, var(--grad) border-box;
+  box-shadow:0 14px 40px rgba(217,24,122,.28)}
+.edge-ico svg{width:50px;height:50px;fill:none;stroke:url(#eduGrad);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:600px){
   .eyebrow{gap:.65rem;padding-inline-end:1.35rem}
-  .eyebrow .e-ico{width:32px;height:32px;font-size:.98rem}
+  .eyebrow .e-ico{width:34px;height:34px}
+  .eyebrow .e-ico svg{width:19px;height:19px}
+  .edge-ico{width:84px;height:84px}
+  .edge-ico svg{width:40px;height:40px}
 }
 .hero h1{
   font-weight:900;line-height:1.35;letter-spacing:-.5px;
@@ -182,12 +191,23 @@ nav{
   .tlx-t{margin-bottom:.3rem}
 }
 
-.trust{
-  margin-top:3.2rem;display:flex;justify-content:center;gap:2.6rem;flex-wrap:wrap;
-  color:var(--muted);font-size:.9rem;font-weight:300;
-}
-.trust b{display:block;font-weight:900;font-size:1.7rem;line-height:1.3;
-  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.trust{margin-top:3.4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;max-width:860px;margin-inline:auto}
+.trust div{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;padding:1.7rem 1rem 1.5rem;
+  background:linear-gradient(165deg,rgba(24,30,74,.58),rgba(15,20,52,.24));
+  color:#d9cbd9;font-size:.95rem;font-weight:400;line-height:1.6;
+  transition:transform .38s cubic-bezier(.34,1.3,.5,1),border-color .38s,box-shadow .38s,background .38s}
+.trust div:hover{transform:translateY(-8px);border-color:rgba(217,24,122,.5);
+  background:linear-gradient(165deg,rgba(33,40,96,.75),rgba(18,23,60,.35));box-shadow:0 24px 54px rgba(0,0,0,.45)}
+.trust div::before{content:'';position:absolute;inset:-40% 55% auto -20%;height:150%;
+  background:radial-gradient(circle,rgba(255,85,53,.18),transparent 70%);opacity:0;transition:opacity .4s}
+.trust div:hover::before{opacity:1}
+.trust div::after{content:'';position:absolute;bottom:0;inset-inline:34%;height:2.5px;border-radius:3px;
+  background:var(--grad);opacity:.5;transition:inset-inline .45s,opacity .45s}
+.trust div:hover::after{inset-inline:14%;opacity:1}
+.trust b{position:relative;display:block;direction:ltr;font-weight:900;letter-spacing:-2px;
+  font-size:clamp(2.5rem,6.5vw,3.5rem);line-height:1.02;margin-bottom:.45rem;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 6px 20px rgba(217,24,122,.35))}
 
 /* SECTION HEADS */
 .sec-tag{
@@ -217,6 +237,13 @@ nav{
   margin-inline-start:.5rem;font-size:.72rem;color:var(--muted);direction:ltr;
   background:rgba(255,255,255,.05);border-radius:6px;padding:.16rem .6rem;
 }
+.shot{display:block;text-decoration:none;color:inherit;cursor:pointer}
+.shot-cap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.shot-go{display:inline-flex;align-items:center;gap:.4rem;flex:none;background:var(--grad);color:#fff;
+  font-weight:700;font-size:.82rem;padding:.5rem 1.1rem;border-radius:999px;white-space:nowrap;
+  box-shadow:0 6px 18px rgba(217,24,122,.32);transition:transform .28s,box-shadow .28s}
+.shot:hover .shot-go{transform:translateY(-2px) scale(1.04);box-shadow:0 10px 26px rgba(255,85,53,.45)}
+.shot-go svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .shot-cap{padding:1.05rem 1.25rem;border-top:1px solid var(--border);background:rgba(10,14,38,.55)}
 .shot-cap b{display:block;font-weight:700;font-size:.98rem;margin-bottom:.15rem}
 .shot-cap span{color:var(--muted);font-size:.84rem;font-weight:300}
@@ -405,6 +432,12 @@ nav{
 .final p{color:var(--muted);font-weight:300;margin-bottom:2rem}
 .final small{display:block;margin-top:1.3rem;color:var(--muted);font-size:.85rem}
 
+
+/* button icons */
+.btn svg,.nav-cta svg,.float svg{width:20px;height:20px;flex:none}
+.i-wa{fill:currentColor;stroke:none}
+.i-ln{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
 /* FLOAT */
 .float{
   position:fixed;inset-inline-start:1.4rem;bottom:1.4rem;z-index:999;
@@ -445,18 +478,22 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="eduGrad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#FFA826"/><stop offset="50%" stop-color="#FF5535"/><stop offset="100%" stop-color="#D9187A"/>
+</linearGradient></defs></svg>
 
 <nav>
   <a class="nav-logo" href="#top">
     <img src="logo-transparent.png" alt="Kareem Pro" />
     <div><b>KAREEM PRO</b><span>منصات وتطبيقات تعليمية</span></div>
   </a>
-  <a class="nav-cta" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
+  <a class="nav-cta" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="eyebrow"><span class="e-ico">🎓</span>بناء منصات تعليمية احترافية</span>
+    <span class="eyebrow"><span class="e-ico"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 8 12 13l9.5-5z"/><path d="M6.5 10.7V16c0 1.9 2.7 3.3 5.5 3.3S17.5 17.9 17.5 16v-5.3"/><path d="M21.5 8v6"/></svg></span>بناء منصات تعليمية احترافية</span>
     <h1>إنشاء <span class="g-text">منصات تعليمية</span><br />للمدربين والأكاديميات</h1>
     <p class="lead">
       نحوّل دوراتك ومحتواك إلى منصة تعليمية خاصة باسمك .. تُبنى على مراحل واضحة.
@@ -498,13 +535,13 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     </div>
 
     <div class="hero-btns" style="margin-top:3rem">
-      <a class="btn btn-wa" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
-      <a class="btn btn-ghost" href="#proof">↓ شاهد نموذجاً حقيقياً</a>
+      <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
+      <a class="btn btn-ghost" href="#proof"><svg class="i-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14M5.8 12.6 12 18.8l6.2-6.2"/></svg>شاهد نموذجاً حقيقياً</a>
     </div>
     <div class="trust">
-      <div><b>+11</b>سنة خبرة</div>
-      <div><b>+50</b>جهة سعودية</div>
-      <div><b>100%</b>ملكية كاملة لك</div>
+      <div><b data-count="11" data-prefix="+">0</b>سنة خبرة</div>
+      <div><b data-count="50" data-prefix="+">0</b>جهة سعودية</div>
+      <div><b data-count="100" data-suffix="%">0</b>ملكية كاملة لك</div>
     </div>
   </div>
 </header>
@@ -516,20 +553,20 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <p class="sec-sub">منصة تعليمية كاملة — من الفكرة حتى الإطلاق: موقع، تطبيق جوال، ولوحة إدارة يديرها صاحب المنصة بنفسه.</p>
 
     <div class="showcase">
-      <div class="shot">
+      <a class="shot" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
         <div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">qudratmaghrabi.com</span></div>
         <img src="qudrat-preview.webp" alt="واجهة منصة قدرات المغربي" loading="lazy" />
-        <div class="shot-cap"><b>المنصة على الويب</b><span>عرض الدورات، صفحة الدرس، ونظام الاشتراك</span></div>
-      </div>
-      <div class="shot">
+        <div class="shot-cap"><div><b>المنصة على الويب</b><span>عرض الدورات، صفحة الدرس، ونظام الاشتراك</span></div><span class="shot-go">زيارة الموقع<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+      </a>
+      <a class="shot" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
         <div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">iOS · Android</span></div>
         <img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي" loading="lazy" />
-        <div class="shot-cap"><b>تطبيق الجوال</b><span>نفس المحتوى في جيب الطالب</span></div>
-      </div>
+        <div class="shot-cap"><div><b>تطبيق الجوال</b><span>منشور فعليًا على App Store</span></div><span class="shot-go">تحميل التطبيق<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+      </a>
     </div>
 
     <div class="voice">
-      <div class="voice-badge">🎙</div>
+      <div class="voice-badge"><svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3.5"/><path d="M8.5 21.5h7"/></svg></div>
       <div>
         <span class="sec-tag">◆ شهادة صوتية من صاحب المنصة</span>
         <div class="player">
@@ -626,7 +663,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
           <span class="pill">عرض تقديمي للمستثمرين</span>
         </div>
       </div>
-      <div style="font-size:5.5rem;line-height:1;opacity:.85">🎬</div>
+      <div class="edge-ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="14.5" rx="2.4"/><path d="M2.5 7 6 2.6l3.4 4.4M9.4 7l3.4-4.4L16.2 7"/><path d="M2.5 12h19"/></svg></div>
     </div>
   </div>
 </section>
@@ -786,7 +823,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <div class="final">
       <h2>جاهز تبدأ <span class="g-text">منصتك التعليمية</span>؟</h2>
       <p>ابدأ باستشارة مجانية — نفهم فكرتك ونعطيك تصوراً واضحاً بالمدة والتكلفة، بدون أي التزام.</p>
-      <a class="btn btn-wa" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
+      <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
       <small>الرد خلال لحظات · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
     </div>
   </div>
@@ -809,7 +846,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="ft-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة</div>
 </footer>
 
-<a class="float" href="#wa" data-wa>💬 أريد منصة تعليمية</a>
+<a class="float" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
 
 <script>
 (function(){
@@ -844,6 +881,19 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   });
   au.addEventListener('ended', function(){ btn.textContent='▶'; all.forEach(function(el){el.classList.remove('on');}); });
   au.addEventListener('error', function(){ t.textContent='قريباً'; });
+})();
+
+(function(){
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting) return; cio.unobserve(en.target);
+      var el=en.target, end=+el.dataset.count, sfx=el.dataset.suffix||'', pfx=el.dataset.prefix||'', t0=null;
+      function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/1100,1);
+        el.textContent=pfx+Math.round(end*(1-Math.pow(1-p,3)))+sfx; if(p<1)requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
 })();
 </script>
 

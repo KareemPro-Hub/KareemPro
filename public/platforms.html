@@ -83,7 +83,7 @@ nav{position:fixed;top:0;inset-inline:0;z-index:1000;padding:.8rem 1.6rem;displa
   box-shadow:0 10px 34px rgba(217,24,122,.22);animation:eyeGlow 3.6s ease-in-out infinite}
 @keyframes eyeGlow{0%,100%{box-shadow:0 10px 34px rgba(217,24,122,.20)}50%{box-shadow:0 12px 42px rgba(255,85,53,.34)}}
 .e-ico{width:36px;height:36px;border-radius:50%;background:var(--grad);flex:none;display:flex;align-items:center;justify-content:center}
-.e-ico svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.e-ico svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem,4.8vw,3.3rem);margin-bottom:1.2rem}
 .lead{max-width:800px;margin:0 auto 2.2rem;color:#dccfdc;font-weight:300;font-size:clamp(1rem,2vw,1.24rem);line-height:2}
 .btns{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap;margin-top:2.6rem}
@@ -94,9 +94,23 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .btn-ghost{border:1px solid var(--border);color:var(--text);background:rgba(255,255,255,.03)}
 .btn-ghost:hover{transform:translateY(-3px);background:rgba(217,24,122,.12);border-color:rgba(217,24,122,.4)}
 
-.trust{margin-top:2.8rem;display:flex;justify-content:center;gap:2.6rem;flex-wrap:wrap;color:var(--muted);font-size:.88rem;font-weight:300}
-.trust b{display:block;font-weight:900;font-size:1.75rem;line-height:1.3;
-  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.trust{margin-top:3.4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;max-width:860px;margin-inline:auto}
+.trust div{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;padding:1.7rem 1rem 1.5rem;
+  background:linear-gradient(165deg,rgba(24,30,74,.58),rgba(15,20,52,.24));
+  color:#d9cbd9;font-size:.95rem;font-weight:400;line-height:1.6;
+  transition:transform .38s cubic-bezier(.34,1.3,.5,1),border-color .38s,box-shadow .38s,background .38s}
+.trust div:hover{transform:translateY(-8px);border-color:rgba(217,24,122,.5);
+  background:linear-gradient(165deg,rgba(33,40,96,.75),rgba(18,23,60,.35));box-shadow:0 24px 54px rgba(0,0,0,.45)}
+.trust div::before{content:'';position:absolute;inset:-40% 55% auto -20%;height:150%;
+  background:radial-gradient(circle,rgba(255,85,53,.18),transparent 70%);opacity:0;transition:opacity .4s}
+.trust div:hover::before{opacity:1}
+.trust div::after{content:'';position:absolute;bottom:0;inset-inline:34%;height:2.5px;border-radius:3px;
+  background:var(--grad);opacity:.5;transition:inset-inline .45s,opacity .45s}
+.trust div:hover::after{inset-inline:14%;opacity:1}
+.trust b{position:relative;display:block;direction:ltr;font-weight:900;letter-spacing:-2px;
+  font-size:clamp(2.5rem,6.5vw,3.5rem);line-height:1.02;margin-bottom:.45rem;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 6px 20px rgba(217,24,122,.35))}
 
 /* TIMELINE */
 .tlx{max-width:1140px;margin:3.2rem auto 0}
@@ -153,6 +167,13 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .shot-bar{display:flex;align-items:center;gap:.4rem;padding:.65rem .9rem;background:rgba(10,14,38,.7);border-bottom:1px solid var(--border)}
 .dot{width:9px;height:9px;border-radius:50%;background:rgba(240,232,240,.22)}
 .shot-url{margin-inline-start:.5rem;font-size:.71rem;color:var(--muted);direction:ltr;background:rgba(255,255,255,.05);border-radius:6px;padding:.14rem .55rem}
+.shot{display:block;text-decoration:none;color:inherit;cursor:pointer}
+.shot-cap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.shot-go{display:inline-flex;align-items:center;gap:.4rem;flex:none;background:var(--grad);color:#fff;
+  font-weight:700;font-size:.82rem;padding:.5rem 1.1rem;border-radius:999px;white-space:nowrap;
+  box-shadow:0 6px 18px rgba(217,24,122,.32);transition:transform .28s,box-shadow .28s}
+.shot:hover .shot-go{transform:translateY(-2px) scale(1.04);box-shadow:0 10px 26px rgba(255,85,53,.45)}
+.shot-go svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .shot-cap{padding:1rem 1.2rem;border-top:1px solid var(--border);background:rgba(10,14,38,.55);text-align:start}
 .shot-cap b{display:block;font-weight:700;font-size:.96rem;margin-bottom:.1rem}
 .shot-cap span{color:var(--muted);font-size:.83rem;font-weight:300}
@@ -264,6 +285,12 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .final p{color:var(--muted);font-weight:300;margin-bottom:1.8rem}
 .final small{display:block;margin-top:1.2rem;color:var(--muted);font-size:.84rem}
 
+
+/* button icons */
+.btn svg,.nav-cta svg,.float svg{width:20px;height:20px;flex:none}
+.i-wa{fill:currentColor;stroke:none}
+.i-ln{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
 /* FLOAT */
 .float{position:fixed;inset-inline-start:1.4rem;bottom:1.4rem;z-index:999;display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;
   background:var(--wa);color:#04321a;font-weight:700;font-size:.9rem;padding:.8rem 1.35rem;border-radius:999px;
@@ -309,7 +336,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <img src="logo-transparent.png" alt="Kareem Pro" />
     <div><b>KAREEM PRO</b><span>منصات · متاجر · تطبيقات</span></div>
   </a>
-  <a class="nav-cta" href="#wa" data-wa>💬 اطلب الآن</a>
+  <a class="nav-cta" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>اطلب الآن</a>
 </nav>
 
 <div class="tabbar">
@@ -327,13 +354,13 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     </div>
 
     <div class="btns">
-      <a class="btn btn-wa" href="#wa" data-wa>💬 <span id="ctaText"></span></a>
-      <a class="btn btn-ghost" href="#proof">↓ شاهد نماذج حقيقية</a>
+      <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg><span id="ctaText"></span></a>
+      <a class="btn btn-ghost" href="#proof"><svg class="i-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14M5.8 12.6 12 18.8l6.2-6.2"/></svg>شاهد نماذج حقيقية</a>
     </div>
 
     <div class="trust">
-      <div><b data-count="11">0</b>سنة خبرة</div>
-      <div><b data-count="50">0</b>جهة سعودية</div>
+      <div><b data-count="11" data-prefix="+">0</b>سنة خبرة</div>
+      <div><b data-count="50" data-prefix="+">0</b>جهة سعودية</div>
       <div><b data-count="100" data-suffix="%">0</b>ملكية كاملة لك</div>
     </div>
   </div>
@@ -430,7 +457,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <div class="final">
       <h2 id="finalTitle"></h2>
       <p>ابدأ باستشارة مجانية — نفهم فكرتك ونعطيك تصورًا واضحًا بالمدة والتكلفة، بدون أي التزام.</p>
-      <a class="btn btn-wa" href="#wa" data-wa>💬 <span id="ctaText2"></span></a>
+      <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg><span id="ctaText2"></span></a>
       <small>الرد خلال لحظات · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
     </div>
   </div>
@@ -452,7 +479,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="ft-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة</div>
 </footer>
 
-<a class="float" href="#wa" data-wa>💬 <span id="ctaText3"></span></a>
+<a class="float" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg><span id="ctaText3"></span></a>
 
 <script>
 var ICO = {
@@ -488,8 +515,8 @@ var DATA = {
     proofTitle:'منصة <span class="g-text">قدرات المغربي</span>',
     proofSub:'منصة تعليمية كاملة — من الفكرة حتى الإطلاق: موقع، تطبيق جوال، ولوحة إدارة يديرها صاحب المنصة بنفسه.',
     shots:[
-      ['qudrat-preview.webp','qudratmaghrabi.com','المنصة على الويب','عرض الدورات، صفحة الدرس، ونظام الاشتراك'],
-      ['qudrat-app-preview.webp','iOS · Android','تطبيق الجوال','منشور فعليًا على App Store']
+      ['qudrat-preview.webp','qudratmaghrabi.com','المنصة على الويب','عرض الدورات، صفحة الدرس، ونظام الاشتراك','https://www.qudratmaghrabi.com/'],
+      ['qudrat-app-preview.webp','iOS · Android','تطبيق الجوال','منشور فعليًا على App Store','https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar']
     ],
     voice:true
   },
@@ -518,8 +545,8 @@ var DATA = {
     proofTitle:'متاجر <span class="g-text">نفّذناها بالفعل</span>',
     proofSub:'واجهات متجاوبة بهوية بصرية خاصة بكل علامة، وتجربة شراء سلسة من أول ضغطة.',
     shots:[
-      ['ihealth-preview.webp','ihealth','iHealth','متجر مكملات غذائية وفيتامينات'],
-      ['coffeeland-preview.webp','coffee-land','Coffee Land','متجر ومحمصة قهوة مختصة']
+      ['ihealth-preview.webp','ihealth','iHealth','متجر مكملات غذائية وفيتامينات','https://ihealth-mu.vercel.app/'],
+      ['coffeeland-preview.webp','coffee-land','Coffee Land','متجر ومحمصة قهوة مختصة','https://coffee-land-kareem-pro-s-projects.vercel.app/']
     ],
     voice:false
   },
@@ -576,7 +603,7 @@ var DATA = {
     proofTitle:'النظام الذي <span class="g-text">نشغّله نحن</span>',
     proofSub:'بوابة عملاء ولوحة إدارة كاملة تعمل فعليًا على kareempro.com — نفتحها أمامك في الاستشارة ونريك كل شاشة.',
     shots:[
-      ['kareempro-preview.webp','kareempro.com','منصة Kareem Pro','بوابة عملاء + لوحة إدارة تعمل منذ الإطلاق']
+      ['kareempro-preview.webp','kareempro.com','منصة Kareem Pro','بوابة عملاء + لوحة إدارة تعمل منذ الإطلاق','https://kareempro.com/']
     ],
     chips:['client-45.png','client-47.png','client-44.png','client-27.png','client-28.png'],
     chipNote:'مكاتب هندسية ومحاماة وشركات عقارية واستثمارية ضمن عملائنا',
@@ -639,6 +666,7 @@ var LOGOS = ['client-03.png','client-09.png','client-20.png','client-21.png','cl
 
 /* ---------- render ---------- */
 var SV = function(d){ return '<svg viewBox="0 0 24 24">'+d+'</svg>'; };
+var GO  = '<span class="shot-go">زيارة الموقع<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>';
 var CHK = SV('<path d="M5 12.5l4.6 4.6L19 7.4"/>');
 var XX  = SV('<path d="M6 6l12 12M18 6L6 18"/>');
 var cur = 'edu';
@@ -678,9 +706,9 @@ function render(k){
   var pb = '';
   if(d.shots){
     pb += '<div class="showcase">'+d.shots.map(function(s){
-      return '<div class="shot"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'+
+      return '<a class="shot" href="'+s[4]+'" target="_blank" rel="noopener"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'+
              '<span class="shot-url">'+s[1]+'</span></div><img src="'+s[0]+'" alt="'+s[2]+'" loading="lazy" />'+
-             '<div class="shot-cap"><b>'+s[2]+'</b><span>'+s[3]+'</span></div></div>';
+             '<div class="shot-cap"><div><b>'+s[2]+'</b><span>'+s[3]+'</span></div>'+GO+'</div></a>';
     }).join('')+'</div>';
   }
   if(d.chips){
@@ -770,9 +798,9 @@ document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 var cio=new IntersectionObserver(function(es){
   es.forEach(function(e){
     if(!e.isIntersecting) return; cio.unobserve(e.target);
-    var el=e.target, end=+el.dataset.count, sfx=el.dataset.suffix||'', t0=null;
+    var el=e.target, end=+el.dataset.count, sfx=el.dataset.suffix||'', pfx=el.dataset.prefix||'', t0=null;
     function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/1100,1);
-      el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+sfx; if(p<1)requestAnimationFrame(step); }
+      el.textContent=pfx+Math.round(end*(1-Math.pow(1-p,3)))+sfx; if(p<1)requestAnimationFrame(step); }
     requestAnimationFrame(step);
   });
 },{threshold:.6});
