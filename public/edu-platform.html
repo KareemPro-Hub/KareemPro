@@ -21,10 +21,10 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"كم تستغرق مدة بناء المنصة ؟","acceptedAnswer":{"@type":"Answer","text":"بناء المنصة وحدها (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع."}},
 {"@type":"Question","name":"هل المنصة باسمي أنا ودومين خاص بي ؟","acceptedAnswer":{"@type":"Answer","text":"نعم، المنصة باسمك وهويتك ودومينك الخاص، وأنت المالك الكامل للكود وقاعدة البيانات دون اشتراك شهري."}},
-{"@type":"Question","name":"هل يمكن استقبال المدفوعات إلكترونياً ؟","acceptedAnswer":{"@type":"Answer","text":"نعم، نربط بوابة دفع سعودية تدعم مدى وApple Pay والبطاقات الائتمانية مع أكواد خصم وباقات اشتراك."}},
-{"@type":"Question","name":"ماذا لو لم أكن أفهم في التقنية ؟","acceptedAnswer":{"@type":"Answer","text":"لوحة الإدارة مصممة بالعربية ليستخدمها مدرّب لا مبرمج، مع تدريب مسجّل عليها بعد التسليم."}},
-{"@type":"Question","name":"ماذا بعد التسليم ؟","acceptedAnswer":{"@type":"Answer","text":"دعم فني مجاني بعد الإطلاق حسب الباقة، ثم باقة صيانة اختيارية للتطوير المستمر."}},
-{"@type":"Question","name":"كيف تبدأ الاتفاقية والدفع ؟","acceptedAnswer":{"@type":"Answer","text":"عربون 50٪ لبدء التنفيذ والمتبقي عند الاعتماد النهائي قبل التسليم، والفاتورة الرسمية متاحة."}}]}
+{"@type":"Question","name":"هل يمكن استقبال المدفوعات إلكترونيًا ؟","acceptedAnswer":{"@type":"Answer","text":"نعم، نربط بوابة دفع سعودية تدعم مدى وApple Pay والبطاقات الائتمانية مع أكواد خصم وباقات اشتراك."}},
+{"@type":"Question","name":"ماذا لو لم أكن أفهم في التقنية ؟","acceptedAnswer":{"@type":"Answer","text":"اطمئن تمامًا، لوحة الإدارة مصممة بالعربية ليستخدمها مدرّب لا مبرمج، مع تدريب مسجّل عليها بعد التسليم، ونتابع معك في حال أي استفسارات أو مساعدة."}},
+{"@type":"Question","name":"ماذا بعد التسليم ؟","acceptedAnswer":{"@type":"Answer","text":"فترة دعم فني مجاني من شهر إلى سنة كاملة حسب الباقة، ثم باقة صيانة اختيارية للتطوير المستمر."}},
+{"@type":"Question","name":"كيف تبدأ الاتفاقية والدفع ؟","acceptedAnswer":{"@type":"Answer","text":"نفتح لك حسابًا في بوابة العملاء ويصلك رابط بالباقات والأسعار والاتفاقية للموافقة إلكترونيًا، ثم يُقسَّم المشروع إلى مراحل ولكل مرحلة دفعتها عند اعتمادها — من دفعتين إلى أربع دفعات حسب الباقة، والفاتورة الرسمية متاحة."}}]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Service","serviceType":"إنشاء منصات تعليمية للمدربين والأكاديميات","areaServed":"SA","provider":{"@type":"Organization","name":"Kareem Pro","url":"https://kareempro.com"},"offers":[{"@type":"Offer","name":"الباقة الأساسية","price":"2500","priceCurrency":"SAR"},{"@type":"Offer","name":"الباقة المتميزة","price":"5500","priceCurrency":"SAR"},{"@type":"Offer","name":"الباقة الاحترافية","price":"7500","priceCurrency":"SAR"}]}
@@ -328,7 +328,94 @@ nav{
 .pill{border:1px solid var(--border);background:rgba(10,14,38,.5);border-radius:999px;padding:.45rem 1.05rem;font-size:.86rem;color:#e4d8e4}
 
 /* PRICING */
-.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.15rem;margin-top:3.2rem;align-items:stretch}
+.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin-top:3.2rem;align-items:stretch}
+.pk{
+  position:relative;display:flex;flex-direction:column;border-radius:22px;padding:2rem 1.5rem 1.7rem;
+  border:1px solid var(--border);text-align:start;
+  background:linear-gradient(165deg,rgba(24,30,74,.62),rgba(15,20,52,.30));
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.pk:hover{transform:translateY(-7px);border-color:rgba(217,24,122,.5);box-shadow:0 24px 54px rgba(0,0,0,.45)}
+.pk-best{
+  border:2px solid transparent;
+  background:linear-gradient(rgba(21,27,68,.92),rgba(14,19,50,.92)) padding-box, var(--grad) border-box;
+  box-shadow:0 16px 48px rgba(217,24,122,.26);
+}
+.pk-tag{
+  position:absolute;top:-14px;inset-inline-start:50%;transform:translateX(50%);
+  background:var(--grad);color:#1a0a12;font-weight:900;font-size:.76rem;letter-spacing:.3px;
+  padding:.35rem 1rem;border-radius:999px;white-space:nowrap;
+  box-shadow:0 6px 18px rgba(217,24,122,.5);
+}
+.pk-name{font-weight:900;font-size:1.22rem;line-height:1.5;margin-bottom:.3rem}
+.pk-sub{color:var(--muted);font-weight:300;font-size:.85rem;line-height:1.7;min-height:2.9em}
+.pk-price{
+  display:flex;align-items:baseline;gap:.4rem;margin:1.25rem 0 .35rem;
+  padding-bottom:1.25rem;border-bottom:1px solid var(--border);
+}
+.pk-from{font-size:.82rem;color:var(--muted);font-weight:300}
+.pk-val{
+  font-weight:900;font-size:2.45rem;line-height:1;direction:ltr;letter-spacing:-1px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pk-cur{width:.78em;height:.78em;object-fit:contain;opacity:.9;align-self:center}
+.pk-list{list-style:none;margin:1.25rem 0 1.6rem;display:flex;flex-direction:column;gap:.62rem;flex:1}
+.pk-list li{display:flex;gap:.6rem;font-size:.885rem;line-height:1.75;color:#e0d4e0;font-weight:400}
+.pk-list li::before{
+  content:'';flex:none;width:17px;height:17px;margin-top:.42em;border-radius:50%;
+  background:var(--grad);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.6 4.6L19 7.4'/></svg>") center/13px no-repeat,
+    linear-gradient(#000,#000);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.pk-cta{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;
+  border:1px solid var(--border);color:var(--text);background:rgba(255,255,255,.04);
+  padding:.82rem 1rem;border-radius:999px;font-weight:700;font-size:.94rem;
+  transition:background .25s,border-color .25s,transform .25s;
+}
+.pk-cta:hover{background:rgba(217,24,122,.16);border-color:rgba(217,24,122,.5);transform:translateY(-2px)}
+.pk-best .pk-cta{background:var(--wa);color:#04321a;border-color:transparent;box-shadow:0 8px 26px rgba(37,211,102,.32)}
+.pk-best .pk-cta:hover{background:#1fbe5b}
+.pk-note{margin-top:2.2rem;color:var(--muted);font-weight:300;font-size:.88rem;line-height:1.9}
+@media(max-width:640px){.pk-sub{min-height:0}}
+
+/* LOGOS — static wall, logos untouched */
+.lg-band{max-width:1140px;margin:2.8rem auto 0;background:#f6f4f8;border-radius:26px;padding:2.6rem 2rem;
+  box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.lg-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2.4rem 1.8rem;align-items:center;justify-items:center}
+.lg-wall img{max-width:100%;height:52px;width:auto;object-fit:contain;display:block}
+@media(max-width:1000px){.lg-band{padding:2rem 1.4rem;border-radius:22px}.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
+@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6rem 1rem}.lg-wall img{height:38px}}
+
+/* WHO */
+.who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1.15rem;margin-top:3rem;text-align:start}
+.who{border:1px solid var(--border);border-radius:20px;padding:1.9rem 1.6rem;
+  background:linear-gradient(165deg,rgba(24,30,74,.6),rgba(15,20,52,.28));
+  transition:transform .32s,border-color .32s}
+.who:hover{transform:translateY(-6px);border-color:rgba(217,24,122,.45)}
+.who b{display:block;font-weight:900;font-size:1.14rem;margin-bottom:.55rem}
+.who p{color:#ddd0dd;font-weight:400;font-size:.92rem;line-height:1.9}
+.who span{display:inline-block;margin-top:.9rem;font-size:.8rem;font-weight:700;letter-spacing:.4px;
+  background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* COMPARE */
+.cmp{margin-top:2.8rem;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;max-width:940px;margin-inline:auto;text-align:start}
+.cmp-col{border-radius:22px;padding:1.8rem 1.6rem}
+.cmp-a{border:1px solid rgba(240,232,240,.12);background:rgba(255,255,255,.025)}
+.cmp-b{border:2px solid transparent;background:linear-gradient(rgba(20,26,66,.9),rgba(14,19,50,.9)) padding-box, var(--grad) border-box;
+  box-shadow:0 16px 48px rgba(217,24,122,.24)}
+.cmp-h{font-weight:900;font-size:1.06rem;margin-bottom:1.15rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)}
+.cmp-a .cmp-h{color:#a9a0a9}
+.cmp ul{list-style:none;margin:0;padding:0}
+.cmp li{display:flex;gap:.6rem;font-size:.94rem;line-height:1.8;padding:.6rem 0}
+.cmp li svg{width:18px;height:18px;flex:none;margin-top:.42em;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.cmp-a li{color:#b3a6b3}.cmp-a li svg{stroke:#e88ba8}
+.cmp-b li{color:#eadfea}.cmp-b li svg{stroke:#8ee6b4}
+@media(max-width:760px){.cmp{grid-template-columns:1fr}}
+
+/* PRICING */
+.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin-top:3.2rem;align-items:stretch}
 .pk{
   position:relative;display:flex;flex-direction:column;border-radius:22px;padding:2rem 1.5rem 1.7rem;
   border:1px solid var(--border);text-align:start;
@@ -381,13 +468,6 @@ nav{
 @media(max-width:640px){.pk-sub{min-height:0}}
 
 /* LOGOS — static wall */
-.lg-wall{max-width:1080px;margin:2.8rem auto 0;display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));gap:2.2rem 1.6rem;align-items:center;justify-items:center}
-.lg-wall img{max-width:100%;height:46px;width:auto;object-fit:contain;display:block;
-  filter:brightness(0) invert(1);opacity:.72;transition:opacity .3s,transform .3s}
-.lg-wall img:hover{opacity:1;transform:scale(1.09)}
-@media(max-width:1000px){.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
-@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem 1.1rem}.lg-wall img{height:36px}}
 
 /* WHO */
 .who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1.15rem;margin-top:3rem;text-align:start}
@@ -435,7 +515,10 @@ nav{
   background:linear-gradient(150deg,rgba(217,24,122,.13),rgba(255,168,38,.06));
 }
 .final h2{font-weight:900;font-size:clamp(1.5rem,3.6vw,2.3rem);line-height:1.5;margin-bottom:.9rem}
-.final p{color:var(--muted);font-weight:300;margin-bottom:2rem}
+.final p{margin-bottom:2rem}
+.final-big{display:block;font-weight:900;color:#fbf3fb;line-height:1.5;
+  font-size:clamp(1.2rem,2.8vw,1.72rem);margin-bottom:.55rem;letter-spacing:-.2px}
+.final-sub{display:block;color:var(--muted);font-weight:300;font-size:clamp(.95rem,1.8vw,1.06rem);line-height:1.9}
 .final small{display:block;margin-top:1.3rem;color:var(--muted);font-size:.85rem}
 
 
@@ -456,18 +539,14 @@ nav{
 
 /* FOOTER */
 footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-index:2}
-.ft-top{max-width:1180px;margin:0 auto;padding:2.4rem 1.6rem 1.8rem;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;flex-wrap:wrap}
-.ft-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text)}
-.ft-brand img{width:40px;height:40px;object-fit:contain}
-.ft-brand b{display:block;font-weight:900;font-size:1rem;letter-spacing:.4px;line-height:1.3}
-.ft-brand span{display:block;font-size:.76rem;color:var(--muted);font-weight:300;line-height:1.4}
+.ft-top{max-width:1180px;margin:0 auto;padding:2rem 1.6rem 1.6rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
 .ft-links{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .ft-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:400;
   padding:.45rem .95rem;border-radius:999px;border:1px solid transparent;transition:color .25s,background .25s,border-color .25s}
 .ft-links a:hover{color:var(--text);background:rgba(217,24,122,.12);border-color:rgba(217,24,122,.32)}
 .ft-copy{border-top:1px solid var(--border);text-align:center;padding:1.1rem 1.6rem;color:var(--muted);font-size:.8rem;font-weight:300}
 @media(max-width:700px){
-  .ft-top{flex-direction:column;text-align:center;gap:1.2rem;padding-bottom:1.4rem}
+  .ft-top{padding:1.6rem 1rem 1.2rem}
   .ft-links{justify-content:center}
 }
 
@@ -515,7 +594,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
           <span class="tlx-num">01</span>
           <span class="tlx-mark"><i></i></span>
           <h3 class="tlx-t">تسجيل الطلاب</h3>
-          <p class="tlx-d">حساب آمن لكل طالب، وسجلّ كامل يتابع تقدّمه درساً بدرس.</p>
+          <p class="tlx-d">حساب آمن لكل طالب، وسجلّ كامل يتابع تقدّمه درسًا بدرس.</p>
         </div>
         <div class="tlx-col">
           <span class="tlx-num">02</span>
@@ -546,7 +625,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
     <div class="hero-btns" style="margin-top:3rem">
       <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
-      <a class="btn btn-ghost" href="#proof"><svg class="i-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14M5.8 12.6 12 18.8l6.2-6.2"/></svg>شاهد نموذجاً حقيقياً</a>
+      <a class="btn btn-ghost" href="#proof"><svg class="i-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14M5.8 12.6 12 18.8l6.2-6.2"/></svg>شاهد نموذجًا حقيقيًا</a>
     </div>
     <div class="trust">
       <div><b data-count="11" data-prefix="+">0</b>سنة خبرة</div>
@@ -600,9 +679,10 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="wrap center">
     <span class="sec-tag">من وثقوا بنا</span>
     <h2 class="sec-title">جهات <span class="g-text">حكومية وتعليمية</span> اشتغلنا معها</h2>
-    <p class="sec-sub">أكثر من 50 جهة داخل المملكة وخارجها على مدار 11 عاماً.</p>
+    <p class="sec-sub">أكثر من 50 جهة داخل المملكة وخارجها على مدار 11 عامًا.</p>
   </div>
   <div class="wrap">
+    <div class="lg-band">
     <div class="lg-wall">
       <img src="clients/client-03.png" alt="وزارة التعليم" loading="lazy" />
       <img src="clients/client-09.png" alt="المؤسسة العامة للتدريب التقني والمهني" loading="lazy" />
@@ -620,6 +700,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
       <img src="clients/client-39.png" alt="أكاديمية أجيال" loading="lazy" />
       <img src="clients/client-36.png" alt="تجمع جازان الصحي" loading="lazy" />
       <img src="clients/client-49.png" alt="جائزة تميز" loading="lazy" />
+    </div>
     </div>
   </div>
 </section>
@@ -669,17 +750,17 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 <section id="who">
   <div class="wrap center">
     <span class="sec-tag">لمن هذه الخدمة</span>
-    <h2 class="sec-title">هل أنت <span class="g-text">واحد منهم</span>؟</h2>
+    <h2 class="sec-title">هل أنت <span class="g-text">واحد منهم</span> ؟</h2>
 
     <div class="who-grid">
       <div class="who">
         <b>مدرّب أو صانع محتوى</b>
-        <p>عندك دورات تبيعها عبر واتساب أو تيليجرام، وتعبت من متابعة التحويلات يدوياً وحماية الفيديوهات من التسريب.</p>
-        <span>← منصة باسمك تبيع وتسلّم بدلاً عنك</span>
+        <p>عندك دورات تبيعها عبر واتساب أو تيليجرام، وتعبت من متابعة التحويلات يدويًا وحماية الفيديوهات من التسريب.</p>
+        <span>← منصة باسمك تبيع وتسلّم بدلًا عنك</span>
       </div>
       <div class="who">
         <b>أكاديمية أو مركز تدريب</b>
-        <p>عندك مدرّبون ومسارات وطلاب، وتحتاج نظاماً واحداً يجمع التسجيل والحضور والاختبارات والشهادات.</p>
+        <p>عندك مدرّبون ومسارات وطلاب، وتحتاج نظامًا واحدًا يجمع التسجيل والحضور والاختبارات والشهادات.</p>
         <span>← منصة متعددة المدرّبين والمسارات</span>
       </div>
       <div class="who">
@@ -698,20 +779,30 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <p class="sec-sub">قبل أن تقرر، هذه هي الفروق التي تظهر بعد أول سنة من التشغيل.</p>
 
     <div class="cmp">
-      <table>
-        <thead>
-          <tr><th>&nbsp;</th><th>منصة جاهزة (اشتراك شهري)</th><th class="col-you">منصتك مع Kareem Pro</th></tr>
-        </thead>
-        <tbody>
-          <tr><th>عمولة على كل عملية بيع</th><td><span class="no">من 3٪ إلى 50٪ من كل اشتراك</span></td><td class="col-you"><span class="yes">صفر — الإيراد كامل لك</span></td></tr>
-          <tr><th>بيانات الطلاب</th><td><span class="no">مملوكة للمنصة الجاهزة</span></td><td class="col-you"><span class="yes">قاعدة بياناتك أنت</span></td></tr>
-          <tr><th>الهوية والدومين</th><td><span class="no">اسمك داخل منصة غيرك</span></td><td class="col-you"><span class="yes">دومينك وهويتك بالكامل</span></td></tr>
-          <tr><th>التحكم في الأسعار والباقات</th><td><span class="no">ضمن حدود المنصة</span></td><td class="col-you"><span class="yes">حر بالكامل</span></td></tr>
-          <tr><th>تطبيق جوال باسمك</th><td><span class="no">غير متاح غالباً</span></td><td class="col-you"><span class="yes">iPhone وAndroid باسمك</span></td></tr>
-          <tr><th>التكلفة على المدى الطويل</th><td><span class="no">اشتراك شهري لا يتوقف</span></td><td class="col-you"><span class="yes">دفعة واحدة وتملكها</span></td></tr>
-          <tr><th>إمكانية التطوير</th><td><span class="no">محدودة بما تتيحه المنصة</span></td><td class="col-you"><span class="yes">مفتوحة — نضيف ما تريد</span></td></tr>
-        </tbody>
-      </table>
+      <div class="cmp-col cmp-a">
+        <div class="cmp-h">منصة جاهزة باشتراك شهري</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>عمولة من 3٪ إلى 50٪ على كل اشتراك</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>بيانات طلابك مملوكة للمنصة الجاهزة</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>اسمك داخل منصة غيرك</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>التحكم في الأسعار ضمن حدود المنصة</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>تطبيق جوال باسمك غير متاح غالبًا</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>اشتراك شهري لا يتوقف أبدًا</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg><span>التطوير محدود بما تتيحه المنصة</span></li>
+        </ul>
+      </div>
+      <div class="cmp-col cmp-b">
+        <div class="cmp-h">منصتك مع <span class="g-text">Kareem Pro</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>صفر عمولة — الإيراد كامل لك</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>قاعدة بيانات طلابك ملكك أنت</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>دومينك وهويتك بالكامل</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>حرية كاملة في الأسعار والباقات</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>iPhone وAndroid باسمك على المتاجر</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>دفعة واحدة وتملكها للأبد</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg><span>مفتوحة للتطوير — نضيف ما تريد</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -720,9 +811,28 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="wrap center">
     <span class="sec-tag">الباقات والأسعار</span>
     <h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>
-    <p class="sec-sub">اختر الباقة الأقرب لمشروعك، ونضبط التفاصيل معاً في الاستشارة المجانية.</p>
+    <p class="sec-sub">اختر الباقة الأقرب لمشروعك، ونضبط التفاصيل معًا في الاستشارة المجانية.</p>
 
     <div class="pk-grid">
+        <div class="pk">
+          <span class="pk-name">الباقة الاقتصادية</span>
+          <span class="pk-sub">للبداية السريعة بأقل تكلفة</span>
+          <div class="pk-price">
+            <span class="pk-from">تبدأ من</span>
+            <span class="pk-val">1,500</span>
+            <img class="pk-cur" src="riyal-symbol-white.png" alt="ريال" />
+          </div>
+          <ul class="pk-list">
+            <li>موقع احترافي متكامل لعرض مشروعك أو خدماتك.</li>
+            <li>تصميم متجاوب يعمل بكفاءة على الجوال والكمبيوتر.</li>
+            <li>ربط مباشر بواتساب ووسائل التواصل الاجتماعي.</li>
+            <li>نموذج تواصل لاستقبال طلبات أصحاب المشاريع.</li>
+            <li>ربط الدومين الرسمي والتأكد من جاهزيته للإطلاق.</li>
+            <li>مناسبة لأصحاب الأفكار والمشاريع في بدايتها.</li>
+            <li>طريقة السداد: دفعتان.</li>
+          </ul>
+          <a class="pk-cta" href="#wa" data-wa data-pkg="الباقة الاقتصادية">اطلب هذه الباقة</a>
+        </div>
         <div class="pk">
           <span class="pk-name">الباقة الأساسية</span>
           <span class="pk-sub">منصة احترافية بدون تطبيقات</span>
@@ -745,7 +855,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
           <a class="pk-cta" href="#wa" data-wa data-pkg="الباقة الأساسية">اطلب هذه الباقة</a>
         </div>
         <div class="pk pk-best">
-          <span class="pk-tag">الأكثر طلباً</span>
+          <span class="pk-tag">الأكثر طلبًا</span>
           <span class="pk-name">الباقة المتميزة</span>
           <span class="pk-sub">الأفضل لمعظم المشاريع</span>
           <div class="pk-price">
@@ -804,14 +914,14 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
         <p>بناء المنصة وحدها (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع. تُحدَّد المدة بدقة بعد الاستشارة ونلتزم بها.</p></details>
       <details class="q"><summary>هل المنصة باسمي أنا ودومين خاص بي ؟</summary>
         <p>نعم. المنصة باسمك وهويتك ودومينك الخاص، وأنت المالك الكامل للكود وقاعدة البيانات. لا اشتراك شهري تدفعه لنا للاستمرار.</p></details>
-      <details class="q"><summary>هل يمكن استقبال المدفوعات إلكترونياً ؟</summary>
+      <details class="q"><summary>هل يمكن استقبال المدفوعات إلكترونيًا ؟</summary>
         <p>نعم — نربط بوابة دفع سعودية تدعم مدى وApple Pay والبطاقات الائتمانية، مع أكواد خصم وباقات اشتراك متعددة.</p></details>
       <details class="q"><summary>ماذا لو لم أكن أفهم في التقنية ؟</summary>
-        <p>هذا هو المتوقع تماماً. لوحة الإدارة مصممة بالعربية ليستخدمها مدرّب لا مبرمج، ونعطيك تدريباً مسجّلاً عليها بعد التسليم.</p></details>
+        <p>اطمئن تمامًا. لوحة الإدارة مصممة بالعربية ليستخدمها مدرّب لا مبرمج، ونعطيك تدريبًا مسجّلًا عليها بعد التسليم، ونتابع معك في حال أي استفسارات أو مساعدة.</p></details>
       <details class="q"><summary>وماذا بعد التسليم ؟</summary>
-        <p>شهر دعم فني مجاني بعد الإطلاق لأي ملاحظة أو تعديل بسيط، ثم باقة صيانة اختيارية إن رغبت في التطوير المستمر.</p></details>
+        <p>فترة دعم فني مجاني تبدأ من شهر وتصل إلى سنة كاملة حسب الباقة التي تختارها — لأي ملاحظة أو تعديل بسيط. وبعدها باقة صيانة اختيارية إن رغبت في التطوير المستمر.</p></details>
       <details class="q"><summary>كيف تبدأ الاتفاقية والدفع ؟</summary>
-        <p>عربون 50٪ لبدء التنفيذ، والمتبقي عند الاعتماد النهائي قبل التسليم. الفاتورة الرسمية متاحة لأي جهة أو مؤسسة أو فرد.</p></details>
+        <p>بعد الاتفاق نفتح لك حسابًا في بوابة العملاء، ويصلك رابط يعرض الباقات والأسعار والاتفاقية لتوافق عليها إلكترونيًا. بعدها يُقسَّم المشروع إلى مراحل واضحة، ولكل مرحلة دفعتها الخاصة تُسدَّد عند اعتمادها — من دفعتين إلى أربع دفعات حسب الباقة. وتتابع كل مرحلة ودفعتها وفاتورتها من حسابك في البوابة، والفاتورة الرسمية متاحة لأي جهة أو مؤسسة أو فرد.</p></details>
     </div>
   </div>
 </section>
@@ -819,8 +929,8 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 <section id="wa-sec">
   <div class="wrap">
     <div class="final">
-      <h2>جاهز تبدأ <span class="g-text">منصتك التعليمية</span>؟</h2>
-      <p>ابدأ باستشارة مجانية — نفهم فكرتك ونعطيك تصوراً واضحاً بالمدة والتكلفة، بدون أي التزام.</p>
+      <h2>جاهز تبدأ <span class="g-text">منصتك التعليمية</span> ؟</h2>
+      <p><span class="final-big">ابدأ باستشارة مجانية</span><span class="final-sub">نفهم فكرتك ونعطيك تصورًا واضحًا بالمدة والتكلفة، بدون أي التزام.</span></p>
       <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>أريد منصة تعليمية</a>
       <small>الرد خلال لحظات · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
     </div>
@@ -829,10 +939,6 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <footer>
   <div class="ft-top">
-    <a class="ft-brand" href="/">
-      <img src="logo-transparent.png" alt="Kareem Pro" />
-      <div><b>KAREEM PRO</b><span>منصات وتطبيقات تعليمية</span></div>
-    </a>
     <nav class="ft-links">
       <a href="/">الموقع الرئيسي</a>
       <a href="/platforms">كل الخدمات</a>
@@ -869,7 +975,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   function fmt(s){ s=Math.floor(s||0); return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2); }
   btn.addEventListener('click', function(){
     if(!au.currentSrc && !au.src){ return; }
-    if(au.paused){ au.play().then(function(){ btn.textContent='❚❚'; }).catch(function(){ t.textContent='قريباً'; }); }
+    if(au.paused){ au.play().then(function(){ btn.textContent='❚❚'; }).catch(function(){ t.textContent='قريبًا'; }); }
     else { au.pause(); btn.textContent='▶'; }
   });
   au.addEventListener('timeupdate', function(){
@@ -878,7 +984,20 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     all.forEach(function(el,i){ el.classList.toggle('on', i/all.length <= p); });
   });
   au.addEventListener('ended', function(){ btn.textContent='▶'; all.forEach(function(el){el.classList.remove('on');}); });
-  au.addEventListener('error', function(){ t.textContent='قريباً'; });
+  au.addEventListener('error', function(){ t.textContent='قريبًا'; });
+})();
+
+(function(){
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting) return; cio.unobserve(en.target);
+      var el=en.target, end=+el.dataset.count, sfx=el.dataset.suffix||'', pfx=el.dataset.prefix||'', t0=null;
+      function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/1100,1);
+        el.textContent=pfx+Math.round(end*(1-Math.pow(1-p,3)))+sfx; if(p<1)requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
 })();
 
 (function(){

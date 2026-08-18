@@ -215,14 +215,13 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .voice-who{margin-top:1rem;font-size:.88rem;color:var(--muted)}
 .voice-who b{color:var(--text);font-weight:700}
 
-/* LOGOS — static wall */
-.lg-wall{max-width:1080px;margin:2.8rem auto 0;display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));gap:2.2rem 1.6rem;align-items:center;justify-items:center}
-.lg-wall img{max-width:100%;height:46px;width:auto;object-fit:contain;display:block;
-  filter:brightness(0) invert(1);opacity:.72;transition:opacity .3s,transform .3s}
-.lg-wall img:hover{opacity:1;transform:scale(1.09)}
-@media(max-width:1000px){.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
-@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem 1.1rem}.lg-wall img{height:36px}}
+/* LOGOS — static wall, logos untouched */
+.lg-band{max-width:1140px;margin:2.8rem auto 0;background:#f6f4f8;border-radius:26px;padding:2.6rem 2rem;
+  box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.lg-wall{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2.4rem 1.8rem;align-items:center;justify-items:center}
+.lg-wall img{max-width:100%;height:52px;width:auto;object-fit:contain;display:block}
+@media(max-width:1000px){.lg-band{padding:2rem 1.4rem;border-radius:22px}.lg-wall{grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem 1.4rem}}
+@media(max-width:640px){.lg-wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6rem 1rem}.lg-wall img{height:38px}}
 
 /* COMPARE */
 .cmp{margin-top:2.8rem;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;max-width:940px;margin-inline:auto;text-align:start}
@@ -247,7 +246,7 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .step p{color:var(--muted);font-weight:300;font-size:.9rem;line-height:1.85}
 
 /* PRICING */
-.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1.1rem;margin-top:2.8rem;align-items:stretch}
+.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin-top:2.8rem;align-items:stretch}
 .pk{position:relative;display:flex;flex-direction:column;border-radius:22px;padding:1.9rem 1.5rem 1.6rem;border:1px solid var(--border);text-align:start;
   background:linear-gradient(165deg,rgba(24,30,74,.62),rgba(15,20,52,.3));transition:transform .35s,border-color .35s,box-shadow .35s}
 .pk:hover{transform:translateY(-7px);border-color:rgba(217,24,122,.5);box-shadow:0 24px 54px rgba(0,0,0,.45)}
@@ -291,7 +290,10 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .final{text-align:center;border:1px solid var(--border);border-radius:28px;padding:3.4rem 2rem;
   background:linear-gradient(150deg,rgba(217,24,122,.14),rgba(255,168,38,.06))}
 .final h2{font-weight:900;font-size:clamp(1.45rem,3.4vw,2.2rem);line-height:1.5;margin-bottom:.8rem}
-.final p{color:var(--muted);font-weight:300;margin-bottom:1.8rem}
+.final p{margin-bottom:1.8rem}
+.final-big{display:block;font-weight:900;color:#fbf3fb;line-height:1.5;
+  font-size:clamp(1.2rem,2.8vw,1.72rem);margin-bottom:.55rem;letter-spacing:-.2px}
+.final-sub{display:block;color:var(--muted);font-weight:300;font-size:clamp(.95rem,1.8vw,1.06rem);line-height:1.9}
 .final small{display:block;margin-top:1.2rem;color:var(--muted);font-size:.84rem}
 
 
@@ -308,18 +310,14 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 
 /* FOOTER */
 footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-index:2}
-.ft-top{max-width:1180px;margin:0 auto;padding:2.4rem 1.6rem 1.8rem;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;flex-wrap:wrap}
-.ft-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text)}
-.ft-brand img{width:40px;height:40px;object-fit:contain}
-.ft-brand b{display:block;font-weight:900;font-size:1rem;letter-spacing:.4px;line-height:1.3}
-.ft-brand span{display:block;font-size:.76rem;color:var(--muted);font-weight:300;line-height:1.4}
+.ft-top{max-width:1180px;margin:0 auto;padding:2rem 1.6rem 1.6rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
 .ft-links{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .ft-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:400;
   padding:.45rem .95rem;border-radius:999px;border:1px solid transparent;transition:color .25s,background .25s,border-color .25s}
 .ft-links a:hover{color:var(--text);background:rgba(217,24,122,.12);border-color:rgba(217,24,122,.32)}
 .ft-copy{border-top:1px solid var(--border);text-align:center;padding:1.1rem 1.6rem;color:var(--muted);font-size:.8rem;font-weight:300}
 @media(max-width:700px){
-  .ft-top{flex-direction:column;text-align:center;gap:1.2rem;padding-bottom:1.4rem}
+  .ft-top{padding:1.6rem 1rem 1.2rem}
   .ft-links{justify-content:center}
 }
 
@@ -400,7 +398,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <h2 class="sec-title">جهات <span class="g-text">حكومية وتعليمية وتجارية</span> اشتغلنا معها</h2>
     <p class="sec-sub">أكثر من 50 جهة داخل المملكة وخارجها على مدار 11 عامًا.</p>
   </div>
-  <div class="wrap"><div class="lg-wall" id="lgTrack"></div></div>
+  <div class="wrap"><div class="lg-band"><div class="lg-wall" id="lgTrack"></div></div></div>
 </section>
 
 <section class="rv">
@@ -465,7 +463,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="wrap">
     <div class="final">
       <h2 id="finalTitle"></h2>
-      <p>ابدأ باستشارة مجانية — نفهم فكرتك ونعطيك تصورًا واضحًا بالمدة والتكلفة، بدون أي التزام.</p>
+      <p><span class="final-big">ابدأ باستشارة مجانية</span><span class="final-sub">نفهم فكرتك ونعطيك تصورًا واضحًا بالمدة والتكلفة، بدون أي التزام.</span></p>
       <a class="btn btn-wa" href="#wa" data-wa><svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg><span id="ctaText2"></span></a>
       <small>الرد خلال لحظات · فاتورة رسمية متاحة · تعاقد واضح قبل البدء</small>
     </div>
@@ -474,10 +472,6 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
 
 <footer>
   <div class="ft-top">
-    <a class="ft-brand" href="/">
-      <img src="logo-transparent.png" alt="Kareem Pro" />
-      <div><b>KAREEM PRO</b><span>منصات · متاجر · أنظمة إدارة</span></div>
-    </a>
     <nav class="ft-links">
       <a href="/">الموقع الرئيسي</a>
       <a href="#pricing">الباقات والأسعار</a>
@@ -649,6 +643,8 @@ var DATA = {
 };
 
 var PKGS = [
+  ['الباقة الاقتصادية','للبداية السريعة بأقل تكلفة','1,500',false,
+   ['موقع احترافي متكامل لعرض مشروعك أو خدماتك.','تصميم متجاوب يعمل بكفاءة على الجوال والكمبيوتر.','ربط مباشر بواتساب ووسائل التواصل الاجتماعي.','نموذج تواصل لاستقبال طلبات أصحاب المشاريع.','ربط الدومين الرسمي والتأكد من جاهزيته للإطلاق.','مناسبة لأصحاب الأفكار والمشاريع في بدايتها.','طريقة السداد: دفعتان.']],
   ['الباقة الأساسية','نظام احترافي بدون تطبيقات','2,500',false,
    ['نظام كامل جاهز للعمل بهويتك ودومينك.','تصميم متجاوب على الجوال والكمبيوتر.','تفعيل بوابة الدفع: مدى، فيزا، Apple Pay، STC Bank.','حماية المحتوى من الوصول غير المصرّح به.','تفعيل تلقائي لإيميلات المستخدمين.','لوحة إدارة عربية تديرها بنفسك.','طريقة السداد: دفعتان.']],
   ['الباقة المتميزة','الأفضل لمعظم المشاريع','5,500',true,
@@ -666,9 +662,10 @@ var FAQS = [
   ['كم تستغرق مدة التنفيذ ؟','بناء النظام وحده (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع. تُحدَّد المدة بدقة بعد الاستشارة ونلتزم بها.'],
   ['هل النظام باسمي ودومين خاص بي ؟','نعم. النظام باسمك وهويتك ودومينك الخاص، وأنت المالك الكامل للكود وقاعدة البيانات. لا اشتراك شهري تدفعه لنا للاستمرار.'],
   ['هل يمكن استقبال المدفوعات إلكترونيًا ؟','نعم — نربط بوابة دفع سعودية تدعم مدى وApple Pay والبطاقات الائتمانية، مع أكواد خصم وباقات متعددة.'],
-  ['ماذا لو لم أكن أفهم في التقنية ؟','هذا هو المتوقع تمامًا. لوحة الإدارة مصممة بالعربية ليستخدمها صاحب النشاط لا مبرمج، ونعطيك تدريبًا مسجّلًا عليها بعد التسليم.'],
+  ['ماذا لو لم أكن أفهم في التقنية ؟','اطمئن تمامًا. لوحة الإدارة مصممة بالعربية ليستخدمها صاحب النشاط لا مبرمج، ونعطيك تدريبًا مسجّلًا عليها بعد التسليم، ونتابع معك في حال أي استفسارات أو مساعدة.'],
   ['هل تعملون مع أكثر من مجال ؟','نعم — منصات تعليمية، متاجر إلكترونية، أنظمة حجز، بوابات إدارة، ومنصات جمعيات. اختر التبويب الأقرب لنشاطك في أعلى الصفحة.'],
-  ['كيف تبدأ الاتفاقية والدفع ؟','عربون 50٪ لبدء التنفيذ، والمتبقي عند الاعتماد النهائي قبل التسليم. الفاتورة الرسمية متاحة لأي جهة أو مؤسسة أو فرد.']
+  ['ماذا بعد التسليم ؟','فترة دعم فني مجاني تبدأ من شهر وتصل إلى سنة كاملة حسب الباقة التي تختارها — لأي ملاحظة أو تعديل بسيط. وبعدها باقة صيانة اختيارية إن رغبت في التطوير المستمر.'],
+  ['كيف تبدأ الاتفاقية والدفع ؟','بعد الاتفاق نفتح لك حسابًا في بوابة العملاء، ويصلك رابط يعرض الباقات والأسعار والاتفاقية لتوافق عليها إلكترونيًا. بعدها يُقسَّم المشروع إلى مراحل واضحة، ولكل مرحلة دفعتها الخاصة تُسدَّد عند اعتمادها — من دفعتين إلى أربع دفعات حسب الباقة. وتتابع كل مرحلة ودفعتها وفاتورتها من حسابك في البوابة، والفاتورة الرسمية متاحة لأي جهة أو مؤسسة أو فرد.']
 ];
 
 var LOGOS = ['client-03.png','client-09.png','client-20.png','client-21.png','client-41.png','client-38.png','client-40.png','client-43.png','client-01.png','client-02.png','client-05.png','client-10.png','client-30.png','client-29.png','client-44.png','client-47.png','client-27.png','client-36.png'];
