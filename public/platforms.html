@@ -255,14 +255,14 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .pk-best:hover{transform:translateY(-16px)}
 .pk-tag{position:absolute;top:-14px;inset-inline-start:50%;transform:translateX(50%);background:var(--grad);color:#1a0a12;font-weight:900;font-size:.75rem;
   padding:.32rem 1rem;border-radius:999px;white-space:nowrap;box-shadow:0 6px 18px rgba(217,24,122,.5)}
-.pk-name{font-weight:900;font-size:1.2rem;line-height:1.5;margin-bottom:.25rem}
-.pk-sub{color:var(--muted);font-weight:300;font-size:.84rem;line-height:1.7;min-height:2.8em}
-.pk-price{display:flex;align-items:baseline;gap:.4rem;margin:1.15rem 0 .3rem;padding-bottom:1.15rem;border-bottom:1px solid var(--border)}
+.pk-name{font-weight:900;font-size:1.2rem;line-height:1.5;margin-bottom:.25rem;text-align:center}
+.pk-sub{color:var(--muted);font-weight:300;font-size:.84rem;line-height:1.7;min-height:2.8em;text-align:center}
+.pk-price{display:flex;align-items:baseline;justify-content:center;gap:.4rem;margin:1.05rem 0 0;padding-bottom:.85rem;border-bottom:1px solid var(--border)}
 .pk-from{font-size:.8rem;color:var(--muted);font-weight:300}
 .pk-val{font-weight:900;font-size:2.4rem;line-height:1;direction:ltr;letter-spacing:-1px;
   background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .pk-cur{width:.76em;height:.76em;object-fit:contain;opacity:.9;align-self:center}
-.pk-list{list-style:none;margin:1.15rem 0 1.5rem;display:flex;flex-direction:column;gap:.58rem;flex:1}
+.pk-list{list-style:none;margin:.85rem 0 1.5rem;display:flex;flex-direction:column;gap:.58rem;flex:1}
 .pk-list li{display:flex;gap:.55rem;font-size:.87rem;line-height:1.75;color:#e2d6e2}
 .pk-list li svg{width:17px;height:17px;flex:none;margin-top:.42em;fill:none;stroke:#8ee6b4;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .pk-cta{display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;border:1px solid var(--border);color:var(--text);
@@ -436,7 +436,6 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
   <div class="wrap center">
     <span class="sec-tag">الباقات والأسعار</span>
     <h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>
-    <p class="sec-sub">نفس الباقات تنطبق على كل الخدمات — الفرق في نطاق المشروع نحدده معًا في الاستشارة.</p>
     <div class="pk-grid" id="pkGrid"></div>
     <p class="pk-note">
       الأسعار بالريال السعودي وتشمل التنفيذ الكامل والتسليم .. ولا تشمل الرسوم الخارجية
@@ -656,7 +655,7 @@ var PKGS = [
 var CMP_A = ['عمولة على كل عملية بيع أو اشتراك','بياناتك وعملاؤك مملوكون للمنصة','اسمك داخل منصة غيرك','تتحكم في حدود ما تتيحه المنصة','تطبيق جوال باسمك غير متاح غالبًا','اشتراك شهري لا يتوقف أبدًا','لا تستطيع إضافة ما تريد'];
 var CMP_B = ['صفر عمولة — الإيراد كامل لك','قاعدة بياناتك أنت وحدك','دومينك وهويتك بالكامل','حرية كاملة في الأسعار والباقات','iPhone وAndroid باسمك على المتاجر','دفعة واحدة وتملكه للأبد','مفتوح للتطوير — نضيف ما تريد'];
 
-var GRS = ['عربون 50٪ لبدء التنفيذ','عقد مكتوب قبل البدء','فاتورة رسمية معتمدة','ملكية كاملة للكود','دعم فني بعد التسليم'];
+var GRS = ['دفعة عند بداية كل مرحلة','عقد مكتوب قبل البدء','فاتورة رسمية معتمدة','ملكية كاملة للكود','دعم فني بعد التسليم'];
 
 var FAQS = [
   ['كم تستغرق مدة التنفيذ ؟','بناء النظام وحده (نسخة الويب): من 3 إلى 4 أسابيع. وإذا أضفت تطبيق جوال آيفون وأندرويد تصبح المدة الإجمالية من 6 إلى 8 أسابيع. تُحدَّد المدة بدقة بعد الاستشارة ونلتزم بها.'],
