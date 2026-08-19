@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /portal
+Disallow: /admin
+Disallow: /team
+Disallow: /auth
 
 Sitemap: https://kareempro.com/sitemap.xml

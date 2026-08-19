@@ -29,6 +29,11 @@ const nextConfig = {
         // Dedicated service landing pages (static files in /public).
         { source: "/platforms", destination: "/platforms.html" },
         { source: "/edu-platform", destination: "/edu-platform.html" },
+        { source: "/store", destination: "/store.html" },
+        { source: "/booking", destination: "/booking.html" },
+        { source: "/portal-system", destination: "/portal-system.html" },
+        { source: "/charity", destination: "/charity.html" },
+        { source: "/blog", destination: "/blog.html" },
       ],
     };
   },
