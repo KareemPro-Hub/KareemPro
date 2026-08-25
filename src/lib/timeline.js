@@ -8,6 +8,7 @@
 
 function packageTier(packageName) {
   const name = (packageName || "").split("|")[0].trim();
+  if (/بلوجر|blogger/i.test(name)) return "blogger";
   if (name.includes("الاحترافية")) return "professional";
   if (name.includes("المتميزة")) return "premium";
   return "economic"; // no mobile app in this tier
@@ -72,9 +73,63 @@ const STEPS = [
   },
 ];
 
+// Blogger is a completely different production process from the platform
+// packages above (no app, no data collection form, but a real content
+// requirement before AdSense will even consider the blog) — so it gets its
+// own step list entirely rather than reusing/filtering STEPS. Kept in the
+// same shape ({ key, title, desc }) so getAdminTimeline/getClientTimeline
+// and the admin's step-navigation logic don't need to know the difference.
+const BLOGGER_STEPS = [
+  {
+    key: "blog_contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد وتأكيد استلام الدفعة الأولى.",
+  },
+  {
+    key: "blog_data_collection",
+    title: "جمع بيانات المدونة",
+    desc: "استلام اسم المدونة، المجال، والمحتوى المبدئي من صاحب المشروع.",
+  },
+  {
+    key: "blog_creation_domain",
+    title: "إنشاء المدونة وربط الدومين",
+    desc: "إنشاء المدونة على Blogger وربط الدومين الخاص بها.",
+  },
+  {
+    key: "blog_template_structure",
+    title: "تصميم القالب وهيكلة الأقسام",
+    desc: "تخصيص قالب احترافي متجاوب، وترتيب التصنيفات والأقسام.",
+  },
+  {
+    key: "blog_mandatory_pages_seo",
+    title: "إعداد الصفحات الإلزامية والسيو",
+    desc: "صفحات من نحن وسياسة الخصوصية واتصل بنا، مع تحسين السيو الأساسي.",
+  },
+  // From here on, Kareem's own obligation is already fully discharged (see
+  // blog_delivery_articles below) — the remaining two steps are the client's
+  // own work plus optional free follow-up, tracked here purely for
+  // visibility and explicitly NOT tied to any remaining payment.
+  {
+    key: "blog_delivery_articles",
+    title: "تسليم المدونة والمقالات التأسيسية",
+    desc: "تسليم المدونة كاملة جاهزة + نشر 5 مقالات من فريقنا، خلال 5 أيام عمل. هنا يُستحق باقي قيمة الباقة، ويُعتبر تنفيذنا مكتمل.",
+  },
+  {
+    key: "blog_remaining_content",
+    title: "نشر باقي المحتوى (45 مقالًا)",
+    desc: "مسؤولية صاحب المشروع بالكامل، بالتدريج وليس دفعة واحدة.",
+  },
+  {
+    key: "blog_adsense_submission",
+    title: "التقديم لجوجل أدسنس",
+    desc: "بعد اكتمال نشر الـ50 مقالًا، متابعة اختيارية من فريقنا مجانًا.",
+  },
+];
+
 // Full breakdown for the admin, adapted to the project's package.
 export function getAdminTimeline(packageName) {
   const tier = packageTier(packageName);
+  if (tier === "blogger") return BLOGGER_STEPS;
   return STEPS.filter((s) => !s.tiers || s.tiers.includes(tier));
 }
 
@@ -97,6 +152,11 @@ const DURATION_BY_TIER = {
   economic: "من 3 إلى 4 أسابيع عمل",
   premium: "من 4 إلى 10 أسابيع عمل",
   professional: "من 6 إلى 8 أسابيع عمل",
+  // This is our own delivery commitment only (platform + our 5 articles) —
+  // the client's remaining 45 articles and the eventual AdSense submission
+  // are a separate, unbounded phase after delivery, not part of what we're
+  // committing a timeframe to here.
+  blogger: "5 أيام عمل",
 };
 
 export function getEstimatedDuration(packageName) {
