@@ -1379,6 +1379,22 @@ table.admin-table td:nth-child(6) {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+/* Struck-through "was" price shown above the real price, e.g. for the
+   Blogger package (1,500 → 900) so the client sees it as a discount, not
+   just a plain price. Sits outside .package-price on purpose — that element
+   clips its whole box to the gradient text fill, which would also wash out
+   this muted strikethrough if nested inside it. */
+.package-price-original {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: line-through;
+  opacity: 0.75;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
 .package-launch-note {
   margin-top: 0.6rem;
   font-size: 0.8rem;
