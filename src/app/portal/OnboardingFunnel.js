@@ -654,6 +654,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       وقتًا أو تعديلات إضافية.
                     </li>
                   )}
+                  {serviceType === "blogger" && (
+                    <li>
+                      قبول المدونة في برنامج Google AdSense وتحقيق الربح منها يخضع بالكامل لسياسات
+                      Google وحدها للموافقة أو الرفض، وليس مسؤولية مقدم الخدمة. في حال الرفض، يساعد
+                      مقدم الخدمة صاحب المشروع بخبرته على معالجة الملاحظات وإعادة التقديم.
+                    </li>
+                  )}
                   <li>
                     لا تشمل قيمة الباقة أي رسوم خارجية{" "}
                     {serviceType === "blogger"
