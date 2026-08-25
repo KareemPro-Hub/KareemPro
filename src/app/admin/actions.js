@@ -251,6 +251,16 @@ export async function inviteClient(formData) {
 
   if (!userId) throw new Error("تعذر إنشاء/إيجاد حساب صاحب المشروع");
 
+  // The `clients` row must exist BEFORE we create a login link — login_tokens.
+  // client_id has a foreign-key constraint on clients.id, so inserting a
+  // token first (as the previous fix attempt still did) fails with a FK
+  // violation for any brand-new invite. Upsert first, link second.
+  const { error: upsertError } = await admin
+    .from("clients")
+    .upsert({ id: userId, full_name, email, phone }, { onConflict: "id" });
+
+  if (upsertError) throw new Error(upsertError.message);
+
   // ONE login link shared by both the welcome email and the WhatsApp
   // message. Generating a second link would silently INVALIDATE the first
   // (Supabase keeps only the latest OTP per user — this exact bug shipped
@@ -258,18 +268,10 @@ export async function inviteClient(formData) {
   // generated right after for WhatsApp). Single-use is fine here: whichever
   // one the client taps first signs them in; the other becomes irrelevant.
   // Look up by userId directly (not by email via createClientLoginUrl) —
-  // for a brand-new invite the `clients` row doesn't exist yet at this point
-  // (the upsert happens further below), so the email-lookup helper used by
-  // every other flow in this file would always fail here with a false
-  // "client not found" for first-time invites.
+  // createClientLoginUrl re-queries the clients table by email, which is
+  // redundant now that we already have userId and just upserted the row.
   const actionUrl = await createLoginLink(admin, userId);
   await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
-
-  const { error: upsertError } = await admin
-    .from("clients")
-    .upsert({ id: userId, full_name, email, phone }, { onConflict: "id" });
-
-  if (upsertError) throw new Error(upsertError.message);
 
   // Automation: the client sees the full technical & financial offer (with
   // its 3 standard packages) the moment they log in — no manual admin step.
