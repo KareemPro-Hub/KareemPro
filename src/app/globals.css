@@ -21,6 +21,7 @@
 }
 
 :root {
+  color-scheme: light;
   --g1: #ffa826;
   --g2: #ff5535;
   --g3: #d9187a;

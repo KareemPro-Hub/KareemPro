@@ -3,6 +3,15 @@ import "./globals.css";
 const TITLE = "Kareem Pro — بوابة الدخول";
 const DESCRIPTION = "بوابة متابعة المشاريع والمراحل — Kareem Pro";
 
+// Explicitly tells any browser / in-app webview (email apps, etc.) that this
+// site is light-only and should never be auto-dark-moded. Some in-app
+// browsers (e.g. mail clients' built-in webview when the app itself is in
+// Dark Mode) apply their own forced "night mode" filter to pages that don't
+// declare a color-scheme — this stops that from happening here.
+export const viewport = {
+  colorScheme: "light",
+};
+
 export const metadata = {
   metadataBase: new URL("https://kareempro.com"),
   title: TITLE,
