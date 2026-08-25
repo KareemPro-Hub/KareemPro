@@ -530,9 +530,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         <div className="package-name">{pkgName}</div>
                         {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}
                         {pkg.original_price != null && Number(pkg.original_price) > Number(pkg.price) && (
-                          <div className="package-price-original" dir="ltr">
-                            <span>{Number(pkg.original_price).toLocaleString("en-US")}</span>
-                            <RiyalIcon size="0.6em" tone="dark" />
+                          <div className="package-price-original">
+                            <span dir="ltr">{Number(pkg.original_price).toLocaleString("en-US")}</span>
+                            <RiyalIcon size="0.65em" tone="dark" />
                           </div>
                         )}
                         <div className="package-price">

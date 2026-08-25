@@ -1372,7 +1372,8 @@ table.admin-table td:nth-child(6) {
   margin-top: 0.6rem;
   font-size: 1.9rem;
   font-weight: 900;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: baseline;
   gap: 0.25rem;
   background: var(--grad-text);
@@ -1387,12 +1388,13 @@ table.admin-table td:nth-child(6) {
    this muted strikethrough if nested inside it. */
 .package-price-original {
   margin-top: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--muted);
   text-decoration: line-through;
   opacity: 0.75;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: baseline;
   gap: 0.2rem;
 }
