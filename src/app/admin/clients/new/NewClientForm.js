@@ -4,17 +4,18 @@ import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
 import { openWhatsApp, welcomeMessage, DIAL_CODES } from "@/lib/whatsapp";
 
-// Only "blogger" is fully wired up (auto-creates the finalized single-package
-// Blogger proposal — see SERVICE_TEMPLATES in admin/actions.js — and hides the
-// "نماذج أعمالنا" step in the client's funnel). The other four exist as real
-// options now so the admin can pick them, but behave like a normal client
-// until each one gets its own template.
+// "blogger" and "pharmacy" are fully wired up (each auto-creates its own
+// finalized proposal — see SERVICE_TEMPLATES in admin/actions.js). Blogger
+// also hides the "نماذج أعمالنا" step in the client's funnel. The remaining
+// options exist as real choices the admin can pick, but behave like a
+// normal client until each one gets its own template.
 const SERVICE_TYPES = [
   { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
   { value: "platform", label: "إنشاء منصة رقمية" },
   { value: "platform-apps", label: "إنشاء منصة رقمية مع التطبيقات" },
   { value: "video", label: "فيديو سينمائي احترافي" },
   { value: "voiceover", label: "تعليق صوتي إبداعي" },
+  { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
 ];
 
 

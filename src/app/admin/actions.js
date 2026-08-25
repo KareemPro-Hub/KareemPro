@@ -192,6 +192,68 @@ const SERVICE_TEMPLATES = {
       },
     ],
   },
+  // One-off custom deal (Urs — pharmacy SaaS platform), not a general-purpose
+  // template like blogger. Kept here anyway so it's ready to auto-generate
+  // the moment this client is invited, instead of being built by hand.
+  // Competitive/bid pricing — deliberately tighter margin, agreed explicitly
+  // for this deal.
+  pharmacy: {
+    projectTitle: "منصة Urs SaaS لإدارة الصيدليات",
+    packages: [
+      {
+        name: "الباقة الأساسية (فرع واحد)|كاشير ومخزون لصيدلية واحدة",
+        price: 7000,
+        is_featured: false,
+        features: [
+          "كاشير تفاعلي لإتمام عمليات البيع",
+          "إدارة الأصناف والمخزون",
+          "تنبيهات نفاد المخزون وقرب انتهاء الصلاحية",
+          "فوترة إلكترونية متوافقة مع منصة فاتورة (QR Code)",
+          "تقارير مبيعات مبسطة",
+          "دعم الوضع الداكن",
+          "طريقة السداد: خمس دفعات 1,400 ريال.",
+        ].join("\n"),
+      },
+      {
+        name: "باقة المحاسبة والفروع|لإدارة أكثر من فرع بمحاسبة كاملة",
+        price: 10000,
+        is_featured: false,
+        features: [
+          "كل مميزات الباقة الأساسية",
+          "محاسبة كاملة: مبيعات، مشتريات، أرباح وخسائر",
+          "تحويل المخزون بين الفروع",
+          "جرد المخازن والفروع",
+          "صلاحيات موظفين متعددة المستويات",
+          "طريقة السداد: خمس دفعات 2,000 ريال.",
+        ].join("\n"),
+      },
+      {
+        name: "باقة الربط الحكومي|فاتورة ورصد معتمدين",
+        price: 12000,
+        is_featured: true,
+        features: [
+          "كل مميزات باقة المحاسبة والفروع",
+          "ربط معتمد بمنصة فاتورة (فوترة إلكترونية مرحلة الربط)",
+          "ربط بمنصة رصد التابعة لهيئة الغذاء والدواء",
+          "تقارير امتثال للجهات الرسمية",
+          "طريقة السداد: خمس دفعات 2,400 ريال.",
+        ].join("\n"),
+      },
+      {
+        name: "الباقة الشاملة|منصة SaaS متكاملة متعددة الصيدليات",
+        price: 15000,
+        is_featured: false,
+        features: [
+          "كل مميزات باقة الربط الحكومي",
+          "نظام اشتراكات SaaS متكامل (باقات واشتراكات لعملاء صاحب المشروع)",
+          "لوحة تحكم متعددة الصيدليات",
+          "تقارير أداء متقدمة",
+          "دعم فني لمدة 3 أشهر بعد التسليم",
+          "طريقة السداد: خمس دفعات 3,000 ريال.",
+        ].join("\n"),
+      },
+    ],
+  },
 };
 
 // ── Creates the default 3-package proposal for a client, only if they don't
