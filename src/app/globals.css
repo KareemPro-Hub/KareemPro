@@ -1823,6 +1823,19 @@ table.admin-table td:nth-child(6) {
     padding: 1.9rem 1.1rem 2rem;
   }
   .team-orbit-lines { display: none; }
+  /* Desktop keeps this floating (position:absolute) at the top of .team-orbit
+     because the founder avatar sits centered behind it. On mobile the avatar
+     drops into normal flow as the box's first child (see .team-avatar-center
+     below), so an absolutely-positioned heading card at top:1.5% floats
+     right on top of it. Putting the heading back in normal flow makes it
+     render first, above the avatar, instead of over it. */
+  .team-heading-compact {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 1.6rem;
+  }
   .team-avatar-center {
     position: static;
     transform: none !important;
@@ -1839,19 +1852,29 @@ table.admin-table td:nth-child(6) {
   .team-orbit-satellites {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2.4rem 0.75rem;
+    gap: 0 0.75rem;
     justify-items: center;
   }
+  /* .team-satellite-caption is a CHILD of this element (not a sibling), and
+     the base .team-avatar rule centers all its children with flex — so
+     switching this to position:static (as an earlier pass did) dropped the
+     caption into that flex centering and stacked the name pill on top of
+     the photo instead of below it. Keeping position:relative here (instead
+     of static) lets the caption's own position:absolute / top:100% rule
+     (still active, unchanged from desktop) anchor correctly below THIS box
+     instead of the far-off .team-orbit ancestor. margin-bottom reserves the
+     room the now-visible caption needs before the next grid row starts. */
   .team-avatar-satellite {
-    position: static !important;
+    position: relative !important;
     transform: none !important;
     opacity: 1 !important;
     width: 76px;
+    margin: 0 auto 62px;
   }
   .team-satellite-caption {
-    position: static;
-    transform: none;
     margin-top: 10px;
+    width: max-content;
+    max-width: 150px;
   }
   .team-satellite-name { padding: 6px 12px; font-size: 0.78rem; }
 }
