@@ -30,6 +30,7 @@ const nextConfig = {
         { source: "/platforms", destination: "/platforms.html" },
         { source: "/edu-platform", destination: "/edu-platform.html" },
         { source: "/store", destination: "/store.html" },
+        { source: "/pos-system", destination: "/pos-system.html" },
         { source: "/booking", destination: "/booking.html" },
         { source: "/portal-system", destination: "/portal-system.html" },
         { source: "/charity", destination: "/charity.html" },
