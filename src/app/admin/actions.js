@@ -204,6 +204,7 @@ const SERVICE_TEMPLATES = {
       {
         name: "الباقة الاقتصادية|كاشير ومخزون لصيدلية واحدة",
         price: 7500,
+        original_price: 9000,
         is_featured: false,
         features: [
           "كاشير لإتمام عمليات البيع",
@@ -218,6 +219,7 @@ const SERVICE_TEMPLATES = {
       {
         name: "الباقة الأساسية|تشغيل أكثر تنظيمًا لصيدلية وفريق العمل",
         price: 8500,
+        original_price: 10000,
         is_featured: false,
         features: [
           "كل مميزات الباقة الاقتصادية",
