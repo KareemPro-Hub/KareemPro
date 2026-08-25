@@ -896,6 +896,32 @@ table.admin-table td:nth-child(6) {
   margin-bottom: 1.6rem;
 }
 
+/* ── Mobile: flex-wrap on 5 pills + connector lines was wrapping into a
+   messy, out-of-order-looking grid (the line elements, each flex:1, wrap
+   onto rows too and shove pills around). A single non-wrapping scrollable
+   row keeps the steps in their real order and is a familiar tab pattern. ── */
+@media (max-width: 640px) {
+  .funnel-steps {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 0.3rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .funnel-steps::-webkit-scrollbar { display: none; }
+  .funnel-step { scroll-snap-align: start; }
+  .funnel-step-line { min-width: 20px; }
+
+  .funnel-nav-top .btn,
+  .funnel-nav .btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+}
+
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1765,4 +1791,50 @@ table.admin-table td:nth-child(6) {
   .team-heading { padding: 1.25rem 1.4rem; }
   .team-orbit { border-radius: 24px; min-width: 650px; }
   .team-section { overflow-x: auto; padding-inline: .25rem; }
+}
+
+/* ── Mobile: the radial "orbit" needs real width to stay legible, which is
+   exactly why it forced horizontal scrolling on phones. Below 640px we drop
+   the orbit geometry entirely and lay the founder + team out as a plain,
+   fully-visible stack + 2-column grid — no scrolling needed to see everyone. ── */
+@media (max-width: 640px) {
+  .team-section { overflow-x: visible; padding-inline: 0; }
+  .team-orbit {
+    min-width: 0;
+    width: 100%;
+    aspect-ratio: auto;
+    padding: 1.9rem 1.1rem 2rem;
+  }
+  .team-orbit-lines { display: none; }
+  .team-avatar-center {
+    position: static;
+    transform: none !important;
+    width: 108px;
+    margin: 0 auto;
+  }
+  .team-crown { display: none; }
+  .team-founder-caption {
+    position: static;
+    width: 100%;
+    transform: none;
+    margin: 0.7rem 0 1.8rem;
+  }
+  .team-orbit-satellites {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.4rem 0.75rem;
+    justify-items: center;
+  }
+  .team-avatar-satellite {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    width: 76px;
+  }
+  .team-satellite-caption {
+    position: static;
+    transform: none;
+    margin-top: 10px;
+  }
+  .team-satellite-name { padding: 6px 12px; font-size: 0.78rem; }
 }

@@ -137,33 +137,35 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
           </svg>
         </span>
       </div>
-      {members.map((m, i) => {
-        const angle = angleFor(i);
-        const dx = radius * Math.cos(angle);
-        const dy = radius * Math.sin(angle);
-        return (
-          <div
-            key={i}
-            className={`team-avatar team-avatar-satellite${m.photo ? " has-photo" : ""}`}
-            style={{
-              transform: visible
-                ? `translate(-50%, -50%) translate(${dx}px, ${dy}px)`
-                : "translate(-50%, -50%) translate(0, 0)",
-              opacity: visible ? 1 : 0,
-              transitionDelay: `${i * 80}ms`,
-              ...(m.photo ? { backgroundImage: `url(${m.photo})` } : {}),
-            }}
-          >
-            {!m.photo && <PersonIcon />}
-            {m.name && (
-              <div className="team-satellite-caption">
-                <div className="team-satellite-name">{m.name}</div>
-                {m.role && <div className="team-satellite-role">{m.role}</div>}
-              </div>
-            )}
-          </div>
-        );
-      })}
+      <div className="team-orbit-satellites">
+        {members.map((m, i) => {
+          const angle = angleFor(i);
+          const dx = radius * Math.cos(angle);
+          const dy = radius * Math.sin(angle);
+          return (
+            <div
+              key={i}
+              className={`team-avatar team-avatar-satellite${m.photo ? " has-photo" : ""}`}
+              style={{
+                transform: visible
+                  ? `translate(-50%, -50%) translate(${dx}px, ${dy}px)`
+                  : "translate(-50%, -50%) translate(0, 0)",
+                opacity: visible ? 1 : 0,
+                transitionDelay: `${i * 80}ms`,
+                ...(m.photo ? { backgroundImage: `url(${m.photo})` } : {}),
+              }}
+            >
+              {!m.photo && <PersonIcon />}
+              {m.name && (
+                <div className="team-satellite-caption">
+                  <div className="team-satellite-name">{m.name}</div>
+                  {m.role && <div className="team-satellite-role">{m.role}</div>}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
       <div className="team-founder-caption">
         <div className="team-founder-name">{centerName}</div>
         <div className="team-founder-role">{centerRole}</div>
@@ -171,6 +173,28 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
     </div>
   );
 }
+
+// Detects which of Kareem Pro's service lines a proposal belongs to, from
+// its project title (and, once picked, the package name) — so the contract
+// wording and the "ملاحظة مهمة" cost note speak the client's own language
+// instead of always defaulting to generic "منصة رقمية" phrasing. Keyword
+// heuristic on purpose (no formal service-type field on proposals yet).
+function detectServiceType(text) {
+  const t = text || "";
+  if (/بلوجر|blogger/i.test(t)) return "blogger";
+  if (/تعليق صوتي/i.test(t)) return "voiceover";
+  if (/فيديو/i.test(t)) return "video";
+  if (/تطبيق/i.test(t)) return "platform-apps";
+  return "platform";
+}
+
+const SERVICE_META = {
+  blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
+  voiceover: { partyRole: "صاحب التعليق الصوتي", serviceLine: "تعليق صوتي إبداعي" },
+  video: { partyRole: "صاحب الفيديو", serviceLine: "فيديو سينمائي احترافي" },
+  "platform-apps": { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية مع التطبيقات" },
+  platform: { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية" },
+};
 
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -186,6 +210,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
   const packages = (proposal.proposal_packages || []).slice().sort((a, b) => a.sort_order - b.sort_order);
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
+  const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
+  const serviceMeta = SERVICE_META[serviceType];
 
   function goNext() {
     setStepIndex((i) => Math.min(i + 1, STEPS.length - 1));
@@ -499,17 +525,29 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 الأسعار أعلاه لا تشمل التكاليف التشغيلية المتكررة التي تُدفع مباشرة لمزوّدي
                 الخدمة حسب طبيعة مشروعك، ومنها تقريبًا:
                 <ul className="cost-list">
-                  <li>الاستضافة وقاعدة البيانات (تبدأ مجانية وتُرفع السعة عند الحاجة)</li>
-                  <li>
-                    حماية الفيديوهات — لو مشروعك يعتمد على محتوى مرئي محمي زي المنصات
-                    التعليمية (تبدأ من 600<RiyalIcon size="0.75em" /> سنويًا)
-                  </li>
-                  <li>رسوم بوابة الدفع (حوالي 2.5–3٪ من كل عملية)</li>
-                  <li>تجديد الدومين (حوالي 55<RiyalIcon size="0.75em" /> سنويًا)</li>
-                  <li>
-                    حسابات مطوري Apple وGoogle لنشر التطبيقات (حوالي 370<RiyalIcon size="0.75em" /> سنويًا
-                    و95<RiyalIcon size="0.75em" /> لمرة واحدة على الترتيب)
-                  </li>
+                  {serviceType === "blogger" ? (
+                    <>
+                      <li>رسوم بوابة الدفع لو احتجت لاحقًا ربط وسيلة دفع بالمدونة (حوالي 2.5–3٪ من كل عملية).</li>
+                      <li>
+                        تجديد الدومين — يُدفع مباشرة لمزوّد الدومين، حوالي 10$ سنويًا تقريبًا، وقد يزيد
+                        قليلًا حسب سياسة أسعار الشركة المزوّدة.
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>الاستضافة وقاعدة البيانات (تبدأ مجانية وتُرفع السعة عند الحاجة)</li>
+                      <li>
+                        حماية الفيديوهات — لو مشروعك يعتمد على محتوى مرئي محمي زي المنصات
+                        التعليمية (تبدأ من 600<RiyalIcon size="0.75em" /> سنويًا)
+                      </li>
+                      <li>رسوم بوابة الدفع (حوالي 2.5–3٪ من كل عملية)</li>
+                      <li>تجديد الدومين (حوالي 55<RiyalIcon size="0.75em" /> سنويًا)</li>
+                      <li>
+                        حسابات مطوري Apple وGoogle لنشر التطبيقات (حوالي 370<RiyalIcon size="0.75em" /> سنويًا
+                        و95<RiyalIcon size="0.75em" /> لمرة واحدة على الترتيب)
+                      </li>
+                    </>
+                  )}
                 </ul>
                 تُحدَّد هذه التكاليف بدقة حسب مشروعك عند البدء.
               </div>
@@ -579,16 +617,16 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   الطرف الأول: <strong>كريم عبد الصادق</strong> — ويشار إليه بـ: Kareem Pro - CEO
                 </p>
                 <p>
-                  والطرف الثاني: <strong>{clientName}</strong> — ويشار إليه باسم: صاحب المشروع
+                  والطرف الثاني: <strong>{clientName}</strong> — ويشار إليه باسم: {serviceMeta.partyRole}
                 </p>
 
                 <p>
-                  على تنفيذ مشروع منصة رقمية حسب الباقة التي اختارها صاحب المشروع من الباقات المعروضة
-                  عليه قبل التعاقد.
+                  على تنفيذ مشروع {serviceMeta.serviceLine} حسب الباقة التي اختارها صاحب المشروع من
+                  الباقات المعروضة عليه قبل التعاقد.
                 </p>
 
                 <p>
-                  اسم الباقة المختارة: <strong>{selectedPackage.name.split("|")[0].trim()}</strong>
+                  اسم المشروع: <strong>{proposal.project_title}</strong>
                 </p>
                 <p>
                   قيمة الباقة:{" "}
@@ -608,15 +646,19 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   <li>أي إضافات أو تعديلات خارج الباقة المختارة يتم الاتفاق على تكلفتها ومدة تنفيذها بشكل منفصل.</li>
                   <li>
                     صاحب المشروع مسؤول عن توفير المحتوى والبيانات والحسابات اللازمة لتنفيذ المشروع، مثل
-                    الدومين، بوابة الدفع، وحسابات المتاجر إن لزم الأمر.
+                    الدومين{serviceType === "blogger" ? "." : "، بوابة الدفع، وحسابات المتاجر إن لزم الأمر."}
                   </li>
+                  {serviceType !== "blogger" && (
+                    <li>
+                      نشر التطبيق على Google Play وApp Store يخضع لسياسات وموافقة المتاجر، وقد يتطلب
+                      وقتًا أو تعديلات إضافية.
+                    </li>
+                  )}
                   <li>
-                    نشر التطبيق على Google Play وApp Store يخضع لسياسات وموافقة المتاجر، وقد يتطلب
-                    وقتًا أو تعديلات إضافية.
-                  </li>
-                  <li>
-                    لا تشمل قيمة الباقة أي رسوم خارجية مثل الدومين، الاستضافة، حساب Apple Developer،
-                    حساب Google Play، أو رسوم بوابات الدفع.
+                    لا تشمل قيمة الباقة أي رسوم خارجية{" "}
+                    {serviceType === "blogger"
+                      ? "مثل تجديد الدومين."
+                      : "مثل الدومين، الاستضافة، حساب Apple Developer، حساب Google Play، أو رسوم بوابات الدفع."}
                   </li>
                   <li>
                     الدعم الفني يشمل معالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل إضافة مزايا
