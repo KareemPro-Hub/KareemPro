@@ -215,6 +215,20 @@ const SERVICE_META = {
   platform: { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية" },
 };
 
+// "نماذج أعمالنا" shows different portfolio_items depending on what the
+// client is actually buying — a pharmacy/platform prospect doesn't care
+// about video-editing or voiceover reels, and showing those would look
+// off-brief. Matched against portfolio_items.title (see PORTFOLIO_COVERS
+// above, same source of truth). Types not listed here (blogger never shows
+// this step at all) fall through to showing everything, unfiltered.
+const PORTFOLIO_CATEGORIES_BY_SERVICE = {
+  pharmacy: ["منصات وتطبيقات"],
+  platform: ["منصات وتطبيقات"],
+  "platform-apps": ["منصات وتطبيقات"],
+  video: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
+  voiceover: ["تعليق صوتي"],
+};
+
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState(null);
@@ -234,6 +248,16 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const steps = serviceType === "blogger" ? ALL_STEPS.filter((s) => s.id !== "portfolio") : ALL_STEPS;
   const currentStepId = steps[stepIndex]?.id;
   const proposalStepIndex = steps.length - 1;
+
+  // Fall back to the full, unfiltered list whenever there's no category
+  // mapping for this service type, or the filter would leave nothing to
+  // show (e.g. that category has no portfolio_items rows yet) — an empty
+  // "نماذج أعمالنا" step is worse than an off-topic one.
+  const relevantCategories = PORTFOLIO_CATEGORIES_BY_SERVICE[serviceType];
+  const filteredPortfolio = relevantCategories
+    ? (portfolio || []).filter((item) => relevantCategories.includes(item.title))
+    : null;
+  const visiblePortfolio = filteredPortfolio && filteredPortfolio.length > 0 ? filteredPortfolio : portfolio;
 
   function goNext() {
     setStepIndex((i) => Math.min(i + 1, steps.length - 1));
@@ -378,18 +402,18 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             <section className="works-showcase">
               <div className="works-carousel-head">
                 <div className="works-arrows">
-                  <button type="button" onClick={() => portfolio?.length && setPortfolioIndex((portfolioIndex - 1 + portfolio.length) % portfolio.length)}>‹</button>
-                  <button type="button" onClick={() => portfolio?.length && setPortfolioIndex((portfolioIndex + 1) % portfolio.length)}>›</button>
+                  <button type="button" onClick={() => visiblePortfolio?.length && setPortfolioIndex((portfolioIndex - 1 + visiblePortfolio.length) % visiblePortfolio.length)}>‹</button>
+                  <button type="button" onClick={() => visiblePortfolio?.length && setPortfolioIndex((portfolioIndex + 1) % visiblePortfolio.length)}>›</button>
                 </div>
                 <h2>نماذج من إبداعاتنا</h2>
               </div>
-              {portfolio && portfolio.length > 0 ? (
+              {visiblePortfolio && visiblePortfolio.length > 0 ? (
                 <>
                 <div className="works-carousel">
-                  {portfolio.map((item, index) => {
+                  {visiblePortfolio.map((item, index) => {
                     let offset = index - portfolioIndex;
-                    if (offset > portfolio.length / 2) offset -= portfolio.length;
-                    if (offset < -portfolio.length / 2) offset += portfolio.length;
+                    if (offset > visiblePortfolio.length / 2) offset -= visiblePortfolio.length;
+                    if (offset < -visiblePortfolio.length / 2) offset += visiblePortfolio.length;
                     const hasStack = Number(item.stack_count) > 1;
                     const coverImages=PORTFOLIO_COVERS[item.title]||[item.image_url].filter(Boolean);
                     return (
@@ -414,9 +438,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   })}
                 </div>
                 <div className="works-detail">
-                  <h3>{portfolio[portfolioIndex]?.title}</h3>
-                  <p>{PORTFOLIO_DESCRIPTIONS[portfolio[portfolioIndex]?.title] || portfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
-                  {portfolio[portfolioIndex]?.link_url ? <a href={portfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
+                  <h3>{visiblePortfolio[portfolioIndex]?.title}</h3>
+                  <p>{PORTFOLIO_DESCRIPTIONS[visiblePortfolio[portfolioIndex]?.title] || visiblePortfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
+                  {visiblePortfolio[portfolioIndex]?.link_url ? <a href={visiblePortfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
                 </div>
                 </>
               ) : (
