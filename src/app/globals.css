@@ -1402,6 +1402,9 @@ table.admin-table td:nth-child(6) {
   align-items: baseline;
   gap: 0.2rem;
 }
+.package-price-original + .package-price {
+  margin-top: 0.15rem;
+}
 .package-launch-note {
   margin-top: 0.6rem;
   font-size: 0.8rem;
