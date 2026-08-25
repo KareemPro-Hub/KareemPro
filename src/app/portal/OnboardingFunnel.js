@@ -319,10 +319,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
       <div className="funnel-steps">
         {steps.map((s, i) => (
           <Fragment key={s.id}>
-            <div className={`funnel-step ${i < stepIndex ? "done" : i === stepIndex ? "active" : ""}`}>
+            <button
+              type="button"
+              className={`funnel-step ${i < stepIndex ? "done" : i === stepIndex ? "active" : ""}`}
+              onClick={() => setStepIndex(i)}
+            >
               <s.Icon />
               <span>{s.label}</span>
-            </div>
+            </button>
             {i < steps.length - 1 && (
               <div className={`funnel-step-line ${i < stepIndex ? "done" : ""}`} />
             )}
@@ -429,8 +433,21 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     if (offset < -visiblePortfolio.length / 2) offset += visiblePortfolio.length;
                     const hasStack = Number(item.stack_count) > 1;
                     const coverImages=PORTFOLIO_COVERS[item.title]||[item.image_url].filter(Boolean);
+                    const itemLabel = item.description || item.title;
                     return (
-                      <button type="button" className={`works-slide${offset === 0 ? " active" : ""}`} key={item.id} onClick={() => setPortfolioIndex(index)} style={{ "--offset": offset }}>
+                      <button
+                        type="button"
+                        className={`works-slide${offset === 0 ? " active" : ""}`}
+                        key={item.id}
+                        onClick={() => {
+                          if (offset === 0 && item.link_url) {
+                            window.open(item.link_url, "_blank", "noopener,noreferrer");
+                          } else {
+                            setPortfolioIndex(index);
+                          }
+                        }}
+                        style={{ "--offset": offset }}
+                      >
                           {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className="works-card-bg" style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
                           <div className="works-card-shade" />
                           {hasStack && (
@@ -443,7 +460,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                             </span>
                           )}
                           <div className="works-card-body">
-                            <div className="works-card-title">{item.title}</div>
+                            <div className="works-card-title">{itemLabel}</div>
                           </div>
                           {offset === 0 && VIDEO_PORTFOLIO_TITLES.has(item.title) && <span className="works-play">▶</span>}
                       </button>
@@ -451,8 +468,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   })}
                 </div>
                 <div className="works-detail">
-                  <h3>{visiblePortfolio[portfolioIndex]?.title}</h3>
-                  <p>{PORTFOLIO_DESCRIPTIONS[visiblePortfolio[portfolioIndex]?.title] || visiblePortfolio[portfolioIndex]?.description || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
+                  <h3>{visiblePortfolio[portfolioIndex]?.description || visiblePortfolio[portfolioIndex]?.title}</h3>
+                  <p>{PORTFOLIO_DESCRIPTIONS[visiblePortfolio[portfolioIndex]?.title] || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
                   {visiblePortfolio[portfolioIndex]?.link_url ? <a href={visiblePortfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
                 </div>
                 </>
