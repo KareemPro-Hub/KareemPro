@@ -229,6 +229,17 @@ const PORTFOLIO_CATEGORIES_BY_SERVICE = {
   voiceover: ["تعليق صوتي"],
 };
 
+// Only these categories are actual video/reel work — used to decide whether
+// the "▶ play" bubble should render on a portfolio slide. Non-video
+// categories (e.g. "منصات وتطبيقات", which shows website/platform
+// screenshots) must never get a play icon.
+const VIDEO_PORTFOLIO_TITLES = new Set([
+  "مونتاج احترافي",
+  "عرض مرئي",
+  "تعليق صوتي",
+  "ريلز وسناب",
+]);
+
 export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState(null);
@@ -401,10 +412,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           {currentStepId === "portfolio" && (
             <section className="works-showcase">
               <div className="works-carousel-head">
-                <div className="works-arrows">
-                  <button type="button" onClick={() => visiblePortfolio?.length && setPortfolioIndex((portfolioIndex - 1 + visiblePortfolio.length) % visiblePortfolio.length)}>‹</button>
-                  <button type="button" onClick={() => visiblePortfolio?.length && setPortfolioIndex((portfolioIndex + 1) % visiblePortfolio.length)}>›</button>
-                </div>
+                {visiblePortfolio && visiblePortfolio.length > 1 && (
+                  <div className="works-arrows">
+                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex - 1 + visiblePortfolio.length) % visiblePortfolio.length)}>‹</button>
+                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex + 1) % visiblePortfolio.length)}>›</button>
+                  </div>
+                )}
                 <h2>نماذج من إبداعاتنا</h2>
               </div>
               {visiblePortfolio && visiblePortfolio.length > 0 ? (
@@ -432,7 +445,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <div className="works-card-body">
                             <div className="works-card-title">{item.title}</div>
                           </div>
-                          {offset === 0 && <span className="works-play">▶</span>}
+                          {offset === 0 && VIDEO_PORTFOLIO_TITLES.has(item.title) && <span className="works-play">▶</span>}
                       </button>
                     );
                   })}
