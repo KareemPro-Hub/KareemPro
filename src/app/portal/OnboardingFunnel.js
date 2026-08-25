@@ -686,7 +686,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <div className="role">Kareem Pro — CEO</div>
                   </div>
                   <div className="signed-badge">
-                    <CheckIcon size="0.9em" /> موقَّع
+                    <CheckIcon size="0.9em" /> وقّع على العقد
                   </div>
                 </div>
               </div>
