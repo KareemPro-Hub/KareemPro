@@ -1724,9 +1724,23 @@ table.admin-table td:nth-child(6) {
 }
 .team-avatar-satellite.has-photo {
   border: 4px solid rgba(255,173,56,.46);
+  box-shadow: 0 18px 34px -10px rgba(120,70,30,.4);
+}
+/* Inner circle that actually carries the photo (see the comment in
+   OnboardingFunnel.js for why this is split from the outer positioning
+   box). Fills the outer box exactly on desktop, and becomes a fixed-size
+   76×76 circle on mobile once the outer box drops out of absolute
+   positioning — see the mobile media query below. */
+.team-avatar-satellite-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 18px 34px -10px rgba(120,70,30,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
 }
 .team-satellite-caption {
   position: absolute;
@@ -1852,26 +1866,37 @@ table.admin-table td:nth-child(6) {
   .team-orbit-satellites {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0 0.75rem;
+    gap: 1.8rem 0.75rem;
     justify-items: center;
   }
-  /* .team-satellite-caption is a CHILD of this element (not a sibling), and
-     the base .team-avatar rule centers all its children with flex — so
-     switching this to position:static (as an earlier pass did) dropped the
-     caption into that flex centering and stacked the name pill on top of
-     the photo instead of below it. Keeping position:relative here (instead
-     of static) lets the caption's own position:absolute / top:100% rule
-     (still active, unchanged from desktop) anchor correctly below THIS box
-     instead of the far-off .team-orbit ancestor. margin-bottom reserves the
-     room the now-visible caption needs before the next grid row starts. */
+  /* Two earlier passes tried to keep the caption absolutely positioned
+     under the photo (via top:100% + a guessed margin-bottom reserving
+     space for it) — fragile, because the caption's real height depends on
+     the name/role text and font rendering, which never matches a hard-coded
+     number exactly, so it kept drifting into the next row.
+     The reliable fix: stop guessing. Drop absolute positioning entirely and
+     let this box lay out as a plain flex column — fixed-size photo on top,
+     caption below it in normal flow, sized by its own actual content. This
+     is the same normal-flow approach already used for the founder photo +
+     caption above, which never had this problem. */
   .team-avatar-satellite {
-    position: relative !important;
+    position: static !important;
     transform: none !important;
     opacity: 1 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    aspect-ratio: auto;
+  }
+  .team-avatar-satellite-photo {
     width: 76px;
-    margin: 0 auto 62px;
+    height: 76px;
+    flex-shrink: 0;
   }
   .team-satellite-caption {
+    position: static;
+    transform: none;
     margin-top: 10px;
     width: max-content;
     max-width: 150px;

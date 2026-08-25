@@ -157,10 +157,22 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
                   : "translate(-50%, -50%) translate(0, 0)",
                 opacity: visible ? 1 : 0,
                 transitionDelay: `${i * 80}ms`,
-                ...(m.photo ? { backgroundImage: `url(${m.photo})` } : {}),
               }}
             >
-              {!m.photo && <PersonIcon />}
+              {/* The circular photo lives in its own inner box (rather than
+                  as a background-image on this outer positioning div) so
+                  that on mobile — where this whole box switches from
+                  absolute radial placement to a plain flex column — the
+                  photo can stay a fixed 76×76 circle while the caption
+                  below it sizes naturally in normal flow. Putting the image
+                  directly on the outer (auto-height) box would stretch it
+                  into an oval as soon as the caption pushed the box taller. */}
+              <div
+                className="team-avatar-satellite-photo"
+                style={m.photo ? { backgroundImage: `url(${m.photo})` } : undefined}
+              >
+                {!m.photo && <PersonIcon />}
+              </div>
               {m.name && (
                 <div className="team-satellite-caption">
                   <div className="team-satellite-name">{m.name}</div>
