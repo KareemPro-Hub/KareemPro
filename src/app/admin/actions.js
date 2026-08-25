@@ -257,7 +257,12 @@ export async function inviteClient(formData) {
   // once: the email's link was dead on arrival because a second link was
   // generated right after for WhatsApp). Single-use is fine here: whichever
   // one the client taps first signs them in; the other becomes irrelevant.
-  const actionUrl = await createClientLoginUrl(admin, email);
+  // Look up by userId directly (not by email via createClientLoginUrl) —
+  // for a brand-new invite the `clients` row doesn't exist yet at this point
+  // (the upsert happens further below), so the email-lookup helper used by
+  // every other flow in this file would always fail here with a false
+  // "client not found" for first-time invites.
+  const actionUrl = await createLoginLink(admin, userId);
   await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
 
   const { error: upsertError } = await admin
