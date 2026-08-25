@@ -162,9 +162,43 @@ const DEFAULT_PACKAGES = [
   },
 ];
 
+// ══════════════════ Service-line templates ══════════════════
+// The "new client" form lets the admin pick which of Kareem Pro's service
+// lines this client is for. Most lines don't have a dedicated template yet
+// (they fall back to the standard 4-package proposal above) — only Blogger
+// is wired up so far, since it's the one in active use. Add a key here (and
+// a matching option in NewClientForm.js) to give another service line its
+// own single-package proposal.
+const SERVICE_TEMPLATES = {
+  blogger: {
+    projectTitle: "إنشاء وإطلاق مدونة بلوجر ربحية",
+    packages: [
+      {
+        name: "باقة إنشاء مدونة Blogger احترافية جاهزة لأدسنس",
+        price: 900,
+        is_featured: true,
+        features: [
+          "إنشاء المدونة على Blogger وربط الدومين",
+          "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
+          "هيكلة التصنيفات والأقسام حسب مجال المدونة",
+          "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
+          "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
+          "نشر 5 مقالات تأسيسية حقيقية على الأقل",
+          "التقديم الرسمي لجوجل أدسنس ومتابعة نتيجة المراجعة",
+          "تسليم كامل الصلاحيات والوصول",
+          "طريقة السداد: ثلاث دفعات 300 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وبعد التقديم لأدسنس.",
+        ].join("\n"),
+      },
+    ],
+  },
+};
+
 // ── Creates the default 3-package proposal for a client, only if they don't
-// already have one (so re-inviting an existing client never duplicates it). ──
-async function ensureDefaultProposal(admin, clientId) {
+// already have one (so re-inviting an existing client never duplicates it).
+// Picks a service-specific template (see SERVICE_TEMPLATES above) when one
+// exists for the chosen service type, otherwise falls back to the standard
+// multi-package proposal every client used to get. ──
+async function ensureDefaultProposal(admin, clientId, serviceType = null) {
   const { data: existing } = await admin
     .from("proposals")
     .select("id")
@@ -174,15 +208,19 @@ async function ensureDefaultProposal(admin, clientId) {
 
   if (existing) return;
 
+  const template = serviceType ? SERVICE_TEMPLATES[serviceType] : null;
+  const projectTitle = template?.projectTitle || DEFAULT_PROPOSAL_TITLE;
+  const packages = template?.packages || DEFAULT_PACKAGES;
+
   const { data: proposal, error: proposalError } = await admin
     .from("proposals")
-    .insert({ client_id: clientId, project_title: DEFAULT_PROPOSAL_TITLE, status: "pending" })
+    .insert({ client_id: clientId, project_title: projectTitle, status: "pending" })
     .select()
     .single();
 
   if (proposalError) throw new Error(proposalError.message);
 
-  const packagesPayload = DEFAULT_PACKAGES.map((pkg, i) => ({
+  const packagesPayload = packages.map((pkg, i) => ({
     proposal_id: proposal.id,
     name: pkg.name,
     price: pkg.price,
@@ -220,6 +258,10 @@ export async function inviteClient(formData) {
   const full_name = formData.get("full_name")?.toString().trim();
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const phone = formData.get("phone")?.toString().trim() || null;
+  // Which service line this client is for — drives which proposal template
+  // gets auto-created below. Only "blogger" has a dedicated template so far;
+  // any other value (or none) falls back to the standard multi-package offer.
+  const service_type = formData.get("service_type")?.toString().trim() || null;
 
   // Phone is mandatory now — the whole onboarding runs over WhatsApp
   // (clients come from ads straight into WhatsApp; many never open email).
@@ -273,9 +315,12 @@ export async function inviteClient(formData) {
   const actionUrl = await createLoginLink(admin, userId);
   await sendMagicLinkEmail({ to: email, clientName: full_name, actionUrl, isWelcome: true });
 
-  // Automation: the client sees the full technical & financial offer (with
-  // its 3 standard packages) the moment they log in — no manual admin step.
-  await ensureDefaultProposal(admin, userId);
+  // Automation: the client sees the full technical & financial offer the
+  // moment they log in — no manual admin step. Blogger clients get the
+  // finalized single-package Blogger offer; everyone else still gets the
+  // standard multi-package proposal until their service line has its own
+  // template (see SERVICE_TEMPLATES above).
+  await ensureDefaultProposal(admin, userId, service_type);
 
   revalidatePath("/admin");
 

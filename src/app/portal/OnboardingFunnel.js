@@ -62,7 +62,12 @@ function DocIcon() {
   );
 }
 
-const STEPS = [
+// Full step list. Blogger proposals skip "portfolio" (نماذج أعمالنا) — the
+// deal is already agreed by phone before the client ever opens this link, so
+// there's no need to sell them on past work samples. Filtered per-render
+// below into `steps`, keyed by id (not index) so removing a step doesn't
+// shift anything else.
+const ALL_STEPS = [
   { id: "about", label: "تعرّف علينا", Icon: AboutIcon },
   { id: "team", label: "الفريق", Icon: TeamIcon },
   { id: "portfolio", label: "نماذج أعمالنا", Icon: PortfolioIcon },
@@ -212,9 +217,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const serviceMeta = SERVICE_META[serviceType];
+  const steps = serviceType === "blogger" ? ALL_STEPS.filter((s) => s.id !== "portfolio") : ALL_STEPS;
+  const currentStepId = steps[stepIndex]?.id;
+  const proposalStepIndex = steps.length - 1;
 
   function goNext() {
-    setStepIndex((i) => Math.min(i + 1, STEPS.length - 1));
+    setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   }
   function goBack() {
     setStepIndex((i) => Math.max(i - 1, 0));
@@ -260,21 +268,21 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   return (
     <div className="onboarding-funnel-light">
       <div className="funnel-steps">
-        {STEPS.map((s, i) => (
+        {steps.map((s, i) => (
           <Fragment key={s.id}>
             <div className={`funnel-step ${i < stepIndex ? "done" : i === stepIndex ? "active" : ""}`}>
               <s.Icon />
               <span>{s.label}</span>
             </div>
-            {i < STEPS.length - 1 && (
+            {i < steps.length - 1 && (
               <div className={`funnel-step-line ${i < stepIndex ? "done" : ""}`} />
             )}
           </Fragment>
         ))}
       </div>
 
-      <div className={`card funnel-card${stepIndex === 2 ? " works-funnel-card" : ""}`}>
-        {stepIndex < 4 && (
+      <div className={`card funnel-card${currentStepId === "portfolio" ? " works-funnel-card" : ""}`}>
+        {stepIndex < proposalStepIndex && (
           <div className="funnel-nav funnel-nav-top">
             <button
               type="button"
@@ -291,7 +299,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
         )}
 
         <div className="funnel-body">
-          {stepIndex === 0 && (() => {
+          {currentStepId === "about" && (() => {
             const bodyText =
               about?.body || "Kareem Pro شريكك في بناء منتج رقمي احترافي من الفكرة لحد الإطلاق.";
             const lines = bodyText
@@ -341,7 +349,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             );
           })()}
 
-          {stepIndex === 1 && (
+          {currentStepId === "team" && (
             <div className="team-section">
               <TeamOrbit
                 members={TEAM_MEMBERS}
@@ -352,7 +360,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </div>
           )}
 
-          {stepIndex === 2 && (
+          {currentStepId === "portfolio" && (
             <section className="works-showcase">
               <div className="works-carousel-head">
                 <div className="works-arrows">
@@ -405,7 +413,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </section>
           )}
 
-          {stepIndex === 3 && (
+          {currentStepId === "testimonials" && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 آراء عملائنا
@@ -439,7 +447,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 4 && !selectedPackage && !showReject && (
+          {currentStepId === "proposal" && !selectedPackage && !showReject && (
             <>
               <button
                 type="button"
@@ -554,7 +562,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 4 && showReject && (
+          {currentStepId === "proposal" && showReject && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 رفض العرض
@@ -596,7 +604,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </>
           )}
 
-          {stepIndex === 4 && selectedPackage && (
+          {currentStepId === "proposal" && selectedPackage && (
             <>
               <h2 className="title" style={{ fontSize: "1.2rem" }}>
                 العقد — {selectedPackage.name.split("|")[0].trim()}

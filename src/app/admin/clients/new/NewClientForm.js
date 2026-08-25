@@ -4,6 +4,19 @@ import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
 import { openWhatsApp, welcomeMessage, DIAL_CODES } from "@/lib/whatsapp";
 
+// Only "blogger" is fully wired up (auto-creates the finalized single-package
+// Blogger proposal — see SERVICE_TEMPLATES in admin/actions.js — and hides the
+// "نماذج أعمالنا" step in the client's funnel). The other four exist as real
+// options now so the admin can pick them, but behave like a normal client
+// until each one gets its own template.
+const SERVICE_TYPES = [
+  { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
+  { value: "platform", label: "إنشاء منصة رقمية" },
+  { value: "platform-apps", label: "إنشاء منصة رقمية مع التطبيقات" },
+  { value: "video", label: "فيديو سينمائي احترافي" },
+  { value: "voiceover", label: "تعليق صوتي إبداعي" },
+];
+
 
 // WhatsApp-first onboarding: after the account is created (and the backup
 // welcome email goes out automatically), the admin gets a big green button
@@ -129,6 +142,35 @@ export default function NewClientForm() {
         </div>
         <small className="muted" style={{ display: "block", marginTop: "4px" }}>
           اختر الدولة واكتب الرقم بدون الصفر الأول — يدعم أي دولة.
+        </small>
+      </div>
+      <div className="field">
+        <label>نوع الخدمة</label>
+        <select
+          name="service_type"
+          required
+          defaultValue=""
+          style={{
+            width: "100%",
+            padding: "10px 8px",
+            borderRadius: "10px",
+            border: "1px solid #e2d8cb",
+            background: "#fff",
+            fontFamily: "inherit",
+            fontSize: "13px",
+          }}
+        >
+          <option value="" disabled>
+            اختر نوع الخدمة
+          </option>
+          {SERVICE_TYPES.map((s) => (
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
+          ))}
+        </select>
+        <small className="muted" style={{ display: "block", marginTop: "4px" }}>
+          حاليًا العرض والخطوات الجاهزة تلقائيًا مفعّلة لمدونة بلوجر فقط، والباقي هيتفعّل تباعًا.
         </small>
       </div>
       {error && (
