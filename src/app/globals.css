@@ -1403,8 +1403,9 @@ table.admin-table td:nth-child(6) {
   text-align: center;
 }
 .package-name {
-  font-weight: 800;
-  font-size: 1.1rem;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
   background: var(--grad-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
