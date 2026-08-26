@@ -202,7 +202,7 @@ const SERVICE_TEMPLATES = {
     projectTitle: "منصة Urs SaaS لإدارة الصيدليات",
     packages: [
       {
-        name: "الباقة الاحترافية|حل إدارة الصيدليات الكامل",
+        name: "الباقة الاحترافية|إدارة ذكية متكاملة لصيدلياتك",
         price: 10000,
         original_price: 15000,
         is_featured: false,
@@ -220,7 +220,7 @@ const SERVICE_TEMPLATES = {
         ].join("\n"),
       },
       {
-        name: "الباقة المميزة|منصة متكاملة مع تطبيقين للجوال",
+        name: "الباقة المميزة|كل صيدلياتك بلمسة واحدة",
         price: 15000,
         original_price: 20000,
         is_featured: false,
