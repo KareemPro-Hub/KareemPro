@@ -1332,6 +1332,51 @@ table.admin-table td:nth-child(6) {
   box-shadow: 0 12px 26px -8px rgba(255, 200, 100, 0.6);
 }
 
+/* ── Value tier (the mid-priced package on a 3+ tier ladder) — a cool
+   sapphire accent so it reads as distinctly "more" than the base tier
+   without competing with the gold premium-tier above it. ── */
+.package-card.value-tier {
+  position: relative;
+  background: linear-gradient(165deg, rgba(18, 28, 46, 0.88), rgba(8, 14, 26, 0.94) 55%, rgba(110, 180, 255, 0.06));
+  border-color: rgba(110, 180, 255, 0.45);
+  box-shadow: 0 1px 0 rgba(180, 220, 255, 0.16) inset, 0 24px 54px -18px rgba(0, 0, 0, 0.65), 0 0 34px -14px rgba(80, 160, 255, 0.3);
+}
+.package-card.value-tier::before {
+  background: linear-gradient(160deg, rgba(180, 220, 255, 0.5), rgba(180, 220, 255, 0) 45%);
+}
+.package-card.value-tier:hover {
+  box-shadow: 0 1px 0 rgba(180, 220, 255, 0.2) inset, 0 30px 60px -16px rgba(0, 0, 0, 0.72), 0 0 46px -10px rgba(80, 160, 255, 0.45);
+}
+.package-card.value-tier .package-name,
+.package-card.value-tier .package-price {
+  background: linear-gradient(135deg, #cfe8ff, #8fc5ff 45%, #4a9aff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.package-card.value-tier .package-cta {
+  background: linear-gradient(135deg, #cfe8ff, #8fc5ff 45%, #4a9aff);
+  color: #0a2036;
+  border: none;
+  font-weight: 800;
+}
+.package-card.value-tier .package-cta:hover {
+  box-shadow: 0 12px 26px -8px rgba(80, 160, 255, 0.5);
+}
+
+/* ── Base tier (the entry-level package) — a muted copper hint, calmer than
+   the two tiers above it so the price ladder reads as an intentional
+   progression rather than three unrelated cards. ── */
+.package-card.base-tier {
+  border-color: rgba(205, 155, 110, 0.32);
+}
+.package-card.base-tier .package-price {
+  background: linear-gradient(135deg, #f0d9bd, #d9ac78 60%, #c98f52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .package-badge {
   position: absolute;
   top: -14px;

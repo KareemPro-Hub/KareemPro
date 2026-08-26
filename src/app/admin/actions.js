@@ -235,7 +235,7 @@ const SERVICE_TEMPLATES = {
       {
         name: "الباقة الماسية|حل متكامل لإدارة الصيدليات على جميع الأجهزة",
         price: 20000,
-        original_price: null,
+        original_price: 25000,
         is_featured: false,
         features: [
           "كل مميزات الباقة المميزة",

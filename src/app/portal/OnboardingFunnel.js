@@ -529,16 +529,26 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 حدد باقتك، ولنبدأ نبض مشروعك .. 🚀
               </h2>
               <div className="package-grid">
-                {packages.map((pkg) => {
-                  const featureLines = (pkg.features || "")
-                    .split("\n")
-                    .map((l) => l.trim())
-                    .filter(Boolean);
-                  const [pkgName, pkgTagline] = (pkg.name || "").split("|").map((s) => s.trim());
-                  const isPremiumTier = pkgName.includes("الاحترافية");
-                  return (
+                {(() => {
+                  const packagePrices = packages.map((p) => Number(p.price));
+                  const maxPackagePrice = Math.max(...packagePrices);
+                  const minPackagePrice = Math.min(...packagePrices);
+                  return packages.map((pkg) => {
+                    const featureLines = (pkg.features || "")
+                      .split("\n")
+                      .map((l) => l.trim())
+                      .filter(Boolean);
+                    const [pkgName, pkgTagline] = (pkg.name || "").split("|").map((s) => s.trim());
+                    // Value-based tier color, not name-based — a price ladder can be
+                    // renamed or reordered (like pharmacy's was), and a hardcoded name
+                    // match would silently mislabel the wrong tier as "premium".
+                    const isPremiumTier = packages.length > 1 && Number(pkg.price) === maxPackagePrice;
+                    const isBaseTier = packages.length > 1 && Number(pkg.price) === minPackagePrice;
+                    const isValueTier = packages.length > 2 && !isPremiumTier && !isBaseTier;
+                    const tierClass = isPremiumTier ? "premium-tier" : isValueTier ? "value-tier" : isBaseTier ? "base-tier" : "";
+                    return (
                     <div
-                      className={`package-card ${pkg.is_featured ? "featured" : ""} ${isPremiumTier ? "premium-tier" : ""}`}
+                      className={`package-card ${pkg.is_featured ? "featured" : ""} ${tierClass}`}
                       key={pkg.id}
                     >
                       {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
@@ -580,8 +590,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         اختيار هذه الباقة
                       </button>
                     </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
               </div>
 
               <button
