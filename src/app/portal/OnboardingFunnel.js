@@ -419,7 +419,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           {currentStepId === "team" && (
             <div className="team-section">
               <TeamOrbit
-                members={TEAM_MEMBERS}
+                members={
+                  serviceType === "pharmacy"
+                    ? TEAM_MEMBERS.map((m) =>
+                        m.name === "ندى رحيم" ? { ...m, role: "Full Stack Developer" } : m
+                      )
+                    : TEAM_MEMBERS
+                }
                 centerPhoto="/team/kareem-founder.jpg"
                 centerName="كريم عبد الصادق"
                 centerRole="CEO & Founder, Kareem Pro"
