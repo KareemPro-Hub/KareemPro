@@ -14,6 +14,20 @@ function packageTier(packageName) {
   return "economic"; // no mobile app in this tier
 }
 
+// Pharmacy (Urs) packages share the word "الاحترافية" with the generic
+// top-tier package name above (7500 SAR) — name text alone can't tell them
+// apart, since both are literally "الباقة الاحترافية". Price does: pharmacy
+// packages are always 10000/15000/20000, a set that never overlaps with any
+// generic package price. Keep in sync with PHARMACY_STAGE_PRICES in
+// packageStages.js — same three prices, same reasoning.
+function pharmacyTier(packagePrice) {
+  const price = Number(packagePrice);
+  if (price === 10000) return "pharmacy_professional";
+  if (price === 15000) return "pharmacy_premium";
+  if (price === 20000) return "pharmacy_diamond";
+  return null;
+}
+
 // Every possible step, in order (10-step process; economic tier skips the
 // two app-only steps below since it has no mobile app).
 // `tiers` restricts a step to specific package tiers (omit = all tiers).
@@ -126,8 +140,70 @@ const BLOGGER_STEPS = [
   },
 ];
 
+// Pharmacy (Urs) production process — the client's own 8-phase breakdown,
+// with "العقد والدفعة الأولى" prepended (same key as the generic STEPS'
+// first step, "contract_payment", so a project sitting on that step keeps
+// working with zero data migration) and the mobile-app step tier-gated:
+// professional (10000) ships no app, premium (15000) ships a phone app,
+// diamond (20000) additionally ships Mac/Windows/iPad apps.
+const PHARMACY_STEPS = [
+  {
+    key: "contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد وتأكيد استلام الدفعة الأولى.",
+  },
+  {
+    key: "pharmacy_analysis_design",
+    title: "التحليل والتصميم",
+    desc: "تصميم قاعدة البيانات وهيكلة النظام وواجهات الاستخدام الأساسية.",
+  },
+  {
+    key: "pharmacy_roles_permissions",
+    title: "صلاحيات المستخدمين والأدوار",
+    desc: "بناء نظام صلاحيات المستخدمين المتعددة حسب الدور.",
+  },
+  {
+    key: "pharmacy_pos",
+    title: "نظام الكاشير",
+    desc: "بناء الكاشير لإتمام عمليات البيع.",
+  },
+  {
+    key: "pharmacy_inventory_branches",
+    title: "إدارة الأصناف والمخزون والفروع",
+    desc: "إدارة الأصناف والمخزون والفروع، شامل الجرد وتواريخ الصلاحية.",
+  },
+  {
+    key: "pharmacy_stock_alerts",
+    title: "تنبيهات النفاد وقرب انتهاء الصلاحية",
+    desc: "تنبيهات تلقائية عند نفاد الأصناف أو قرب انتهاء صلاحيتها.",
+  },
+  {
+    key: "pharmacy_qr_invoicing",
+    title: "الفواتير الإلكترونية QR",
+    desc: "بناء نظام الفواتير الإلكترونية QR.",
+  },
+  {
+    key: "pharmacy_purchasing_suppliers",
+    title: "إدارة المشتريات والموردين",
+    desc: "إدارة المشتريات والموردين والمرتجعات.",
+  },
+  {
+    key: "pharmacy_app_prep",
+    tiers: ["pharmacy_premium", "pharmacy_diamond"],
+    title: "تجهيز التطبيق",
+    desc: "تجهيز تطبيق الجوال للباقة المميزة، أو تطبيقات Mac وWindows وiPad للباقة الماسية.",
+  },
+  {
+    key: "pharmacy_dashboard_testing_delivery",
+    title: "لوحة الإدارة والاختبار والتسليم",
+    desc: "لوحة الإدارة الشاملة والمحاسبة، الاختبار الشامل، وتسليم المشروع مع تفعيل فترة الدعم الفني.",
+  },
+];
+
 // Full breakdown for the admin, adapted to the project's package.
-export function getAdminTimeline(packageName) {
+export function getAdminTimeline(packageName, packagePrice) {
+  const pTier = pharmacyTier(packagePrice);
+  if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
   if (tier === "blogger") return BLOGGER_STEPS;
   return STEPS.filter((s) => !s.tiers || s.tiers.includes(tier));
@@ -135,8 +211,8 @@ export function getAdminTimeline(packageName) {
 
 // The client sees the exact same steps as the admin — no grouping or
 // simplification — so progress marked on one side matches the other 1:1.
-export function getClientTimeline(packageName) {
-  return getAdminTimeline(packageName).map((s) => ({ ...s, memberKeys: [s.key] }));
+export function getClientTimeline(packageName, packagePrice) {
+  return getAdminTimeline(packageName, packagePrice).map((s) => ({ ...s, memberKeys: [s.key] }));
 }
 
 // Since admin and client steps are now identical, the current admin key IS

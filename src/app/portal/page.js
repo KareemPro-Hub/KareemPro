@@ -160,7 +160,7 @@ export default async function PortalPage() {
     const stages = (project.stages || []).sort((a, b) => a.stage_number - b.stage_number);
     const isCompleted = project.status === "completed";
     const isOnHold = project.status === "on_hold" || project.status === "cancelled";
-    const clientTimeline = getClientTimeline(project.package_name);
+    const clientTimeline = getClientTimeline(project.package_name, project.package_price);
     const clientCurrentKey = adminKeyToClientKey(
       project.package_name,
       project.timeline_step || clientTimeline[0]?.key
@@ -245,7 +245,7 @@ export default async function PortalPage() {
             : 0;
           const isCompleted = project.status === "completed";
           const isOnHold = project.status === "on_hold" || project.status === "cancelled";
-          const clientTimeline = getClientTimeline(project.package_name);
+          const clientTimeline = getClientTimeline(project.package_name, project.package_price);
           const clientCurrentKey = adminKeyToClientKey(
             project.package_name,
             project.timeline_step || clientTimeline[0]?.key

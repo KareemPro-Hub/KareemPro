@@ -168,7 +168,7 @@ export default async function AdminOverview() {
           </div>
           {recentProjects.length === 0 && <p className="muted">لسه مفيش مشاريع.</p>}
           {recentProjects.map((p, i) => {
-            const adminTimeline = getAdminTimeline(p.package_name);
+            const adminTimeline = getAdminTimeline(p.package_name, p.package_price);
             const usableSteps = adminTimeline.map((s) => s.key);
             const currentIdx = usableSteps.indexOf(p.timeline_step);
             const percent =
@@ -251,7 +251,7 @@ export default async function AdminOverview() {
           {activeProjects.length === 0 && <p className="muted">لا توجد مشاريع نشطة حاليًا.</p>}
           <div className="timeline" style={{ gridTemplateColumns: "1fr" }}>
             {activeProjects.slice(0, 4).map((p) => {
-              const adminTimeline = getAdminTimeline(p.package_name);
+              const adminTimeline = getAdminTimeline(p.package_name, p.package_price);
               const currentStep = adminTimeline.find((s) => s.key === p.timeline_step);
               return (
                 <div key={p.id}>

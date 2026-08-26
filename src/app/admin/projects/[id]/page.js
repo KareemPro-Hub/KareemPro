@@ -38,7 +38,7 @@ export default async function ProjectDetailPage({ params }) {
   const files = (project.project_files || []).sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
   );
-  const adminTimeline = getAdminTimeline(project.package_name);
+  const adminTimeline = getAdminTimeline(project.package_name, project.package_price);
   const usableSteps = adminTimeline.map((s) => s.key);
   const currentIdx = usableSteps.indexOf(project.timeline_step);
   const isProjectCompleted = currentIdx === usableSteps.length - 1;
