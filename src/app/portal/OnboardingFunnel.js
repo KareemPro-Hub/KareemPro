@@ -566,7 +566,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" tone="dark" />
                         </div>
-                        <div className="package-launch-note">أسعار إطلاق لفترة محدودة لأول عملائنا.</div>
+                        <div className="package-launch-note">عرض خاص لأول تعاون معنا ❤️</div>
                       </div>
                       {featureLines.length > 0 && (
                         <ul className="package-features">
