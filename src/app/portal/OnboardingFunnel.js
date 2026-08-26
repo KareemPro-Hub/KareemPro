@@ -206,6 +206,18 @@ function detectServiceType(text) {
   return "platform";
 }
 
+// "About us" copy on the funnel's first step comes from one global row in
+// site_content (about_us) shared by every client. This override changes a
+// single label — "سيادةٌ بصرية" → "إبداع تقني" — for the pharmacy branch
+// only, without touching that shared row or any other service type. Same
+// "label: text" line format the parser below already understands.
+const SERVICE_ABOUT_OVERRIDES = {
+  pharmacy: `هنا في Kareem Pro:
+خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
+ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
+إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
+};
+
 const SERVICE_META = {
   blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
   pharmacy: { partyRole: "صاحب منصة Urs", serviceLine: "منصة SaaS لإدارة الصيدليات" },
@@ -354,7 +366,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
         <div className="funnel-body">
           {currentStepId === "about" && (() => {
             const bodyText =
-              about?.body || "Kareem Pro شريكك في بناء منتج رقمي احترافي من الفكرة لحد الإطلاق.";
+              SERVICE_ABOUT_OVERRIDES[serviceType] ||
+              about?.body ||
+              "Kareem Pro شريكك في بناء منتج رقمي احترافي من الفكرة لحد الإطلاق.";
             const lines = bodyText
               .split("\n")
               .map((l) => l.trim())
