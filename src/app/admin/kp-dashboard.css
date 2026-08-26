@@ -278,7 +278,7 @@
 .kp-dashboard .client-luxe-block.center{align-items:center}
 .kp-dashboard .client-luxe-label{font-size:12.5px;font-weight:700;color:#9a6a3a}
 .kp-dashboard .client-luxe-project-link{font-size:15px;font-weight:700;color:#3a2118;text-decoration:underline;white-space:nowrap}
-.kp-dashboard .client-luxe-offer-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 15px;border-radius:99px;white-space:nowrap;text-decoration:none}
+.kp-dashboard .client-luxe-offer-badge{display:inline-flex;align-items:center;align-self:flex-start;gap:6px;font-size:13px;font-weight:700;padding:6px 15px;border-radius:99px;white-space:nowrap;text-decoration:none}
 .kp-dashboard .client-luxe-balance{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px;border-right:1px solid rgba(120,70,30,.14);border-left:1px solid rgba(120,70,30,.14);flex-shrink:0}
 .kp-dashboard .client-luxe-balance b{font-size:19px;font-weight:900;color:#3a2118}
 .kp-dashboard .client-luxe-split{display:flex;gap:20px;flex-shrink:0}
