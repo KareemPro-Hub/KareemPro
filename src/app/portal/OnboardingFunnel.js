@@ -438,8 +438,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               <div className="works-carousel-head">
                 {visiblePortfolio && visiblePortfolio.length > 1 && (
                   <div className="works-arrows">
-                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex - 1 + visiblePortfolio.length) % visiblePortfolio.length)}>‹</button>
-                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex + 1) % visiblePortfolio.length)}>›</button>
+                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex + 1) % visiblePortfolio.length)}>‹</button>
+                    <button type="button" onClick={() => setPortfolioIndex((portfolioIndex - 1 + visiblePortfolio.length) % visiblePortfolio.length)}>›</button>
                   </div>
                 )}
                 <h2>نماذج من إبداعاتنا</h2>
@@ -468,7 +468,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         }}
                         style={{ "--offset": offset }}
                       >
-                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className="works-card-bg" style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
+                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className={`works-card-bg${["محفظة كريم","iKareem"].includes(item.description)?" works-card-bg--full":""}`} style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
                           <div className="works-card-shade" />
                           {hasStack && (
                             <span className="works-stack-badge">
