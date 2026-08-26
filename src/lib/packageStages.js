@@ -8,9 +8,29 @@ export const PACKAGE_STAGE_AMOUNTS = {
   5500: [1500, 2000, 2000],
   2500: [1000, 1500],
   1500: [750, 750],
+  // Pharmacy (Urs) packages: 5 equal installments per the "طريقة السداد"
+  // line already written into each package's features text.
+  10000: [2000, 2000, 2000, 2000, 2000],
+  15000: [3000, 3000, 3000, 3000, 3000],
+  20000: [4000, 4000, 4000, 4000, 4000],
 };
 
-const STAGE_TITLES = ["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة"];
+const STAGE_TITLES = ["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة", "الدفعة الخامسة"];
+
+// Prices that use the pharmacy package's 5-payment plan get their own
+// richer descriptions instead of the generic ones below — each payment is
+// tied to a checkpoint across the pharmacy build's 8 internal production
+// stages (analysis/design, roles & permissions, POS, inventory & branches,
+// stock/expiry alerts, QR invoicing, purchasing/suppliers, admin dashboard
+// & accounting + full testing and handover), grouped 1–2 / 2–5 / 6–7 / 8.
+const PHARMACY_STAGE_PRICES = new Set([10000, 15000, 20000]);
+const PHARMACY_STAGE_DESCRIPTIONS = [
+  "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
+  "بعد الانتهاء من التحليل والتصميم وبناء صلاحيات المستخدمين والأدوار.",
+  "بعد الانتهاء من نظام الكاشير وإدارة الأصناف والمخزون والفروع وتنبيهات النفاد وقرب انتهاء الصلاحية.",
+  "بعد الانتهاء من الفواتير الإلكترونية QR وإدارة المشتريات والموردين والمرتجعات.",
+  "الدفعة الأخيرة عند التسليم النهائي، بعد لوحة الإدارة الشاملة والمحاسبة واجتياز الاختبار الشامل.",
+];
 
 // First stage is always the contract/kickoff payment, last stage is always
 // the final-delivery payment — everything in between is a progress payment.
@@ -26,11 +46,13 @@ function descriptionFor(index, total) {
 // null if the price doesn't match one of the standard packages (in which
 // case the admin defines stages manually, same as always).
 export function buildStagesForPackagePrice(price) {
-  const amounts = PACKAGE_STAGE_AMOUNTS[Number(price)];
+  const numericPrice = Number(price);
+  const amounts = PACKAGE_STAGE_AMOUNTS[numericPrice];
   if (!amounts) return null;
+  const isPharmacy = PHARMACY_STAGE_PRICES.has(numericPrice);
   return amounts.map((amount, i) => ({
     title: STAGE_TITLES[i] || `الدفعة ${i + 1}`,
-    description: descriptionFor(i, amounts.length),
+    description: isPharmacy ? PHARMACY_STAGE_DESCRIPTIONS[i] : descriptionFor(i, amounts.length),
     amount,
   }));
 }
