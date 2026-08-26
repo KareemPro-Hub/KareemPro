@@ -90,8 +90,8 @@ export default async function AdminClientsPage({ searchParams }) {
                     )}
                   </div>
 
-                  <div className="client-luxe-block center">
-                    <span className="client-luxe-label">العرض الفني</span>
+                  <div className="client-luxe-block">
+                    <span className="client-luxe-label">العرض الفني والمالي</span>
                     {offer ? (
                       <a
                         className="client-luxe-offer-badge"
