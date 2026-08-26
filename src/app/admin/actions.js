@@ -233,7 +233,7 @@ const SERVICE_TEMPLATES = {
         ].join("\n"),
       },
       {
-        name: "الباقة الماسية|حل متكامل لإدارة الصيدليات على جميع الأجهزة",
+        name: "الباقة الماسية|تجربة تشغيل بلا حدود",
         price: 20000,
         original_price: 25000,
         is_featured: false,
