@@ -107,31 +107,10 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, stag
                     {isOpen && stage.status === "awaiting_payment" && (
                       <div className="stages-accordion-instructions" onClick={(e) => e.stopPropagation()}>
                         <p>
-                          هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
-                          <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>.
+                          هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون عبر وسيلة
+                          الدفع المناسبة اللي تم إرسالها على الواتساب.
                         </p>
-                        <p>
-                          نزّل ملف بيانات المستفيد وأضفه في تطبيق الراجحي لكي يتم التحويل
-                          الدولي بنجاح:{" "}
-                          <a
-                            href="/kareem-pro-bank-beneficiary-guide.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            تحميل بيانات المستفيد (PDF)
-                          </a>
-                        </p>
-                        <p>
-                          بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب على الرقم{" "}
-                          <a
-                            href="https://wa.me/966507069605"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            966507069605+
-                          </a>{" "}
-                          لننطلق مباشرة.
-                        </p>
+                        <p>بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة 🚀</p>
                       </div>
                     )}
                   </div>

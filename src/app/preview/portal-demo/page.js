@@ -120,32 +120,11 @@ export default function PortalPreviewPage() {
                   {stage.status === "awaiting_payment" && (
                     <div className="notice notice-error" style={{ marginTop: "0.8rem" }}>
                       <p style={{ margin: "0 0 0.7rem 0" }}>
-                        هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون{" "}
-                        <strong>دوليًا من بنك الراجحي إلى بنك مصر</strong>.
-                      </p>
-                      <p style={{ margin: "0 0 0.7rem 0" }}>
-                        نزّل ملف بيانات المستفيد وأضفه في تطبيق الراجحي لكي يتم التحويل
-                        الدولي بنجاح:{" "}
-                        <a
-                          href="/kareem-pro-bank-beneficiary-guide.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="notice-link"
-                        >
-                          تحميل بيانات المستفيد (PDF)
-                        </a>
+                        هذه المرحلة بانتظار السداد لبدء التنفيذ. التحويل يكون عبر وسيلة
+                        الدفع المناسبة اللي تم إرسالها على الواتساب.
                       </p>
                       <p style={{ margin: 0 }}>
-                        بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب على الرقم{" "}
-                        <a
-                          href="https://wa.me/966507069605"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="notice-link"
-                        >
-                          966507069605+
-                        </a>{" "}
-                        لكي ننطلق مباشرة.
+                        بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة 🚀
                       </p>
                     </div>
                   )}
