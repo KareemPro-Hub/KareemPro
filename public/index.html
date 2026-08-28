@@ -246,7 +246,8 @@
 
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
-      cursor: pointer; padding: 5px;
+      align-items: center; cursor: pointer; padding: 5px;
+      border: 0; background: transparent; color: inherit; font: inherit;
     }
     .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
 
@@ -597,6 +598,9 @@
     }
 
     .video-wrapper { position: relative; padding-bottom: 56.25%; background: #000; overflow: hidden; cursor: pointer; }
+    .video-wrapper:focus-visible,
+    .showcase-stack:focus-visible,
+    .service-card:focus-visible { outline: 3px solid var(--g1); outline-offset: 4px; }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .video-wrapper.vertical { padding-bottom: 177.78%; }
     .video-thumb {
@@ -961,6 +965,7 @@
       max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto;
       padding: 1.8rem 1.7rem; transform: translateY(16px); transition: transform 0.25s;
     }
+    .terms-box:focus { outline: none; }
     .terms-overlay.open .terms-box { transform: translateY(0); }
     .terms-box h3 { color: var(--text); font-size: 1.15rem; margin-bottom: 1rem; }
     .terms-box .terms-body { color: var(--muted); font-size: 0.92rem; line-height: 1.9; }
@@ -1208,7 +1213,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       من نحن
     </a></li>
-    <li><a href="#" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open'); document.getElementById('navLinks').classList.remove('open');">
+    <li><a href="#" onclick="event.preventDefault(); openTerms(this); document.getElementById('navLinks').classList.remove('open');">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6M9 16h6M9 8h6"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg>
       الشروط والأحكام
     </a></li>
@@ -1218,9 +1223,9 @@
     </a></li>
     <li><a href="#contact" class="nav-cta">ابدأ مشروعًا</a></li>
   </ul>
-  <div class="hamburger" id="hbg" onclick="toggleMenu()">
+  <button type="button" class="hamburger" id="hbg" onclick="toggleMenu()" aria-label="فتح القائمة" aria-controls="navLinks" aria-expanded="false">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -1668,7 +1673,7 @@
     <div class="reveal d1"><div class="stat-number" data-t="3700">0</div><div class="stat-label">مشروع منجز</div></div>
     <div class="reveal d2"><div class="stat-number" data-t="45">0</div><div class="stat-label">علامة تجارية</div></div>
     <div class="reveal d3"><div class="stat-number" data-t="2000">0</div><div class="stat-label">عميل خدمناه</div></div>
-    <div class="reveal d4"><div class="stat-number" data-t="97">0</div><div class="stat-label">رضا العملاء</div></div>
+    <div class="reveal d4"><div class="stat-number" data-t="97" data-suffix="%">0</div><div class="stat-label">رضا العملاء</div></div>
   </div>
 </div>
 
@@ -2069,15 +2074,15 @@
     <div class="contact-grid">
       <form class="order-form reveal" id="orderForm" onsubmit="submitForm(event)">
         <div class="form-group">
-          <label class="form-label">الاسم الكريم</label>
-          <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" required />
+          <label class="form-label" for="fName">الاسم الكريم</label>
+          <input type="text" class="form-input" id="fName" placeholder="اكتب اسمك هنا" autocomplete="name" required />
         </div>
         <div class="form-group">
-          <label class="form-label">رقم الواتساب</label>
-          <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" required />
+          <label class="form-label" for="fPhone">رقم الواتساب</label>
+          <input type="tel" class="form-input" id="fPhone" placeholder="مثال: 0512345678" autocomplete="tel" inputmode="tel" required />
         </div>
         <div class="form-group">
-          <label class="form-label">الخدمة المطلوبة</label>
+          <label class="form-label" for="fService">الخدمة المطلوبة</label>
           <select class="form-input form-select" id="fService" required>
             <option value="" disabled selected>اختر الخدمة</option>
             <option>مونتاج وعروض مرئية</option>
@@ -2090,12 +2095,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">تفاصيل المشروع</label>
+          <label class="form-label" for="fDetails">تفاصيل المشروع</label>
           <textarea class="form-input form-textarea" id="fDetails" placeholder="اكتب تفاصيل مشروعك هنا..." rows="4"></textarea>
         </div>
         <div class="form-terms">
           <input type="checkbox" id="fTerms" required onchange="document.getElementById('formSubmitBtn').disabled = !this.checked;" />
-          <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); document.getElementById('termsOverlay').classList.add('open');">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
+          <label for="fTerms">أوافق على <button type="button" class="terms-link" onclick="event.preventDefault(); openTerms(this);">الشروط والأحكام</button> الخاصة بطلب الخدمة</label>
         </div>
         <button type="submit" class="btn-primary form-submit" id="formSubmitBtn" disabled>💬 أرسل الطلب عبر واتساب</button>
       </form>
@@ -2130,9 +2135,9 @@
 </section>
 
 <!-- ═══ TERMS MODAL ═══ -->
-<div class="terms-overlay" id="termsOverlay" onclick="if(event.target===this) this.classList.remove('open');">
-  <div class="terms-box">
-    <h3>الشروط والأحكام</h3>
+<div class="terms-overlay" id="termsOverlay" role="dialog" aria-modal="true" aria-labelledby="termsTitle" aria-hidden="true" inert onclick="if(event.target===this) closeTerms();">
+  <div class="terms-box" tabindex="-1">
+    <h3 id="termsTitle">الشروط والأحكام</h3>
     <div class="terms-body" id="termsBody">
       <p class="terms-intro">يا هلا، حياك الله.. يسعدنا جدًا تواصلك واختيارك لنا لنكون شركاء نجاحك في هذا المشروع. ولأننا نحرص دائمًا على تقديم أفضل جودة تليق بك، ونقدر وقتك الثمين، نود مشاركتك تفاصيل اتفاقية العمل البسيطة التي تضمن سير المشروع باحترافية ووضوح:</p>
       <p class="terms-heading">📌 اتفاقية العمل:</p>
@@ -2149,18 +2154,18 @@
         <li><strong>موعد التسليم:</strong> نلتزم بتسليم العمل في الموعد المتفق عليه سابقًا، مع إبقائكم على اطلاع دائم بأي مستجدات.</li>
       </ol>
     </div>
-    <button type="button" class="terms-close" onclick="document.getElementById('termsOverlay').classList.remove('open');">إغلاق</button>
+    <button type="button" class="terms-close" onclick="closeTerms();">إغلاق</button>
   </div>
 </div>
 
 <!-- ═══ DESIGN PREVIEW LIGHTBOX ═══ -->
-<div class="preview-overlay" id="previewOverlay" onclick="if(event.target===this) closeDesignPreview();">
+<div class="preview-overlay" id="previewOverlay" role="dialog" aria-modal="true" aria-label="معاينة تصميم الموقع" aria-hidden="true" inert onclick="if(event.target===this) closeDesignPreview();">
   <div class="preview-box">
     <div class="preview-stage">
-      <button type="button" class="preview-close" onclick="closeDesignPreview();">✕</button>
-      <button type="button" class="preview-nav prev" onclick="previewStep(-1);">‹</button>
+      <button type="button" class="preview-close" onclick="closeDesignPreview();" aria-label="إغلاق المعاينة">✕</button>
+      <button type="button" class="preview-nav prev" onclick="previewStep(-1);" aria-label="الصورة السابقة">‹</button>
       <img id="previewStageImg" src="" alt="معاينة تصميم الموقع">
-      <button type="button" class="preview-nav next" onclick="previewStep(1);">›</button>
+      <button type="button" class="preview-nav next" onclick="previewStep(1);" aria-label="الصورة التالية">›</button>
       <span class="preview-counter" id="previewCounter"></span>
     </div>
     <div class="preview-thumbs" id="previewThumbs"></div>
@@ -2170,16 +2175,46 @@
 <script>
   var previewImages = [];
   var previewIndex = 0;
+  var previewTrigger = null;
+  var termsTrigger = null;
+
+  function openTerms(trigger) {
+    termsTrigger = trigger || document.activeElement;
+    const overlay = document.getElementById('termsOverlay');
+    overlay.inert = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    const box = overlay.querySelector('.terms-box');
+    box.scrollTop = 0;
+    box.focus({ preventScroll: true });
+  }
+
+  function closeTerms() {
+    const overlay = document.getElementById('termsOverlay');
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.inert = true;
+    if (termsTrigger) termsTrigger.focus();
+  }
 
   function openDesignPreview(images) {
+    previewTrigger = document.activeElement;
     previewImages = images;
     previewIndex = 0;
     renderPreview();
-    document.getElementById('previewOverlay').classList.add('open');
+    const overlay = document.getElementById('previewOverlay');
+    overlay.inert = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    overlay.querySelector('.preview-close').focus();
   }
 
   function closeDesignPreview() {
-    document.getElementById('previewOverlay').classList.remove('open');
+    const overlay = document.getElementById('previewOverlay');
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.inert = true;
+    if (previewTrigger) previewTrigger.focus();
   }
 
   function previewStep(dir) {
@@ -2207,6 +2242,10 @@
   }
 
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.getElementById('termsOverlay').classList.contains('open')) {
+      closeTerms();
+      return;
+    }
     if (!document.getElementById('previewOverlay').classList.contains('open')) return;
     if (e.key === 'Escape') closeDesignPreview();
     if (e.key === 'ArrowLeft') previewStep(1);
@@ -2258,7 +2297,7 @@
   <div class="footer-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة.</div>
 </footer>
 
-<button class="scroll-top" id="stb" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button type="button" class="scroll-top" id="stb" onclick="scrollTo({top:0,behavior:'smooth'})" aria-label="العودة إلى أعلى الصفحة">↑</button>
 
 <a href="https://wa.me/966507069605" target="_blank" rel="noopener" class="whatsapp-float" aria-label="تواصل معنا عبر واتساب">
   <span class="wa-tooltip">تواصل معنا عبر واتساب</span>
@@ -2291,8 +2330,14 @@
   }
 
   // Hamburger
-  function toggleMenu(){ document.getElementById('navLinks').classList.toggle('open'); }
-  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+  function setMenuState(open){
+    document.getElementById('navLinks').classList.toggle('open', open);
+    const button=document.getElementById('hbg');
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة');
+  }
+  function toggleMenu(){ setMenuState(!document.getElementById('navLinks').classList.contains('open')); }
+  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>setMenuState(false)));
 
   // Scroll top
   window.addEventListener('scroll',()=>document.getElementById('stb').classList.toggle('show',scrollY>400));
@@ -2303,14 +2348,29 @@
     const wasOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(el=>{
       el.classList.remove('open');
-      el.querySelector('.faq-answer').style.maxHeight = null;
+      const answer = el.querySelector('.faq-answer');
+      answer.style.maxHeight = null;
+      answer.setAttribute('aria-hidden', 'true');
+      el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
     });
     if (!wasOpen) {
       item.classList.add('open');
       const ans = item.querySelector('.faq-answer');
       ans.style.maxHeight = ans.scrollHeight + 24 + 'px';
+      ans.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
     }
   }
+
+  document.querySelectorAll('.faq-item').forEach(function(item, index){
+    const button = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    const answerId = 'faq-answer-' + (index + 1);
+    answer.id = answerId;
+    answer.setAttribute('aria-hidden', 'true');
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-controls', answerId);
+  });
 
   // Service select
   function selectService(name) {
@@ -2376,15 +2436,40 @@
 
   // Click-to-load video thumbnails (avoids YouTube's branding overlay/icons until played)
   document.querySelectorAll('.video-wrapper[data-yid]').forEach(function(w){
+    w.setAttribute('role', 'button');
+    w.setAttribute('tabindex', '0');
+    w.setAttribute('aria-label', 'تشغيل الفيديو');
     w.addEventListener('click', function loadVideo(){
       const id = w.getAttribute('data-yid');
       const ifr = document.createElement('iframe');
       ifr.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&modestbranding=1&rel=0&controls=1';
+      ifr.setAttribute('title', 'مشغل فيديو من أعمال Kareem Pro');
       ifr.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
       ifr.setAttribute('allowfullscreen', '');
       w.appendChild(ifr);
       w.classList.add('loaded');
+      w.removeAttribute('role');
+      w.removeAttribute('tabindex');
+      w.removeAttribute('aria-label');
       w.removeEventListener('click', loadVideo);
+    });
+    w.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        w.click();
+      }
+    });
+  });
+
+  // Make mouse-clickable service cards equally usable from a keyboard.
+  document.querySelectorAll('.showcase-stack[onclick], .service-card[onclick]').forEach(function(card){
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
     });
   });
 
@@ -2419,7 +2504,7 @@
   const cObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(!e.isIntersecting)return;
-      const el=e.target, t=+el.dataset.t, isP=t===100;
+      const el=e.target, t=+el.dataset.t, suffix=el.dataset.suffix||'+';
       const duration=1800, steps=60;
       let c=0;
       const timer=setInterval(()=>{
@@ -2427,8 +2512,8 @@
         const progress=c/steps;
         const eased=1-Math.pow(1-progress,3);
         const val=Math.round(eased*t);
-        el.textContent=(val>=t?t:val)+(isP?'%':'+');
-        if(c>=steps){el.textContent=t+(isP?'%':'+');clearInterval(timer);}
+        el.textContent=(val>=t?t:val)+suffix;
+        if(c>=steps){el.textContent=t+suffix;clearInterval(timer);}
       },duration/steps);
       cObs.unobserve(el);
     });

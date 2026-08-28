@@ -23,6 +23,15 @@ function EyeIcon({ off }) {
 // visit here) sets both ?role= and ?next= so the right tab is preselected
 // and the redirect still lands exactly where they were headed.
 const ROLES = {
+  client: {
+    label: "النخبة",
+    heading: "بوابة النخبة",
+    sub: "اكتب بريدك الإلكتروني وهنبعت لك رابط دخول آمن ومباشر.",
+    endpoint: "/auth/magic-link",
+    loginPath: "/login?role=client",
+    defaultNext: "/portal",
+    passwordless: true,
+  },
   admin: {
     label: "المدير",
     heading: "بوابة مدير المنصة",
@@ -50,7 +59,7 @@ function LoginForm() {
       : pathname === "/admin/login"
         ? "admin"
         : searchParams.get("role");
-  const role = ROLES[requestedRole] ? requestedRole : "admin";
+  const role = ROLES[requestedRole] ? requestedRole : "client";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -67,7 +76,7 @@ function LoginForm() {
     const res = await fetch(ROLES[role].endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(ROLES[role].passwordless ? { email } : { email, password }),
     });
 
     if (!res.ok) {
@@ -76,6 +85,11 @@ function LoginForm() {
       const body = await res.json().catch(() => null);
       setErrorMsg(body?.error && res.status === 403 ? body.error : null);
       setStatus("error");
+      return;
+    }
+
+    if (ROLES[role].passwordless) {
+      setStatus("sent");
       return;
     }
 
@@ -141,8 +155,9 @@ function LoginForm() {
 
           <form onSubmit={mode === "forgot" ? handleForgot : handleSubmit}>
             <div className="field">
-              <label>البريد الإلكتروني</label>
+              <label htmlFor="login-email">البريد الإلكتروني</label>
               <input
+                id="login-email"
                 type="email"
                 required
                 value={email}
@@ -153,11 +168,12 @@ function LoginForm() {
               />
             </div>
 
-            {mode === "login" && (
+            {mode === "login" && !ROLES[role].passwordless && (
               <div className="field">
-                <label>كلمة السر</label>
+                <label htmlFor="login-password">كلمة السر</label>
                 <div className="password-field-wrap">
                   <input
+                    id="login-password"
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
@@ -184,13 +200,17 @@ function LoginForm() {
                 {errorMsg ||
                   (mode === "forgot"
                     ? "حصل خطأ، جرب تاني."
-                    : "البريد أو كلمة السر غير صحيحة.")}
+                    : ROLES[role].passwordless
+                      ? "حصل خطأ، جرب تاني."
+                      : "البريد أو كلمة السر غير صحيحة.")}
               </div>
             )}
 
             {status === "sent" && (
               <div className="notice" style={{ background: "rgba(46,204,113,.12)", border: "1px solid rgba(46,204,113,.35)", color: "#7be0a8" }}>
-                لو البريد ده مسجل عندنا، هيوصله رابط تعيين كلمة سر جديدة خلال دقائق. افحص صندوق الوارد و&quot;الرسائل غير المرغوبة&quot;.
+                {ROLES[role].passwordless
+                  ? <>لو البريد ده مسجل عندنا، هيوصله رابط الدخول خلال دقائق. افحص صندوق الوارد و&quot;الرسائل غير المرغوبة&quot;.</>
+                  : <>لو البريد ده مسجل عندنا، هيوصله رابط تعيين كلمة سر جديدة خلال دقائق. افحص صندوق الوارد و&quot;الرسائل غير المرغوبة&quot;.</>}
               </div>
             )}
 
@@ -204,10 +224,12 @@ function LoginForm() {
                 ? "لحظة واحدة..."
                 : mode === "forgot"
                 ? "إرسال رابط الاستعادة"
-                : "تسجيل الدخول"}
+                : ROLES[role].passwordless
+                  ? "إرسال رابط الدخول"
+                  : "تسجيل الدخول"}
             </button>
 
-            <button
+            {!ROLES[role].passwordless && <button
                 type="button"
                 className="muted"
                 style={{ display: "block", margin: "14px auto 0", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontFamily: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
@@ -218,7 +240,7 @@ function LoginForm() {
                 }}
               >
                 {mode === "forgot" ? "رجوع لتسجيل الدخول" : "نسيت كلمة السر ؟"}
-              </button>
+              </button>}
           </form>
         </div>
       </div>
