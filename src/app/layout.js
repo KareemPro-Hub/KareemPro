@@ -22,7 +22,7 @@ export const metadata = {
     description: DESCRIPTION,
     url: "https://kareempro.com",
     siteName: "Kareem Pro",
-    images: [{ url: "/og-banner.png", width: 2752, height: 1536, alt: "Kareem Pro" }],
+    images: [{ url: "/og-banner-v2.png", width: 1200, height: 630, alt: "Kareem Pro" }],
     locale: "ar_SA",
     type: "website",
   },
@@ -30,7 +30,7 @@ export const metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/og-banner.png"],
+    images: ["/og-banner-v2.png"],
   },
 };
 

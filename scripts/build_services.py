@@ -246,13 +246,13 @@ def page(k):
 <meta property="og:locale" content="ar_SA" />
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}{url}" />
-<meta property="og:image" content="{site}/og-banner.png" />
+<meta property="og:image" content="{site}/og-banner-v2.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{title}" />
 <meta name="twitter:description" content="{desc}" />
-<meta name="twitter:image" content="{site}/og-banner.png" />
+<meta name="twitter:image" content="{site}/og-banner-v2.png" />
 {ld}
 {fonts}
 <style>{css}</style>
@@ -387,7 +387,7 @@ def hub():
 <meta property="og:locale" content="ar_SA" />
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}/platforms" />
-<meta property="og:image" content="{site}/og-banner.png" />
+<meta property="og:image" content="{site}/og-banner-v2.png" />
 <meta name="twitter:card" content="summary_large_image" />
 {ld}
 {fonts}
