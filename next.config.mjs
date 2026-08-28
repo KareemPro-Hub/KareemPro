@@ -21,6 +21,32 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/admin/**": ["./node_modules/@sparticuz/chromium/bin/**"],
   },
+  async redirects() {
+    return [
+      // Keep one indexable URL for every static marketing page.
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/platforms.html", destination: "/platforms", permanent: true },
+      { source: "/edu-platform.html", destination: "/edu-platform", permanent: true },
+      { source: "/store.html", destination: "/store", permanent: true },
+      { source: "/pos-system.html", destination: "/pos-system", permanent: true },
+      { source: "/booking.html", destination: "/booking", permanent: true },
+      { source: "/portal-system.html", destination: "/portal-system", permanent: true },
+      { source: "/charity.html", destination: "/charity", permanent: true },
+      { source: "/blog.html", destination: "/blog", permanent: true },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        // This customer-facing bank guide must stay downloadable, but it
+        // should never appear as a standalone result in search engines.
+        source: "/kareem-pro-bank-beneficiary-guide.pdf",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [

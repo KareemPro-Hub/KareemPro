@@ -41,7 +41,7 @@ def timeline(tl):
     cols = []
     for i, (t, d) in enumerate(tl):
         cols.append('<div class="tlx-col"><span class="tlx-num">0%d</span><span class="tlx-mark"><i></i></span>'
-                    '<h3 class="tlx-t">%s</h3><p class="tlx-d">%s</p></div>' % (i+1, t, d))
+                    '<h2 class="tlx-t">%s</h2><p class="tlx-d">%s</p></div>' % (i+1, t, d))
     return '<div class="tlx"><div class="tlx-grid">%s</div></div>' % ''.join(cols)
 
 def pains(items):
@@ -247,12 +247,15 @@ def page(k):
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}{url}" />
 <meta property="og:image" content="{site}/og-banner-v2.png" />
+<meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{title}" />
 <meta name="twitter:description" content="{desc}" />
 <meta name="twitter:image" content="{site}/og-banner-v2.png" />
+<meta name="twitter:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 {ld}
 {fonts}
 <style>{css}</style>
@@ -388,7 +391,15 @@ def hub():
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}/platforms" />
 <meta property="og:image" content="{site}/og-banner-v2.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{title}" />
+<meta name="twitter:description" content="{desc}" />
+<meta name="twitter:image" content="{site}/og-banner-v2.png" />
+<meta name="twitter:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 {ld}
 {fonts}
 <style>{css}{hubcss}</style>
