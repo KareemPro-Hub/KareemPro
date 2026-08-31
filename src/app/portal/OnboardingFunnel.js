@@ -878,7 +878,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </li>
                       <li>
                         الدعم الفني يشمل معالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل إضافة مزايا
-                        جديدة أو إدارة المنصة بعد التسليم.
+                        جديدة أو إدارة {serviceType === "blogger" ? "المدونة" : "المنصة"} بعد التسليم.
                       </li>
                       {serviceType !== "blogger" && (
                         <li>يتم تسليم المشروع بعد الانتهاء من البنود المتفق عليها وسداد كامل قيمة الباقة.</li>
