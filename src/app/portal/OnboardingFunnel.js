@@ -640,7 +640,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 <ul className="cost-list">
                   {serviceType === "blogger" ? (
                     <>
-                      <li>رسوم بوابة الدفع لو احتجت لاحقًا ربط وسيلة دفع بالمدونة (حوالي 2.5–3٪ من كل عملية).</li>
                       <li>
                         تجديد الدومين — يُدفع مباشرة لمزوّد الدومين، حوالي 10$ سنويًا تقريبًا، وقد يزيد
                         قليلًا حسب سياسة أسعار الشركة المزوّدة.
