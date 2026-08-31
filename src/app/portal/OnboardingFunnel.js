@@ -757,8 +757,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   </strong>
                   {serviceType === "blogger" && (
                     <>
-                      {" "}(ثلاث دفعات 300<RiyalIcon size="0.75em" tone="dark" /> — مقدم، بعد إعداد
-                      الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات الخمس التأسيسية)
+                      {" "}(ثلاث دفعات) الدفعة الأولى: 300<RiyalIcon size="0.75em" tone="dark" /> مقدم
+                      — الدفعة الثانية: 300<RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات
+                      الإلزامية — الدفعة الثالثة: 300<RiyalIcon size="0.75em" tone="dark" /> عند تسليم
+                      المدونة وكتابة المقالات الخمس التأسيسية
                     </>
                   )}
                   {serviceType === "pharmacy" && (
