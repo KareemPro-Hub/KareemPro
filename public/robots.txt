@@ -3,6 +3,9 @@ Allow: /
 Disallow: /portal
 Disallow: /admin
 Disallow: /team
+# صفحة رابط الدخول تحتاج أن يقرأها روبوت معاينة واتساب (facebookexternalhit)
+# لعرض بطاقة المشاركة. الروابط تحمل توكن يُستخدم مرة واحدة وغير منشورة في أي مكان.
+Allow: /auth/enter
 Disallow: /auth
 
 Sitemap: https://kareempro.com/sitemap.xml
