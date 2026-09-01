@@ -95,7 +95,13 @@ const STEPS = [
 // and the admin's step-navigation logic don't need to know the difference.
 const BLOGGER_STEPS = [
   {
-    key: "blog_contract_payment",
+    // Same key as the generic STEPS' first step ("contract_payment") on
+    // purpose — it's the DB default for projects.timeline_step, so a newly
+    // created blogger project lands on a step that actually exists in this
+    // list instead of falling off it (indexOf === -1, which made the admin
+    // view show the project as already completed). Same reasoning as
+    // PHARMACY_STEPS below.
+    key: "contract_payment",
     title: "العقد والدفعة الأولى",
     desc: "توقيع العقد وتأكيد استلام الدفعة الأولى.",
   },
