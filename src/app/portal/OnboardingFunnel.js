@@ -591,7 +591,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       key={pkg.id}
                     >
                       {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
-                      {isPremiumTier && <span className="package-badge premium-badge">💎 الأرقى والأشمل</span>}
+                      {/* Both badges sit in the same pinned slot at the top of the card,
+                          so a card that is BOTH the featured pick and the top tier (the
+                          two-tier Blogger ladder) would stack them on top of each other.
+                          "الأكثر طلبًا" is the one that drives the choice, so it wins. */}
+                      {isPremiumTier && !pkg.is_featured && (
+                        <span className="package-badge premium-badge">💎 الأرقى والأشمل</span>
+                      )}
                       <div className="package-head">
                         <div className="package-name">{pkgName}</div>
                         {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}
