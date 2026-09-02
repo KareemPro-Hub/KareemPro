@@ -60,9 +60,10 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
     .single();
   if (projectError) throw new Error(projectError.message);
 
-  // Automation: standard packages (7500/5500/2500/1500) get their payment
-  // stages created immediately too, matching the same breakdown the admin
-  // uses when creating a project by hand — no manual step needed here either.
+  // Automation: every package price listed in PACKAGE_STAGE_AMOUNTS (the
+  // platform ladder, the two Blogger tiers and the pharmacy tiers) gets its
+  // payment stages created immediately too, matching the same breakdown the
+  // admin uses when creating a project by hand — no manual step needed here.
   const stagePlan = buildStagesForPackagePrice(chosenPackage.price);
   if (stagePlan && newProject) {
     const { error: stagesError } = await admin.from("stages").insert(
