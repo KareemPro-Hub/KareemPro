@@ -2,12 +2,9 @@
 
 ## القاعدة صفر — أول أمر في أي جلسة، قبل أي شغل
 
-اطلب صلاحية الحذف على المجلد الموصّل عبر `device_request_delete_permission`
-للمسار:
-
-```
-/Kareem-AI/Kareem Pro
-```
+1. نادِ `get_device_info` وخُذ المسار من `connectedFolders` (المتوقع:
+   `/Kareem-AI/Kareem Pro` — اعتمد ما ترجعه الأداة لا هذا التخمين).
+2. اطلب صلاحية الحذف على نفس المسار عبر `device_request_delete_permission`.
 
 السبب: الشِل يصل للمجلد عبر mount يمنع الحذف افتراضيًا، فأوامر Git تفشل بـ
 `unable to unlink old` وتترك أقفالًا عالقة وتتعطّل في منتصف الشغل. لا تبدأ أي
@@ -19,8 +16,8 @@
 
 | الأداة | المسار |
 |---|---|
-| `device_bash` (الشِل) | `$HOME/mnt/Kareem Pro` |
-| `device_list_dir` · `device_stage_files` · `device_commit_files` | `/Kareem-AI/Kareem Pro` |
+| `device_bash` (الشِل) | `$HOME/mnt/Kareem Pro` — ثابت على أي جهاز |
+| `device_list_dir` · `device_stage_files` · `device_commit_files` · `device_request_delete_permission` | المسار الحقيقي من `get_device_info.connectedFolders` |
 
 **ممنوع** إعطاء أي أمر (`git` / `npm` / أي شيء) مجرَّدًا بلا `cd` في **نفس
 السطر**، ومع علامات اقتباس دائمًا لأن المسار يحتوي مسافة. كل أمر تعطيه لي يجب
@@ -29,16 +26,6 @@
 ```
 cd "$HOME/mnt/Kareem Pro" && git --no-optional-locks status --short
 ```
-
-## تأكيد المسار مرة واحدة
-
-المسار أعلاه مأخوذ من شريط Finder. تحقق منه بأول أمر:
-
-```
-ls -d "$HOME/mnt/Kareem Pro" && cd "$HOME/mnt/Kareem Pro" && git rev-parse --show-toplevel
-```
-
-إن اختلف المسار الفعلي على القرص، صحّحه في هذا الملف وأخبرني.
 
 ## الذاكرة — أول أي جلسة
 
@@ -71,10 +58,10 @@ cd "$HOME/mnt/Kareem Pro" && git pull --ff-only && cat .claude/memory/MEMORY.md
 
 ## ملفات متقادمة — تجاهل تعليماتها
 
-`AGENTS.md` و`AI_HANDOFF.md` و`AI_START_PROMPT.md` ملفات قديمة. **لا تعمل
-بتعليماتها.** أخطرها `AGENTS.md` لأنه يقول «ممنوع تشغيل أي أمر git كتابي» و«الـ
-Commit والـ Push يعملهما كريم من GitHub Desktop» — وهذا عكس القاعدة الحالية
-تمامًا. المرجع الوحيد `.claude/memory/`، والتفاصيل في
+`AGENTS.md` (متتبَّع في Git وسيصلك) وكذلك `AI_HANDOFF.md` و`AI_START_PROMPT.md`
+إن وُجدا محليًا. **لا تعمل بتعليماتها.** أخطرها `AGENTS.md` لأنه يقول «ممنوع
+تشغيل أي أمر git كتابي» و«الـ Commit والـ Push يعملهما كريم من GitHub Desktop» —
+وهذا عكس القاعدة الحالية تمامًا. المرجع الوحيد `.claude/memory/`، والتفاصيل في
 `.claude/memory/07-outdated-files.md`.
 
 ## تحذير

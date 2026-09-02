@@ -20,7 +20,7 @@
 | الأداة | المسار |
 |---|---|
 | `device_bash` (الشِل) | `$HOME/mnt/Kareem Pro` |
-| `device_list_dir` · `device_stage_files` · `device_commit_files` | `/Users/KareemMac/Documents/AI/Kareem Pro` |
+| `device_list_dir` · `device_stage_files` · `device_commit_files` · `device_request_delete_permission` | `/Users/KareemMac/Documents/AI/Kareem Pro` |
 
 **ممنوع** إعطاء أي أمر (`git` / `npm` / أي شيء) مجرَّدًا بلا `cd` في **نفس
 السطر**، ومع علامات اقتباس دائمًا لأن المسار يحتوي مسافة. كل أمر تعطيه لي يجب
