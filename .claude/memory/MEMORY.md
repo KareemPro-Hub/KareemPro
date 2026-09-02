@@ -12,3 +12,10 @@
 | [05 — واتساب هي القناة الوحيدة](05-whatsapp-only-channel.md) | قبل أي تعديل على البريد أو شاشة الدخول أو إنشاء العملاء أو معاينة الروابط. |
 | [06 — القرارات والأعطال](06-decisions-and-fixes.md) | **قبل «إصلاح» أي شيء** — قد يكون مُصلحًا بالفعل أو مقصودًا. وفيه المؤجَّل. |
 | [07 — ملفات متقادمة](07-outdated-files.md) | لتعرف ما تتجاهله: `AGENTS.md` و`AI_HANDOFF.md` و`AI_START_PROMPT.md`. |
+
+## ملفات Instructions الجاهزة
+
+`.claude/instructions/mac-mini-KareemMac.md` — نسخة جهاز «kareem-mac-local».
+`.claude/instructions/macbook-air.md` — نسخة MacBook Air.
+
+تُلصق في خانة Instructions الخاصة بالمشروع على كل جهاز.
