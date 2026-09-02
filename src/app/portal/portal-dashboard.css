@@ -282,3 +282,6 @@
 .client-dashboard .package-grid-two .package-card.featured .package-cta,.onboarding-funnel-light .package-grid-two .package-card.featured .package-cta{background:linear-gradient(110deg,#ffa826,#ff5535 60%,#d9187a);border:none;color:#fff;font-weight:800}
 .client-dashboard .package-grid-two .package-card.featured .package-cta:hover,.onboarding-funnel-light .package-grid-two .package-card.featured .package-cta:hover{color:#fff;box-shadow:0 12px 26px -8px rgba(255,85,53,.55)}
 .client-dashboard .package-grid-two .package-card.featured .package-badge,.onboarding-funnel-light .package-grid-two .package-card.featured .package-badge{box-shadow:0 8px 20px -6px rgba(255,85,53,.65),0 0 0 4px #1d1244}
+/* رمز الريال داخل الكرت الداكن: الصورة الأصلية سوداء فتختفي على الأرضية
+   الداكنة — نعكسها لتصبح بيضاء بدل تمرير نسخة أخرى من المكوّن. */
+.client-dashboard .package-grid-two .package-card.featured .package-price img,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price img,.client-dashboard .package-grid-two .package-card.featured .package-price-original img,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price-original img{filter:invert(1)}
