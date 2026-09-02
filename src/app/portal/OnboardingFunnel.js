@@ -196,6 +196,43 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
 // wording and the "ملاحظة مهمة" cost note speak the client's own language
 // instead of always defaulting to generic "منصة رقمية" phrasing. Keyword
 // heuristic on purpose (no formal service-type field on proposals yet).
+// ── Premium crown ──
+// Marks the single line that makes the top tier worth its price (the 50-article
+// promise on the Blogger ladder). An SVG, not an emoji, so it inherits the
+// card's own gold and stays crisp at any size — same rule as every other icon
+// in the portal.
+function CrownIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      style={{ flexShrink: 0, marginInlineStart: "5px", verticalAlign: "-2px", color: "#ffc266" }}
+    >
+      <path d="M3 8.2a1.3 1.3 0 1 1 1.72 1.23l1.2 4.02h12.16l1.2-4.02A1.3 1.3 0 1 1 21 8.2a1.3 1.3 0 0 1-.77 1.19l-2.2 1.53-2.9-3.63a1.3 1.3 0 1 0-2.26-.02L12 8.9l-.87-1.63a1.3 1.3 0 1 0-2.26.02l-2.9 3.63-2.2-1.53A1.3 1.3 0 0 1 3 8.2Z" />
+      <path d="M5.6 15.45h12.8a.9.9 0 0 1 .9.9v.6a.9.9 0 0 1-.9.9H5.6a.9.9 0 0 1-.9-.9v-.6a.9.9 0 0 1 .9-.9Z" />
+    </svg>
+  );
+}
+
+// Renders a string in which ** … ** marks the part to emphasise, so a tagline
+// can bold just the words that set its tier apart ("بمحتوى كامل") instead of
+// the whole line.
+function withInlineBold(text) {
+  return String(text || "")
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter(Boolean)
+    .map((part, i) =>
+      part.startsWith("**") && part.endsWith("**") ? (
+        <strong key={i}>{part.slice(2, -2)}</strong>
+      ) : (
+        <span key={i}>{part}</span>
+      )
+    );
+}
+
 // ── Blogger payment plans, by package price ──
 // Both Blogger tiers are paid in three instalments, but the amounts differ per
 // tier (900 → 300/300/300، 1,400 → 500/450/450). Keep this in sync with the
@@ -600,7 +637,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       )}
                       <div className="package-head">
                         <div className="package-name">{pkgName}</div>
-                        {pkgTagline && <div className="package-tagline">{pkgTagline}</div>}
+                        {pkgTagline && <div className="package-tagline">{withInlineBold(pkgTagline)}</div>}
                         {pkg.original_price != null && Number(pkg.original_price) > Number(pkg.price) && (
                           <div className="package-price-original">
                             <span dir="ltr">{Number(pkg.original_price).toLocaleString("en-US")}</span>
@@ -628,7 +665,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                                   identical cards is impossible to miss. */}
                               <span>
                                 {line.startsWith("كل مميزات") || line.startsWith("**") ? (
-                                  <strong>{line.replace(/^\*\*/, "").replace(/\*\*$/, "")}</strong>
+                                  <>
+                                    <strong>{line.replace(/^\*\*/, "").replace(/\*\*$/, "")}</strong>
+                                    {/* The crown belongs to the top tier only — on the base
+                                        card the same line is still bold, just uncrowned. */}
+                                    {pkg.is_featured && <CrownIcon />}
+                                  </>
                                 ) : (
                                   line
                                 )}

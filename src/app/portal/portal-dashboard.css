@@ -285,3 +285,7 @@
 /* رمز الريال داخل الكرت الداكن: الصورة الأصلية سوداء فتختفي على الأرضية
    الداكنة — نعكسها لتصبح بيضاء بدل تمرير نسخة أخرى من المكوّن. */
 .client-dashboard .package-grid-two .package-card.featured .package-price img,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price img,.client-dashboard .package-grid-two .package-card.featured .package-price-original img,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price-original img{filter:invert(1)}
+/* التاج يجاور نص السطر المميّز، فنسمح للسطر بالالتفاف حوله بدل قصّه. */
+.client-dashboard .package-grid-two .package-features li strong,.onboarding-funnel-light .package-grid-two .package-features li strong{font-weight:900}
+.client-dashboard .package-grid-two .package-tagline strong,.onboarding-funnel-light .package-grid-two .package-tagline strong{font-weight:900;color:#ffc266}
+.client-dashboard .package-grid-two .package-card:not(.featured) .package-tagline strong,.onboarding-funnel-light .package-grid-two .package-card:not(.featured) .package-tagline strong{color:#1b2a5c}

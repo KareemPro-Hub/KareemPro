@@ -98,7 +98,7 @@ const fakeProposal = {
     },
     {
       id: "pkg-2",
-      name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس بمحتوى كامل",
+      name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس **بمحتوى كامل**",
       price: 1400,
       original_price: 2000,
       is_featured: true,
