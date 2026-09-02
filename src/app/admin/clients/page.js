@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin";
 import ClientActions from "../ClientActions";
 import Money from "@/app/components/Money";
 import { clientFinance } from "@/lib/adminFinance";
+import { contactLine } from "@/lib/whatsapp";
 
 const AVATAR_PALETTE = [
   "linear-gradient(135deg,#ff7b27,#ffad38)",
@@ -29,6 +30,7 @@ export default async function AdminClientsPage({ searchParams }) {
     ? (allClients || []).filter(
         (c) =>
           (c.full_name || "").toLowerCase().includes(q) ||
+          (c.phone || "").toLowerCase().includes(q) ||
           (c.email || "").toLowerCase().includes(q)
       )
     : allClients || [];
@@ -73,7 +75,7 @@ export default async function AdminClientsPage({ searchParams }) {
                         {c.full_name}
                         {c.is_test && <span className="client-luxe-test-badge">تجريبي</span>}
                       </b>
-                      <span dir="ltr">{c.email}</span>
+                      <span dir="ltr">{contactLine(c)}</span>
                     </div>
                   </div>
 

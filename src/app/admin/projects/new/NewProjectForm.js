@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createProject } from "@/app/admin/actions";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { buildStagesForPackagePrice } from "@/lib/packageStages";
+import { contactLine } from "@/lib/whatsapp";
 
 export default function NewProjectForm({ clients }) {
   const [stages, setStages] = useState([{ title: "", description: "", amount: "" }]);
@@ -35,7 +36,7 @@ export default function NewProjectForm({ clients }) {
           <option value="">اختر صاحب المشروع</option>
           {clients.map((c) => (
             <option key={c.id} value={c.id}>
-              {c.full_name} — {c.email}
+              {c.full_name} — {contactLine(c)}
             </option>
           ))}
         </select>

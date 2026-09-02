@@ -17,21 +17,17 @@ function EyeIcon({ off }) {
   );
 }
 
-// One shared login screen for all three roles — the tab picked determines
+// Shared login screen for the two staff roles — the tab picked determines
 // which sign-in endpoint gets hit and where a successful login lands.
 // Deep-linking (e.g. middleware bouncing an unauthenticated /admin/clients
 // visit here) sets both ?role= and ?next= so the right tab is preselected
 // and the redirect still lands exactly where they were headed.
+//
+// Project owners deliberately have NO tab here: they never sign in with an
+// email or a password — they enter only through the one-time WhatsApp login
+// link. A client tab was removed once (ea05c99) and accidentally restored by
+// a later sweep (bd94902); do not add one back.
 const ROLES = {
-  client: {
-    label: "النخبة",
-    heading: "بوابة النخبة",
-    sub: "اكتب بريدك الإلكتروني وهنبعت لك رابط دخول آمن ومباشر.",
-    endpoint: "/auth/magic-link",
-    loginPath: "/login?role=client",
-    defaultNext: "/portal",
-    passwordless: true,
-  },
   admin: {
     label: "المدير",
     heading: "بوابة مدير المنصة",
@@ -59,7 +55,7 @@ function LoginForm() {
       : pathname === "/admin/login"
         ? "admin"
         : searchParams.get("role");
-  const role = ROLES[requestedRole] ? requestedRole : "client";
+  const role = ROLES[requestedRole] ? requestedRole : "admin";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

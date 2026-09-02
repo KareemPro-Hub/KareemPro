@@ -179,3 +179,21 @@ export function progressMessage({ stepTitle, stepDesc, loginUrl }) {
     (loginUrl || PORTAL_URL)
   );
 }
+
+// ── ما يُعرض تحت اسم صاحب المشروع في لوحة الإدارة ──
+// حسابات العملاء الجدد تُنشأ بإيميل داخلي مولّد من رقم الواتساب
+// (…@no-mail.kareempro.com) لأن Supabase لا يقبل حسابًا بلا إيميل — وهو
+// معرّف داخلي لا يُرسل عليه شيء، فلا معنى لعرضه. نعرض رقم الواتساب بدلًا
+// منه، ونُبقي الإيميل الحقيقي ظاهرًا للعملاء القدامى الذين لديهم واحد.
+const INTERNAL_EMAIL_DOMAIN = "@no-mail.kareempro.com";
+
+export function isInternalEmail(email) {
+  return (email || "").toLowerCase().endsWith(INTERNAL_EMAIL_DOMAIN);
+}
+
+export function contactLine(client) {
+  if (!client) return "";
+  if (client.email && !isInternalEmail(client.email)) return client.email;
+  const digits = normalizeWhatsAppPhone(client.phone);
+  return digits ? `+${digits}` : "";
+}

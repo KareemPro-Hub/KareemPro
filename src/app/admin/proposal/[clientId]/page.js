@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import NewProposalForm from "./NewProposalForm";
 import DeleteProposalButton from "./DeleteProposalButton";
+import { contactLine } from "@/lib/whatsapp";
 
 const STATUS_LABEL = {
   pending: "بانتظار قرار صاحب المشروع",
@@ -44,7 +45,7 @@ export default async function ClientProposalPage({ params }) {
         العرض الفني والمالي — {client.full_name}
       </h1>
       <p className="muted" style={{ marginBottom: "1.6rem" }} dir="ltr">
-        {client.email}
+        {contactLine(client)}
       </p>
 
       {proposal ? (
