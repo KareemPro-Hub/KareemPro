@@ -1096,9 +1096,13 @@
     .payment-chip:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(255,63,164,0.22); }
     .payment-chip img { height: 100%; max-width: 90px; object-fit: contain; }
     .footer-contact-note { margin-top: 1.1rem; color: #fff; font-size: 0.8rem; }
-    /* كل معلومة تواصل في سطر مستقل بدل صفٍّ واحد طويل. */
-    .footer-contact-line { margin-top: 0.35rem; }
+    /* كل معلومة تواصل في سطر مستقل بدل صفٍّ واحد طويل. الحاوية تأخذ عرض
+       أطول سطر، والسطران يُضبطان بضبط الأسطر (justify) فيتساوى طرفاهما
+       تمامًا بدل أن يظهر أحدهما أقصر من الآخر. */
+    .footer-contact-wrap { width: fit-content; margin-inline: auto; }
+    .footer-contact-line { margin-top: 0.35rem; text-align: justify; text-align-last: justify; }
     .footer-contact-line:first-child { margin-top: 0; }
+    .footer-contact-policy { margin-top: 0.5rem; }
     .footer-contact-note a { color: var(--g1); text-decoration: none; font-weight: 700; }
     .footer-contact-note a:hover { text-decoration: underline; }
     @media (max-width: 480px) {
@@ -2297,9 +2301,11 @@
       <div class="payment-chip"><img src="payments/orange-cash.png" alt="أورنج كاش" loading="lazy" /></div>
     </div>
     <div class="footer-contact-note">
-      <div class="footer-contact-line">للتواصل من داخل مصر على الواتساب فقط: <a href="https://wa.me/201044277311" target="_blank" rel="noopener">01044277311</a></div>
-      <div class="footer-contact-line">للتواصل من داخل السعودية على الواتساب فقط: <a href="https://wa.me/966507069605" target="_blank" rel="noopener">0507069605</a></div>
-      <div class="footer-contact-line"><a href="refund-policy.html">سياسة الاسترجاع والإلغاء</a></div>
+      <div class="footer-contact-wrap">
+        <div class="footer-contact-line">للتواصل من داخل مصر على الواتساب فقط: <a href="https://wa.me/201044277311" target="_blank" rel="noopener">01044277311</a></div>
+        <div class="footer-contact-line">للتواصل من داخل السعودية على الواتساب فقط: <a href="https://wa.me/966507069605" target="_blank" rel="noopener">0507069605</a></div>
+      </div>
+      <div class="footer-contact-policy"><a href="refund-policy.html">سياسة الاسترجاع والإلغاء</a></div>
     </div>
   </div>
 
