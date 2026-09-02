@@ -35,13 +35,24 @@ export async function proxy(request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Everyone lands on the same shared /login screen (3-way role tabs) —
-  // ?role= preselects the right tab and ?next= sends them back to the exact
-  // page they were trying to reach.
-  if ((path.startsWith("/portal") || path.startsWith("/auth/set-password")) && !user) {
+  // Project owners have no login screen at all — they only ever enter through
+  // the one-time WhatsApp link. So an unauthenticated /portal visit (a copied
+  // URL, an expired session) goes to the public site rather than a staff
+  // sign-in form that has nothing to do with them.
+  if (path.startsWith("/portal") && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
+  // Set-password is a STAFF flow (team invites and password resets), so this
+  // one still belongs on the shared /login screen — ?next= sends them back to
+  // the exact page they were trying to reach.
+  if (path.startsWith("/auth/set-password") && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("role", "client");
+    url.searchParams.delete("role");
     url.searchParams.set("next", path);
     return NextResponse.redirect(url);
   }
