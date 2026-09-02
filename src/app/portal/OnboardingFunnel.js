@@ -233,6 +233,14 @@ function withInlineBold(text) {
     );
 }
 
+// ── Blogger "full content" tier ──
+// On the 1,400 package our team writes and publishes all 50 articles; on the
+// 900 one we write 5 and the client publishes the remaining 45. Several
+// contract clauses below hinge on that difference, so they branch on this
+// set. Keep it in sync with BLOGGER_FULL_CONTENT_PRICES in lib/timeline.js
+// and BLOGGER_FULL_CONTENT_PRICES in lib/packageStages.js.
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+
 // ── Blogger payment plans, by package price ──
 // Both Blogger tiers are paid in three instalments, but the amounts differ per
 // tier (900 → 300/300/300، 1,400 → 500/450/450). Keep this in sync with the
@@ -324,6 +332,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const serviceMeta = SERVICE_META[serviceType];
+  // True only for the Blogger tier where WE deliver the full 50 articles.
+  const isFullContentBlogger =
+    serviceType === "blogger" && BLOGGER_FULL_CONTENT_PRICES.has(Number(selectedPackage?.price));
   const steps = serviceType === "blogger" ? ALL_STEPS.filter((s) => s.id !== "portfolio") : ALL_STEPS;
   const currentStepId = steps[stepIndex]?.id;
   const proposalStepIndex = steps.length - 1;
@@ -846,8 +857,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         <RiyalIcon size="0.75em" tone="dark" /> مقدم — الدفعة الثانية: {second}
                         <RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات الإلزامية — الدفعة
                         الثالثة: {third}
-                        <RiyalIcon size="0.75em" tone="dark" /> عند تسليم المدونة وكتابة المقالات
-                        التأسيسية
+                        <RiyalIcon size="0.75em" tone="dark" />{" "}
+                        {isFullContentBlogger
+                          ? "عند اكتمال نشر المقالات الخمسين"
+                          : "عند تسليم المدونة وكتابة المقالات التأسيسية"}
                       </>
                     );
                   })()}
@@ -947,19 +960,48 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                             يتم تسليم المدونة كاملة (التصميم، الهيكلة، والصفحات الإلزامية) خلال 5 أيام عمل
                             من استلام كافة البيانات المطلوبة من صاحب المشروع.
                           </li>
-                          <li>يلتزم مقدم الخدمة بكتابة 5 مقالات تأسيسية للمدونة ضمن نفس مدة التسليم (5 أيام).</li>
-                          <li>
-                            بمجرد تسليم المدونة كاملة ونشر المقالات الخمس التأسيسية، يُستحق كامل باقي قيمة
-                            الباقة، ويُعتبر المشروع منفَّذًا بالكامل من طرف مقدم الخدمة.
-                          </li>
-                          <li>
-                            نشر باقي المحتوى (45 مقالًا) والتقديم لبرنامج Google AdSense مسؤولية صاحب
-                            المشروع بالكامل بعد ذلك — لا علاقة لهما بالمستحقات المالية. يُنصح بنشر المحتوى
-                            بشكل تدريجي ومتباعد زمنيًا وليس دفعة واحدة، لضمان أعلى فرص القبول من Google،
-                            ويسعد مقدم الخدمة بمتابعة صاحب المشروع ومساعدته كلما تواصل معه عند نشر كل مقال.
-                            قبول المدونة في أدسنس وتحقيق الربح منها يخضع بالكامل لسياسات Google وحدها،
-                            وليس مسؤولية مقدم الخدمة.
-                          </li>
+                          {/* The three clauses below are the ONLY place the two Blogger
+                              tiers really differ: on the 900 package we write 5 articles
+                              and the client publishes the remaining 45; on the 1,400 one
+                              we write and publish all 50. Keeping both wordings side by
+                              side (instead of patching numbers into one shared sentence)
+                              keeps each contract readable on its own. */}
+                          {isFullContentBlogger ? (
+                            <>
+                              <li>
+                                يلتزم مقدم الخدمة بكتابة ونشر 50 مقالًا احترافيًا للمدونة خلال 30 يوم عمل
+                                من تاريخ تسليم المدونة، بشكل تدريجي ومتباعد زمنيًا وليس دفعة واحدة، لضمان
+                                أعلى فرص القبول من Google.
+                              </li>
+                              <li>
+                                بمجرد تسليم المدونة كاملة ونشر المقالات الخمسين، يُستحق كامل باقي قيمة
+                                الباقة، ويُعتبر المشروع منفَّذًا بالكامل من طرف مقدم الخدمة.
+                              </li>
+                              <li>
+                                لا يقع على صاحب المشروع أي التزام بكتابة أو نشر محتوى إضافي ضمن هذه
+                                الباقة. والتقديم لبرنامج Google AdSense يتم بعد اكتمال نشر المقالات
+                                الخمسين، ويسعد مقدم الخدمة بمتابعة صاحب المشروع ومساعدته فيه مجانًا. قبول
+                                المدونة في أدسنس وتحقيق الربح منها يخضع بالكامل لسياسات Google وحدها،
+                                وليس مسؤولية مقدم الخدمة.
+                              </li>
+                            </>
+                          ) : (
+                            <>
+                              <li>يلتزم مقدم الخدمة بكتابة 5 مقالات تأسيسية للمدونة ضمن نفس مدة التسليم (5 أيام).</li>
+                              <li>
+                                بمجرد تسليم المدونة كاملة ونشر المقالات الخمس التأسيسية، يُستحق كامل باقي قيمة
+                                الباقة، ويُعتبر المشروع منفَّذًا بالكامل من طرف مقدم الخدمة.
+                              </li>
+                              <li>
+                                نشر باقي المحتوى (45 مقالًا) والتقديم لبرنامج Google AdSense مسؤولية صاحب
+                                المشروع بالكامل بعد ذلك — لا علاقة لهما بالمستحقات المالية. يُنصح بنشر المحتوى
+                                بشكل تدريجي ومتباعد زمنيًا وليس دفعة واحدة، لضمان أعلى فرص القبول من Google،
+                                ويسعد مقدم الخدمة بمتابعة صاحب المشروع ومساعدته كلما تواصل معه عند نشر كل مقال.
+                                قبول المدونة في أدسنس وتحقيق الربح منها يخضع بالكامل لسياسات Google وحدها،
+                                وليس مسؤولية مقدم الخدمة.
+                              </li>
+                            </>
+                          )}
                         </>
                       )}
                       <li>

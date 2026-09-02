@@ -40,6 +40,18 @@ const BLOGGER_STAGE_DESCRIPTIONS = [
   "بعد إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا).",
   "الدفعة الأخيرة عند تسليم المدونة وكتابة المقالات التأسيسية.",
 ];
+
+// On the 1,400 tier our team writes and publishes all 50 articles, so the last
+// payment falls due when that content is finished — not at blog handover. Only
+// the third description changes; the first two are identical. Keep this price
+// in sync with BLOGGER_FULL_CONTENT_PRICES in lib/timeline.js and
+// portal/OnboardingFunnel.js.
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+const BLOGGER_FULL_CONTENT_DESCRIPTIONS = [
+  BLOGGER_STAGE_DESCRIPTIONS[0],
+  BLOGGER_STAGE_DESCRIPTIONS[1],
+  "الدفعة الأخيرة عند اكتمال نشر المقالات الخمسين.",
+];
 const PHARMACY_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد الانتهاء من التحليل والتصميم وبناء صلاحيات المستخدمين والأدوار.",
@@ -67,9 +79,11 @@ export function buildStagesForPackagePrice(price) {
   if (!amounts) return null;
   const descriptions = PHARMACY_STAGE_PRICES.has(numericPrice)
     ? PHARMACY_STAGE_DESCRIPTIONS
-    : BLOGGER_STAGE_PRICES.has(numericPrice)
-      ? BLOGGER_STAGE_DESCRIPTIONS
-      : null;
+    : BLOGGER_FULL_CONTENT_PRICES.has(numericPrice)
+      ? BLOGGER_FULL_CONTENT_DESCRIPTIONS
+      : BLOGGER_STAGE_PRICES.has(numericPrice)
+        ? BLOGGER_STAGE_DESCRIPTIONS
+        : null;
   return amounts.map((amount, i) => ({
     title: STAGE_TITLES[i] || `الدفعة ${i + 1}`,
     description: descriptions ? descriptions[i] : descriptionFor(i, amounts.length),

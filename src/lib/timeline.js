@@ -212,12 +212,35 @@ const PHARMACY_STEPS = [
   },
 ];
 
+// ── Blogger "full content" tier ──
+// The 1,400 package includes all 50 articles written and published by us, so
+// the two content steps below mean something different than they do on the
+// 900 package (where we write 5 and the client publishes the other 45). Same
+// step KEYS on purpose — only the wording changes — so a project can never
+// land on a step that doesn't exist in its own list. Keep this price in sync
+// with BLOGGER_FULL_CONTENT_PRICES in portal/OnboardingFunnel.js and
+// lib/packageStages.js.
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+const BLOGGER_FULL_CONTENT_STEPS = {
+  blog_delivery_articles: {
+    title: "تسليم المدونة وبدء نشر المقالات",
+    desc: "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل، ويبدأ فريقنا في كتابة ونشر المقالات.",
+  },
+  blog_remaining_content: {
+    title: "نشر المحتوى الكامل (50 مقالًا)",
+    desc: "كتابة ونشر الـ50 مقالًا من فريقنا خلال 30 يوم عمل، بشكل تدريجي ومتباعد زمنيًا لضمان أعلى فرص القبول من Google. باكتمالها يُستحق باقي قيمة الباقة ويُعتبر تنفيذنا مكتمل.",
+  },
+};
+
 // Full breakdown for the admin, adapted to the project's package.
 export function getAdminTimeline(packageName, packagePrice) {
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
-  if (tier === "blogger") return BLOGGER_STEPS;
+  if (tier === "blogger") {
+    if (!BLOGGER_FULL_CONTENT_PRICES.has(Number(packagePrice))) return BLOGGER_STEPS;
+    return BLOGGER_STEPS.map((s) => (BLOGGER_FULL_CONTENT_STEPS[s.key] ? { ...s, ...BLOGGER_FULL_CONTENT_STEPS[s.key] } : s));
+  }
   return STEPS.filter((s) => !s.tiers || s.tiers.includes(tier));
 }
 
