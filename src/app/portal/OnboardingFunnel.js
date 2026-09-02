@@ -196,6 +196,25 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
 // wording and the "ملاحظة مهمة" cost note speak the client's own language
 // instead of always defaulting to generic "منصة رقمية" phrasing. Keyword
 // heuristic on purpose (no formal service-type field on proposals yet).
+// ── Blogger payment plans, by package price ──
+// Both Blogger tiers are paid in three instalments, but the amounts differ per
+// tier (900 → 300/300/300، 1,400 → 500/450/450). Keep this in sync with the
+// "طريقة السداد" line inside each package's features text in admin/actions.js.
+const BLOGGER_PAYMENT_PLANS = {
+  900: [300, 300, 300],
+  1400: [500, 450, 450],
+};
+
+function bloggerPaymentPlan(price) {
+  const numericPrice = Number(price);
+  const plan = BLOGGER_PAYMENT_PLANS[numericPrice];
+  if (plan) return plan;
+  // Unknown tier: split evenly and let the last payment absorb the remainder,
+  // so the three figures always add up to exactly the package price.
+  const part = Math.floor(numericPrice / 3);
+  return [part, part, numericPrice - part * 2];
+}
+
 function detectServiceType(text) {
   const t = text || "";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
@@ -548,7 +567,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
                 حدد باقتك، ولنبدأ نبض مشروعك .. 🚀
               </h2>
-              <div className="package-grid">
+              <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}`}>
                 {(() => {
                   const packagePrices = packages.map((p) => Number(p.price));
                   const maxPackagePrice = Math.max(...packagePrices);
@@ -597,7 +616,17 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                                   <polyline points="20 6 9 17 4 12" />
                                 </svg>
                               </span>
-                              <span>{line.startsWith("كل مميزات") ? <strong>{line}</strong> : line}</span>
+                              {/* A feature line wrapped in ** … ** is the one that sets this
+                                  tier apart (e.g. 5 vs 50 articles on the Blogger ladder) —
+                                  rendered bold so the difference between two otherwise
+                                  identical cards is impossible to miss. */}
+                              <span>
+                                {line.startsWith("كل مميزات") || line.startsWith("**") ? (
+                                  <strong>{line.replace(/^\*\*/, "").replace(/\*\*$/, "")}</strong>
+                                ) : (
+                                  line
+                                )}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -755,14 +784,25 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
                     <RiyalIcon size="0.8em" tone="dark" /> سعودي
                   </strong>
-                  {serviceType === "blogger" && (
-                    <>
-                      {" "}(ثلاث دفعات) الدفعة الأولى: 300<RiyalIcon size="0.75em" tone="dark" /> مقدم
-                      — الدفعة الثانية: 300<RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات
-                      الإلزامية — الدفعة الثالثة: 300<RiyalIcon size="0.75em" tone="dark" /> عند تسليم
-                      المدونة وكتابة المقالات الخمس التأسيسية
-                    </>
-                  )}
+                  {serviceType === "blogger" && (() => {
+                    // Three payments, derived from the package price instead of
+                    // hardcoded — the Blogger ladder now has two tiers (900 and
+                    // 1,400) and each needs its own split. BLOGGER_PAYMENT_PLANS
+                    // holds the agreed numbers per price; anything else falls back
+                    // to an even three-way split so a future tier can never print
+                    // a wrong figure.
+                    const [first, second, third] = bloggerPaymentPlan(selectedPackage.price);
+                    return (
+                      <>
+                        {" "}(ثلاث دفعات) الدفعة الأولى: {first}
+                        <RiyalIcon size="0.75em" tone="dark" /> مقدم — الدفعة الثانية: {second}
+                        <RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات الإلزامية — الدفعة
+                        الثالثة: {third}
+                        <RiyalIcon size="0.75em" tone="dark" /> عند تسليم المدونة وكتابة المقالات
+                        التأسيسية
+                      </>
+                    );
+                  })()}
                   {serviceType === "pharmacy" && (
                     <>
                       {" "}(خمس دفعات متساوية{" "}

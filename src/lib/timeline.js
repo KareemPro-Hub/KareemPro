@@ -7,8 +7,14 @@
 // fixed step count doesn't fit every tier.
 
 function packageTier(packageName) {
-  const name = (packageName || "").split("|")[0].trim();
-  if (/بلوجر|blogger/i.test(name)) return "blogger";
+  const full = (packageName || "").trim();
+  // Blogger is checked against the WHOLE stored name (title + "|" + tagline):
+  // the two Blogger tiers are titled "الباقة الأساسية" / "الباقة الاحترافية"
+  // like the generic ladder, and only their tagline carries the word
+  // "Blogger". Matching the title alone would file them under the wrong
+  // tier and hand them the platform timeline instead of the blog one.
+  if (/بلوجر|blogger/i.test(full)) return "blogger";
+  const name = full.split("|")[0].trim();
   if (name.includes("الاحترافية")) return "professional";
   if (name.includes("المتميزة")) return "premium";
   return "economic"; // no mobile app in this tier

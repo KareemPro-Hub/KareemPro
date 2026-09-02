@@ -65,10 +65,11 @@ const fakeTestimonials = [
   { id: 8, quote: "اهتمام بالتفاصيل الدقيقة ونتيجة نهائية عكست بالظبط اللي كنت أتخيله.", client_name: "هند الشهري", role: "صاحبة متجر إلكتروني" },
 ];
 
-// Currently mirrors the live "مدونة بلوجر ربحية" offer (single package) so
-// Kareem can review the Blogger-specific contract wording and cost note on
-// his phone without creating/re-creating a real test client each time.
-// Swap back to a multi-package fake set once other service lines are wired.
+// Mirrors the live "مدونة بلوجر ربحية" offer (two tiers) so Kareem can review
+// the Blogger-specific cards, contract wording and cost note on his phone
+// without creating/re-creating a real test client each time. Keep the names,
+// prices and feature lines identical to SERVICE_TEMPLATES.blogger in
+// admin/actions.js — this page is only useful while it stays a faithful copy.
 const fakeProposal = {
   id: "preview",
   project_title: "إنشاء وإطلاق مدونة بلوجر ربحية",
@@ -77,9 +78,10 @@ const fakeProposal = {
   proposal_packages: [
     {
       id: "pkg-1",
-      name: "باقة إنشاء مدونة Blogger احترافية جاهزة لأدسنس",
+      name: "الباقة الأساسية|مدونة Blogger احترافية جاهزة لأدسنس",
       price: 900,
-      is_featured: true,
+      original_price: 1500,
+      is_featured: false,
       sort_order: 0,
       features: [
         "إنشاء المدونة على Blogger وربط الدومين",
@@ -87,11 +89,31 @@ const fakeProposal = {
         "هيكلة التصنيفات والأقسام حسب مجال المدونة",
         "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
         "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-        "كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا",
+        "**كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا**",
         "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
         "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
         "تسليم كامل الصلاحيات والوصول",
-        "طريقة السداد: ثلاث دفعات 300 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات الخمس التأسيسية.",
+        "طريقة السداد: ثلاث دفعات. كل دفعة 300 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات التأسيسية.",
+      ].join("\n"),
+    },
+    {
+      id: "pkg-2",
+      name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس بمحتوى كامل",
+      price: 1400,
+      original_price: 2000,
+      is_featured: true,
+      sort_order: 1,
+      features: [
+        "إنشاء المدونة على Blogger وربط الدومين",
+        "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
+        "هيكلة التصنيفات والأقسام حسب مجال المدونة",
+        "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
+        "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
+        "**كتابة ونشر 50 مقالًا احترافيًا من فريقنا**",
+        "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
+        "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
+        "تسليم كامل الصلاحيات والوصول",
+        "طريقة السداد: ثلاث دفعات — 500 ريال مقدم، 450 ريال بعد إعداد الصفحات الإلزامية، 450 ريال عند تسليم المدونة وكتابة المقالات.",
       ].join("\n"),
     },
   ],

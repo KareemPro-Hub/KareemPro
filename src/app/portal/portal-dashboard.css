@@ -244,3 +244,9 @@
 .notif-bell-time{font-size:11px;color:#9a6a3a;margin-top:3px}
 .notif-bell-empty{padding:20px 16px;font-size:12.5px;color:#8a6a4a;text-align:center}
 @media(max-width:720px){.notif-bell-dropdown{position:fixed;top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;border-radius:20px 20px 0 0}}
+/* ── Two-tier package ladder inside the light client dashboard ──
+   The light theme narrows .package-grid to a 290px max column, which is right
+   for the 3- and 4-card proposals but leaves a two-card ladder narrow and very
+   tall. This restores the wider two-up sizing from globals.css for that case
+   only, at the same specificity so it actually wins. */
+.client-dashboard .package-grid-two,.onboarding-funnel-light .package-grid-two{grid-template-columns:repeat(auto-fit,minmax(280px,400px));justify-content:center;gap:1.8rem}

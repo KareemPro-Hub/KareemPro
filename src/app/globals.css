@@ -1247,6 +1247,16 @@ table.admin-table td:nth-child(6) {
   padding-top: 0.6rem;
 }
 
+/* ── Two-tier ladder (currently the Blogger offer) ──
+   With only two cards the default column sizing leaves them narrow and very
+   tall. Widening them here — and here only — keeps every other ladder (the
+   3- and 4-package proposals) exactly as it was. */
+.package-grid-two {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
+  justify-content: center;
+  gap: 1.8rem;
+}
+
 /* ── Glass UI pricing cards ── */
 .package-card {
   position: relative;
@@ -1438,7 +1448,7 @@ table.admin-table td:nth-child(6) {
    this muted strikethrough if nested inside it. */
 .package-price-original {
   margin-top: 0.5rem;
-  font-size: 1.15rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--muted);
   text-decoration: line-through;

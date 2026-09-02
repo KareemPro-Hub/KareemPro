@@ -173,11 +173,36 @@ const DEFAULT_PACKAGES = [
 const SERVICE_TEMPLATES = {
   blogger: {
     projectTitle: "إنشاء وإطلاق مدونة بلوجر ربحية",
+    // Two tiers with ONE deliberate difference: how many articles our team
+    // writes (5 vs 50). Everything else is identical, so the article line is
+    // marked with ** … ** — the funnel renders any line wrapped that way in
+    // bold, which is what makes the difference between the two cards pop.
+    // Both names keep the word "Blogger" on purpose: packageTier() in
+    // lib/timeline.js and detectServiceType() in the funnel both read the
+    // package name to recognise a blogger project.
     packages: [
       {
-        name: "باقة إنشاء مدونة Blogger احترافية جاهزة لأدسنس",
+        name: "الباقة الأساسية|مدونة Blogger احترافية جاهزة لأدسنس",
         price: 900,
         original_price: 1500,
+        is_featured: false,
+        features: [
+          "إنشاء المدونة على Blogger وربط الدومين",
+          "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
+          "هيكلة التصنيفات والأقسام حسب مجال المدونة",
+          "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
+          "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
+          "**كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا**",
+          "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
+          "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
+          "تسليم كامل الصلاحيات والوصول",
+          "طريقة السداد: ثلاث دفعات. كل دفعة 300 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات التأسيسية.",
+        ].join("\n"),
+      },
+      {
+        name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس بمحتوى كامل",
+        price: 1400,
+        original_price: 2000,
         is_featured: true,
         features: [
           "إنشاء المدونة على Blogger وربط الدومين",
@@ -185,11 +210,11 @@ const SERVICE_TEMPLATES = {
           "هيكلة التصنيفات والأقسام حسب مجال المدونة",
           "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
           "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-          "كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا",
+          "**كتابة ونشر 50 مقالًا احترافيًا من فريقنا**",
           "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
           "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
           "تسليم كامل الصلاحيات والوصول",
-          "طريقة السداد: ثلاث دفعات. كل دفعة 300 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات الخمس التأسيسية.",
+          "طريقة السداد: ثلاث دفعات — 500 ريال مقدم، 450 ريال بعد إعداد الصفحات الإلزامية، 450 ريال عند تسليم المدونة وكتابة المقالات.",
         ].join("\n"),
       },
     ],
