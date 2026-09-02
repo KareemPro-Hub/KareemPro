@@ -1,5 +1,13 @@
 import { Resend } from "resend";
 
+// ══════════════════ قناة العميل: واتساب فقط ══════════════════
+// كل تواصل مع صاحب المشروع صار عبر واتساب حصريًا (أزرار الواتساب في لوحة
+// الإدارة)، فلا يُرسل له أي بريد إطلاقًا. الدوال الستة الموجّهة له أدناه
+// معطّلة عبر هذا المفتاح، وقوالبها مُبقاة كما هي حتى يمكن إعادة التفعيل
+// بتغيير هذا السطر وحده. إشعارات الأدمن (sendProposalDecisionEmail و
+// sendClientNoteEmail) لا تتأثر — هي تصل لكريم لا للعميل.
+const CLIENT_EMAILS_ENABLED = false;
+
 function getResend() {
   if (!process.env.RESEND_API_KEY) {
     throw new Error("RESEND_API_KEY غير مضبوط في بيئة التشغيل");
@@ -130,6 +138,7 @@ export async function sendStagePaymentEmail({
   totalStages,
   loginUrl,
 }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   // Direct-login link when available so the button lands them inside their
   // dashboard signed in — never on a login screen.
@@ -161,6 +170,7 @@ function timelineProgressTemplate({ clientName, projectTitle, stepTitle, stepDes
 // Sends the "your project moved to a new stage" email and returns the
 // Resend message id. Fired only on forward progress (see admin/actions.js).
 export async function sendTimelineProgressEmail({ to, clientName, projectTitle, stepTitle, stepDesc, loginUrl }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
@@ -199,6 +209,7 @@ function paymentReceivedTemplate({ clientName, projectTitle, stage, portalUrl })
 // advanceStage in admin/actions.js) — a Resend hiccup shouldn't fail the
 // whole action, same try/catch pattern as the other stage-related emails.
 export async function sendPaymentReceivedEmail({ to, clientName, projectTitle, stage, loginUrl }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
@@ -224,6 +235,7 @@ function newFileTemplate({ projectTitle, fileName, typeLabel, typeIcon, portalUr
 }
 
 export async function sendNewFileEmail({ to, projectTitle, fileName, typeLabel, typeIcon, loginUrl }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   const portalUrl = loginUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/portal`;
   const { data, error } = await resend.emails.send({
@@ -256,6 +268,7 @@ function magicLinkTemplate({ clientName, actionUrl, isWelcome }) {
 // Sends the passwordless login email (welcome or regular) and returns the
 // Resend message id.
 export async function sendMagicLinkEmail({ to, clientName, actionUrl, isWelcome = false }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM,
@@ -274,6 +287,7 @@ export async function sendMagicLinkEmail({ to, clientName, actionUrl, isWelcome 
 // hiccup here shouldn't fail the whole action, same pattern as the
 // timeline-progress email's try/catch wrapper.
 export async function sendDiscountEmail({ to, clientName, projectTitle, oldPrice, newPrice, discountAmount, loginUrl }) {
+  if (!CLIENT_EMAILS_ENABLED) return null;
   const resend = getResend();
   // One-time direct-login link when available (the button drops the client
   // straight into their dashboard, signed in), plain portal URL otherwise.

@@ -2,25 +2,23 @@
 
 import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { deleteClient, resendInvite, generateClientLoginLink, updateClient } from "@/app/admin/actions";
-import { MoreIcon, TrashIcon, RefreshIcon, CheckIcon } from "./AdminIcons";
+import { deleteClient, generateClientLoginLink, updateClient } from "@/app/admin/actions";
+import { MoreIcon, TrashIcon, CheckIcon } from "./AdminIcons";
 import { openWhatsApp, welcomeMessage, DIAL_CODES, splitDialCode } from "@/lib/whatsapp";
 
 export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const [isDeleting, startDelete] = useTransition();
-  const [isResending, startResend] = useTransition();
   const [isCopying, startCopy] = useTransition();
   const [isSaving, startSave] = useTransition();
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
-  const [resent, setResent] = useState(false);
   const [copied, setCopied] = useState(false);
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
-  const isPending = isDeleting || isResending || isCopying || isSaving;
+  const isPending = isDeleting || isCopying || isSaving;
 
   function handleSaveEdit(formData) {
     setError(null);
@@ -93,19 +91,6 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
         closeMenu();
       } catch (e) {
         setError(e.message || "حصل خطأ أثناء الحذف");
-      }
-    });
-  }
-
-  function handleResend() {
-    setError(null);
-    setResent(false);
-    startResend(async () => {
-      try {
-        await resendInvite(clientId);
-        setResent(true);
-      } catch (e) {
-        setError(e.message || "حصل خطأ أثناء إرسال الرابط");
       }
     });
   }
@@ -261,33 +246,6 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
               </svg>
               <span style={{ flex: 1 }}>
                 {clientPhone ? "تعديل البيانات" : "إضافة رقم واتساب"}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              disabled={isPending}
-              onClick={handleResend}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                width: "100%",
-                textAlign: "right",
-                background: "#fff",
-                border: 0,
-                borderRadius: "8px",
-                padding: "9px 8px",
-                fontSize: "13px",
-                fontFamily: "inherit",
-                color: "#172541",
-                cursor: "pointer",
-                fontWeight: 500,
-              }}
-            >
-              {resent ? <CheckIcon /> : <RefreshIcon />}
-              <span style={{ flex: 1 }}>
-                {isResending ? "جارِ الإرسال..." : resent ? "تم إرسال الرابط" : "إعادة إرسال إيميل الدخول"}
               </span>
             </button>
 

@@ -14,6 +14,7 @@ import {
 } from "@/lib/email";
 import { FILE_TYPE_META } from "@/lib/fileTypes";
 import { createLoginLink } from "@/lib/loginLinks";
+import { normalizeWhatsAppPhone } from "@/lib/whatsapp";
 import { generatePaymentReceiptPdf } from "@/lib/pdfReceipt";
 
 const ARABIC_MONTHS = [
@@ -314,16 +315,21 @@ export async function inviteClient(formData) {
   const admin = createAdminClient();
 
   const full_name = formData.get("full_name")?.toString().trim();
-  const email = formData.get("email")?.toString().trim().toLowerCase();
   const phone = formData.get("phone")?.toString().trim() || null;
   // Which service line this client is for — drives which proposal template
   // gets auto-created below. Only "blogger" has a dedicated template so far;
   // any other value (or none) falls back to the standard multi-package offer.
   const service_type = formData.get("service_type")?.toString().trim() || null;
 
-  // Phone is mandatory now — the whole onboarding runs over WhatsApp
-  // (clients come from ads straight into WhatsApp; many never open email).
-  if (!full_name || !email || !phone) throw new Error("الاسم والبريد ورقم الواتساب مطلوبين");
+  // WhatsApp is the only channel — no email is asked for and none is ever
+  // sent to the client (see CLIENT_EMAILS_ENABLED in lib/email.js).
+  if (!full_name || !phone) throw new Error("الاسم ورقم الواتساب مطلوبين");
+
+  // Supabase Auth refuses to create a user without an email, so we mint an
+  // internal one from the WhatsApp number. It is an identifier only: the
+  // no-mail.kareempro.com subdomain has no MX record and nothing is ever
+  // sent to it. Existing clients keep whatever real email they already have.
+  const email = `${normalizeWhatsAppPhone(phone)}@no-mail.kareempro.com`;
 
   // No password is ever set — the account can only be entered via the
   // one-time email links. email_confirm skips the separate "confirm your
@@ -579,7 +585,7 @@ export async function advanceStage(stageId, targetStatus) {
 
   if (isForwardProgress) {
     const NOTIFY_MESSAGE = {
-      awaiting_payment: `بانتظار السداد: "${stage.title}" — تم إرسال تفاصيل الدفع لبريدك الإلكتروني.`,
+      awaiting_payment: `بانتظار السداد: "${stage.title}" — تفاصيل الدفع في لوحة مشروعك.`,
       paid: `تم تأكيد استلام "${stage.title}". شكرًا لك.`,
       in_progress: `بدأنا العمل على مرحلة "${stage.title}".`,
       completed: `اكتملت مرحلة "${stage.title}" بنجاح.`,

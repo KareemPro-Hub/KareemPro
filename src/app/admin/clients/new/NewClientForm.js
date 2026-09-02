@@ -19,11 +19,11 @@ const SERVICE_TYPES = [
 ];
 
 
-// WhatsApp-first onboarding: after the account is created (and the backup
-// welcome email goes out automatically), the admin gets a big green button
+// WhatsApp-only onboarding: no email is asked for and none is ever sent to
+// the client. After the account is created the admin gets a big green button
 // that opens the client's WhatsApp chat with the approved welcome message —
 // including a fresh one-time direct-login link — already typed. One tap on
-// Send and the client is onboarded without ever opening email.
+// Send and the client is onboarded.
 export default function NewClientForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
@@ -63,8 +63,8 @@ export default function NewClientForm() {
         </h2>
         {waSent ? (
           <p className="muted" style={{ marginBottom: "1.4rem", lineHeight: 1.9 }}>
-            تم إرسال رسالة ترحيبية على البريد الإلكتروني والواتساب — العميل
-            جاهز يدخل على لوحته مباشرة.
+            تم إرسال رسالة الترحيب على الواتساب — العميل جاهز يدخل على لوحته
+            مباشرة.
           </p>
         ) : (
           <>
@@ -114,10 +114,6 @@ export default function NewClientForm() {
       <div className="field">
         <label>اسم صاحب المشروع</label>
         <input type="text" name="full_name" required />
-      </div>
-      <div className="field">
-        <label>البريد الإلكتروني</label>
-        <input type="email" name="email" required dir="ltr" />
       </div>
       <div className="field">
         <label>رقم الواتساب</label>
