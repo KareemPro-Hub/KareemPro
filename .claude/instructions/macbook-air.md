@@ -3,7 +3,7 @@
 ## القاعدة صفر — أول أمر في أي جلسة، قبل أي شغل
 
 1. نادِ `get_device_info` وخُذ المسار من `connectedFolders` (المتوقع:
-   `/Kareem-AI/Kareem Pro` — اعتمد ما ترجعه الأداة لا هذا التخمين).
+   `/Volumes/MacBook SSD/Kareem-AI/Kareem Pro` — قرص خارجي، وليس داخل مجلد المستخدم).
 2. اطلب صلاحية الحذف على نفس المسار عبر `device_request_delete_permission`.
 
 السبب: الشِل يصل للمجلد عبر mount يمنع الحذف افتراضيًا، فأوامر Git تفشل بـ

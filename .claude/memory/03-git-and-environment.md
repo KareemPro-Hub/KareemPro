@@ -62,3 +62,24 @@ cd "<مسار المشروع>" && node -e "const b=require('./node_modules/next/
 ## ملفات لا تُحذف رغم أسمائها
 
 `_testfile_del.txt` و`_to_delete/packageStages.js.bak` متتبَّعان فعليًا في Git.
+
+## مسارات المشروع على أجهزة كريم
+
+| الجهاز | مسار القرص | مسار الشِل |
+|---|---|---|
+| `kareem-mac-local` | `/Users/KareemMac/Documents/AI/Kareem Pro` | `$HOME/mnt/Kareem Pro` |
+| MacBook Air | `/Volumes/MacBook SSD/Kareem-AI/Kareem Pro` (قرص خارجي) | `$HOME/mnt/Kareem Pro` |
+
+مسار الشِل واحد على أي جهاز لأن الـ mount يستخدم اسم المجلد لا مساره.
+
+## عطل البروكسي على بعض الأجهزة
+
+على MacBook Air كان `git fetch` و`git ls-remote` يفشلان بـ
+`could not read Username` رغم أن الوصول لا يحتاج مصادقة — السبب بروكسي
+الساندبوكس مع HTTP/2 وبروتوكول Git v2.
+
+الحل، يُضبط مرة واحدة لكل نسخة محلية:
+
+```
+cd "$HOME/mnt/Kareem Pro" && git config protocol.version 0 && git config http.version HTTP/1.1
+```
