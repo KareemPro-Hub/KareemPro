@@ -83,3 +83,26 @@ cd "<مسار المشروع>" && node -e "const b=require('./node_modules/next/
 ```
 cd "$HOME/mnt/Kareem Pro" && git config protocol.version 0 && git config http.version HTTP/1.1
 ```
+
+## لو صلاحية الحذف غير متاحة — الوضع الطبيعي المعتمد
+
+لا تُعطّل الشغل بسببها ولا تكرّر طلبها. الواقع المُختبَر:
+
+- **`git add` و`commit` و`push` تعمل بدونها** — تعتمد على rename لا unlink.
+  تظهر تحذيرات `unable to unlink` وتُتجاهَل، ويُنقل أي قفل عالق بـ `mv` إلى
+  `.git/stale_locks/`.
+- **`git pull` / `merge` وحدهما يفشلان** لأنهما يستبدلان ملفات موجودة.
+
+لذلك: نفّذ كل شيء عاديًا، وعند الحاجة لسحب تحديثات فقط اطلب من كريم لصق سطر
+واحد في Terminal الماك (خارج الساندبوكس):
+
+```
+cd "<مسار المشروع على القرص>" && git pull --ff-only
+```
+
+وإن فشل بـ «untracked working tree files would be overwritten» فالسبب ملفات
+كتبها merge متعثّر سابق — تُنقل أولًا:
+
+```
+mkdir -p _to_delete && mv .claude "_to_delete/claude_partial_$(date +%s)"
+```
