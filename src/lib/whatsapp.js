@@ -131,6 +131,54 @@ export function paymentRequestMessage({ clientName, stageTitle, amount, loginUrl
   );
 }
 
+// ── Overdue first-payment reminder ──────────────────────────────────────
+// Deliberately NOT a variant of paymentRequestMessage above: that one is
+// upbeat ("مشروعك جاهز لينطلق 🚀") and fits a stage that has just been
+// opened for payment. This one is for a stage that has been sitting in
+// "awaiting_payment" long enough that the project is effectively on hold —
+// so the voice is calm, formal and corporate, the pause is framed as a
+// standing policy rather than a personal decision, and the only real
+// pressure in the message is the dated reservation deadline at the end.
+//
+// The deadline defaults to RESERVATION_DAYS days from the moment the button
+// is pressed; nothing is ever sent automatically, so Kareem can still edit
+// the date (or drop the preview-link line for a project that has no
+// preview) inside WhatsApp before pressing Send.
+const RESERVATION_DAYS = 7;
+
+function reservationDeadline(days = RESERVATION_DAYS) {
+  // "-u-nu-latn": Arabic month/weekday names but Latin digits, so the date
+  // matches the "2,000 ريال" figure in the same message instead of mixing
+  // ٢٠٢٦-style Arabic-Indic numerals into it.
+  return new Date(Date.now() + days * 86400000).toLocaleDateString("ar-EG-u-nu-latn", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export function overduePaymentMessage({
+  clientName,
+  projectTitle,
+  stageTitle,
+  amount,
+  deadline,
+  loginUrl,
+}) {
+  const amountValue = Number(amount).toLocaleString("en-US");
+  const deadlineText = deadline || reservationDeadline();
+  return (
+    `أ. ${clientName}، تحية طيبة\n\n` +
+    `مشروع *${projectTitle}* لا يزال موقوفًا لحين استلام *${stageTitle}* وفق العقد الموقّع.\n\n` +
+    `وقد تم إيقاف رابط المعاينة تلقائيًا، وهو إجراء يسري على أي مشروع لم تُفعَّل مرحلته الأولى. العمل المنجز محفوظ بالكامل ✅\n\n` +
+    `💰 المستحق للتفعيل: *${amountValue} ريال*\n\n` +
+    `وإن كان لديكم أي عائق، أخبرونا بصراحة لنتصرف على أساسه.\n\n` +
+    `📌 المشروع محجوز في جدول التنفيذ حتى *${deadlineText}*، وبعدها يُخلى الموعد، ويُعاد جدولته لمشروع آخر حسب المتاح.\n\n` +
+    (loginUrl || PORTAL_URL)
+  );
+}
+
 export function paymentConfirmedMessage({ clientName, stageTitle, amount, loginUrl }) {
   const amountValue = Number(amount).toLocaleString("en-US");
   return (

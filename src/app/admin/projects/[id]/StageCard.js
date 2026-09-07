@@ -34,7 +34,7 @@ const PREV_STATUS = {
   completed: "in_progress",
 };
 
-export default function StageCard({ stage, clientName, clientPhone }) {
+export default function StageCard({ stage, clientName, clientPhone, projectTitle }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
@@ -54,6 +54,14 @@ export default function StageCard({ stage, clientName, clientPhone }) {
       ? "paymentConfirmed"
       : null;
   const waLabel = stage.status === "awaiting_payment" ? "إرسال طلب السداد" : "إرسال التأكيد";
+
+  // Second, optional WhatsApp action on an "awaiting payment" stage: the
+  // formal follow-up for a payment that's overdue. Kept separate from the
+  // green "إرسال طلب السداد" button above (which stays exactly as it was)
+  // because the two messages have opposite jobs — that one opens a payment,
+  // this one states that the project is on hold. See overduePaymentMessage
+  // in lib/whatsapp.js.
+  const showOverdue = stage.status === "awaiting_payment";
 
   function run(target) {
     setError(null);
@@ -181,6 +189,22 @@ export default function StageCard({ stage, clientName, clientPhone }) {
               data={{ clientName, stageTitle: stage.title, amount: stage.amount }}
               projectId={stage.project_id}
               label={waLabel}
+              small
+            />
+          )}
+
+          {showOverdue && clientPhone && (
+            <WhatsAppButton
+              phone={clientPhone}
+              kind="overduePayment"
+              data={{
+                clientName,
+                projectTitle,
+                stageTitle: stage.title,
+                amount: stage.amount,
+              }}
+              projectId={stage.project_id}
+              label="تذكير سداد متأخر"
               small
             />
           )}

@@ -168,6 +168,7 @@ export default async function ProjectDetailPage({ params }) {
             <StageCard
               stage={stage}
               clientName={project.clients?.full_name || ""}
+              projectTitle={project.title}
               clientPhone={project.clients?.phone || null}
               key={stage.id}
             />
