@@ -166,11 +166,13 @@ export default async function PortalPage() {
       project.timeline_step || clientTimeline[0]?.key
     );
     const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
-    const isProjectCompleted = clientCurrentIdx === clientTimeline.length - 1;
+    // Same rule as the detailed view below: only an explicitly completed
+    // project reaches 100%.
+    const isProjectCompleted = isCompleted;
     const progressPercent = isProjectCompleted
       ? 100
-      : clientTimeline.length > 1
-      ? Math.round((Math.max(clientCurrentIdx, 0) / (clientTimeline.length - 1)) * 100)
+      : clientTimeline.length > 0
+      ? Math.round((Math.max(clientCurrentIdx, 0) / clientTimeline.length) * 100)
       : 0;
     const [pkgName] = (project.package_name || "").split("|").map((s) => s.trim());
     const meta = isCompleted
@@ -251,11 +253,16 @@ export default async function PortalPage() {
             project.timeline_step || clientTimeline[0]?.key
           );
           const clientCurrentIdx = clientTimeline.findIndex((r) => r.key === clientCurrentKey);
-          const isProjectCompleted = clientCurrentIdx === clientTimeline.length - 1;
+          // Completion is the admin's explicit act (projects.status), not the
+          // mere fact of standing on the last step — that step is still in
+          // progress. So the ring reaches 100% only when the project is really
+          // closed; before that it counts the steps ACTUALLY finished
+          // (index / total), which reads 90% on the last step of ten.
+          const isProjectCompleted = isCompleted;
           const progressPercent = isProjectCompleted
             ? 100
-            : clientTimeline.length > 1
-            ? Math.round((Math.max(clientCurrentIdx, 0) / (clientTimeline.length - 1)) * 100)
+            : clientTimeline.length > 0
+            ? Math.round((Math.max(clientCurrentIdx, 0) / clientTimeline.length) * 100)
             : 0;
           const isNotStarted = !isCompleted && !isOnHold && progressPercent === 0;
           const statusDot = isCompleted
@@ -359,6 +366,7 @@ export default async function PortalPage() {
               <StagesAccordion
                 clientTimeline={clientTimeline}
                 clientCurrentIdx={clientCurrentIdx}
+                isProjectCompleted={isProjectCompleted}
                 stages={stages}
               />
               </div>

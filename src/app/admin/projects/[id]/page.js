@@ -41,7 +41,11 @@ export default async function ProjectDetailPage({ params }) {
   const adminTimeline = getAdminTimeline(project.package_name, project.package_price);
   const usableSteps = adminTimeline.map((s) => s.key);
   const currentIdx = usableSteps.indexOf(project.timeline_step);
-  const isProjectCompleted = currentIdx === usableSteps.length - 1;
+  // "مكتمل" is an explicit state the admin sets by pressing «اكتمل المشروع» —
+  // NOT merely standing on the last step. Sitting on the final step means that
+  // step is still in progress, so the badge (and the client's 100%) must wait
+  // for projects.status === "completed".
+  const isProjectCompleted = project.status === "completed";
   const [pkgName, pkgTagline] = (project.package_name || "").split("|").map((s) => s.trim());
 
   // WhatsApp follow-up for the timeline's current step — the green button
@@ -114,14 +118,16 @@ export default async function ProjectDetailPage({ params }) {
               projectId={project.id}
               currentStep={project.timeline_step || usableSteps[0]}
               steps={usableSteps}
+              isProjectCompleted={isProjectCompleted}
             />
           </div>
         </div>
 
         <div className="proj-detail-list">
           {adminTimeline.map((item, idx) => {
-            const state =
-              currentIdx === -1
+            const state = isProjectCompleted
+              ? "completed"
+              : currentIdx === -1
                 ? idx === 0
                   ? "current"
                   : "upcoming"

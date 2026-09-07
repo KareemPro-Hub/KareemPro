@@ -11,7 +11,7 @@ const PROD_NODE_STYLE = {
   upcoming: { color: "#8a7466", ring: "linear-gradient(135deg,#e7c9a3,#d8b184)" },
 };
 
-export default function StagesAccordion({ clientTimeline, clientCurrentIdx, stages }) {
+export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isProjectCompleted, stages }) {
   const [prodOpen, setProdOpen] = useState(Math.max(clientCurrentIdx, 0));
   const [payOpen, setPayOpen] = useState(() => {
     const idx = stages.findIndex((s) => s.status === "awaiting_payment");
@@ -29,8 +29,11 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, stag
         </div>
         <div className="stages-accordion-card">
           {clientTimeline.map((item, idx) => {
-            const state =
-              clientCurrentIdx === -1
+            // Every step turns green only once the project itself is marked
+            // completed — standing on the last step still shows it as current.
+            const state = isProjectCompleted
+              ? "completed"
+              : clientCurrentIdx === -1
                 ? idx === 0
                   ? "current"
                   : "upcoming"
