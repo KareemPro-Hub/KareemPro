@@ -763,6 +763,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 لا أرغب بالمتابعة حاليًا
               </button>
 
+              {/* The recurring-cost note is about running a thing we BUILT —
+                  hosting, domain renewal, payment-gateway fees, store developer
+                  accounts. An article package builds nothing and runs nothing:
+                  the client already owns and pays for their blog. Showing it
+                  here would list costs that have nothing to do with what they
+                  are buying, so this service skips the note entirely. */}
+              {serviceType !== "articles" && (
               <div className="notice" style={{ marginTop: "1.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--muted)" }}>
                 <strong style={{ color: "var(--text)", display: "block", marginBottom: "0.5rem" }}>
                   ملاحظة مهمة:
@@ -804,6 +811,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 </ul>
                 تُحدَّد هذه التكاليف بدقة حسب مشروعك عند البدء.
               </div>
+              )}
             </>
           )}
 
