@@ -14,6 +14,14 @@ export const PACKAGE_STAGE_AMOUNTS = {
   // "طريقة السداد" line inside each package's features in admin/actions.js.
   900: [300, 300, 300],
   1400: [500, 450, 450],
+  // Article packages (كتابة ونشر المقالات): instalments are pinned to a
+  // COUNT OF PUBLISHED ARTICLES, not to dates — see the contract's own
+  // wording. Keep in sync with ARTICLES_PAYMENT_PLANS in
+  // portal/OnboardingFunnel.js and the "طريقة السداد" line inside each
+  // package's features in admin/actions.js.
+  650: [350, 300],
+  1100: [400, 350, 350],
+  1750: [650, 550, 550],
   // Pharmacy (Urs) packages: 5 equal installments per the "طريقة السداد"
   // line already written into each package's features text.
   10000: [2000, 2000, 2000, 2000, 2000],
@@ -52,6 +60,27 @@ const BLOGGER_FULL_CONTENT_DESCRIPTIONS = [
   BLOGGER_STAGE_DESCRIPTIONS[1],
   "الدفعة الأخيرة عند اكتمال نشر المقالات الخمسين.",
 ];
+// Article packages: each payment names the exact article number it falls due
+// at, so the stage list in the client's dashboard reads word for word like
+// the contract they signed. Keyed by price because the milestone numbers
+// differ per package (15 / 20 & 40 / 35 & 70).
+const ARTICLES_STAGE_DESCRIPTIONS = {
+  650: [
+    "دفعة مقدّم عند توقيع العقد وبدء العمل.",
+    "الدفعة الأخيرة عند نشر المقال الخامس عشر.",
+  ],
+  1100: [
+    "دفعة مقدّم عند توقيع العقد وبدء العمل.",
+    "عند نشر المقال العشرين.",
+    "الدفعة الأخيرة عند نشر المقال الأربعين.",
+  ],
+  1750: [
+    "دفعة مقدّم عند توقيع العقد وبدء العمل.",
+    "عند نشر المقال الخامس والثلاثين.",
+    "الدفعة الأخيرة عند نشر المقال السبعين.",
+  ],
+};
+
 const PHARMACY_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد الانتهاء من التحليل والتصميم وبناء صلاحيات المستخدمين والأدوار.",
@@ -77,7 +106,9 @@ export function buildStagesForPackagePrice(price) {
   const numericPrice = Number(price);
   const amounts = PACKAGE_STAGE_AMOUNTS[numericPrice];
   if (!amounts) return null;
-  const descriptions = PHARMACY_STAGE_PRICES.has(numericPrice)
+  const descriptions = ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
+    ? ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
+    : PHARMACY_STAGE_PRICES.has(numericPrice)
     ? PHARMACY_STAGE_DESCRIPTIONS
     : BLOGGER_FULL_CONTENT_PRICES.has(numericPrice)
       ? BLOGGER_FULL_CONTENT_DESCRIPTIONS

@@ -1633,6 +1633,19 @@ table.admin-table td:nth-child(6) {
   color: #ffbf5c;
   font-weight: 800;
 }
+/* Nested bullet list inside a contract clause — used by the articles
+   contract's payment-schedule clause to break the three packages onto their
+   own lines. Purely additive: .contract-points li (above) is a descendant
+   selector, so these nested items already inherit the same padding and
+   marker colour in both themes. */
+.contract-subpoints {
+  margin: 0.5rem 0 0;
+  padding-inline-start: 1.2rem;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 .agree-row {
   display: flex;
   align-items: flex-start;

@@ -16,6 +16,7 @@ const SERVICE_TYPES = [
   { value: "video", label: "فيديو سينمائي احترافي" },
   { value: "voiceover", label: "تعليق صوتي إبداعي" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
+  { value: "articles", label: "باقات كتابة ونشر المقالات" },
 ];
 
 

@@ -14,6 +14,12 @@ function packageTier(packageName) {
   // "Blogger". Matching the title alone would file them under the wrong
   // tier and hand them the platform timeline instead of the blog one.
   if (/بلوجر|blogger/i.test(full)) return "blogger";
+  // Article packages ("باقة 30 مقالًا" …) are a content service sold to a
+  // client whose blog already exists — a different production process from
+  // building one, so they get their own step list below. Checked AFTER
+  // blogger on purpose: a blogger package name never contains "مقال", but
+  // if one ever does, the blog build must still win.
+  if (/مقال/.test(full)) return "articles";
   const name = full.split("|")[0].trim();
   if (name.includes("الاحترافية")) return "professional";
   if (name.includes("المتميزة")) return "premium";
@@ -212,6 +218,51 @@ const PHARMACY_STEPS = [
   },
 ];
 
+// Article packages (كتابة ونشر المقالات) — publishing-only process on a blog
+// that already exists: no build, no data collection, no handover. The two
+// payment checkpoints are real steps here (rather than bookkeeping alongside
+// the timeline) because on a pure content retainer they ARE the milestones
+// the client tracks. First key is "contract_payment", the DB default for
+// projects.timeline_step — same reasoning as BLOGGER_STEPS and
+// PHARMACY_STEPS above.
+const ARTICLES_STEPS = [
+  {
+    key: "contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد وتأكيد استلام الدفعة الأولى (المقدم).",
+  },
+  {
+    key: "articles_plan",
+    title: "إعداد خطة المواضيع والكلمات المفتاحية",
+    desc: "تحديد مواضيع المقالات وزواياها وكلماتها المفتاحية، بما يمنع تكرار المحتوى ويستوفي معايير Google.",
+  },
+  {
+    key: "articles_publishing",
+    title: "بدء النشر (مقال يوميًا)",
+    desc: "نشر مقال واحد يوميًا على المدونة — إيقاع مقصود لحماية تقييم المدونة لدى محركات البحث.",
+  },
+  {
+    key: "articles_second_payment",
+    title: "الدفعة الثانية ومواصلة النشر",
+    desc: "استحقاق الدفعة الثانية عند بلوغ عدد المقالات المتفق عليه، ومواصلة النشر بنفس الإيقاع.",
+  },
+  {
+    key: "articles_third_payment",
+    title: "الدفعة الثالثة ومواصلة النشر",
+    desc: "استحقاق الدفعة الثالثة عند بلوغ عدد المقالات المتفق عليه، ومواصلة النشر حتى اكتمال الباقة.",
+  },
+  {
+    key: "articles_completed",
+    title: "اكتمال نشر مقالات الباقة",
+    desc: "اكتمال نشر كامل عدد مقالات الباقة على المدونة، ويُعتبر تنفيذنا مكتملًا.",
+  },
+];
+
+// The 650 package is paid over TWO instalments, not three — so it simply
+// doesn't have a third-payment step. Keep this price in sync with
+// PACKAGE_STAGE_AMOUNTS in lib/packageStages.js.
+const ARTICLES_TWO_PAYMENT_PRICES = new Set([650]);
+
 // ── Blogger "full content" tier ──
 // The 1,400 package includes all 50 articles written and published by us, so
 // the two content steps below mean something different than they do on the
@@ -237,6 +288,11 @@ export function getAdminTimeline(packageName, packagePrice) {
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
+  if (tier === "articles") {
+    if (ARTICLES_TWO_PAYMENT_PRICES.has(Number(packagePrice)))
+      return ARTICLES_STEPS.filter((s) => s.key !== "articles_third_payment");
+    return ARTICLES_STEPS;
+  }
   if (tier === "blogger") {
     if (!BLOGGER_FULL_CONTENT_PRICES.has(Number(packagePrice))) return BLOGGER_STEPS;
     return BLOGGER_STEPS.map((s) => (BLOGGER_FULL_CONTENT_STEPS[s.key] ? { ...s, ...BLOGGER_FULL_CONTENT_STEPS[s.key] } : s));

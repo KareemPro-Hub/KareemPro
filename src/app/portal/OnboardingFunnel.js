@@ -245,6 +245,26 @@ const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
 // Both Blogger tiers are paid in three instalments, but the amounts differ per
 // tier (900 → 300/300/300، 1,400 → 500/450/450). Keep this in sync with the
 // "طريقة السداد" line inside each package's features text in admin/actions.js.
+// Article packages: [amount, "when it falls due"] per instalment, worded
+// exactly like clause 7 of the articles contract below. Keep the amounts in
+// sync with PACKAGE_STAGE_AMOUNTS in lib/packageStages.js.
+const ARTICLES_PAYMENT_PLANS = {
+  650: [
+    [350, "مقدم"],
+    [300, "عند نشر المقال الخامس عشر"],
+  ],
+  1100: [
+    [400, "مقدم"],
+    [350, "عند المقال العشرين"],
+    [350, "عند المقال الأربعين"],
+  ],
+  1750: [
+    [650, "مقدم"],
+    [550, "عند المقال الخامس والثلاثين"],
+    [550, "عند المقال السبعين"],
+  ],
+};
+
 const BLOGGER_PAYMENT_PLANS = {
   900: [300, 300, 300],
   1400: [500, 450, 450],
@@ -263,6 +283,10 @@ function bloggerPaymentPlan(price) {
 function detectServiceType(text) {
   const t = text || "";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
+  // Checked after blogger: an article package is sold to a client whose blog
+  // already exists, so "مقال" alone identifies it. Keep in sync with
+  // packageTier() in lib/timeline.js, which uses the same word.
+  if (/مقال/.test(t)) return "articles";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -280,6 +304,13 @@ const SERVICE_ABOUT_OVERRIDES = {
 خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
 ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
 إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
+  // Article packages are sold to a client we have ALREADY delivered to, so
+  // the funnel's opening step is a thank-you rather than an introduction —
+  // same "label: text" format, same renderer, different job.
+  articles: `شكرًا لثقتك 🤝
+ثقة تُبنى على نتيجة: اخترتنا مرة، ورجعت تختارنا تاني — وده أصدق تقييم ممكن نستلمه.
+عميل من طراز خاص: التعامل معك سلس وواضح ومحترم، وده بيخلّي الشغل معك متعة حقيقية.
+نفس اليد، نفس المستوى: نفس الفريق اللي كتب مقالاتك الأولى هو اللي هيكمل — بنفس الروح وبنفس الجودة.`,
 };
 
 const SERVICE_META = {
@@ -289,6 +320,7 @@ const SERVICE_META = {
   video: { partyRole: "صاحب الفيديو", serviceLine: "فيديو سينمائي احترافي" },
   "platform-apps": { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية مع التطبيقات" },
   platform: { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية" },
+  articles: { partyRole: "صاحب المدونة", serviceLine: "كتابة ونشر مقالات المدونة" },
 };
 
 // "نماذج أعمالنا" shows different portfolio_items depending on what the
@@ -335,7 +367,19 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   // True only for the Blogger tier where WE deliver the full 50 articles.
   const isFullContentBlogger =
     serviceType === "blogger" && BLOGGER_FULL_CONTENT_PRICES.has(Number(selectedPackage?.price));
-  const steps = serviceType === "blogger" ? ALL_STEPS.filter((s) => s.id !== "portfolio") : ALL_STEPS;
+  // Article packages go straight to the point: a thank-you, then the offer.
+  // The client already knows us — they bought before — so the "who we are /
+  // team / past work / testimonials" sell is noise here. The first step's
+  // own copy comes from SERVICE_ABOUT_OVERRIDES.articles above; only its
+  // label in the stepper needs changing, hence the { ...s, label } rewrite.
+  const steps =
+    serviceType === "articles"
+      ? ALL_STEPS.filter((s) => s.id === "about" || s.id === "proposal").map((s) =>
+          s.id === "about" ? { ...s, label: "شكرًا لثقتك" } : s
+        )
+      : serviceType === "blogger"
+        ? ALL_STEPS.filter((s) => s.id !== "portfolio")
+        : ALL_STEPS;
   const currentStepId = steps[stepIndex]?.id;
   const proposalStepIndex = steps.length - 1;
 
@@ -864,6 +908,26 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </>
                     );
                   })()}
+                  {serviceType === "articles" && (() => {
+                    // Instalments are tied to a count of PUBLISHED ARTICLES, not
+                    // to dates — the milestone wording per package lives in
+                    // ARTICLES_PAYMENT_PLANS so this line can never print a split
+                    // that disagrees with the stages the portal actually creates.
+                    const plan = ARTICLES_PAYMENT_PLANS[Number(selectedPackage.price)];
+                    if (!plan) return null;
+                    return (
+                      <>
+                        {" "}({plan.length === 2 ? "دفعتان" : "ثلاث دفعات"}){" "}
+                        {plan.map(([amount, when], i) => (
+                          <span key={i}>
+                            {i > 0 && " — "}
+                            {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة"][i]}: {amount}
+                            <RiyalIcon size="0.75em" tone="dark" /> {when}
+                          </span>
+                        ))}
+                      </>
+                    );
+                  })()}
                   {serviceType === "pharmacy" && (
                     <>
                       {" "}(خمس دفعات متساوية{" "}
@@ -875,7 +939,85 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
                 <h4>شروط الاتفاق:</h4>
                 <ol className="contract-points">
-                  {serviceType === "pharmacy" ? (
+                  {serviceType === "articles" ? (
+                    /* Article packages get their own complete clause set: a pure
+                       content retainer on a blog that already exists shares almost
+                       nothing with a build contract — no data collection, no
+                       handover, no scope-change annex — and its payments are tied
+                       to a count of published articles rather than to milestones
+                       of a thing being built. Written as its own branch (like
+                       pharmacy below) rather than woven into the shared list, so
+                       neither can break the other by accident. */
+                    <>
+                      <li>
+                        يبدأ التنفيذ بعد استلام الدفعة الأولى (المقدم) مباشرة، ولا يتطلب أي بيانات أو
+                        إجراءات من صاحب المشروع.
+                      </li>
+                      <li>
+                        يلتزم مقدم الخدمة بكتابة ونشر عدد المقالات المحدد في الباقة المختارة، على مدونة
+                        صاحب المشروع القائمة بالفعل.
+                      </li>
+                      <li>
+                        تُكتب المقالات بنفس مستوى وأسلوب المقالات التأسيسية التي سبق تسليمها والموافقة
+                        عليها، بصياغة مختصرة وقوية تناسب القارئ العربي ومحركات البحث.
+                      </li>
+                      <li>
+                        يلتزم مقدم الخدمة بتنويع بنية المقالات وزواياها ومواضيعها، بما يمنع تكرار المحتوى
+                        ويستوفي معايير Google الخاصة بأصالة المحتوى.
+                      </li>
+                      <li>
+                        يتم نشر <strong>مقال واحد يوميًا فقط</strong>، وهو إيقاع مقصود ومدروس لحماية
+                        تقييم المدونة لدى محركات البحث، إذ إن النشر المكثّف في وقت قصير يضر بالسيو
+                        وبفرص القبول في أدسنس.
+                      </li>
+                      <li>مدة التنفيذ = عدد مقالات الباقة بالأيام، تبدأ من تاريخ نشر أول مقال.</li>
+                      <li>
+                        تُسدَّد قيمة الباقة على دفعات مرتبطة بعدد المقالات المنشورة فعليًا — لا بالتواريخ
+                        — على النحو التالي:
+                        <ul className="contract-subpoints">
+                          <li>
+                            باقة 30 مقالًا (650 ريال): 350 مقدمًا — 300 عند نشر المقال الخامس عشر.
+                          </li>
+                          <li>
+                            باقة 60 مقالًا (1,100 ريال): 400 مقدمًا — 350 عند المقال العشرين — 350 عند
+                            المقال الأربعين.
+                          </li>
+                          <li>
+                            باقة 100 مقال (1,750 ريال): 650 مقدمًا — 550 عند المقال الخامس والثلاثين —
+                            550 عند المقال السبعين.
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        تُستحق كل دفعة فور بلوغ عدد المقالات المرتبط بها، ويُخطَر صاحب المشروع بها عبر
+                        الواتساب، ويُمهَل ثلاثة أيام من تاريخ الإشعار لسدادها. وفي حال تأخر السداد
+                        يتوقف النشر مؤقتًا حتى استكمال المستحق، ثم يُستأنف من حيث توقف ويُستكمل ما تبقى
+                        من مقالات الباقة دون أي إخلال بباقي البنود.
+                      </li>
+                      <li>
+                        الدفعات المسددة عن مقالات منشورة بالفعل غير قابلة للاسترداد، فهي تقابل عملًا
+                        منجزًا ومسلَّمًا ومنشورًا على المدونة.
+                      </li>
+                      <li>
+                        لصاحب المشروع أن يطلب ترقية باقته إلى باقة أعلى في أي وقت، ويُحتسب له ما سدده،
+                        ويُعاد جدولة الدفعات المتبقية وفق الباقة الجديدة.
+                      </li>
+                      <li>
+                        المقالات المنشورة ملك خالص لصاحب المشروع، وله كامل الحق في تعديلها أو التصرف
+                        فيها كما يشاء.
+                      </li>
+                      <li>
+                        نعمل على تنفيذ المحتوى وفق أفضل الممارسات المعتمدة لدى Google، بما يمنح المدونة
+                        أقوى وضع ممكن أمام أدسنس. ويسعد مقدم الخدمة بمرافقة صاحب المشروع ومساعدته
+                        مجانًا في خطوات التقديم ومتابعته حتى النهاية. ويبقى قرار القبول النهائي وتوقيته
+                        بيد Google وحدها وفق سياساتها، شأنه شأن أي مدونة، وهو ما لا يملك أي طرف ضمانه.
+                      </li>
+                      <li>
+                        توقيع صاحب المشروع على هذا العقد يعني موافقته الكاملة على الباقة المختارة
+                        وقيمتها وشروط تنفيذها.
+                      </li>
+                    </>
+                  ) : serviceType === "pharmacy" ? (
                     /* Pharmacy (Urs) is its own fully separate clause set — enough
                        distinct risk (gov't integration dependency, IP transfer,
                        non-refundable stages, late-payment cutoff) that weaving it
