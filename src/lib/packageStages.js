@@ -12,8 +12,8 @@ export const PACKAGE_STAGE_AMOUNTS = {
   // (مقدم / بعد الصفحات الإلزامية / عند التسليم). Keep these in sync with
   // BLOGGER_PAYMENT_PLANS in portal/OnboardingFunnel.js and with the
   // "طريقة السداد" line inside each package's features in admin/actions.js.
-  900: [300, 300, 300],
-  1400: [500, 450, 450],
+  750: [250, 250, 250],
+  1300: [450, 450, 400],
   // Article packages (كتابة ونشر المقالات): instalments are pinned to a
   // COUNT OF PUBLISHED ARTICLES, not to dates — see the contract's own
   // wording. Keep in sync with ARTICLES_PAYMENT_PLANS in
@@ -42,19 +42,19 @@ const PHARMACY_STAGE_PRICES = new Set([10000, 15000, 20000]);
 // Blogger's three payments are pinned to real blog milestones rather than the
 // generic "منتصف مرحلة التنفيذ" wording, so the stage list a client sees in
 // their dashboard reads exactly like the contract they signed.
-const BLOGGER_STAGE_PRICES = new Set([900, 1400]);
+const BLOGGER_STAGE_PRICES = new Set([750, 1300]);
 const BLOGGER_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا).",
   "الدفعة الأخيرة عند تسليم المدونة وكتابة المقالات التأسيسية.",
 ];
 
-// On the 1,400 tier our team writes and publishes all 50 articles, so the last
+// On the 1,300 tier our team writes and publishes all 50 articles, so the last
 // payment falls due when that content is finished — not at blog handover. Only
 // the third description changes; the first two are identical. Keep this price
 // in sync with BLOGGER_FULL_CONTENT_PRICES in lib/timeline.js and
 // portal/OnboardingFunnel.js.
-const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1300]);
 const BLOGGER_FULL_CONTENT_DESCRIPTIONS = [
   BLOGGER_STAGE_DESCRIPTIONS[0],
   BLOGGER_STAGE_DESCRIPTIONS[1],

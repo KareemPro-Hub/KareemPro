@@ -264,14 +264,14 @@ const ARTICLES_STEPS = [
 const ARTICLES_TWO_PAYMENT_PRICES = new Set([650]);
 
 // ── Blogger "full content" tier ──
-// The 1,400 package includes all 50 articles written and published by us, so
+// The 1,300 package includes all 50 articles written and published by us, so
 // the two content steps below mean something different than they do on the
-// 900 package (where we write 5 and the client publishes the other 45). Same
+// 750 package (where we write 5 and the client publishes the other 45). Same
 // step KEYS on purpose — only the wording changes — so a project can never
 // land on a step that doesn't exist in its own list. Keep this price in sync
 // with BLOGGER_FULL_CONTENT_PRICES in portal/OnboardingFunnel.js and
 // lib/packageStages.js.
-const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1300]);
 const BLOGGER_FULL_CONTENT_STEPS = {
   blog_delivery_articles: {
     title: "تسليم المدونة وبدء نشر المقالات",

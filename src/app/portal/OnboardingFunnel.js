@@ -234,16 +234,16 @@ function withInlineBold(text) {
 }
 
 // ── Blogger "full content" tier ──
-// On the 1,400 package our team writes and publishes all 50 articles; on the
-// 900 one we write 5 and the client publishes the remaining 45. Several
+// On the 1,300 package our team writes and publishes all 50 articles; on the
+// 750 one we write 5 and the client publishes the remaining 45. Several
 // contract clauses below hinge on that difference, so they branch on this
 // set. Keep it in sync with BLOGGER_FULL_CONTENT_PRICES in lib/timeline.js
 // and BLOGGER_FULL_CONTENT_PRICES in lib/packageStages.js.
-const BLOGGER_FULL_CONTENT_PRICES = new Set([1400]);
+const BLOGGER_FULL_CONTENT_PRICES = new Set([1300]);
 
 // ── Blogger payment plans, by package price ──
 // Both Blogger tiers are paid in three instalments, but the amounts differ per
-// tier (900 → 300/300/300، 1,400 → 500/450/450). Keep this in sync with the
+// tier (750 → 250/250/250، 1,300 → 450/450/400). Keep this in sync with the
 // "طريقة السداد" line inside each package's features text in admin/actions.js.
 // Article packages: [amount, "when it falls due"] per instalment, worded
 // exactly like clause 7 of the articles contract below. Keep the amounts in
@@ -266,8 +266,8 @@ const ARTICLES_PAYMENT_PLANS = {
 };
 
 const BLOGGER_PAYMENT_PLANS = {
-  900: [300, 300, 300],
-  1400: [500, 450, 450],
+  750: [250, 250, 250],
+  1300: [450, 450, 400],
 };
 
 function bloggerPaymentPlan(price) {
@@ -897,8 +897,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   </strong>
                   {serviceType === "blogger" && (() => {
                     // Three payments, derived from the package price instead of
-                    // hardcoded — the Blogger ladder now has two tiers (900 and
-                    // 1,400) and each needs its own split. BLOGGER_PAYMENT_PLANS
+                    // hardcoded — the Blogger ladder now has two tiers (750 and
+                    // 1,300) and each needs its own split. BLOGGER_PAYMENT_PLANS
                     // holds the agreed numbers per price; anything else falls back
                     // to an even three-way split so a future tier can never print
                     // a wrong figure.
@@ -1111,8 +1111,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                             من استلام كافة البيانات المطلوبة من صاحب المشروع.
                           </li>
                           {/* The three clauses below are the ONLY place the two Blogger
-                              tiers really differ: on the 900 package we write 5 articles
-                              and the client publishes the remaining 45; on the 1,400 one
+                              tiers really differ: on the 750 package we write 5 articles
+                              and the client publishes the remaining 45; on the 1,300 one
                               we write and publish all 50. Keeping both wordings side by
                               side (instead of patching numbers into one shared sentence)
                               keeps each contract readable on its own. */}
