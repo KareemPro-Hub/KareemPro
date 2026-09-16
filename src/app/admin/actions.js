@@ -280,6 +280,47 @@ const SERVICE_TEMPLATES = {
       },
     ],
   },
+  // Editing course — a teaching service, not a build. Every package name
+  // carries the word "حصص": packageTier() in lib/timeline.js and
+  // detectServiceType() in the funnel both read it to recognise this service.
+  course: {
+    projectTitle: "كورس مونتاج احترافي",
+    packages: [
+      {
+        name: "باقة التأسيس|10 حصص مونتاج على بريمير وأفترإفكت",
+        price: 600,
+        original_price: 1000,
+        is_featured: false,
+        features: [
+          "إتقان Adobe Premiere Pro",
+          "أساسيات Adobe After Effects",
+          "تدريب على مشاريع حقيقية من شغلنا",
+          "خامات ومشاريع جاهزة للتطبيق بعد كل حصة",
+          "تسجيل كل حصة يبقى معك للمراجعة",
+          "مدة الحصة ساعة كاملة",
+          "شهادة إتمام من Kareem Pro",
+          "طريقة السداد: ثلاث دفعات — 200 ريال مقدم، 200 ريال عند الحصة الرابعة، 200 ريال عند الحصة الثامنة.",
+        ].join("\n"),
+      },
+      {
+        name: "باقة الاحتراف|10 حصص أساسيات المونتاج **مع 5 حصص إتقان متقدم**",
+        price: 900,
+        original_price: 1500,
+        is_featured: true,
+        features: [
+          "احتراف Adobe Premiere Pro من الصفر حتى الإبداع",
+          "**5 حصص إتقان متقدم في أفترإفكت وبريمير**",
+          "مراجعة وتقييم لأعمالك بعد انتهاء الكورس",
+          "تدريب على مشاريع حقيقية من شغلنا",
+          "خامات ومشاريع جاهزة للتطبيق بعد كل حصة",
+          "تسجيل كل حصة يبقى معك للمراجعة",
+          "مدة الحصة ساعة كاملة",
+          "شهادة إتمام من Kareem Pro",
+          "طريقة السداد: ثلاث دفعات — 300 ريال مقدم، 300 ريال عند الحصة الخامسة، 300 ريال عند الحصة العاشرة.",
+        ].join("\n"),
+      },
+    ],
+  },
   // One-off custom deal (Urs — pharmacy SaaS platform), not a general-purpose
   // template like blogger. Kept here anyway so it's ready to auto-generate
   // the moment this client is invited, instead of being built by hand.

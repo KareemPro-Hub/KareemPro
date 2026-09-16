@@ -17,6 +17,7 @@ const SERVICE_TYPES = [
   { value: "voiceover", label: "تعليق صوتي إبداعي" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
   { value: "articles", label: "باقات كتابة ونشر المقالات" },
+  { value: "course", label: "كورس مونتاج احترافي" },
 ];
 
 

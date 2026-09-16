@@ -17,6 +17,7 @@ export function detectServiceType(text) {
   const t = text || "";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
   if (/مقال/.test(t)) return "articles";
+  if (/كورس|حصة|حصص/.test(t)) return "course";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -35,6 +36,10 @@ const PREVIEW_BY_SERVICE = {
   articles: {
     title: "مقالات تصنع الفرق",
     description: "محتوى احترافي يرفع مدونتك ويؤهلها للربح",
+  },
+  course: {
+    title: "تعلّم المونتاج من محترف",
+    description: "بريمير وأفترإفكت بشكل عملي من أول حصة",
   },
   blogger: {
     title: "مدونة ربحية جاهزة لأدسنس",

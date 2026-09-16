@@ -20,6 +20,9 @@ function packageTier(packageName) {
   // blogger on purpose: a blogger package name never contains "مقال", but
   // if one ever does, the blog build must still win.
   if (/مقال/.test(full)) return "articles";
+  // Editing course: "حصة"/"حصص" appear in every course package name and in
+  // no other service's. Keep in sync with detectServiceType() in the funnel.
+  if (/حصة|حصص/.test(full)) return "course";
   const name = full.split("|")[0].trim();
   if (name.includes("الاحترافية")) return "professional";
   if (name.includes("المتميزة")) return "premium";
@@ -263,6 +266,58 @@ const ARTICLES_STEPS = [
 // PACKAGE_STAGE_AMOUNTS in lib/packageStages.js.
 const ARTICLES_TWO_PAYMENT_PRICES = new Set([650]);
 
+// Editing course (كورس مونتاج احترافي) — teaching, not building. Both tiers
+// pay in three instalments, so both share these six steps; the 15-session
+// tier only re-words the last two (see COURSE_MASTERY_STEPS below), same
+// key-preserving trick as BLOGGER_FULL_CONTENT_STEPS. First key is
+// "contract_payment", the DB default for projects.timeline_step.
+const COURSE_STEPS = [
+  {
+    key: "contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد وتأكيد استلام الدفعة الأولى (المقدم).",
+  },
+  {
+    key: "course_plan",
+    title: "تحديد المستوى وجدولة الحصص",
+    desc: "تقييم مستوى المتدرب الحالي والاتفاق على مواعيد الحصص بما يناسب الطرفين.",
+  },
+  {
+    key: "course_foundation",
+    title: "بدء حصص التأسيس",
+    desc: "حصص مباشرة فردية على Adobe Premiere Pro، مدة كل حصة ساعة كاملة، مع خامات للتطبيق وتسجيل يبقى مع المتدرب.",
+  },
+  {
+    key: "course_second_payment",
+    title: "الدفعة الثانية ومواصلة التدريب",
+    desc: "استحقاق الدفعة الثانية عند بلوغ عدد الحصص المتفق عليه، ومواصلة التدريب.",
+  },
+  {
+    key: "course_third_payment",
+    title: "الدفعة الثالثة واستكمال الحصص",
+    desc: "استحقاق الدفعة الثالثة عند بلوغ عدد الحصص المتفق عليه، واستكمال باقي حصص الباقة.",
+  },
+  {
+    key: "course_completed",
+    title: "إنهاء الكورس وتسليم الشهادة",
+    desc: "اجتياز كامل حصص الباقة وتسليم شهادة الإتمام من Kareem Pro.",
+  },
+];
+
+// The 900 tier adds five advanced sessions and a graduation project, so its
+// last two steps mean something different. Same KEYS, different wording.
+const COURSE_MASTERY_PRICES = new Set([900]);
+const COURSE_MASTERY_STEPS = {
+  course_third_payment: {
+    title: "الدفعة الثالثة وحصص الإتقان",
+    desc: "استحقاق الدفعة الثالثة عند الحصة العاشرة، وبدء حصص الإتقان المتقدم في أفترإفكت وبريمير.",
+  },
+  course_completed: {
+    title: "المشروع النهائي وتسليم الشهادة",
+    desc: "إنجاز مشروع التخرج بإشراف مباشر، ومراجعة وتقييم الأعمال، وتسليم شهادة الإتمام من Kareem Pro.",
+  },
+};
+
 // ── Blogger "full content" tier ──
 // The 1,300 package includes all 50 articles written and published by us, so
 // the two content steps below mean something different than they do on the
@@ -288,6 +343,12 @@ export function getAdminTimeline(packageName, packagePrice) {
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
+  if (tier === "course") {
+    if (!COURSE_MASTERY_PRICES.has(Number(packagePrice))) return COURSE_STEPS;
+    return COURSE_STEPS.map((s) =>
+      COURSE_MASTERY_STEPS[s.key] ? { ...s, ...COURSE_MASTERY_STEPS[s.key] } : s
+    );
+  }
   if (tier === "articles") {
     if (ARTICLES_TWO_PAYMENT_PRICES.has(Number(packagePrice)))
       return ARTICLES_STEPS.filter((s) => s.key !== "articles_third_payment");

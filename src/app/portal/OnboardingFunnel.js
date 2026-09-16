@@ -248,6 +248,23 @@ const BLOGGER_FULL_CONTENT_PRICES = new Set([1300]);
 // Article packages: [amount, "when it falls due"] per instalment, worded
 // exactly like clause 7 of the articles contract below. Keep the amounts in
 // sync with PACKAGE_STAGE_AMOUNTS in lib/packageStages.js.
+// Editing course: [amount, "when it falls due"] per instalment, worded
+// exactly like clause 7 of the course contract below. Both tiers pay in
+// three, so their timelines are identical too. Keep the amounts in sync with
+// PACKAGE_STAGE_AMOUNTS in lib/packageStages.js.
+const COURSE_PAYMENT_PLANS = {
+  600: [
+    [200, "مقدم"],
+    [200, "عند الحصة الرابعة"],
+    [200, "عند الحصة الثامنة"],
+  ],
+  900: [
+    [300, "مقدم"],
+    [300, "عند الحصة الخامسة"],
+    [300, "عند الحصة العاشرة"],
+  ],
+};
+
 const ARTICLES_PAYMENT_PLANS = {
   650: [
     [350, "مقدم"],
@@ -287,6 +304,10 @@ function detectServiceType(text) {
   // already exists, so "مقال" alone identifies it. Keep in sync with
   // packageTier() in lib/timeline.js, which uses the same word.
   if (/مقال/.test(t)) return "articles";
+  // Editing course: "كورس" / "حصص" are unambiguous — no other service line
+  // uses either word. Checked BEFORE video so a course whose copy mentions
+  // "فيديو" can never be filed as a video production job.
+  if (/كورس|حصة|حصص/.test(t)) return "course";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -321,6 +342,7 @@ const SERVICE_META = {
   "platform-apps": { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية مع التطبيقات" },
   platform: { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية" },
   articles: { partyRole: "صاحب المدونة", serviceLine: "كتابة ونشر مقالات المدونة" },
+  course: { partyRole: "المتدرب", serviceLine: "كورس مونتاج احترافي" },
 };
 
 // "نماذج أعمالنا" shows different portfolio_items depending on what the
@@ -334,6 +356,9 @@ const PORTFOLIO_CATEGORIES_BY_SERVICE = {
   platform: ["منصات وتطبيقات"],
   "platform-apps": ["منصات وتطبيقات"],
   video: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
+  // A course sells the trainer's own editing work as the proof — same
+  // categories the video service shows.
+  course: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
   voiceover: ["تعليق صوتي"],
 };
 
@@ -377,9 +402,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
       ? ALL_STEPS.filter((s) => s.id === "about" || s.id === "proposal").map((s) =>
           s.id === "about" ? { ...s, label: "شكرًا لثقتك" } : s
         )
-      : serviceType === "blogger"
-        ? ALL_STEPS.filter((s) => s.id !== "portfolio")
-        : ALL_STEPS;
+      : serviceType === "course"
+        ? // The work itself is the whole pitch for a course: show what we edit,
+          // then the packages. No "about us", no team, no testimonials.
+          ALL_STEPS.filter((s) => s.id === "portfolio" || s.id === "proposal")
+        : serviceType === "blogger"
+          ? ALL_STEPS.filter((s) => s.id !== "portfolio")
+          : ALL_STEPS;
   const currentStepId = steps[stepIndex]?.id;
   const proposalStepIndex = steps.length - 1;
 
@@ -769,7 +798,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   the client already owns and pays for their blog. Showing it
                   here would list costs that have nothing to do with what they
                   are buying, so this service skips the note entirely. */}
-              {serviceType !== "articles" && (
+              {serviceType !== "articles" && serviceType !== "course" && (
               <div className="notice" style={{ marginTop: "1.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--muted)" }}>
                 <strong style={{ color: "var(--text)", display: "block", marginBottom: "0.5rem" }}>
                   ملاحظة مهمة:
@@ -916,6 +945,26 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </>
                     );
                   })()}
+                  {serviceType === "course" && (() => {
+                    // Same shape as the articles line below: instalments are
+                    // tied to a count of SESSIONS ACTUALLY TAUGHT, so the figure
+                    // printed here can never disagree with the stages the portal
+                    // creates on acceptance.
+                    const plan = COURSE_PAYMENT_PLANS[Number(selectedPackage.price)];
+                    if (!plan) return null;
+                    return (
+                      <>
+                        {" "}(ثلاث دفعات){" "}
+                        {plan.map(([amount, when], i) => (
+                          <span key={i}>
+                            {i > 0 && " — "}
+                            {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة"][i]}: {amount}
+                            <RiyalIcon size="0.75em" tone="dark" /> {when}
+                          </span>
+                        ))}
+                      </>
+                    );
+                  })()}
                   {serviceType === "articles" && (() => {
                     // Instalments are tied to a count of PUBLISHED ARTICLES, not
                     // to dates — the milestone wording per package lives in
@@ -947,7 +996,56 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
                 <h4>شروط الاتفاق:</h4>
                 <ol className="contract-points">
-                  {serviceType === "articles" ? (
+                  {serviceType === "course" ? (
+                    /* Training, not production: nothing is built and nothing is
+                       handed over, so almost none of the build clauses apply.
+                       Its own risks are different too — scheduling, session
+                       recordings, the trainee's own Adobe subscription — which
+                       is why this is a complete clause set of its own rather
+                       than a branch inside the shared list. */
+                    <>
+                      <li>يبدأ التدريب بعد استلام الدفعة الأولى وتحديد جدول الحصص.</li>
+                      <li>الحصص فردية ومباشرة عبر الإنترنت، ومدة الحصة ساعة كاملة.</li>
+                      <li>
+                        يُتفق على مواعيد الحصص مسبقا بما يناسب الطرفين، ويلتزم بها الطرفان.
+                      </li>
+                      <li>تأجيل أي حصة متاح بإشعار قبل أربع وعشرين ساعة على الأقل.</li>
+                      <li>
+                        يُسلَّم تسجيل كل حصة للمتدرب، وهو ملك له للاستخدام الشخصي فقط. ولا يجوز نشره
+                        أو بيعه أو مشاركته مع الغير.
+                      </li>
+                      <li>
+                        يتولى المتدرب توفير جهاز مناسب واتصال إنترنت مستقر واشتراك Adobe الخاص به.
+                      </li>
+                      <li>
+                        تُسدَّد قيمة الباقة على دفعات مرتبطة بعدد الحصص المنفَّذة فعليا:
+                        <ul className="contract-subpoints">
+                          <li>
+                            باقة التأسيس (600 ريال): 200 مقدما — 200 عند الحصة الرابعة — 200 عند
+                            الحصة الثامنة.
+                          </li>
+                          <li>
+                            باقة الاحتراف (900 ريال): 300 مقدما — 300 عند الحصة الخامسة — 300 عند
+                            الحصة العاشرة.
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        تُستحق كل دفعة فور بلوغ عدد الحصص المرتبط بها، ويُخطَر المتدرب بها عبر
+                        الواتساب، ويُمهَل يومان من تاريخ الإشعار لسدادها. وفي حال تأخر السداد تتوقف
+                        الحصص مؤقتا حتى استكمال المستحق، ثم تُستأنف من حيث توقفت.
+                      </li>
+                      <li>الدفعات المسددة عن حصص تمت بالفعل غير قابلة للاسترداد.</li>
+                      <li>
+                        للمتدرب أن يطلب ترقية باقته إلى باقة أعلى في أي وقت، ويُحتسب له ما سدده.
+                      </li>
+                      <li>تُسلَّم شهادة إتمام من Kareem Pro بعد اجتياز كامل حصص الباقة.</li>
+                      <li>
+                        توقيع المتدرب على هذا العقد يعني موافقته الكاملة على الباقة المختارة وقيمتها
+                        وشروط تنفيذها.
+                      </li>
+                    </>
+                  ) : serviceType === "articles" ? (
                     /* Article packages get their own complete clause set: a pure
                        content retainer on a blog that already exists shares almost
                        nothing with a build contract — no data collection, no

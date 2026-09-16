@@ -22,6 +22,13 @@ export const PACKAGE_STAGE_AMOUNTS = {
   650: [350, 300],
   1100: [400, 350, 350],
   1750: [650, 550, 550],
+  // Editing-course packages: three instalments tied to a COUNT OF SESSIONS
+  // ACTUALLY TAUGHT. Keep in sync with COURSE_PAYMENT_PLANS in
+  // portal/OnboardingFunnel.js and the "طريقة السداد" line inside each
+  // package's features in admin/actions.js. (900 was the old blogger price
+  // before it dropped to 750/1300 — it is free to reuse here.)
+  600: [200, 200, 200],
+  900: [300, 300, 300],
   // Pharmacy (Urs) packages: 5 equal installments per the "طريقة السداد"
   // line already written into each package's features text.
   10000: [2000, 2000, 2000, 2000, 2000],
@@ -81,6 +88,23 @@ const ARTICLES_STAGE_DESCRIPTIONS = {
   ],
 };
 
+// Editing course: every payment names the exact session number it falls due
+// at, so the stage list in the trainee's dashboard reads word for word like
+// the contract they signed. Keyed by price because the milestones differ per
+// package (4 & 8 on the 10-session tier, 5 & 10 on the 15-session one).
+const COURSE_STAGE_DESCRIPTIONS = {
+  600: [
+    "دفعة مقدّم عند توقيع العقد وتحديد جدول الحصص.",
+    "عند الحصة الرابعة.",
+    "الدفعة الأخيرة عند الحصة الثامنة.",
+  ],
+  900: [
+    "دفعة مقدّم عند توقيع العقد وتحديد جدول الحصص.",
+    "عند الحصة الخامسة.",
+    "الدفعة الأخيرة عند الحصة العاشرة.",
+  ],
+};
+
 const PHARMACY_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد الانتهاء من التحليل والتصميم وبناء صلاحيات المستخدمين والأدوار.",
@@ -106,7 +130,9 @@ export function buildStagesForPackagePrice(price) {
   const numericPrice = Number(price);
   const amounts = PACKAGE_STAGE_AMOUNTS[numericPrice];
   if (!amounts) return null;
-  const descriptions = ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
+  const descriptions = COURSE_STAGE_DESCRIPTIONS[numericPrice]
+    ? COURSE_STAGE_DESCRIPTIONS[numericPrice]
+    : ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
     ? ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
     : PHARMACY_STAGE_PRICES.has(numericPrice)
     ? PHARMACY_STAGE_DESCRIPTIONS
