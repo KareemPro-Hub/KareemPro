@@ -360,6 +360,16 @@ const SERVICE_META = {
 // title is the key used by PORTFOLIO_DESCRIPTIONS above and by the course
 // entry in PORTFOLIO_CATEGORIES_BY_SERVICE below. Order here is the order
 // Kareem asked for.
+// COURSE FUNNEL ONLY. In the course funnel every cover opens its video
+// straight on YouTube instead of the site's portfolio page — these two
+// category cards show one video's thumbnail, so each maps to that video.
+// "ريلز وسناب" is deliberately absent: shorts keep their original link.
+// Nothing here is read by any other service.
+const COURSE_CATEGORY_VIDEO_LINKS = {
+  "مونتاج احترافي": "https://www.youtube.com/watch?v=X4k2BYJuKbk",
+  "عرض مرئي": "https://www.youtube.com/watch?v=XA5TXQpjNrc",
+};
+
 const COURSE_PORTFOLIO_TITLES = [
   "جائزة الطائف للعمل المجتمعي",
   "فيديو تعريفي وطني للطلاب",
@@ -617,6 +627,11 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     if (offset > visiblePortfolio.length / 2) offset -= visiblePortfolio.length;
                     if (offset < -visiblePortfolio.length / 2) offset += visiblePortfolio.length;
                     const hasStack = Number(item.stack_count) > 1;
+                    // Course funnel only — everywhere else item.link_url is used
+                    // exactly as before.
+                    const itemLink =
+                      (serviceType === "course" && COURSE_CATEGORY_VIDEO_LINKS[item.title]) ||
+                      item.link_url;
                     const coverImages=PORTFOLIO_COVERS[item.title]||[item.image_url].filter(Boolean);
                     const itemLabel = item.description || item.title;
                     return (
@@ -625,8 +640,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         className={`works-slide${offset === 0 ? " active" : ""}`}
                         key={item.id}
                         onClick={() => {
-                          if (offset === 0 && item.link_url) {
-                            window.open(item.link_url, "_blank", "noopener,noreferrer");
+                          if (offset === 0 && itemLink) {
+                            window.open(itemLink, "_blank", "noopener,noreferrer");
                           } else {
                             setPortfolioIndex(index);
                           }
@@ -635,7 +650,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       >
                           {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className={`works-card-bg${["محفظة كريم","iKareem"].includes(item.description)?" works-card-bg--full":""}`} style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
                           <div className="works-card-shade" />
-                          {hasStack && (
+                          {hasStack && serviceType !== "course" && (
                             <span className="works-stack-badge">
                               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="4" y="4" width="12" height="12" rx="2" />
@@ -655,7 +670,24 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 <div className="works-detail">
                   <h3>{visiblePortfolio[portfolioIndex]?.description || visiblePortfolio[portfolioIndex]?.title}</h3>
                   <p>{PORTFOLIO_DESCRIPTIONS[visiblePortfolio[portfolioIndex]?.title] || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
-                  {visiblePortfolio[portfolioIndex]?.link_url ? <a href={visiblePortfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">{Number(visiblePortfolio[portfolioIndex]?.stack_count) > 1 ? "شاهد كل الأعمال ←" : "شاهد الفيديو ←"}</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
+                  {(() => {
+                    const current = visiblePortfolio[portfolioIndex];
+                    // Same course-only override the cards use above.
+                    const href =
+                      (serviceType === "course" && COURSE_CATEGORY_VIDEO_LINKS[current?.title]) ||
+                      current?.link_url;
+                    // Label follows the destination, not the stack count: a
+                    // YouTube link is one video, anything else is the works page
+                    // (which is what every other service still gets).
+                    const label = /youtube\.com|youtu\.be/.test(href || "")
+                      ? "شاهد الفيديو ←"
+                      : "شاهد كل الأعمال ←";
+                    return href ? (
+                      <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
+                    ) : (
+                      <span className="works-detail-button">شاهد كل الأعمال ←</span>
+                    );
+                  })()}
                 </div>
                 </>
               ) : (
