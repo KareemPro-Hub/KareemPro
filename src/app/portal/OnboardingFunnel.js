@@ -353,6 +353,21 @@ const SERVICE_META = {
   course: { partyRole: "المتدرب", serviceLine: "كورس مونتاج احترافي" },
 };
 
+// Five individual works shown at the FRONT of the editing-course funnel's
+// "نماذج من إبداعاتنا" step, before the three category stacks. Unlike every
+// other portfolio row these are single videos, not categories: each has its
+// own portfolio_items row (sort_order -5..-1, so they lead the list) whose
+// title is the key used by PORTFOLIO_DESCRIPTIONS above and by the course
+// entry in PORTFOLIO_CATEGORIES_BY_SERVICE below. Order here is the order
+// Kareem asked for.
+const COURSE_PORTFOLIO_TITLES = [
+  "جائزة الطائف للعمل المجتمعي",
+  "فيديو تعريفي وطني للطلاب",
+  "مبادرة بقيمي أرتقي",
+  "تكريم مسيرة تعليمية",
+  "شركة المنظومة العربية",
+];
+
 // "نماذج أعمالنا" shows different portfolio_items depending on what the
 // client is actually buying — a pharmacy/platform prospect doesn't care
 // about video-editing or voiceover reels, and showing those would look
@@ -375,21 +390,6 @@ const PORTFOLIO_CATEGORIES_BY_SERVICE = {
 // the "▶ play" bubble should render on a portfolio slide. Non-video
 // categories (e.g. "منصات وتطبيقات", which shows website/platform
 // screenshots) must never get a play icon.
-// Five individual works shown at the FRONT of the editing-course funnel's
-// "نماذج من إبداعاتنا" step, before the three category stacks. Unlike every
-// other portfolio row these are single videos, not categories: each has its
-// own portfolio_items row (sort_order -5..-1, so they lead the list) whose
-// title is the key used by PORTFOLIO_DESCRIPTIONS above and by the course
-// entry in PORTFOLIO_CATEGORIES_BY_SERVICE below. Order here is the order
-// Kareem asked for.
-const COURSE_PORTFOLIO_TITLES = [
-  "جائزة الطائف للعمل المجتمعي",
-  "فيديو تعريفي وطني للطلاب",
-  "مبادرة بقيمي أرتقي",
-  "تكريم مسيرة تعليمية",
-  "شركة المنظومة العربية",
-];
-
 const VIDEO_PORTFOLIO_TITLES = new Set([
   ...COURSE_PORTFOLIO_TITLES,
   "مونتاج احترافي",
