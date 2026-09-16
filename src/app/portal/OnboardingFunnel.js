@@ -88,7 +88,15 @@ const TEAM_MEMBERS = [
   { name: "ندى رحيم", role: "Office Documentation Specialist", photo: "/team/nada-rahim.jpg" },
 ];
 const PORTFOLIO_COVERS={"مونتاج احترافي":["https://img.youtube.com/vi/X4k2BYJuKbk/hqdefault.jpg"],"عرض مرئي":["https://img.youtube.com/vi/XA5TXQpjNrc/hqdefault.jpg"],"تعليق صوتي":["https://img.youtube.com/vi/g94wHiCSEDk/hqdefault.jpg"],"ريلز وسناب":["https://img.youtube.com/vi/zhNVbDO2lcw/hqdefault.jpg","https://img.youtube.com/vi/OG7rtRnAjvQ/hqdefault.jpg","https://img.youtube.com/vi/lMWqyAV96SI/hqdefault.jpg"]};
-const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احترافي يصنع من كل لقطة قصة تستحق المشاهدة.","عرض مرئي":"نصنع من فكرتك عرضًا بصريًا يترك أثرًا لا يُنسى.","تعليق صوتي":"نمنح عملك صوتًا يليق بقيمته.","ريلز وسناب":"نستخرج من التفاصيل الصغيرة قصة تستحق المشاهدة.","منصات وتطبيقات":"نحوّل فكرتك إلى منصة رقمية تليق بقيمة مشروعك."};
+const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احترافي يصنع من كل لقطة قصة تستحق المشاهدة.","عرض مرئي":"نصنع من فكرتك عرضًا بصريًا يترك أثرًا لا يُنسى.","تعليق صوتي":"نمنح عملك صوتًا يليق بقيمته.","ريلز وسناب":"نستخرج من التفاصيل الصغيرة قصة تستحق المشاهدة.","منصات وتطبيقات":"نحوّل فكرتك إلى منصة رقمية تليق بقيمة مشروعك.",
+// Five individual works (not categories) shown only in the editing-course
+// funnel — see COURSE_PORTFOLIO_TITLES below. Each one is its own
+// portfolio_items row whose title doubles as the key here.
+"جائزة الطائف للعمل المجتمعي":"حين يلتقي العطاء بالهيبة — فيديو توثيقي يدمج وقار الصوت الرجالي الرخيم بفخامة الإخراج البصري، بحضور سمو أمير الطائف.",
+"فيديو تعريفي وطني للطلاب":"فيديو يدمج بين هيبة المناسبة الوطنية وبراءة الطفولة، بمونتاج سلس وجاذبية بصرية عالية.",
+"مبادرة بقيمي أرتقي":"توثيق إبداعي فخم يختزل نجاح المبادرة، بمونتاج نابض بالحياة يبرز قيمة العمل المجتمعي الأصيل.",
+"تكريم مسيرة تعليمية":"ختام مسيرة تفيض بالنور، احتفاء بعقود من العطاء في ميدان التعليم.",
+"شركة المنظومة العربية":"ملحمة بصرية تحتفي بمسيرة 94 عاما من المجد، بأداء صوتي مهيب ومونتاج سينمائي يدمج عراقة الماضي بطموح المستقبل."};
 
 // Hub-and-spoke team diagram: a center "founder" avatar with satellite
 // member avatars that burst outward from the center the first time the
@@ -356,9 +364,10 @@ const PORTFOLIO_CATEGORIES_BY_SERVICE = {
   platform: ["منصات وتطبيقات"],
   "platform-apps": ["منصات وتطبيقات"],
   video: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
-  // A course sells the trainer's own editing work as the proof — same
-  // categories the video service shows.
-  course: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
+  // A course sells the trainer's own editing work as the proof: five picked
+  // videos first (see COURSE_PORTFOLIO_TITLES), then the same category
+  // stacks the video service shows.
+  course: [...COURSE_PORTFOLIO_TITLES, "مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
   voiceover: ["تعليق صوتي"],
 };
 
@@ -366,7 +375,23 @@ const PORTFOLIO_CATEGORIES_BY_SERVICE = {
 // the "▶ play" bubble should render on a portfolio slide. Non-video
 // categories (e.g. "منصات وتطبيقات", which shows website/platform
 // screenshots) must never get a play icon.
+// Five individual works shown at the FRONT of the editing-course funnel's
+// "نماذج من إبداعاتنا" step, before the three category stacks. Unlike every
+// other portfolio row these are single videos, not categories: each has its
+// own portfolio_items row (sort_order -5..-1, so they lead the list) whose
+// title is the key used by PORTFOLIO_DESCRIPTIONS above and by the course
+// entry in PORTFOLIO_CATEGORIES_BY_SERVICE below. Order here is the order
+// Kareem asked for.
+const COURSE_PORTFOLIO_TITLES = [
+  "جائزة الطائف للعمل المجتمعي",
+  "فيديو تعريفي وطني للطلاب",
+  "مبادرة بقيمي أرتقي",
+  "تكريم مسيرة تعليمية",
+  "شركة المنظومة العربية",
+];
+
 const VIDEO_PORTFOLIO_TITLES = new Set([
+  ...COURSE_PORTFOLIO_TITLES,
   "مونتاج احترافي",
   "عرض مرئي",
   "تعليق صوتي",
@@ -630,7 +655,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 <div className="works-detail">
                   <h3>{visiblePortfolio[portfolioIndex]?.description || visiblePortfolio[portfolioIndex]?.title}</h3>
                   <p>{PORTFOLIO_DESCRIPTIONS[visiblePortfolio[portfolioIndex]?.title] || "نموذج إبداعي صُمم بعناية ليصنع تجربة تستحق المشاهدة."}</p>
-                  {visiblePortfolio[portfolioIndex]?.link_url ? <a href={visiblePortfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">شاهد كل الأعمال ←</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
+                  {visiblePortfolio[portfolioIndex]?.link_url ? <a href={visiblePortfolio[portfolioIndex].link_url} target="_blank" rel="noopener noreferrer">{Number(visiblePortfolio[portfolioIndex]?.stack_count) > 1 ? "شاهد كل الأعمال ←" : "شاهد الفيديو ←"}</a> : <span className="works-detail-button">شاهد كل الأعمال ←</span>}
                 </div>
                 </>
               ) : (
