@@ -430,7 +430,7 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
     <span class="sec-tag">نماذج على أرض الواقع</span>
     <h2 class="sec-title">منصة <span class="g-text">قدرات المغربي</span></h2>
     <p class="sec-sub">منصة تعليمية كاملة — من الفكرة حتى الإطلاق: موقع، تطبيق جوال، ولوحة إدارة يديرها صاحب المنصة بنفسه.</p>
-    <div class="showcase"><a class="shot" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">qudratmaghrabi.com</span></div><img src="/qudrat-preview.webp" alt="المنصة على الويب — عرض الدورات، صفحة الدرس، ونظام الاشتراك" width="1200" height="750" loading="lazy" /><div class="shot-cap"><div><b>المنصة على الويب</b><span>عرض الدورات، صفحة الدرس، ونظام الاشتراك</span></div><span class="shot-go">زيارة الموقع<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div></a><a class="shot" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">iOS · Android</span></div><img src="/qudrat-app-preview.webp" alt="تطبيق الجوال — منشور فعليًا على App Store" width="1200" height="750" loading="lazy" /><div class="shot-cap"><div><b>تطبيق الجوال</b><span>منشور فعليًا على App Store</span></div><span class="shot-go">تحميل التطبيق<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div></a></div><div class="voice"><div class="voice-badge"><svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3.5"/><path d="M8.5 21.5h7"/></svg></div><div><span class="sec-tag">شهادة صوتية من صاحب المنصة</span><div class="player"><button class="play-btn" id="playBtn" aria-label="تشغيل الشهادة الصوتية"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></button><div class="bars" id="bars"></div><span class="p-time" id="pTime">0:00</span><audio id="au" preload="none" src="/testimonials/qudrat-owner.mp3"></audio></div><p class="quote">«كنت محتاج منصة تكون باسمي أنا، مش مجرد قناة أو مجموعة. كريم فهم الفكرة من أول جلسة، وسلّمني منصة وتطبيق بلوحة تحكم أقدر أضيف فيها الدروس بنفسي. النتيجة إن الطلاب بقوا يشتركوا مباشرة.»</p><div class="voice-who"><b>أ. المغربي</b> — مؤسس منصة قدرات المغربي</div></div></div>
+    <div class="showcase"><a class="shot" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">qudratmaghrabi.com</span></div><img src="/qudrat-preview.webp" alt="المنصة على الويب — عرض الدورات، صفحة الدرس، ونظام الاشتراك" width="1200" height="750" loading="lazy" /><div class="shot-cap"><div><b>المنصة على الويب</b><span>عرض الدورات، صفحة الدرس، ونظام الاشتراك</span></div><span class="shot-go">زيارة الموقع<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div></a><a class="shot" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener"><div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="shot-url">iOS · Android</span></div><img src="/qudrat-app-preview.webp" alt="تطبيق الجوال — منشور فعليًا على App Store" width="1200" height="750" loading="lazy" /><div class="shot-cap"><div><b>تطبيق الجوال</b><span>منشور فعليًا على App Store</span></div><span class="shot-go">تحميل التطبيق<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div></a></div>
   </div>
 </section>
 
@@ -465,20 +465,6 @@ footer{border-top:1px solid var(--border);margin-top:1rem;position:relative;z-in
       el.textContent=pfx+Math.round(end*(1-Math.pow(1-q,3)))+sfx;if(q<1)requestAnimationFrame(step);}
     requestAnimationFrame(step);});},{threshold:.6});
   document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el);});
-  var bars=document.getElementById('bars');
-  if(bars){
-    var Hh=[7,13,20,11,26,17,30,22,14,27,19,33,24,12,29,16,23,31,18,10,25,15,28,21,9,26,17,32,13,20,11,24,30,16,22,12,27,19,8,14];
-    Hh.forEach(function(x){var i=document.createElement('i');i.style.height=x+'px';bars.appendChild(i);});
-    var au=document.getElementById('au'),btn=document.getElementById('playBtn'),t=document.getElementById('pTime'),all=bars.querySelectorAll('i');
-    function fmt(s){s=Math.floor(s||0);return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
-    btn.addEventListener('click',function(){
-      if(au.paused){au.play().then(function(){btn.innerHTML='<svg viewBox="0 0 24 24"><rect x="6.5" y="4.5" width="4" height="15"/><rect x="13.5" y="4.5" width="4" height="15"/></svg>';})
-        .catch(function(){t.textContent='قريبًا';});}
-      else{au.pause();btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>';}});
-    au.addEventListener('timeupdate',function(){var q=au.duration?au.currentTime/au.duration:0;t.textContent=fmt(au.currentTime);
-      all.forEach(function(el,i){el.classList.toggle('on',i/all.length<=q);});});
-    au.addEventListener('error',function(){t.textContent='قريبًا';});
-  }
 })();
 </script>
 </body>
