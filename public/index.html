@@ -79,11 +79,6 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ الخلفية: شبكة + توهّج ═══ */
 .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-fx::before{content:"";position:absolute;inset:0;
-  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%);
-  -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%)}
 .bg-fx::after{content:"";position:absolute;inset:0;
   background:radial-gradient(52% 34% at 78% -4%,rgba(255,168,38,.16),transparent 68%),
              radial-gradient(48% 32% at 10% 6%,rgba(217,24,122,.18),transparent 70%)}
@@ -117,6 +112,21 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 .cta:hover{transform:translateY(-2px)}
 .cta .arw{width:30px;height:30px;border-radius:50%;background:rgba(10,14,38,.15);display:grid;place-items:center}
 
+/* خلفية الكود خلف العنوان */
+.code-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  mask-image:radial-gradient(ellipse 62% 70% at 50% 34%,transparent 0 30%,#000 66%),linear-gradient(to bottom,#000 55%,transparent 88%);
+  -webkit-mask-image:radial-gradient(ellipse 62% 70% at 50% 34%,transparent 0 30%,#000 66%),linear-gradient(to bottom,#000 55%,transparent 88%);
+  mask-composite:intersect;-webkit-mask-composite:source-in}
+.code-cols{position:absolute;inset:-4% 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12%;padding-inline:3%;
+  animation:codeDrift 42s linear infinite alternate}
+.code-cols pre{margin:0;font-family:var(--mono);font-size:12.5px;line-height:1.95;color:rgba(200,205,255,.2);
+  direction:ltr;text-align:left;white-space:pre;overflow:hidden}
+.code-cols pre:last-child{text-align:left}
+.ck{color:rgba(255,85,53,.38)}.cs{color:rgba(255,168,38,.36)}.cf{color:rgba(217,24,122,.4)}.cc{color:rgba(150,156,200,.22)}.ct{color:rgba(120,200,255,.3)}
+@keyframes codeDrift{from{transform:translateY(0)}to{transform:translateY(-8%)}}
+.hero-in{z-index:1}
+@media(max-width:760px){.code-cols{grid-template-columns:1fr;padding-inline:6%}.code-cols pre:last-child{display:none}.code-cols pre{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.code-cols{animation:none}}
 /* شرائح التقنيات */
 .techs{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:30px auto 0;max-width:940px}
 .gnav{margin-top:24px}
@@ -162,25 +172,21 @@ section{padding:78px 0}
 h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 .sec-head p{color:var(--muted);margin-top:13px;font-size:16px}
 
-/* ═══ Bento الخدمات ═══ */
-.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.bx{grid-column:span 2;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
-  border:1px solid var(--line);border-radius:20px;padding:26px 24px;position:relative;overflow:hidden;
-  transition:transform .22s,border-color .22s}
-.bx::after{content:"";position:absolute;inset:0;opacity:0;transition:opacity .25s;
-  background:radial-gradient(70% 55% at 50% 0%,rgba(255,168,38,.13),transparent 70%)}
-.bx:hover{transform:translateY(-4px);border-color:rgba(255,168,38,.34)}
-.bx:hover::after{opacity:1}
-.bx>*{position:relative}
-.bx.wide{grid-column:span 3}
-.bx-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--grad);margin-bottom:16px}
-.bx h3{font-size:19px;font-weight:900;margin-bottom:8px}
-.bx p{color:var(--muted);font-size:14.5px;line-height:1.85}
-.bx .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
-.bx .tags span{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:3px 9px}
-.bx .more{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;font-weight:700;color:var(--g1)}
-@media(max-width:980px){.bento{grid-template-columns:repeat(4,1fr)}.bx,.bx.wide{grid-column:span 2}}
-@media(max-width:620px){.bento{grid-template-columns:1fr}.bx,.bx.wide{grid-column:span 1}}
+/* ═══ الخدمات — مختصرة ═══ */
+#services .sec-head{margin-bottom:28px}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1000px;margin-inline:auto}
+.sv{position:relative;display:flex;flex-direction:column;gap:3px;padding:16px 16px 15px;border-radius:18px;color:inherit;
+  background:linear-gradient(168deg,#1b2350 0%,#121840 50%,#0e1336 100%);border:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px rgba(0,0,0,.45);transition:transform .2s,border-color .2s,box-shadow .2s}
+.sv:hover{transform:translateY(-4px);border-color:rgba(255,168,38,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 18px 36px rgba(0,0,0,.55)}
+.sv-ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--grad);margin-bottom:9px}
+.sv-t{font-size:15.5px;font-weight:900;line-height:1.35}
+.sv-d{font-size:12.5px;color:var(--muted);line-height:1.65}
+.sv-go{position:absolute;inset-inline-end:14px;top:16px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  color:var(--muted);border:1px solid rgba(255,255,255,.14);transition:.2s}
+.sv:hover .sv-go{background:var(--grad);color:#0a0e26;border-color:transparent}
+@media(max-width:880px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:380px){.sv{padding:14px 12px}.sv-t{font-size:14.5px}}
 
 /* ═══ الأعمال ═══ */
 .work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:22px}
@@ -295,6 +301,62 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
+  <div class="code-bg" aria-hidden="true"><div class="code-cols"><pre><span class="cc">// app/projects/[id]/page.tsx</span>
+<span class="ck">import</span> { createClient } <span class="ck">from</span> <span class="cs">'@/lib/supabase'</span>
+<span class="ck">import</span> { Timeline } <span class="ck">from</span> <span class="cs">'@/components/timeline'</span>
+
+<span class="ck">export default async function</span> <span class="cf">ProjectPage</span>({ params }) {
+  <span class="ck">const</span> db = <span class="cf">createClient</span>()
+  <span class="ck">const</span> { data: project } = <span class="ck">await</span> db
+    .<span class="cf">from</span>(<span class="cs">'projects'</span>)
+    .<span class="cf">select</span>(<span class="cs">'*, stages(*), payments(*)'</span>)
+    .<span class="cf">eq</span>(<span class="cs">'id'</span>, params.id)
+    .<span class="cf">single</span>()
+
+  <span class="ck">return</span> (
+    &lt;<span class="ct">main</span> dir=<span class="cs">"rtl"</span>&gt;
+      &lt;<span class="ct">Timeline</span> steps={project.stages} /&gt;
+      &lt;<span class="ct">Payments</span> items={project.payments} /&gt;
+    &lt;/<span class="ct">main</span>&gt;
+  )
+}
+
+<span class="cc">// api/checkout/route.ts</span>
+<span class="ck">export async function</span> <span class="cf">POST</span>(req: <span class="ct">Request</span>) {
+  <span class="ck">const</span> { plan } = <span class="ck">await</span> req.<span class="cf">json</span>()
+  <span class="ck">const</span> session = <span class="ck">await</span> pay.<span class="cf">create</span>({
+    amount: plan.price, currency: <span class="cs">'SAR'</span>,
+    methods: [<span class="cs">'mada'</span>, <span class="cs">'applepay'</span>, <span class="cs">'visa'</span>],
+  })
+  <span class="ck">return</span> Response.<span class="cf">json</span>({ url: session.url })
+}</pre><pre><span class="cc">// CourseView.swift</span>
+<span class="ck">import</span> SwiftUI
+
+<span class="ck">struct</span> <span class="ct">CourseView</span>: <span class="ct">View</span> {
+  <span class="ck">@State private var</span> lessons: [<span class="ct">Lesson</span>] = []
+  <span class="ck">let</span> course: <span class="ct">Course</span>
+
+  <span class="ck">var</span> body: <span class="ck">some</span> <span class="ct">View</span> {
+    <span class="ct">List</span>(lessons) { lesson <span class="ck">in</span>
+      <span class="ct">LessonRow</span>(lesson: lesson)
+    }
+    .<span class="cf">navigationTitle</span>(course.title)
+    .<span class="cf">task</span> { <span class="ck">await</span> <span class="cf">load</span>() }
+  }
+
+  <span class="ck">func</span> <span class="cf">load</span>() <span class="ck">async</span> {
+    lessons = <span class="ck">try</span>? <span class="ck">await</span> API.<span class="cf">lessons</span>(course.id)
+  }
+}
+
+<span class="cc">-- schema.sql</span>
+<span class="ck">create table</span> projects (
+  id          uuid <span class="ck">primary key default</span> gen_random_uuid(),
+  client_id   uuid <span class="ck">references</span> clients(id),
+  title       text <span class="ck">not null</span>,
+  timeline    text <span class="ck">default</span> <span class="cs">'contract_payment'</span>,
+  created_at  timestamptz <span class="ck">default</span> now()
+);</pre></div></div>
   <div class="container hero-in">
     <div class="kick">OUR WORK</div>
     <h1>منصات وتطبيقات <span class="g-text">شغّالة فعلًا</span></h1>
@@ -355,72 +417,56 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
     <div class="sec-head reveal">
       <div class="sec-tag">SERVICES</div>
       <h2>خدمات <span class="g-text">البرمجة والتطوير</span></h2>
-      <p>كل ما تحتاجه لبناء منتج رقمي متكامل — من الفكرة حتى الإطلاق والدعم.</p>
     </div>
-    <div class="bento">
-
-      <a class="bx wide reveal" href="/platforms">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg></div>
-        <h3>برمجة وتصميم المواقع والمنصات</h3>
-        <p>مواقع تعريفية ومنصات ويب متكاملة بلوحات تحكم وصلاحيات وتقارير — سريعة ومتجاوبة ومهيّأة لمحركات البحث.</p>
-        <div class="tags"><span>Next.js</span><span>React</span><span>TypeScript</span><span>SSR / SEO</span></div>
-        <span class="more">استعرض الخدمة
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg>
-        </span>
+    <div class="svc-grid reveal">
+      <a class="sv" href="/platforms">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg></span>
+        <h3 class="sv-t">مواقع ومنصات</h3>
+        <span class="sv-d">مواقع ولوحات تحكم مهيّأة للسيو</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx wide reveal" href="/store">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-1.6 9.5a2 2 0 0 1-2 1.7H7.6a2 2 0 0 1-2-1.7L4 6Z"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg></div>
-        <h3>تصميم وبرمجة متجر إلكتروني</h3>
-        <p>متجر كامل بإدارة منتجات ومخزون وبوابات دفع وشحن وفواتير — وتجربة شراء سلسة من الجوال قبل الحاسوب.</p>
-        <div class="tags"><span>Payments</span><span>Inventory</span><span>Invoices</span></div>
-        <span class="more">استعرض الخدمة
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg>
-        </span>
+      <a class="sv" href="/store">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-1.6 9.5a2 2 0 0 1-2 1.7H7.6a2 2 0 0 1-2-1.7L4 6Z"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg></span>
+        <h3 class="sv-t">متجر إلكتروني</h3>
+        <span class="sv-d">منتجات ودفع وشحن ومخزون</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/edu-platform">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.5 9 12 14l9.5-5L12 4Z"/><path d="M6.5 11.8V16c0 1.7 2.5 3 5.5 3s5.5-1.3 5.5-3v-4.2"/></svg></div>
-        <h3>منصة تعليمية</h3>
-        <p>كورسات ودروس واشتراكات واختبارات ومتابعة تقدّم الطلاب.</p>
-        <div class="tags"><span>LMS</span><span>Subscriptions</span></div>
+      <a class="sv" href="/edu-platform">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.5 9 12 14l9.5-5L12 4Z"/><path d="M6.5 11.8V16c0 1.7 2.5 3 5.5 3s5.5-1.3 5.5-3v-4.2"/></svg></span>
+        <h3 class="sv-t">منصة تعليمية</h3>
+        <span class="sv-d">كورسات واشتراكات واختبارات</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/platforms">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.6h2"/></svg></div>
-        <h3>تطبيقات الجوال</h3>
-        <p>تطبيقات iOS وأندرويد ونشرها على المتاجر باسمك.</p>
-        <div class="tags"><span>Swift</span><span>SwiftUI</span></div>
+      <a class="sv" href="/platforms">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.6h2"/></svg></span>
+        <h3 class="sv-t">تطبيقات الجوال</h3>
+        <span class="sv-d">iOS وأندرويد باسمك على المتاجر</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/blog">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3.5h15v17l-7.5-4-7.5 4v-17Z"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg></div>
-        <h3>مدونة ربحية</h3>
-        <p>مدونة جاهزة لأدسنس بمحتوى وسيو من فريقنا.</p>
-        <div class="tags"><span>Blogger</span><span>AdSense</span></div>
+      <a class="sv" href="/blog">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3.5h15v17l-7.5-4-7.5 4v-17Z"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg></span>
+        <h3 class="sv-t">مدونة ربحية</h3>
+        <span class="sv-d">جاهزة لأدسنس بمحتوى وسيو</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/booking">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
-        <h3>نظام حجز مواعيد</h3>
-        <p>حجوزات وتقويم وتنبيهات ودفع مسبق.</p>
-        <div class="tags"><span>Calendar</span><span>Reminders</span></div>
+      <a class="sv" href="/booking">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+        <h3 class="sv-t">حجز مواعيد</h3>
+        <span class="sv-d">تقويم وتنبيهات ودفع مسبق</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/portal-system">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.1 7-6.1s7 2.5 7 6.1"/></svg></div>
-        <h3>بوابة عملاء</h3>
-        <p>لوحة يتابع منها عميلك مراحل مشروعه ودفعاته.</p>
-        <div class="tags"><span>Auth</span><span>Dashboard</span></div>
+      <a class="sv" href="/portal-system">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.1 7-6.1s7 2.5 7 6.1"/></svg></span>
+        <h3 class="sv-t">بوابة عملاء</h3>
+        <span class="sv-d">عميلك يتابع مشروعه ودفعاته</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
-      <a class="bx reveal" href="/pos-system">
-        <div class="bx-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></div>
-        <h3>نظام نقاط بيع</h3>
-        <p>كاشير ومخزون وفروع وفواتير ضريبية.</p>
-        <div class="tags"><span>POS</span><span>ZATCA</span></div>
+      <a class="sv" href="/pos-system">
+        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></span>
+        <h3 class="sv-t">نقاط بيع</h3>
+        <span class="sv-d">كاشير ومخزون وفواتير ضريبية</span>
+        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
-
     </div>
   </div>
 </section>
