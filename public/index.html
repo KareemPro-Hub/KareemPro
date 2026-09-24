@@ -149,10 +149,14 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 .gshot{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#0a0e26;
   box-shadow:0 1px 0 rgba(255,255,255,.07),0 8px 18px rgba(0,0,0,.45)}
 .gshot img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
-.gcard .meta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 6px 2px;text-align:right}
-.gcard .gtag{display:inline-block;font-size:10.5px;font-weight:800;color:#0a0e26;background:var(--grad);border-radius:7px;padding:2px 9px;margin-bottom:5px}
+.gcard .meta{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 6px 2px;text-align:right}
+.gcard .gtop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px}
+.gcard .gtag{display:inline-block;font-size:10.5px;font-weight:800;color:#0a0e26;background:var(--grad);border-radius:7px;padding:2px 9px}
 .gcard .gname{font-size:clamp(14.5px,1.5vw,18px);font-weight:900;line-height:1.3;color:#fff}
-.gcard .gurl{font-family:var(--mono);font-size:10.5px;color:#a7adda;direction:ltr;margin-top:2px}
+.gcard .gurl{font-family:var(--mono);font-size:10.5px;color:#a7adda;direction:ltr}
+.gcard .gdesc{font-size:clamp(12px,1.05vw,13.5px);line-height:1.75;color:#bcc1e6;margin-top:5px}
+.gcard .gstack{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.gcard .gstack span{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#e9ebff;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:3px 8px;direction:ltr}
 .gcard .gopen{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
   background:var(--grad);color:#0a0e26;box-shadow:0 6px 16px rgba(217,24,122,.4)}
 .gcard[data-d="0"]{z-index:10}
@@ -189,22 +193,6 @@ h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 @media(max-width:380px){.sv{padding:14px 12px}.sv-t{font-size:14.5px}}
 
 /* ═══ الأعمال ═══ */
-.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:22px}
-.work{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--dark2);transition:transform .22s,border-color .22s}
-.work:hover{transform:translateY(-5px);border-color:rgba(255,168,38,.32)}
-.frame{background:var(--dark3);padding:9px 11px 0}
-.frame-bar{display:flex;align-items:center;gap:6px;padding-bottom:9px}
-.frame-bar i{width:9px;height:9px;border-radius:50%;display:block}
-.frame-url{flex:1;margin-inline-start:8px;background:rgba(0,0,0,.32);border-radius:7px;font-family:var(--mono);font-size:10.5px;color:var(--muted);padding:3px 10px;text-align:left;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.work-shot{aspect-ratio:16/10;overflow:hidden;background:var(--dark3)}
-.work-shot img{width:100%;height:100%;object-fit:cover;object-position:top center}
-.work-body{padding:20px}
-.work-tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--g1);border:1px solid rgba(255,168,38,.28);border-radius:7px;padding:2px 9px;margin-bottom:10px}
-.work h3{font-size:18.5px;font-weight:900;margin-bottom:7px}
-.work p{color:var(--muted);font-size:14px;line-height:1.8}
-.work .stack{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 16px}
-.work .stack span{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:rgba(255,255,255,.04);border-radius:6px;padding:3px 8px}
-.live{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:900;color:#0a0e26;background:var(--grad);border-radius:11px;padding:9px 17px}
 
 /* ═══ شكل شرائح التقنيات ═══ */
 .tech{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:13px;padding:11px 18px;font-family:var(--mono);font-size:13.5px;color:var(--muted);background:rgba(255,255,255,.025);transition:.2s}
@@ -358,30 +346,30 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
     <a class="cta" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%A8%D9%86%D8%A7%D8%A1%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" rel="noopener">ابدأ بناء مشروعك <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></a>
 
 
-    <div class="gal"><div class="gal-track" id="galTrack">
+    <div class="gal" id="work"><div class="gal-track" id="galTrack">
       <a class="gcard" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
         <div class="gshot"><img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" /></div>
-        <div class="meta"><div><span class="gtag">منصة تعليمية</span><div class="gname">منصة قدرات المغربي</div><div class="gurl">qudratmaghrabi.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">منصة تعليمية</span><span class="gurl">qudratmaghrabi.com</span></div><div class="gname">منصة قدرات المغربي</div><p class="gdesc">منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.</p><div class="gstack"><span>Next.js</span><span>Supabase</span><span>Payments</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
         <div class="gshot"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" /></div>
-        <div class="meta"><div><span class="gtag">تطبيق iOS</span><div class="gname">تطبيق قدرات المغربي</div><div class="gurl">App Store</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">تطبيق iOS</span><span class="gurl">App Store</span></div><div class="gname">تطبيق قدرات المغربي</div><p class="gdesc">تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.</p><div class="gstack"><span>Swift</span><span>SwiftUI</span><span>App Store</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://kareempro.com/" target="_blank" rel="noopener">
         <div class="gshot"><img src="kareempro-preview.webp" alt="منصة Kareem Pro وبوابة العملاء" width="1400" height="875" /></div>
-        <div class="meta"><div><span class="gtag">منصة + بوابة عملاء</span><div class="gname">Kareem Pro</div><div class="gurl">kareempro.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">منصة + بوابة عملاء</span><span class="gurl">kareempro.com</span></div><div class="gname">Kareem Pro</div><p class="gdesc">منصتنا نفسها: عرض الخدمات، وبوابة عميل يتابع منها كل عميل مراحل مشروعه ودفعاته والملفات المسلَّمة.</p><div class="gstack"><span>Next.js</span><span>Supabase</span><span>Vercel</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">
         <div class="gshot"><img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" /></div>
-        <div class="meta"><div><span class="gtag">مدونة ربحية</span><div class="gname">محفظة كريم</div><div class="gurl">kareemwallet.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ربحية</span><span class="gurl">kareemwallet.com</span></div><div class="gname">محفظة كريم</div><p class="gdesc">مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.</p><div class="gstack"><span>Blogger</span><span>SEO</span><span>AdSense</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://ebda3-media.com/" target="_blank" rel="noopener">
         <div class="gshot"><img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" /></div>
-        <div class="meta"><div><span class="gtag">موقع تعريفي</span><div class="gname">Ebda3 Media</div><div class="gurl">ebda3-media.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">موقع تعريفي</span><span class="gurl">ebda3-media.com</span></div><div class="gname">Ebda3 Media</div><p class="gdesc">موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.</p><div class="gstack"><span>Next.js</span><span>Responsive</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://coffee-land-kareem-pro-s-projects.vercel.app/" target="_blank" rel="noopener">
         <div class="gshot"><img src="coffeeland-preview.webp" alt="موقع Coffee Land" width="1174" height="734" loading="lazy" /></div>
-        <div class="meta"><div><span class="gtag">موقع</span><div class="gname">Coffee Land</div><div class="gurl">coffee-land · vercel.app</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
+        <div class="meta"><div><div class="gtop"><span class="gtag">موقع</span><span class="gurl">coffee-land · vercel.app</span></div><div class="gname">Coffee Land</div><p class="gdesc">موقع متجاوب بهوية بصرية أنيقة وأداء عالٍ — نموذج لموقع تعريفي سريع الإطلاق.</p><div class="gstack"><span>React</span><span>Vercel</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
     </div></div>
     <div class="gnav">
@@ -465,92 +453,6 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   </div>
 </section>
 <!-- ═══ الأعمال ═══ -->
-<section id="work">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-tag">OUR WORK</div>
-      <h2>أعمال <span class="g-text">حيّة</span> — افتحها بنفسك</h2>
-      <p>كل مشروع هنا يشتغل على الإنترنت الآن. اضغط الزر وجرّبه بنفسك.</p>
-    </div>
-    <div class="work-grid">
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">qudratmaghrabi.com</span></div></div>
-        <div class="work-shot"><img src="qudrat-preview.webp" loading="lazy" alt="منصة قدرات المغربي التعليمية" /></div>
-        <div class="work-body">
-          <span class="work-tag">منصة تعليمية</span>
-          <h3>منصة قدرات المغربي</h3>
-          <p>منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.</p>
-          <div class="stack"><span>Next.js</span><span>Supabase</span><span>Payments</span></div>
-          <a class="live" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">جرّب الموقع الحي ↗</a>
-        </div>
-      </article>
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">App Store — iOS</span></div></div>
-        <div class="work-shot"><img src="qudrat-app-preview.webp" loading="lazy" alt="تطبيق قدرات المغربي على App Store" /></div>
-        <div class="work-body">
-          <span class="work-tag">تطبيق iOS</span>
-          <h3>تطبيق قدرات المغربي</h3>
-          <p>تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.</p>
-          <div class="stack"><span>Swift</span><span>SwiftUI</span><span>App Store</span></div>
-          <a class="live" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">حمّل التطبيق ↗</a>
-        </div>
-      </article>
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">kareempro.com</span></div></div>
-        <div class="work-shot"><img src="kareempro-preview.webp" loading="lazy" alt="منصة Kareem Pro وبوابة العملاء" /></div>
-        <div class="work-body">
-          <span class="work-tag">منصة + بوابة عملاء</span>
-          <h3>منصة Kareem Pro</h3>
-          <p>منصتنا نفسها: عرض الخدمات، وبوابة عميل يتابع منها كل عميل مراحل مشروعه ودفعاته والملفات المسلَّمة.</p>
-          <div class="stack"><span>Next.js</span><span>Supabase</span><span>Vercel</span></div>
-          <a class="live" href="https://kareempro.com/" target="_blank" rel="noopener">جرّب الموقع الحي ↗</a>
-        </div>
-      </article>
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">ebda3-media.com</span></div></div>
-        <div class="work-shot"><img src="ebda3-preview.webp" loading="lazy" alt="موقع إبداع ميديا" /></div>
-        <div class="work-body">
-          <span class="work-tag">موقع تعريفي</span>
-          <h3>Ebda3 Media</h3>
-          <p>موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.</p>
-          <div class="stack"><span>Next.js</span><span>Responsive</span></div>
-          <a class="live" href="https://ebda3-media.com/" target="_blank" rel="noopener">جرّب الموقع الحي ↗</a>
-        </div>
-      </article>
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">kareemwallet.com</span></div></div>
-        <div class="work-shot"><img src="kareemwallet-preview.webp" loading="lazy" alt="مدونة محفظة كريم" /></div>
-        <div class="work-body">
-          <span class="work-tag">مدونة ربحية</span>
-          <h3>محفظة كريم</h3>
-          <p>مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.</p>
-          <div class="stack"><span>Blogger</span><span>SEO</span><span>AdSense</span></div>
-          <a class="live" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">جرّب الموقع الحي ↗</a>
-        </div>
-      </article>
-
-      <article class="work reveal">
-        <div class="frame"><div class="frame-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="frame-url">coffee-land · vercel.app</span></div></div>
-        <div class="work-shot"><img src="coffeeland-preview.webp" loading="lazy" alt="موقع Coffee Land" /></div>
-        <div class="work-body">
-          <span class="work-tag">موقع</span>
-          <h3>Coffee Land</h3>
-          <p>موقع متجاوب بهوية بصرية أنيقة وأداء عالٍ — نموذج لموقع تعريفي سريع الإطلاق.</p>
-          <div class="stack"><span>React</span><span>Vercel</span></div>
-          <a class="live" href="https://coffee-land-kareem-pro-s-projects.vercel.app/" target="_blank" rel="noopener">جرّب الموقع الحي ↗</a>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
 <!-- ═══ خطوات العمل ═══ -->
 <section id="process">
   <div class="container">
@@ -666,6 +568,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   var cards=[].slice.call(track.querySelectorAll('.gcard')), n=cards.length, act=0;
   function layout(){
     var w=cards[0].getBoundingClientRect().width||360, step=w*0.62;
+    var h=0; cards.forEach(function(c){ h=Math.max(h,c.offsetHeight); }); if(h) track.parentNode.style.height=(h+8)+'px';
     cards.forEach(function(c,i){
       var d=i-act;
       if(d> n/2) d-=n;
@@ -673,9 +576,9 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
       var a=Math.abs(d);
       c.setAttribute('data-d', d===0?'0':'x');
       c.style.transform='translateX('+(-d*step)+'px) scale('+(1-Math.min(a,3)*0.11)+')';
-      c.style.opacity= a>2 ? 0 : (a===0?1:(a===1?.94:.7));
+      c.style.opacity= a>2 ? 0 : (a<=1?1:.7);
       c.style.zIndex= 10-a;
-      c.style.filter= a>=1 ? 'saturate(.9) brightness(.86)' : 'none';
+      c.style.filter= a>=1 ? 'saturate(.9) brightness(.82)' : 'none';
       c.style.pointerEvents= a>2 ? 'none' : 'auto';
       c.setAttribute('aria-hidden', a>2 ? 'true':'false');
       c.tabIndex = d===0 ? 0 : -1;
