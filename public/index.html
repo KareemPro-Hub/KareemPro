@@ -103,49 +103,51 @@ nav{position:sticky;top:0;z-index:50;background:rgba(10,14,38,.78);backdrop-filt
 @media(max-width:900px){.nav-links{display:none}.nav-burger{display:block}}
 @media(max-width:430px){.brand img{height:28px}.brand b{font-size:14px}.nav-cta{font-size:13px;padding:9px 14px}.nav-cta svg{display:none}.code-body{font-size:11.5px;padding:16px 13px}}
 
-/* ═══ Hero — كروت الأعمال ═══ */
-.hero{position:relative;padding:38px 0 54px;overflow:hidden;
-  background:radial-gradient(64% 46% at 50% -6%,rgba(255,85,53,.26),transparent 64%),
-             radial-gradient(48% 34% at 88% 8%,rgba(217,24,122,.22),transparent 66%),
-             radial-gradient(44% 32% at 8% 14%,rgba(255,168,38,.16),transparent 66%)}
-.hero-in{position:relative;max-width:1060px;margin-inline:auto;text-align:center}
-.pill{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:#fff;
-  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);border-radius:999px;padding:7px 18px;margin-bottom:20px}
-.pill i{width:6px;height:6px;border-radius:50%;background:var(--g1);display:block}
-h1{font-size:clamp(25px,5.2vw,58px);font-weight:900;line-height:1.24;letter-spacing:-.5px;white-space:nowrap}
-.hero .sub{color:var(--muted);font-size:clamp(14.5px,1.6vw,17px);margin:16px auto 26px;max-width:54ch}
+/* ═══ Hero — معرض الأعمال ═══ */
+.hero{position:relative;padding:40px 0 56px;overflow:hidden;
+  background:radial-gradient(62% 44% at 50% -6%,rgba(255,85,53,.24),transparent 64%),
+             radial-gradient(46% 32% at 88% 10%,rgba(217,24,122,.2),transparent 66%),
+             radial-gradient(42% 30% at 8% 16%,rgba(255,168,38,.15),transparent 66%)}
+.hero-in{position:relative;max-width:1180px;margin-inline:auto;text-align:center}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--g1);margin-bottom:12px}
+h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spacing:-.5px;white-space:nowrap}
+.hero .sub{color:var(--muted);font-size:clamp(14.5px,1.6vw,17px);margin:14px auto 24px;max-width:52ch}
 .cta{display:inline-flex;align-items:center;gap:10px;background:var(--grad);color:#0a0e26;font-weight:900;
   font-size:15.5px;padding:14px 28px;border-radius:999px;box-shadow:0 14px 38px rgba(217,24,122,.34);transition:transform .18s}
 .cta:hover{transform:translateY(-2px)}
 .cta .arw{width:30px;height:30px;border-radius:50%;background:rgba(10,14,38,.15);display:grid;place-items:center}
 
-.deck{position:relative;margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;text-align:right}
-.card{display:block;background:rgba(255,255,255,.95);color:#141a3a;border-radius:22px;overflow:hidden;
-  box-shadow:0 26px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.5);transition:transform .22s,box-shadow .22s}
-.card:hover{transform:translateY(-6px);box-shadow:0 34px 74px rgba(0,0,0,.6)}
-.card.dark{background:linear-gradient(170deg,rgba(32,40,92,.92),rgba(16,21,56,.95));color:#fff;border-color:rgba(255,255,255,.14)}
-.c-lift{margin-top:-30px}
-.c-drop{margin-top:34px}
-.c-shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0d1230}
-.c-shot img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
-.c-shot.tall{aspect-ratio:4/5}
-.c-body{padding:16px 17px 18px}
-.c-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;border-radius:8px;padding:3px 10px;margin-bottom:9px;
-  background:rgba(217,24,122,.1);color:#B4126A;border:1px solid rgba(217,24,122,.2)}
-.card.dark .c-tag{background:rgba(255,168,38,.14);color:#FFC46B;border-color:rgba(255,168,38,.28)}
-.c-name{font-size:17.5px;font-weight:900;line-height:1.35}
-.c-desc{font-size:13px;color:#5a6186;margin-top:5px;line-height:1.75}
-.card.dark .c-desc{color:#b7bce0}
-.c-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
-.c-url{font-family:var(--mono);font-size:11px;color:#7a80a8;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card.dark .c-url{color:#9ba1cc}
-.c-go{width:36px;height:36px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#0a0e26}
-.c-stat{display:flex;align-items:baseline;gap:8px;margin-top:12px}
-.c-stat b{font-size:26px;font-weight:900;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.c-stat span{font-size:12px;color:#6b7199}
-.card.dark .c-stat span{color:#a9aed4}
-@media(max-width:940px){.deck{grid-template-columns:repeat(2,1fr)}.c-lift,.c-drop{margin-top:0}}
-@media(max-width:600px){.deck{grid-template-columns:1fr}h1{white-space:normal;font-size:clamp(26px,8vw,38px)}.hero{padding:28px 0 40px}}
+/* شرائح التقنيات */
+.techs{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:30px auto 0;max-width:940px}
+.gnav{margin-top:24px}
+.tech{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--text);
+  border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 17px;white-space:nowrap}
+.tech.on{background:var(--grad);color:#0a0e26;border-color:transparent}
+.tech svg{flex:none}
+
+/* معرض الكروت */
+.gal{position:relative;margin-top:36px;height:clamp(230px,29vw,352px)}
+.gal-track{position:absolute;inset:0;display:grid;place-items:center}
+.gcard{position:absolute;width:clamp(272px,46vw,540px);aspect-ratio:16/10;border-radius:20px;overflow:hidden;
+  background:#0d1230;border:1px solid rgba(255,255,255,.14);box-shadow:0 26px 60px rgba(0,0,0,.55);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1),opacity .45s,filter .45s;will-change:transform}
+.gcard img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.gcard .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,9,26,.92) 0%,rgba(6,9,26,.5) 34%,transparent 62%)}
+.gcard .meta{position:absolute;inset-inline:0;bottom:0;padding:16px 18px;padding-inline-start:68px;text-align:right}
+.gcard .gtag{display:inline-block;font-size:11px;font-weight:800;color:#0a0e26;background:var(--grad);border-radius:7px;padding:2px 9px;margin-bottom:7px}
+.gcard .gname{font-size:clamp(15px,1.7vw,20px);font-weight:900;line-height:1.3}
+.gcard .gurl{font-family:var(--mono);font-size:11px;color:#b9bee4;direction:ltr;margin-top:3px}
+.gcard .gopen{position:absolute;inset-inline-start:16px;bottom:16px;width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(255,255,255,.92);color:#141a3a}
+.gcard[data-d="0"]{z-index:10}
+.gcard:not([data-d="0"]) .meta,.gcard:not([data-d="0"]) .gopen{opacity:0}
+.gnav{display:flex;gap:12px;justify-content:center;margin-top:26px}
+.gnav button{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:var(--text);transition:.2s}
+.gnav button:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
+.gnav button:focus-visible{outline:2px solid var(--g1);outline-offset:3px}
+@media(max-width:600px){h1{white-space:normal;font-size:clamp(26px,8vw,38px)}.hero{padding:28px 0 42px}.gal{height:clamp(190px,54vw,250px)}}
+@media(prefers-reduced-motion:reduce){.gcard{transition:none}}
 
 /* ═══ عناوين الأقسام ═══ */
 section{padding:78px 0}
@@ -288,64 +290,67 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
   <div class="container hero-in">
-    <span class="pill"><i></i> برمجة وتطوير مع <span class="g-text">Kareem Pro</span></span>
+    <div class="kick">OUR WORK</div>
     <h1>منصات وتطبيقات <span class="g-text">شغّالة فعلًا</span></h1>
     <p class="sub">مش معاينات ولا كلام — كل مشروع تحت تقدر تفتحه وتجرّبه دلوقتي.</p>
-    <a class="cta" href="#work">شوف الأعمال الحية <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></a>
+    <a class="cta" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%A8%D9%86%D8%A7%D8%A1%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" rel="noopener">ابدأ بناء مشروعك <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></a>
 
-    <div class="deck">
-      <div>
-        <a class="card c-drop" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
-          <div class="c-shot"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="1050" /></div>
-          <div class="c-body">
-            <span class="c-tag">تطبيق iOS</span>
-            <div class="c-name">تطبيق قدرات المغربي</div>
-            <p class="c-desc">منشور فعليًا على App Store بحساب العميل.</p>
-            <div class="c-foot"><span class="c-url">App Store</span><span class="c-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></div>
-          </div>
-        </a>
-        <a class="card dark" style="margin-top:20px" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">
-          <div class="c-body">
-            <span class="c-tag">مدونة ربحية</span>
-            <div class="c-name">محفظة كريم</div>
-            <div class="c-stat"><b>50</b><span>مقالًا منشورًا · جاهزة لأدسنس</span></div>
-            <div class="c-foot"><span class="c-url">kareemwallet.com</span><span class="c-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></div>
-          </div>
-        </a>
-      </div>
 
-      <div>
-        <a class="card c-lift" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
-          <div class="c-shot tall"><img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="1050" /></div>
-          <div class="c-body">
-            <span class="c-tag">منصة تعليمية</span>
-            <div class="c-name">منصة قدرات المغربي</div>
-            <p class="c-desc">كورسات واشتراكات ومتابعة طلاب، ولوحة تحكم يديرها صاحب المنصة بنفسه.</p>
-            <div class="c-stat"><b>Next.js</b><span>+ Supabase + بوابة دفع</span></div>
-            <div class="c-foot"><span class="c-url">qudratmaghrabi.com</span><span class="c-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></div>
-          </div>
-        </a>
-      </div>
-
-      <div>
-        <a class="card dark c-drop" href="https://kareempro.com/" target="_blank" rel="noopener">
-          <div class="c-shot"><img src="kareempro-preview.webp" alt="منصة Kareem Pro وبوابة العملاء" width="1400" height="875" /></div>
-          <div class="c-body">
-            <span class="c-tag">منصة + بوابة عملاء</span>
-            <div class="c-name">Kareem Pro</div>
-            <p class="c-desc">بوابة يتابع منها كل عميل مراحل مشروعه ودفعاته.</p>
-            <div class="c-foot"><span class="c-url">kareempro.com</span><span class="c-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></div>
-          </div>
-        </a>
-        <a class="card" style="margin-top:20px" href="https://ebda3-media.com/" target="_blank" rel="noopener">
-          <div class="c-shot"><img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="1018" loading="lazy" /></div>
-          <div class="c-body">
-            <span class="c-tag">موقع تعريفي</span>
-            <div class="c-name">Ebda3 Media</div>
-            <div class="c-foot"><span class="c-url">ebda3-media.com</span><span class="c-go"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></div>
-          </div>
-        </a>
-      </div>
+    <div class="gal"><div class="gal-track" id="galTrack">
+      <a class="gcard" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
+        <img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">منصة تعليمية</span><div class="gname">منصة قدرات المغربي</div><div class="gurl">qudratmaghrabi.com</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+      <a class="gcard" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
+        <img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">تطبيق iOS</span><div class="gname">تطبيق قدرات المغربي</div><div class="gurl">App Store</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+      <a class="gcard" href="https://kareempro.com/" target="_blank" rel="noopener">
+        <img src="kareempro-preview.webp" alt="منصة Kareem Pro وبوابة العملاء" width="1400" height="875" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">منصة + بوابة عملاء</span><div class="gname">Kareem Pro</div><div class="gurl">kareempro.com</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+      <a class="gcard" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">
+        <img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">مدونة ربحية</span><div class="gname">محفظة كريم</div><div class="gurl">kareemwallet.com</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+      <a class="gcard" href="https://ebda3-media.com/" target="_blank" rel="noopener">
+        <img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">موقع تعريفي</span><div class="gname">Ebda3 Media</div><div class="gurl">ebda3-media.com</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+      <a class="gcard" href="https://coffee-land-kareem-pro-s-projects.vercel.app/" target="_blank" rel="noopener">
+        <img src="coffeeland-preview.webp" alt="موقع Coffee Land" width="1174" height="734" loading="lazy" />
+        <span class="veil"></span>
+        <div class="meta"><span class="gtag">موقع</span><div class="gname">Coffee Land</div><div class="gurl">coffee-land · vercel.app</div></div>
+        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+      </a>
+    </div></div>
+    <div class="gnav">
+      <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
+      <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
+    </div>
+    <div class="techs">
+      <span class="tech on"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/></svg> Next.js</span>
+      <span class="tech">React</span>
+      <span class="tech">TypeScript</span>
+      <span class="tech">Node.js</span>
+      <span class="tech">Supabase</span>
+      <span class="tech">PostgreSQL</span>
+      <span class="tech"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.5-3.6ZM14.2 5.4c.6-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4Z"/></svg> iOS · Swift</span>
+      <span class="tech"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9h12v8.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 17.5V9Zm-2.5.5a1.4 1.4 0 0 1 2.8 0v5a1.4 1.4 0 0 1-2.8 0v-5Zm14.2 0a1.4 1.4 0 0 1 2.8 0v5a1.4 1.4 0 0 1-2.8 0v-5ZM9 20.2a1.4 1.4 0 0 0 2.8 0v-1.2H9v1.2Zm3.2 0a1.4 1.4 0 0 0 2.8 0v-1.2h-2.8v1.2ZM7.6 7.6C7.9 5.5 9.8 4 12 4s4.1 1.5 4.4 3.6H7.6Zm1.9-2.2a.55.55 0 1 0 0-1.1.55.55 0 0 0 0 1.1Zm5 0a.55.55 0 1 0 0-1.1.55.55 0 0 0 0 1.1Z"/></svg> Android</span>
+      <span class="tech">React Native</span>
+      <span class="tech">Tailwind</span>
+      <span class="tech">Vercel</span>
+      <span class="tech">Blogger · AdSense</span>
     </div>
   </div>
 </section>
@@ -701,6 +706,37 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 </footer>
 
 <script>
+(function(){
+  var track=document.getElementById('galTrack');
+  if(!track) return;
+  var cards=[].slice.call(track.querySelectorAll('.gcard')), n=cards.length, act=0;
+  function layout(){
+    var w=cards[0].getBoundingClientRect().width||360, step=w*0.56;
+    cards.forEach(function(c,i){
+      var d=i-act;
+      if(d> n/2) d-=n;
+      if(d<-n/2) d+=n;
+      var a=Math.abs(d);
+      c.setAttribute('data-d', d===0?'0':'x');
+      c.style.transform='translateX('+(-d*step)+'px) scale('+(1-Math.min(a,3)*0.13)+')';
+      c.style.opacity= a>2 ? 0 : (1-a*0.26);
+      c.style.zIndex= 10-a;
+      c.style.filter= a>=1 ? 'brightness(.72)' : 'none';
+      c.style.pointerEvents= a>2 ? 'none' : 'auto';
+      c.setAttribute('aria-hidden', a>2 ? 'true':'false');
+      c.tabIndex = d===0 ? 0 : -1;
+    });
+  }
+  function go(k){ act=(act+k+n)%n; layout(); }
+  var nx=document.getElementById('galNext'), pv=document.getElementById('galPrev');
+  if(nx) nx.addEventListener('click',function(){go(1);});
+  if(pv) pv.addEventListener('click',function(){go(-1);});
+  cards.forEach(function(c,i){
+    c.addEventListener('click',function(e){ if(i!==act){ e.preventDefault(); act=i; layout(); } });
+  });
+  window.addEventListener('resize', layout, {passive:true});
+  layout();
+})();
 (function(){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
