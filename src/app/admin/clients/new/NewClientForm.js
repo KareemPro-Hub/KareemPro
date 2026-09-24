@@ -13,11 +13,8 @@ const SERVICE_TYPES = [
   { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
   { value: "platform", label: "إنشاء منصة رقمية" },
   { value: "platform-apps", label: "إنشاء منصة رقمية مع التطبيقات" },
-  { value: "video", label: "فيديو سينمائي احترافي" },
-  { value: "voiceover", label: "تعليق صوتي إبداعي" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
   { value: "articles", label: "باقات كتابة ونشر المقالات" },
-  { value: "course", label: "كورس مونتاج احترافي" },
 ];
 
 
