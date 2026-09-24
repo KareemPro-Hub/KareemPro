@@ -103,34 +103,34 @@ nav{position:sticky;top:0;z-index:50;background:rgba(10,14,38,.78);backdrop-filt
 @media(max-width:900px){.nav-links{display:none}.nav-burger{display:block}}
 @media(max-width:430px){.brand img{height:28px}.brand b{font-size:14px}.nav-cta{font-size:13px;padding:9px 14px}.nav-cta svg{display:none}.code-body{font-size:11.5px;padding:16px 13px}}
 
-/* ═══ Hero ═══ */
-.hero{padding:74px 0 86px}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+/* ═══ Hero — البرهان أولًا ═══ */
+.hero{position:relative;padding:52px 0 0;overflow:hidden}
+.hero-in{position:relative;max-width:1000px;margin-inline:auto;text-align:center}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--g1);
-  border:1px solid rgba(255,168,38,.3);background:rgba(255,168,38,.07);border-radius:999px;padding:6px 15px;margin-bottom:22px}
+  border:1px solid rgba(255,168,38,.3);background:rgba(255,168,38,.07);border-radius:999px;padding:6px 15px;margin-bottom:20px}
 .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--g1);box-shadow:0 0 0 4px rgba(255,168,38,.18)}
-h1{font-size:clamp(34px,5vw,58px);font-weight:900;line-height:1.28;letter-spacing:-.5px}
-.hero p.lede{color:var(--muted);font-size:clamp(16px,1.7vw,18.5px);margin:20px 0 32px;max-width:56ch}
-.hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+h1{font-size:clamp(30px,4.8vw,54px);font-weight:900;line-height:1.3;letter-spacing:-.5px;text-wrap:balance;margin-bottom:14px}
+.hero p.lede{color:var(--muted);font-size:clamp(15px,1.7vw,17.5px);max-width:58ch;margin:0 auto 26px}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
 .btn{display:inline-flex;align-items:center;gap:9px;font-weight:900;font-size:15.5px;padding:14px 26px;border-radius:14px;border:1px solid transparent;cursor:pointer;transition:transform .18s,box-shadow .18s}
 .btn-main{background:var(--grad);color:#0a0e26;box-shadow:0 10px 32px rgba(217,24,122,.3)}
 .btn-main:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(217,24,122,.42)}
 .btn-ghost{border-color:rgba(255,255,255,.16);color:var(--text);background:rgba(255,255,255,.03)}
 .btn-ghost:hover{border-color:var(--g1);transform:translateY(-2px)}
-.hero-stats{display:flex;gap:34px;margin-top:38px;flex-wrap:wrap}
-.hero-stats b{display:block;font-size:26px;font-weight:900;line-height:1.2}
-.hero-stats span{font-size:13px;color:var(--muted)}
-
-/* نافذة الكود */
-.code-win{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:linear-gradient(170deg,#12183c,#0c1130);box-shadow:0 30px 70px rgba(0,0,0,.5)}
-.code-bar{display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
-.code-bar i{width:11px;height:11px;border-radius:50%;display:block}
-.code-bar .f{font-family:var(--mono);font-size:12px;color:var(--muted);margin-inline-start:8px}
-.code-body{padding:20px 18px;font-family:var(--mono);font-size:13.5px;line-height:2.15;direction:ltr;text-align:left;min-height:268px}
-.c-key{color:#FF5535}.c-str{color:#FFA826}.c-fn{color:#D9187A}.c-cm{color:#6b7099}.c-var{color:#cfd4ff}
-.caret{display:inline-block;width:8px;height:16px;background:var(--g1);vertical-align:-3px;animation:bl 1s steps(2) infinite}
-@keyframes bl{0%,50%{opacity:1}51%,100%{opacity:0}}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:38px}.hero{padding:44px 0 56px}}
+.hero-rail{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.hero-rail span{font-family:var(--mono);font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:4px 11px;background:rgba(255,255,255,.03)}
+.showcase{position:relative;max-width:900px;margin:0 auto}
+.win{border:1px solid rgba(255,255,255,.14);border-radius:16px 16px 0 0;overflow:hidden;background:var(--dark3);
+  box-shadow:0 -10px 90px rgba(217,24,122,.26),0 30px 80px rgba(0,0,0,.6)}
+.win-bar{display:flex;align-items:center;gap:6px;padding:9px 13px;background:rgba(255,255,255,.05)}
+.win-bar i{width:9px;height:9px;border-radius:50%;display:block}
+.win-url{flex:1;margin-inline-start:10px;background:rgba(0,0,0,.35);border-radius:6px;padding:3px 12px;font-family:var(--mono);font-size:10.5px;color:var(--muted);direction:ltr;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.win img{width:100%;display:block;height:clamp(200px,30vw,380px);object-fit:cover;object-position:center 38%}
+.phone{position:absolute;inset-inline-start:-4px;bottom:-4px;width:min(21%,148px);
+  border:5px solid #1b2150;border-radius:22px;overflow:hidden;box-shadow:0 26px 60px rgba(0,0,0,.65);background:#1b2150}
+.phone img{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;object-position:center 45%}
+.hero-try{display:block;margin:0 auto;width:fit-content}
+@media(max-width:760px){.phone{display:none}.hero{padding:34px 0 0}}
 
 /* ═══ عناوين الأقسام ═══ */
 section{padding:78px 0}
@@ -239,7 +239,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
 .reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.caret{animation:none}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -248,8 +248,8 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 <nav>
   <div class="container nav-inner">
     <a href="#home" class="brand">
-      <img src="logo-transparent.png" alt="Kareem Pro" />
       <b>KAREEM<span class="g-text"> PRO</span></b>
+      <img src="logo-transparent.png" alt="Kareem Pro" />
     </a>
     <div class="nav-links">
       <a href="#services">الخدمات</a>
@@ -272,38 +272,25 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
-  <div class="container hero-grid">
-    <div>
-      <span class="eyebrow"><span class="dot"></span> خبرة تتجاوز 11 عامًا — جهات حكومية وشركات سعودية</span>
-      <h1>نبرمج لك <span class="g-text">منصات ومتاجر وتطبيقات</span> تشتغل فعلًا</h1>
-      <p class="lede">تصميم وبرمجة مواقع، متاجر إلكترونية، منصات تعليمية، تطبيقات iOS وأندرويد، ومدونات ربحية — بكود نظيف وسرعة عالية وسيو مضبوط من أول يوم.</p>
-      <div class="hero-cta">
-        <a class="btn btn-main" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%20%D8%A8%D8%B1%D9%85%D8%AC%D8%A9" target="_blank" rel="noopener">ابدأ مشروعك الآن</a>
-        <a class="btn btn-ghost" href="#work">شاهد أعمالنا الحية</a>
-      </div>
-      <div class="hero-stats">
-        <div><b class="g-text">+11</b><span>سنة خبرة</span></div>
-        <div><b class="g-text">+40</b><span>جهة وشركة</span></div>
-        <div><b class="g-text">100%</b><span>ملكية الكود لك</span></div>
-      </div>
+  <div class="container hero-in">
+    <span class="eyebrow"><span class="dot"></span> منصة وتطبيق سلّمناهما فعليًا لعميل سعودي</span>
+    <h1>مش هنوريك <span class="g-text">كلام</span> .. هنوريك منصة شغّالة</h1>
+    <p class="lede">منصات ومتاجر وتطبيقات تشتغل على الإنترنت دلوقتي بأسماء أصحابها. افتح أي واحد منهم وجرّبه بنفسك قبل ما تكلّمنا.</p>
+    <div class="hero-cta">
+      <a class="btn btn-main" href="#work">جرّب أعمالنا الحية</a>
+      <a class="btn btn-ghost" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%20%D8%A8%D8%B1%D9%85%D8%AC%D8%A9" target="_blank" rel="noopener">ابدأ مشروعك</a>
     </div>
-
-    <div class="code-win">
-      <div class="code-bar">
-        <i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i>
-        <span class="f">kareempro / stack.ts</span>
-      </div>
-      <div class="code-body">
-        <div><span class="c-cm">// ما نبني به مشاريعك</span></div>
-        <div><span class="c-key">const</span> <span class="c-var">stack</span> = {</div>
-        <div>&nbsp;&nbsp;<span class="c-var">web</span>: <span class="c-str">"<span id="t1"></span><span class="caret"></span>"</span>,</div>
-        <div>&nbsp;&nbsp;<span class="c-var">backend</span>: <span class="c-str">"Node.js · Supabase · PostgreSQL"</span>,</div>
-        <div>&nbsp;&nbsp;<span class="c-var">mobile</span>: <span class="c-str">"Swift · SwiftUI · iOS"</span>,</div>
-        <div>&nbsp;&nbsp;<span class="c-var">seo</span>: <span class="c-key">true</span>, <span class="c-var">ownership</span>: <span class="c-str">"client"</span></div>
-        <div>};</div>
-        <div>&nbsp;</div>
-        <div><span class="c-fn">deploy</span>(<span class="c-var">stack</span>); <span class="c-cm">// ✓ جاهز للإطلاق</span></div>
-      </div>
+    <div class="hero-rail">
+      <span>Next.js</span><span>React</span><span>Swift</span><span>Supabase</span><span>App Store</span>
+    </div>
+    <div class="showcase">
+      <a class="hero-try" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener" aria-label="افتح منصة قدرات المغربي">
+        <div class="win">
+          <div class="win-bar"><i style="background:#FF5535"></i><i style="background:#FFA826"></i><i style="background:#D9187A"></i><span class="win-url">qudratmaghrabi.com</span></div>
+          <img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية — عمل حي من تنفيذنا" width="1400" height="1050" />
+        </div>
+      </a>
+      <div class="phone"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="700" height="525" loading="lazy" /></div>
     </div>
   </div>
 </section>
@@ -619,7 +606,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   <div class="container">
     <div class="f-top">
       <div>
-        <a href="#home" class="f-brand"><img src="logo-transparent.png" alt="Kareem Pro" /><b>KAREEM<span class="g-text"> PRO</span></b></a>
+        <a href="#home" class="f-brand"><b>KAREEM<span class="g-text"> PRO</span></b><img src="logo-transparent.png" alt="Kareem Pro" /></a>
         <p>برمجة وتطوير منصات ومواقع ومتاجر إلكترونية وتطبيقات الجوال — بخبرة تتجاوز 11 عامًا.</p>
       </div>
       <div class="f-links">
@@ -659,20 +646,6 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 </footer>
 
 <script>
-(function(){
-  var words=["Next.js · React · TypeScript","واجهات سريعة ومتجاوبة","سيو مضبوط من أول يوم"];
-  var el=document.getElementById('t1'); if(!el) return;
-  var w=0,c=0,del=false;
-  function tick(){
-    var t=words[w];
-    el.textContent = del ? t.slice(0,--c) : t.slice(0,++c);
-    var d = del?38:72;
-    if(!del && c===t.length){ del=true; d=1900; }
-    else if(del && c===0){ del=false; w=(w+1)%words.length; d=320; }
-    setTimeout(tick,d);
-  }
-  tick();
-})();
 (function(){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
