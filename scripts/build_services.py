@@ -246,7 +246,7 @@ def page(k):
 <meta property="og:locale" content="ar_SA" />
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}{url}" />
-<meta property="og:image" content="{site}/og-banner-v2.png" />
+<meta property="og:image" content="{site}/og-banner-v2.jpg" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -254,7 +254,7 @@ def page(k):
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{title}" />
 <meta name="twitter:description" content="{desc}" />
-<meta name="twitter:image" content="{site}/og-banner-v2.png" />
+<meta name="twitter:image" content="{site}/og-banner-v2.jpg" />
 <meta name="twitter:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 {ld}
 {fonts}
@@ -390,7 +390,7 @@ def hub():
 <meta property="og:locale" content="ar_SA" />
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}/platforms" />
-<meta property="og:image" content="{site}/og-banner-v2.png" />
+<meta property="og:image" content="{site}/og-banner-v2.jpg" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -398,7 +398,7 @@ def hub():
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{title}" />
 <meta name="twitter:description" content="{desc}" />
-<meta name="twitter:image" content="{site}/og-banner-v2.png" />
+<meta name="twitter:image" content="{site}/og-banner-v2.jpg" />
 <meta name="twitter:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
 {ld}
 {fonts}
