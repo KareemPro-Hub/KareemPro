@@ -146,6 +146,8 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:var(--text);transition:.2s}
 .gnav button:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
 .gnav button:focus-visible{outline:2px solid var(--g1);outline-offset:3px}
+.gnav button svg{pointer-events:none}
+.gcard{cursor:pointer}
 @media(max-width:600px){h1{white-space:normal;font-size:clamp(26px,8vw,38px)}.hero{padding:28px 0 42px}.gal{height:clamp(190px,54vw,250px)}}
 @media(prefers-reduced-motion:reduce){.gcard{transition:none}}
 
@@ -335,8 +337,8 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
       </a>
     </div></div>
     <div class="gnav">
-      <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
       <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
+      <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
     </div>
     <div class="techs">
       <span class="tech on"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/></svg> Next.js</span>
