@@ -206,8 +206,7 @@ h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 .work .stack span{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:rgba(255,255,255,.04);border-radius:6px;padding:3px 8px}
 .live{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:900;color:#0a0e26;background:var(--grad);border-radius:11px;padding:9px 17px}
 
-/* ═══ شريط التقنيات ═══ */
-.tech-strip{display:flex;gap:11px;flex-wrap:wrap;justify-content:center}
+/* ═══ شكل شرائح التقنيات ═══ */
 .tech{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:13px;padding:11px 18px;font-family:var(--mono);font-size:13.5px;color:var(--muted);background:rgba(255,255,255,.025);transition:.2s}
 .tech:hover{color:var(--text);border-color:rgba(255,168,38,.3)}
 .tech svg{flex:none}
@@ -389,7 +388,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
       <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
       <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
     </div>
-    <div class="techs">
+    <div class="techs" id="stack">
       <span class="tech">Next.js</span>
       <span class="tech">React</span>
       <span class="tech">TypeScript</span>
@@ -551,26 +550,6 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   </div>
 </section>
 
-<!-- ═══ التقنيات ═══ -->
-<section id="stack">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-tag">TECH STACK</div>
-      <h2>نبني بتقنيات <span class="g-text">حديثة ومدعومة</span></h2>
-      <p>اختيارات تقنية تُبقي مشروعك سريعًا وقابلًا للتطوير لسنوات — لا أدوات مغلقة ولا حلول مؤقتة.</p>
-    </div>
-    <div class="tech-strip reveal">
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="11" fill="#fff"/><path d="M8.6 7.6h1.7l5.5 8V7.6h1.6v9.2h-1.7l-5.5-8v8H8.6V7.6Z" fill="#0a0e26"/></svg> Next.js</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#61DAFB" stroke-width="1.3"><circle cx="12" cy="12" r="2.2" fill="#61DAFB" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg> React</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#3178C6"/><path d="M13 11.3h6v1.8h-2v6.1h-2v-6.1h-2v-1.8ZM5 19.2v-1.9c.7.4 1.5.6 2.1.6.8 0 1.3-.3 1.3-.8 0-1.4-3.5-.9-3.5-3.5 0-1.5 1.2-2.4 2.9-2.4.8 0 1.5.1 2.1.4v1.8c-.6-.4-1.2-.5-1.8-.5-.7 0-1.2.3-1.2.8 0 1.3 3.5.9 3.5 3.4 0 1.6-1.2 2.5-3 2.5-.9 0-1.7-.2-2.4-.4Z" fill="#fff"/></svg> TypeScript</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#68A063"><path d="M12 1.8 2.9 7v10L12 22.2 21.1 17V7L12 1.8Zm0 2.3 7.1 4.1v8.2L12 20.5 4.9 16.4V8.2L12 4.1Z"/><path d="M12 7.6c-2 0-3.2.9-3.2 2.3 0 1.6 1.2 2 3.1 2.2 2.3.2 2.5.5 2.5 1 0 .5-.5.9-1.7.9-1.5 0-2.1-.4-2.3-1.2h-1.7c.2 1.7 1.4 2.6 4 2.6 2.2 0 3.5-1 3.5-2.4 0-1.7-1.2-2.1-3.4-2.4-2.1-.2-2.3-.5-2.3-.9 0-.4.4-.8 1.5-.8 1.2 0 1.7.3 1.9 1.1h1.7c-.2-1.6-1.3-2.4-3.6-2.4Z" fill="#0a0e26"/></svg> Node.js</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#3ECF8E"><path d="M13.2 1.5 4.3 12.4c-.5.6-.1 1.5.7 1.5h6v7.8c0 1 1.2 1.4 1.8.7l8.9-10.9c.5-.6.1-1.5-.7-1.5h-6V2.2c0-1-1.2-1.4-1.8-.7Z"/></svg> Supabase</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#F05138"><path d="M3 3h18v18H3V3Z" rx="4" fill="#F05138"/><path d="M17.5 17.4c-1.6.9-4 1-6.4-.1-2-.8-3.8-2.3-5.1-4 .6.4 1.3.8 2 1.1 2.9 1.4 5.7 1.3 7.7 0-2.8-2.2-5.3-5-7-7.3.7.7 1.6 1.5 2.5 2.3 1.9 1.6 4 3.2 4 3.2s-2.2-3.1-3.2-5.3c1.9 1.9 5.2 4.9 5.6 6.9.1.6.1 1.2-.1 1.7 0 0 1.7 2.1 1.2 3.8 0 0-.5-1.6-1.2-2.3Z" fill="#fff"/></svg> Swift</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#336791"><ellipse cx="12" cy="12" rx="10" ry="10.5"/><path d="M12 5.5c-3 0-4.6 1.3-4.6 3.6 0 1.4.3 3.4.8 5 .4 1.3 1 2.4 1.8 2.4.5 0 .8-.4 1-1 .2.6.6 1 1.1 1 .9 0 1.6-1.2 2-2.6.4-1.5.7-3.4.7-4.8 0-2.3-1.7-3.6-2.8-3.6Z" fill="#fff" opacity=".85"/></svg> PostgreSQL</span>
-      <span class="tech"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 3 22 20H2L12 3Z"/></svg> Vercel</span>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ خطوات العمل ═══ -->
 <section id="process">

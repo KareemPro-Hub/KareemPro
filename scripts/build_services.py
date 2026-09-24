@@ -222,7 +222,7 @@ def jsonld(s, faq_items):
 def page(k):
     s = SERVICES[k]
     faq_html, faq_items = faq_block(s.get('faqExtra', []))
-    body_proof = proof(s) + (voice_block() if s.get('voice') else '')
+    body_proof = proof(s)
     return """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -265,8 +265,8 @@ def page(k):
 
 <nav>
   <a class="nav-logo" href="/">
+    <div><b>KAREEM<span class="g-text"> PRO</span></b><span>منصات · متاجر · تطبيقات</span></div>
     <img src="/logo-transparent.png" alt="Kareem Pro" width="36" height="36" />
-    <div><b>KAREEM PRO</b><span>منصات · متاجر · تطبيقات</span></div>
   </a>
   <a class="nav-cta" href="{waurl}" target="_blank" rel="noopener">{wasvg}اطلب الآن</a>
 </nav>
@@ -328,7 +328,7 @@ def page(k):
            tabs=tabbar(k), ico=ICO[k], eyebrow=s['eyebrow'], h1=s['h1'], lead=s['lead'],
            timeline=timeline(s['tl']), cta=s['cta'], painSub=s['painSub'], pains=pains(s['pains']),
            proofTitle=s['proofTitle'], proofSub=s['proofSub'], proof=body_proof,
-           logos=logos_band(), compare=compare(), steps=steps(), pricing=pricing(s['tab']),
+           logos='', compare=compare(), steps=steps(), pricing=pricing(s['tab']),
            guarantees=guarantees(), faq=faq_html, final=final(s), footer=FOOT, script=SCRIPT)
 
 if __name__ == '__main__':
@@ -408,8 +408,8 @@ def hub():
 <div id="prog"></div>
 <nav>
   <a class="nav-logo" href="/">
+    <div><b>KAREEM<span class="g-text"> PRO</span></b><span>منصات · متاجر · تطبيقات</span></div>
     <img src="/logo-transparent.png" alt="Kareem Pro" width="36" height="36" />
-    <div><b>KAREEM PRO</b><span>منصات · متاجر · تطبيقات</span></div>
   </a>
   <a class="nav-cta" href="{waurl}" target="_blank" rel="noopener">{wasvg}اطلب الآن</a>
 </nav>
@@ -449,7 +449,7 @@ def hub():
 </html>
 """.format(title=title, desc=desc, site=SITE, ld=ldhtml, fonts=FONTS, css=BASE_CSS, hubcss=HUB_CSS,
            waurl=wa(msg), wasvg=WA_SVG, ico=ICO['portal'], cards=''.join(cards),
-           logos=logos_band(), compare=compare(), steps=steps(), pricing=pricing('الخدمات'),
+           logos='', compare=compare(), steps=steps(), pricing=pricing('الخدمات'),
            guarantees=guarantees(), faq=faq_html, footer=FOOT, script=SCRIPT)
 
 if __name__ == '__main__':
