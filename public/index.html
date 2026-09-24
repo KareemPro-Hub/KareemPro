@@ -129,16 +129,15 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 @media(prefers-reduced-motion:reduce){.code-cols{animation:none}}
 /* شرائح التقنيات */
 .techs{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:30px auto 0;max-width:940px}
-.gnav{margin-top:24px}
 .tech{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--text);
   border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 17px;white-space:nowrap}
 .tech.on{background:var(--grad);color:#0a0e26;border-color:transparent}
 .tech svg{flex:none}
 
 /* معرض الكروت */
-.gal{position:relative;margin-top:38px;height:clamp(300px,36vw,436px)}
+.gal{--cw:clamp(268px,46vw,532px);position:relative;margin-top:38px;height:clamp(300px,36vw,436px)}
 .gal-track{position:absolute;inset:0;display:grid;place-items:center}
-.gcard{position:absolute;width:clamp(268px,46vw,532px);padding:10px;border-radius:24px;cursor:pointer;
+.gcard{position:absolute;width:var(--cw);padding:10px;border-radius:24px;cursor:pointer;
   background:linear-gradient(168deg,#1b2350 0%,#121840 46%,#0e1336 100%);
   border:1px solid rgba(255,255,255,.2);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.16),
@@ -160,9 +159,13 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 .gcard .gopen{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
   background:var(--grad);color:#0a0e26;box-shadow:0 6px 16px rgba(217,24,122,.4)}
 .gcard[data-d="0"]{z-index:10}
-.gnav{display:flex;gap:12px;justify-content:center;margin-top:26px}
-.gnav button{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:var(--text);transition:.2s}
+.gnav{position:absolute;inset:0;pointer-events:none;z-index:20}
+.gnav button{position:absolute;top:var(--ny,34%);transform:translateY(-50%);pointer-events:auto;
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(10,14,38,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.3);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.55);transition:background .2s,color .2s,border-color .2s}
+#galPrev{right:calc(50% - var(--cw) / 2 - 23px)}
+#galNext{left:calc(50% - var(--cw) / 2 - 23px)}
 .gnav button:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
 .gnav button:focus-visible{outline:2px solid var(--g1);outline-offset:3px}
 .gnav button svg{pointer-events:none}
@@ -371,10 +374,11 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
         <div class="gshot"><img src="coffeeland-preview.webp" alt="موقع Coffee Land" width="1174" height="734" loading="lazy" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">موقع</span><span class="gurl">coffee-land · vercel.app</span></div><div class="gname">Coffee Land</div><p class="gdesc">موقع متجاوب بهوية بصرية أنيقة وأداء عالٍ — نموذج لموقع تعريفي سريع الإطلاق.</p><div class="gstack"><span>React</span><span>Vercel</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
-    </div></div>
-    <div class="gnav">
+    </div>
+    <div class="gnav" id="galNav">
       <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
       <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
+    </div>
     </div>
     <div class="techs" id="stack">
       <span class="tech">Next.js</span>
@@ -569,6 +573,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   function layout(){
     var w=cards[0].getBoundingClientRect().width||360, step=w*0.62;
     var h=0; cards.forEach(function(c){ h=Math.max(h,c.offsetHeight); }); if(h) track.parentNode.style.height=(h+8)+'px';
+    var ac=cards[act], sh=ac.querySelector('.gshot'); if(sh) track.parentNode.style.setProperty('--ny',(ac.offsetTop+sh.offsetTop+sh.offsetHeight/2)+'px');
     cards.forEach(function(c,i){
       var d=i-act;
       if(d> n/2) d-=n;
