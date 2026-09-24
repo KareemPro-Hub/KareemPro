@@ -126,28 +126,32 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 .tech svg{flex:none}
 
 /* معرض الكروت */
-.gal{position:relative;margin-top:36px;height:clamp(230px,29vw,352px)}
+.gal{position:relative;margin-top:38px;height:clamp(300px,36vw,436px)}
 .gal-track{position:absolute;inset:0;display:grid;place-items:center}
-.gcard{position:absolute;width:clamp(272px,46vw,540px);aspect-ratio:16/10;border-radius:20px;overflow:hidden;
-  background:#0d1230;border:1px solid rgba(255,255,255,.14);box-shadow:0 26px 60px rgba(0,0,0,.55);
-  transition:transform .45s cubic-bezier(.2,.7,.3,1),opacity .45s,filter .45s;will-change:transform}
-.gcard img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
-.gcard .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,9,26,.92) 0%,rgba(6,9,26,.5) 34%,transparent 62%)}
-.gcard .meta{position:absolute;inset-inline:0;bottom:0;padding:16px 18px;padding-inline-start:68px;text-align:right}
-.gcard .gtag{display:inline-block;font-size:11px;font-weight:800;color:#0a0e26;background:var(--grad);border-radius:7px;padding:2px 9px;margin-bottom:7px}
-.gcard .gname{font-size:clamp(15px,1.7vw,20px);font-weight:900;line-height:1.3}
-.gcard .gurl{font-family:var(--mono);font-size:11px;color:#b9bee4;direction:ltr;margin-top:3px}
-.gcard .gopen{position:absolute;inset-inline-start:16px;bottom:16px;width:40px;height:40px;border-radius:50%;
-  display:grid;place-items:center;background:rgba(255,255,255,.92);color:#141a3a}
+.gcard{position:absolute;width:clamp(268px,46vw,532px);padding:10px;border-radius:24px;cursor:pointer;
+  background:linear-gradient(168deg,#1b2350 0%,#121840 46%,#0e1336 100%);
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),
+             0 4px 10px rgba(0,0,0,.5),
+             0 18px 34px rgba(0,0,0,.55),
+             0 44px 80px rgba(0,0,0,.72);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1),opacity .45s,box-shadow .45s;will-change:transform}
+.gshot{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;background:#0a0e26;
+  box-shadow:0 1px 0 rgba(255,255,255,.07),0 8px 18px rgba(0,0,0,.45)}
+.gshot img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.gcard .meta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 6px 2px;text-align:right}
+.gcard .gtag{display:inline-block;font-size:10.5px;font-weight:800;color:#0a0e26;background:var(--grad);border-radius:7px;padding:2px 9px;margin-bottom:5px}
+.gcard .gname{font-size:clamp(14.5px,1.5vw,18px);font-weight:900;line-height:1.3;color:#fff}
+.gcard .gurl{font-family:var(--mono);font-size:10.5px;color:#a7adda;direction:ltr;margin-top:2px}
+.gcard .gopen{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  background:var(--grad);color:#0a0e26;box-shadow:0 6px 16px rgba(217,24,122,.4)}
 .gcard[data-d="0"]{z-index:10}
-.gcard:not([data-d="0"]) .meta,.gcard:not([data-d="0"]) .gopen{opacity:0}
 .gnav{display:flex;gap:12px;justify-content:center;margin-top:26px}
 .gnav button{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:var(--text);transition:.2s}
 .gnav button:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
 .gnav button:focus-visible{outline:2px solid var(--g1);outline-offset:3px}
 .gnav button svg{pointer-events:none}
-.gcard{cursor:pointer}
 @media(max-width:600px){h1{white-space:normal;font-size:clamp(26px,8vw,38px)}.hero{padding:28px 0 42px}.gal{height:clamp(190px,54vw,250px)}}
 @media(prefers-reduced-motion:reduce){.gcard{transition:none}}
 
@@ -300,40 +304,28 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 
     <div class="gal"><div class="gal-track" id="galTrack">
       <a class="gcard" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
-        <img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">منصة تعليمية</span><div class="gname">منصة قدرات المغربي</div><div class="gurl">qudratmaghrabi.com</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" /></div>
+        <div class="meta"><div><span class="gtag">منصة تعليمية</span><div class="gname">منصة قدرات المغربي</div><div class="gurl">qudratmaghrabi.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
-        <img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">تطبيق iOS</span><div class="gname">تطبيق قدرات المغربي</div><div class="gurl">App Store</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" /></div>
+        <div class="meta"><div><span class="gtag">تطبيق iOS</span><div class="gname">تطبيق قدرات المغربي</div><div class="gurl">App Store</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://kareempro.com/" target="_blank" rel="noopener">
-        <img src="kareempro-preview.webp" alt="منصة Kareem Pro وبوابة العملاء" width="1400" height="875" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">منصة + بوابة عملاء</span><div class="gname">Kareem Pro</div><div class="gurl">kareempro.com</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="kareempro-preview.webp" alt="منصة Kareem Pro وبوابة العملاء" width="1400" height="875" /></div>
+        <div class="meta"><div><span class="gtag">منصة + بوابة عملاء</span><div class="gname">Kareem Pro</div><div class="gurl">kareempro.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">
-        <img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">مدونة ربحية</span><div class="gname">محفظة كريم</div><div class="gurl">kareemwallet.com</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" /></div>
+        <div class="meta"><div><span class="gtag">مدونة ربحية</span><div class="gname">محفظة كريم</div><div class="gurl">kareemwallet.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://ebda3-media.com/" target="_blank" rel="noopener">
-        <img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">موقع تعريفي</span><div class="gname">Ebda3 Media</div><div class="gurl">ebda3-media.com</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" /></div>
+        <div class="meta"><div><span class="gtag">موقع تعريفي</span><div class="gname">Ebda3 Media</div><div class="gurl">ebda3-media.com</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
       <a class="gcard" href="https://coffee-land-kareem-pro-s-projects.vercel.app/" target="_blank" rel="noopener">
-        <img src="coffeeland-preview.webp" alt="موقع Coffee Land" width="1174" height="734" loading="lazy" />
-        <span class="veil"></span>
-        <div class="meta"><span class="gtag">موقع</span><div class="gname">Coffee Land</div><div class="gurl">coffee-land · vercel.app</div></div>
-        <span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>
+        <div class="gshot"><img src="coffeeland-preview.webp" alt="موقع Coffee Land" width="1174" height="734" loading="lazy" /></div>
+        <div class="meta"><div><span class="gtag">موقع</span><div class="gname">Coffee Land</div><div class="gurl">coffee-land · vercel.app</div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
       </a>
     </div></div>
     <div class="gnav">
@@ -341,7 +333,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
       <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
     </div>
     <div class="techs">
-      <span class="tech on"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/></svg> Next.js</span>
+      <span class="tech">Next.js</span>
       <span class="tech">React</span>
       <span class="tech">TypeScript</span>
       <span class="tech">Node.js</span>
@@ -713,17 +705,17 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   if(!track) return;
   var cards=[].slice.call(track.querySelectorAll('.gcard')), n=cards.length, act=0;
   function layout(){
-    var w=cards[0].getBoundingClientRect().width||360, step=w*0.56;
+    var w=cards[0].getBoundingClientRect().width||360, step=w*0.62;
     cards.forEach(function(c,i){
       var d=i-act;
       if(d> n/2) d-=n;
       if(d<-n/2) d+=n;
       var a=Math.abs(d);
       c.setAttribute('data-d', d===0?'0':'x');
-      c.style.transform='translateX('+(-d*step)+'px) scale('+(1-Math.min(a,3)*0.13)+')';
-      c.style.opacity= a>2 ? 0 : (1-a*0.26);
+      c.style.transform='translateX('+(-d*step)+'px) scale('+(1-Math.min(a,3)*0.11)+')';
+      c.style.opacity= a>2 ? 0 : (a===0?1:(a===1?.94:.7));
       c.style.zIndex= 10-a;
-      c.style.filter= a>=1 ? 'brightness(.72)' : 'none';
+      c.style.filter= a>=1 ? 'saturate(.9) brightness(.86)' : 'none';
       c.style.pointerEvents= a>2 ? 'none' : 'auto';
       c.setAttribute('aria-hidden', a>2 ? 'true':'false');
       c.tabIndex = d===0 ? 0 : -1;
