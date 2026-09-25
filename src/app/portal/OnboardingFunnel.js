@@ -200,6 +200,37 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
         <h2 className="title">فريق يصنع الفرق</h2>
         <p className="muted">نخبة من المبدعين يعملون بشغف لتقديم أفضل النتائج</p>
       </div>
+      {/* Creative layer (desktop only — hidden on phones in CSS): two
+          slowly rotating orbit rings sized to the real satellite radius, and
+          animated dashed links from the founder to each member. Purely
+          decorative, so aria-hidden and pointer-events:none. */}
+      {size > 0 && (
+        <div className={`team-orbit-fx${visible ? " is-on" : ""}`} aria-hidden="true">
+          <span className="team-ring team-ring-a" style={{ width: radius * 2, height: radius * 2 }} />
+          <span className="team-ring team-ring-b" style={{ width: radius * 2.25, height: radius * 2.25 }} />
+          <svg className="team-links" viewBox={`0 0 ${size} ${size * (1210 / 1300)}`} preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="teamLinkGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#ffad38" />
+                <stop offset="100%" stopColor="#e2366f" />
+              </linearGradient>
+            </defs>
+            {members.map((_, i) => {
+              const a = angleFor(i);
+              return (
+                <line
+                  key={i}
+                  x1={size / 2}
+                  y1={(size * (1210 / 1300)) / 2}
+                  x2={size / 2 + radius * Math.cos(a)}
+                  y2={(size * (1210 / 1300)) / 2 + radius * Math.sin(a)}
+                  style={{ transitionDelay: `${300 + i * 80}ms` }}
+                />
+              );
+            })}
+          </svg>
+        </div>
+      )}
       <div className="team-avatar team-avatar-center" style={{ backgroundImage: `url(${centerPhoto})` }}>
         <span className="team-crown">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

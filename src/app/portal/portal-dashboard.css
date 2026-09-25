@@ -317,3 +317,42 @@
 .funnel-nav-top .funnel-nav-btn.btn-outline{background:#fff;color:#3a2118;border:1.5px solid #e6d6c6}
 .funnel-nav-top .funnel-nav-btn:disabled{opacity:.45;cursor:not-allowed}
 @media (max-width:640px){.funnel-nav-top .funnel-nav-btn{flex:1;min-height:48px;font-size:15px}}
+
+/* ===== Team orbit: creative layer + mobile fix (2026-09-25) =====
+   Desktop: rotating dashed orbit rings, animated founder→member links and a
+   soft pulse on the founder. Phones (≤640px): founder name sits right under
+   the founder photo, member photos get the ring (no stretched oval boxes),
+   members become tidy cards. */
+.team-orbit-fx{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .9s ease .2s}
+.team-orbit-fx.is-on{opacity:1}
+.team-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%)}
+.team-ring-a{border:1.5px dashed rgba(255,122,38,.38);animation:kp-orbit-spin 60s linear infinite}
+.team-ring-b{border:1px solid rgba(255,173,56,.18);animation:kp-orbit-spin 90s linear infinite reverse}
+.team-ring::before{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:linear-gradient(135deg,#ffad38,#ff7226);box-shadow:0 0 12px 2px rgba(255,122,38,.6)}
+.team-ring-b::before{width:7px;height:7px;margin-left:-3.5px;top:-3.5px;background:#e2366f;box-shadow:0 0 10px 2px rgba(226,54,111,.45)}
+@keyframes kp-orbit-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.team-links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.team-links line{stroke:url(#teamLinkGrad);stroke-width:1.6;stroke-dasharray:3 7;stroke-linecap:round;opacity:0;transition:opacity .6s ease;animation:kp-link-flow 1.6s linear infinite}
+.team-orbit-fx.is-on .team-links line{opacity:.7}
+@keyframes kp-link-flow{to{stroke-dashoffset:-20}}
+.team-avatar-center::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid rgba(255,108,44,.45);animation:kp-founder-pulse 2.6s ease-out infinite;pointer-events:none}
+@keyframes kp-founder-pulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.22);opacity:0}}
+.team-avatar-satellite{z-index:1}
+.team-avatar-satellite.has-photo:hover{box-shadow:0 22px 40px -10px rgba(255,114,38,.5)}
+@media (prefers-reduced-motion:reduce){.team-ring,.team-links line,.team-avatar-center::after{animation:none}}
+
+@media (max-width:640px){
+  .team-orbit-fx{display:none}
+  .team-orbit{display:flex;flex-direction:column;align-items:stretch}
+  .team-heading-compact{order:0}
+  .team-avatar-center{order:1;position:relative!important;left:auto!important;top:auto!important;flex-shrink:0}
+  .team-avatar-center::after{inset:-9px}
+  .team-founder-caption{order:2;margin:1rem 0 1.6rem}
+  .team-orbit-satellites{order:3;gap:.75rem;justify-items:stretch}
+  .team-avatar-satellite.has-photo{border:0;box-shadow:none}
+  .team-avatar-satellite{background:#fff;border:1px solid #efe4d8!important;border-radius:20px;padding:16px 8px 14px;box-shadow:0 12px 26px -20px rgba(61,39,26,.45)}
+  .team-avatar-satellite-photo{border:3px solid #fff;box-shadow:0 0 0 2px #ffc38f,0 10px 20px -10px rgba(120,70,30,.45)}
+  .team-satellite-caption{max-width:100%;width:100%}
+  .team-satellite-name{background:none;border:0;box-shadow:none;backdrop-filter:none;padding:0;font-size:.9rem}
+  .team-satellite-role{margin-top:6px;font-size:.68rem;line-height:1.5;white-space:normal;display:inline-block;padding:3px 8px;border-radius:8px;background:#fff2e6}
+}
