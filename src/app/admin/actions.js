@@ -282,8 +282,8 @@ const SERVICE_TEMPLATES = {
   },
   // One-off custom deal (LINK — Saudi tutoring marketplace: web platform +
   // native iPhone/Android apps). One package only. The price is 9,900 (was
-  // 11,000 until 2026-09-25) but the client is owed 2,590 from an earlier
-  // deal, settled here as a discount (plus 10 waived) — net 7,300. The settlement itself is applied
+  // 11,000 until 2026-09-25) but a 2,600 settlement for an earlier deal is
+  // deducted as a discount (was 2,590 + 10 waived) — net 7,300. The settlement itself is applied
   // automatically on acceptance, see PACKAGE_SETTLEMENTS in
   // lib/packageStages.js. The package name must keep the word "LINK":
   // packageTier() in lib/timeline.js and detectServiceType() in the funnel
@@ -309,7 +309,7 @@ const SERVICE_TEMPLATES = {
           "تجهيز التطبيقين للنشر على App Store وGoogle Play",
           "مدة التنفيذ: حوالي شهرين — شهر لمنصة الويب وشهر للتطبيقين",
           "دعم فني لمدة شهر بعد التسليم",
-          "طريقة السداد: يُخصم من قيمة الباقة 2,590 ريال تسوية لمستحقات سابقة و10 ريال خصم إضافي، ليصبح الصافي 7,300 ريال على ثلاث دفعات: 2,500 عند توقيع العقد، 2,500 عند إطلاق منصة الويب، 2,300 عند تجهيز التطبيقين للنشر.",
+          "طريقة السداد: يُخصم من قيمة الباقة 2,600 ريال تسوية لمستحقات سابقة، ليصبح الصافي 7,300 ريال على ثلاث دفعات: 2,500 عند توقيع العقد، 2,500 عند إطلاق منصة الويب، 2,300 عند تجهيز التطبيقين للنشر.",
         ].join("\n"),
       },
     ],

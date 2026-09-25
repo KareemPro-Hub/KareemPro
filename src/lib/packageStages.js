@@ -48,7 +48,7 @@ export const PACKAGE_STAGE_AMOUNTS = {
 // columns the admin's discount tool uses, so admin and client both see the
 // net figure that the stages above add up to.
 export const PACKAGE_SETTLEMENTS = {
-  9900: { amount: 2600, note: "تسوية مستحقات سابقة (2,590 ريال) + خصم إضافي 10 ريال" },
+  9900: { amount: 2600, note: "تسوية مستحقات سابقة (2,600 ريال)" },
 };
 
 const STAGE_TITLES = ["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة", "الدفعة الخامسة"];

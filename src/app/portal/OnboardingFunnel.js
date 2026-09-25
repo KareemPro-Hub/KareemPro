@@ -441,12 +441,13 @@ const ARTICLES_PAYMENT_PLANS = {
   ],
 };
 
-// LINK: the package is listed at 9,900 (was 11,000 until 2026-09-25), but
-// 2,590 owed to the client from an earlier deal is settled against it, plus
-// 10 waived — net 7,300 in three milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
+// LINK: the package is listed at 9,900 (was 11,000 until 2026-09-25), but a
+// 2,600 settlement for an earlier deal is deducted from it (Kareem rounded
+// it from 2,590 + 10 waived to a single 2,600) — net 7,300 in three
+// milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
 // PACKAGE_SETTLEMENTS in lib/packageStages.js and the "طريقة السداد" line in
 // SERVICE_TEMPLATES.link (admin/actions.js).
-const LINK_SETTLEMENT = { owed: 2590, extra: 10 };
+const LINK_SETTLEMENT = { owed: 2600 };
 const LINK_PAYMENT_PLAN = [
   [2500, "عند توقيع العقد"],
   [2500, "عند إطلاق منصة الويب"],
@@ -1250,15 +1251,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <>
                       {" "}— يُخصم منها{" "}
                       <span dir="ltr">{LINK_SETTLEMENT.owed.toLocaleString("en-US")}</span>
-                      <RiyalIcon size="0.75em" tone="dark" /> تسوية لمستحقات سابقة لصاحب المشروع، و
-                      {LINK_SETTLEMENT.extra}
-                      <RiyalIcon size="0.75em" tone="dark" /> خصم إضافي، ليصبح الصافي المستحق{" "}
+                      <RiyalIcon size="0.75em" tone="dark" /> تسوية لمستحقات سابقة لصاحب المشروع، ليصبح
+                      الصافي المستحق{" "}
                       <strong>
                         <span dir="ltr">
                           {(
-                            Number(selectedPackage.price) -
-                            LINK_SETTLEMENT.owed -
-                            LINK_SETTLEMENT.extra
+                            Number(selectedPackage.price) - LINK_SETTLEMENT.owed
                           ).toLocaleString("en-US")}
                         </span>
                         <RiyalIcon size="0.75em" tone="dark" />
@@ -1434,8 +1432,15 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         بعد تأكيد كتابي عبر واتساب أو البريد الإلكتروني.
                       </li>
                       <li>
+                        لكل مرحلة جولتا تعديل ضمن نطاقها، وما زاد عن ذلك يُعامل كتعديل خارج الباقة.
+                      </li>
+                      <li>
                         يوفر صاحب المشروع الحسابات اللازمة باسمه: الدومين، وبوابة الدفع، وحسابي مطوري
                         Apple وGoogle، وخدمات الخرائط والرسائل عند الحاجة.
+                      </li>
+                      <li>
+                        رسوم التشغيل المستمرة على صاحب المشروع وتُدفع مباشرة لمزوديها: الاستضافة وقاعدة
+                        البيانات، والرسائل، والخرائط، وعمولات بوابة الدفع، واشتراكا مطوري Apple وGoogle.
                       </li>
                       <li>
                         نشر التطبيقين يخضع لسياسات App Store وGoogle Play وموافقتهما، ويلتزم مقدم الخدمة
@@ -1455,14 +1460,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         أي طرف ثالث.
                       </li>
                       <li>
-                        قيمة الباقة 9,900 ريال، يُخصم منها 2,590 ريال تسوية لمستحقات سابقة لصاحب المشروع
-                        و10 ريال خصم إضافي، فيصبح الصافي 7,300 ريال على ثلاث دفعات:
+                        قيمة الباقة 9,900 ريال، يُخصم منها 2,600 ريال تسوية لمستحقات سابقة لصاحب المشروع،
+                        فيصبح الصافي 7,300 ريال على ثلاث دفعات:
                         <ul className="contract-subpoints">
                           <li>الدفعة الأولى: 2,500 ريال عند توقيع العقد.</li>
                           <li>الدفعة الثانية: 2,500 ريال عند إطلاق منصة الويب.</li>
                           <li>الدفعة الثالثة: 2,300 ريال عند تجهيز التطبيقين للنشر.</li>
                         </ul>
-                        وبتوقيع العقد تُعتبر المستحقات السابقة (2,590 ريال) مسدَّدة بالكامل.
+                        وبتوقيع العقد تُعتبر المستحقات السابقة (2,600 ريال) مسدَّدة بالكامل.
                       </li>
                       <li>
                         الدعم الفني شهر بعد التسليم لمعالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل
@@ -1473,6 +1478,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         إيقاف العمل لحين استكمال المستحق، دون أي التزام إضافي عليه.
                       </li>
                       <li>الدفعات المسددة عن مراحل منجزة وموافق عليها غير قابلة للاسترداد.</li>
+                      <li>
+                        إذا ألغى صاحب المشروع التعاقد أثناء التنفيذ، لا تُسترد الدفعات المسددة، ويُسلَّم له
+                        ما أُنجز حتى تاريخ الإلغاء.
+                      </li>
                       <li>توقيع صاحب المشروع على هذا العقد يعني موافقته الكاملة على الباقة المختارة وقيمتها وشروط تنفيذها.</li>
                     </>
                   ) : serviceType === "pharmacy" ? (
