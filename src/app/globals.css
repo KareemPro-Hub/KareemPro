@@ -806,8 +806,11 @@ table.admin-table td:nth-child(6) {
 .password-field-wrap {
   position: relative;
 }
+/* The input is dir="ltr" inside an RTL page, so its own "inline-end" is the
+   RIGHT side while the eye toggle sits on the LEFT (the wrapper's
+   inline-end). Reserve the space physically on the side the icon is on. */
 .password-field-wrap input {
-  padding-inline-end: 2.7rem;
+  padding-left: 2.9rem;
 }
 .password-toggle {
   position: absolute;
@@ -824,6 +827,62 @@ table.admin-table td:nth-child(6) {
 }
 .password-toggle:hover {
   color: var(--text);
+}
+
+/* ── الدخول بالبصمة (passkey) ── */
+.passkey-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(22, 28, 70, 0.92), rgba(22, 28, 70, 0.92)) padding-box,
+    linear-gradient(90deg, #ffa826, #ff5535, #d9187a) border-box;
+  box-shadow: 0 10px 26px rgba(217, 24, 122, 0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.passkey-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(217, 24, 122, 0.3);
+}
+.passkey-btn:disabled {
+  opacity: 0.65;
+  cursor: default;
+  transform: none;
+}
+.passkey-btn svg {
+  flex: none;
+  color: #ffa826;
+}
+.passkey-hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.7rem;
+  line-height: 1.8;
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 1.4rem 0 1.2rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .admin-auth-footnote {

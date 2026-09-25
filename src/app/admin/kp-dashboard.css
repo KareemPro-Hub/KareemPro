@@ -546,3 +546,14 @@
 .kp-dashboard .nav-link .nav-image-icon{width:30px;display:flex;align-items:center;justify-content:center}
 .kp-dashboard .nav-link .nav-image-icon svg{width:26px!important;height:26px!important}
 .kp-dashboard .nav-link .nav-image-icon img{width:30px;height:30px}
+
+/* ── تفعيل الدخول بالبصمة (sidebar, just above the account row) ── */
+.kp-dashboard .passkey-setup-wrap,.kp-dashboard .passkey-setup.is-done{margin-top:auto;position:relative;z-index:1}
+.kp-dashboard .passkey-setup-wrap+.sidebar-foot,.kp-dashboard .passkey-setup.is-done+.sidebar-foot{margin-top:10px}
+.kp-dashboard .passkey-setup{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:13px;font-weight:600;color:#ead7ca;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:11px 12px;cursor:pointer;transition:.2s}
+.kp-dashboard button.passkey-setup:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,168,38,.55)}
+.kp-dashboard button.passkey-setup:disabled{opacity:.6;cursor:default}
+.kp-dashboard .passkey-setup svg{width:19px;height:19px;flex:none;fill:none;stroke:#ffa826;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.kp-dashboard .passkey-setup.is-done{cursor:default;color:#9fe3c0;border-color:rgba(94,214,160,.3);background:rgba(94,214,160,.08);font-size:12px}
+.kp-dashboard .passkey-setup.is-done svg{stroke:#5ed6a0;stroke-width:2.4}
+.kp-dashboard .passkey-setup-msg{margin:7px 4px 0;font-size:11.5px;color:#f3b4a4;line-height:1.6;text-align:center}

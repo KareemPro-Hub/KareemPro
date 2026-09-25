@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AdminNotificationBell from "./AdminNotificationBell";
+import PasskeySetup from "./PasskeySetup";
 import TeamIcon from "@/app/components/TeamIcon";
 import WalletIcon from "@/app/components/WalletIcon";
 import DeliveryIcon from "@/app/components/DeliveryIcon";
@@ -103,6 +104,8 @@ export default function AdminShell({ children }) {
               </div>
             ))}
           </nav>
+
+          <PasskeySetup />
 
           <div className="sidebar-foot compact-account">
             <form action="/auth/signout" method="post">

@@ -90,3 +90,12 @@ description: سجل القرارات المتخذة والأعطال التي ح
 يدويًا بعد التوليد في Commit `df46afc`). اتسترجعت بـ `git checkout`. القاعدة:
 الناتج تعدّى المصدر، فأي تعديل على الصفحات المولَّدة **يتعمل في المصدر والناتج معًا
 يدويًا**، ولا يُشغَّل السكربت إلا بعد `git diff` ومراجعة كل سطر.
+
+## الدخول بالبصمة للمدير (Passkeys) — 2026-09-25
+- زر «الدخول بالبصمة» في /admin/login (تبويب المدير فقط)، وزر «تفعيل الدخول بالبصمة» في الشريط الجانبي للوحة الإدارة (مرة لكل جهاز).
+- المكتبة: @simplewebauthn/server و browser (v13). الملفات: src/lib/passkeys.js · src/app/auth/passkey/* · src/app/admin/PasskeySetup.js.
+- الجدول public.admin_passkeys (مفاتيح عامة فقط، RLS بدون سياسات = service role فقط) — مُطبَّق على Supabase ‏kareempro-portal، والـ SQL في supabase/migrations/20260925_admin_passkeys.sql.
+- بعد التحقق تُفتح جلسة Supabase عادية بنفس حيلة generateLink + verifyOtp المستخدمة في روابط الواتساب.
+- rpID = الدومين بدون www، فالبصمة تشتغل على kareempro.com و www معًا.
+- إصلاح: أيقونة العين كانت راكبة على نقط كلمة السر (الحقل dir=ltr) → padding-left في globals.css.
+- محليًا: بعد git pull لازم npm install لأن فيه مكتبة جديدة.

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { startAuthentication, browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { usePathname, useSearchParams } from "next/navigation";
 
 function EyeIcon({ off }) {
@@ -46,6 +47,20 @@ const ROLES = {
   },
 };
 
+// Fingerprint glyph for the passkey button (no emoji icons on this site).
+function FingerprintIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 11c0 3.5-1 6.5-2.6 9" />
+      <path d="M8.5 7.6A5 5 0 0 1 17 11c0 1.3-.1 2.6-.4 3.8" />
+      <path d="M5.7 9.2A8 8 0 0 1 19.9 9.5" />
+      <path d="M6.4 16.3A15 15 0 0 0 7 11a5 5 0 0 1 .4-2" />
+      <path d="M14.6 21c.4-1.3.8-2.8 1-4.4" />
+      <path d="M4.3 13.3c.2-.9.3-1.6.3-2.3 0-1.4.3-2.7.9-3.9" />
+    </svg>
+  );
+}
+
 function LoginForm() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -63,6 +78,47 @@ function LoginForm() {
   const [status, setStatus] = useState("idle"); // idle | loading | error | sent
   const [errorMsg, setErrorMsg] = useState(null);
   const [mode, setMode] = useState("login"); // login | forgot
+  // Passkey sign-in (admin only). Rendered only when the browser supports
+  // WebAuthn — checked after mount, since the server has no `window`.
+  const [passkeySupported, setPasskeySupported] = useState(false);
+  const [passkeyLoading, setPasskeyLoading] = useState(false);
+  const [passkeyError, setPasskeyError] = useState(null);
+
+  useEffect(() => {
+    setPasskeySupported(browserSupportsWebAuthn());
+  }, []);
+
+  async function handlePasskey() {
+    setPasskeyError(null);
+    setPasskeyLoading(true);
+    try {
+      const optionsRes = await fetch("/auth/passkey/login-options", { method: "POST" });
+      if (!optionsRes.ok) throw new Error("options");
+      const optionsJSON = await optionsRes.json();
+      const assertion = await startAuthentication({ optionsJSON });
+      const res = await fetch("/auth/passkey/login-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(assertion),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setPasskeyError(body?.error || "تعذّر الدخول بالبصمة.");
+        setPasskeyLoading(false);
+        return;
+      }
+      window.location.href = searchParams.get("next") || ROLES.admin.defaultNext;
+    } catch (e) {
+      setPasskeyLoading(false);
+      // Cancelled, or this device holds no Kareem Pro passkey yet — the
+      // browser reports both the same way, so one message covers both.
+      setPasskeyError(
+        e?.name === "NotAllowedError"
+          ? "تم الإلغاء. لو البصمة مش مفعّلة على الجهاز ده، ادخل بكلمة السر مرة وفعّلها من القائمة الجانبية."
+          : "تعذّر الدخول بالبصمة على هذا الجهاز."
+      );
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -159,6 +215,21 @@ function LoginForm() {
               ? "اكتب بريدك الإلكتروني وهنبعت لك رابط تعيين كلمة سر جديدة."
               : ROLES[role].sub}
           </p>
+
+          {role === "admin" && mode === "login" && passkeySupported && (
+            <>
+              <button type="button" className="passkey-btn" onClick={handlePasskey} disabled={passkeyLoading}>
+                <FingerprintIcon />
+                {passkeyLoading ? "لحظة واحدة..." : "الدخول بالبصمة"}
+              </button>
+              {passkeyError && (
+                <div className="notice notice-error" style={{ marginTop: "0.8rem", textAlign: "start" }}>
+                  {passkeyError}
+                </div>
+              )}
+              <div className="auth-divider">أو بالبريد وكلمة السر</div>
+            </>
+          )}
 
           <form method="post" action={ROLES[role].loginPath} onSubmit={mode === "forgot" ? handleForgot : handleSubmit}>
             <div className="field">
