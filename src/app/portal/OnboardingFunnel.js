@@ -441,17 +441,16 @@ const ARTICLES_PAYMENT_PLANS = {
   ],
 };
 
-// LINK: the package is listed at 11,000, but 2,590 owed to the client from
-// an earlier deal is settled against it, plus 10 waived — net 8,400 in four
-// milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
+// LINK: the package is listed at 9,900 (was 11,000 until 2026-09-25), but
+// 2,590 owed to the client from an earlier deal is settled against it, plus
+// 10 waived — net 7,300 in three milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
 // PACKAGE_SETTLEMENTS in lib/packageStages.js and the "طريقة السداد" line in
 // SERVICE_TEMPLATES.link (admin/actions.js).
 const LINK_SETTLEMENT = { owed: 2590, extra: 10 };
 const LINK_PAYMENT_PLAN = [
-  [3400, "مقدمًا عند توقيع العقد"],
-  [2000, "عند إطلاق منصة الويب"],
-  [1500, "في منتصف تطوير التطبيقين"],
-  [1500, "عند تجهيز التطبيقين للنشر"],
+  [2500, "عند توقيع العقد"],
+  [2500, "عند إطلاق منصة الويب"],
+  [2300, "عند تجهيز التطبيقين للنشر"],
 ];
 
 const BLOGGER_PAYMENT_PLANS = {
@@ -933,7 +932,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
                 حدد باقتك، ولنبدأ نبض مشروعك .. 🚀
               </h2>
-              <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}`}>
+              <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}${packages.length === 1 ? " package-grid-one" : ""}`}>
                 {(() => {
                   const packagePrices = packages.map((p) => Number(p.price));
                   const maxPackagePrice = Math.max(...packagePrices);
@@ -977,7 +976,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" tone="dark" />
                         </div>
-                        <div className="package-launch-note">عرض خاص لأول تعاون معنا ❤️</div>
+                        <div className="package-launch-note">
+                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "عرض خاص لأول تعاون معنا ❤️"}
+                        </div>
                       </div>
                       {featureLines.length > 0 && (
                         <ul className="package-features">
@@ -1262,7 +1263,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         </span>
                         <RiyalIcon size="0.75em" tone="dark" />
                       </strong>{" "}
-                      (أربع دفعات){" "}
+                      (ثلاث دفعات){" "}
                       {LINK_PAYMENT_PLAN.map(([amount, when], i) => (
                         <span key={i}>
                           {i > 0 && " — "}
@@ -1460,14 +1461,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         مشاركتها مع أي طرف ثالث.
                       </li>
                       <li>
-                        قيمة الباقة 11,000 ريال، يُخصم منها 2,590 ريال تسوية لمستحقات سابقة لصاحب
-                        المشروع لدى مقدم الخدمة، و10 ريال خصم إضافي، ليصبح الصافي المستحق 8,400 ريال
-                        تُسدَّد على أربع دفعات:
+                        قيمة الباقة 9,900 ريال، يُخصم منها 2,590 ريال تسوية لمستحقات سابقة لصاحب
+                        المشروع لدى مقدم الخدمة، و10 ريال خصم إضافي، ليصبح الصافي المستحق 7,300 ريال
+                        تُسدَّد على ثلاث دفعات:
                         <ul className="contract-subpoints">
-                          <li>الدفعة الأولى: 3,400 ريال مقدمًا عند توقيع العقد.</li>
-                          <li>الدفعة الثانية: 2,000 ريال عند إطلاق منصة الويب.</li>
-                          <li>الدفعة الثالثة: 1,500 ريال في منتصف تطوير التطبيقين.</li>
-                          <li>الدفعة الرابعة: 1,500 ريال عند تجهيز التطبيقين للنشر.</li>
+                          <li>الدفعة الأولى: 2,500 ريال عند توقيع العقد.</li>
+                          <li>الدفعة الثانية: 2,500 ريال عند إطلاق منصة الويب.</li>
+                          <li>الدفعة الثالثة: 2,300 ريال عند تجهيز التطبيقين للنشر.</li>
                         </ul>
                         وبتوقيع هذا العقد تُعتبر المستحقات السابقة البالغة 2,590 ريال مسدَّدة بالكامل.
                       </li>

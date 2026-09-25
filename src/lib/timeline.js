@@ -15,7 +15,7 @@ function packageTier(packageName) {
   // tier and hand them the platform timeline instead of the blog one.
   if (/بلوجر|blogger/i.test(full)) return "blogger";
   // LINK: matched by name, not price — the settlement applied at signing
-  // lowers package_price from 11,000 to 8,400, so price can't identify it.
+  // lowers package_price from 9,900 to 7,300, so price can't identify it.
   if (/LINK/i.test(full)) return "link";
   // Article packages ("باقة 30 مقالًا" …) are a content service sold to a
   // client whose blog already exists — a different production process from
@@ -441,7 +441,7 @@ const DURATION_BY_TIER = {
   // are a separate, unbounded phase after delivery, not part of what we're
   // committing a timeframe to here.
   blogger: "5 أيام عمل",
-  link: "شهران تقريبًا — شهر لمنصة الويب وشهر للتطبيقين",
+  link: "حوالي شهرين — شهر لمنصة الويب وشهر للتطبيقين",
 };
 
 export function getEstimatedDuration(packageName) {

@@ -387,3 +387,10 @@
 @media (max-width:1100px){.live-works-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.live-works-grid{grid-template-columns:1fr;gap:16px}.live-works-head p{font-size:14px}.lw-foot{flex-direction:column;align-items:stretch}.lw-cta{min-height:46px;font-size:14px}.lw-body h3{font-size:18px}}
 @media (prefers-reduced-motion:reduce){.lw-win,.lw-shot img{transition:none}.lw-live::before{animation:none}}
+
+/* ===== Single-package offers (e.g. LINK): a wide card instead of a narrow
+   290px column — features flow in two columns on larger screens. ===== */
+.client-dashboard .package-grid.package-grid-one,.onboarding-funnel-light .package-grid.package-grid-one{grid-template-columns:minmax(0,880px);justify-content:center}
+.package-grid-one .package-card{padding:2rem 2.2rem 1.9rem}
+@media (min-width:760px){.package-grid-one .package-features{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem;row-gap:.75rem}.package-grid-one .package-features li:last-child{grid-column:1/-1}}
+@media (max-width:640px){.package-grid-one .package-card{padding:1.5rem 1.1rem 1.4rem}}

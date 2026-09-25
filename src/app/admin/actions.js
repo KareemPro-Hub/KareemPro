@@ -281,9 +281,9 @@ const SERVICE_TEMPLATES = {
     ],
   },
   // One-off custom deal (LINK — Saudi tutoring marketplace: web platform +
-  // native iPhone/Android apps). One package only. The price is 11,000 but
-  // the client is owed 2,590 from an earlier deal, settled here as a
-  // discount (plus 10 waived) — net 8,400. The settlement itself is applied
+  // native iPhone/Android apps). One package only. The price is 9,900 (was
+  // 11,000 until 2026-09-25) but the client is owed 2,590 from an earlier
+  // deal, settled here as a discount (plus 10 waived) — net 7,300. The settlement itself is applied
   // automatically on acceptance, see PACKAGE_SETTLEMENTS in
   // lib/packageStages.js. The package name must keep the word "LINK":
   // packageTier() in lib/timeline.js and detectServiceType() in the funnel
@@ -293,7 +293,7 @@ const SERVICE_TEMPLATES = {
     packages: [
       {
         name: "باقة LINK المتكاملة|منصة ويب **مع تطبيق iPhone وتطبيق Android**",
-        price: 11000,
+        price: 9900,
         original_price: 15000,
         is_featured: false,
         features: [
@@ -307,9 +307,9 @@ const SERVICE_TEMPLATES = {
           "الاشتراكات والدفع الإلكتروني والإشعارات",
           "لوحة إدارة شاملة مع الأمان والصلاحيات",
           "تجهيز التطبيقين للنشر على App Store وGoogle Play",
-          "مدة التنفيذ: شهران تقريبًا — شهر لمنصة الويب وشهر للتطبيقين",
+          "مدة التنفيذ: حوالي شهرين — شهر لمنصة الويب وشهر للتطبيقين",
           "دعم فني لمدة شهر بعد التسليم",
-          "طريقة السداد: يُخصم من قيمة الباقة 2,590 ريال تسوية لمستحقات سابقة و10 ريال خصم إضافي، ليصبح الصافي 8,400 ريال على أربع دفعات: 3,400 مقدمًا، 2,000 عند إطلاق منصة الويب، 1,500 في منتصف تطوير التطبيقين، 1,500 عند تجهيز التطبيقين للنشر.",
+          "طريقة السداد: يُخصم من قيمة الباقة 2,590 ريال تسوية لمستحقات سابقة و10 ريال خصم إضافي، ليصبح الصافي 7,300 ريال على ثلاث دفعات: 2,500 عند توقيع العقد، 2,500 عند إطلاق منصة الويب، 2,300 عند تجهيز التطبيقين للنشر.",
         ].join("\n"),
       },
     ],
