@@ -289,3 +289,32 @@
 .client-dashboard .package-grid-two .package-features li strong,.onboarding-funnel-light .package-grid-two .package-features li strong{font-weight:900}
 .client-dashboard .package-grid-two .package-tagline strong,.onboarding-funnel-light .package-grid-two .package-tagline strong{font-weight:900;color:#ffc266}
 .client-dashboard .package-grid-two .package-card:not(.featured) .package-tagline strong,.onboarding-funnel-light .package-grid-two .package-card:not(.featured) .package-tagline strong{color:#1b2a5c}
+
+/* ===== LINK "why Kareem Pro" step (2026-09-25) — programming-era redesign of
+   the funnel's first step. Scoped to .why-kp so no other service changes. ===== */
+.why-kp{--kp-ink:#2a1a12;--kp-muted:#6f5d52;--kp-navy:#0f1330;--kp-o1:#ffad38;--kp-o2:#ff7226;--kp-o3:#e2366f;display:grid;gap:22px;direction:rtl}
+.why-kp-head{display:grid;gap:10px;justify-items:start}
+.why-kp-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:700;color:#c8551d;background:rgba(255,123,39,.1);border:1px solid rgba(255,123,39,.25)}
+.why-kp-eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--kp-o1),var(--kp-o2));box-shadow:0 0 0 4px rgba(255,123,39,.18)}
+.why-kp-title{margin:0;font-size:clamp(22px,2.6vw,32px);font-weight:900;line-height:1.35;color:var(--kp-ink);letter-spacing:-.2px}
+.why-kp-featured{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.why-kp-feat{position:relative;overflow:hidden;isolation:isolate;padding:26px 24px 24px;border-radius:24px;color:#fff;background:linear-gradient(150deg,#161b3f 0%,var(--kp-navy) 60%,#1a1233 100%);border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 50px -24px rgba(15,19,48,.65);transition:transform .25s ease,box-shadow .25s ease}
+.why-kp-feat::before{content:"";position:absolute;inset:auto -30% -60% auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,114,38,.45),rgba(226,54,111,.18) 45%,transparent 70%);z-index:-1;transition:transform .4s ease}
+.why-kp-feat::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(180deg,#000,transparent 85%);-webkit-mask-image:linear-gradient(180deg,#000,transparent 85%);z-index:-1}
+.why-kp-feat:hover{transform:translateY(-4px);box-shadow:0 32px 60px -24px rgba(15,19,48,.75)}
+.why-kp-feat:hover::before{transform:scale(1.15)}
+.why-kp-num{position:absolute;top:18px;left:22px;font:800 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;color:rgba(255,255,255,.35)}
+.why-kp-feat .why-kp-ico{width:48px;height:48px;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--kp-o1),var(--kp-o2) 55%,var(--kp-o3));box-shadow:0 10px 24px -8px rgba(255,114,38,.7)}
+.why-kp-feat h3{margin:18px 0 8px;font-size:21px;font-weight:900;color:#fff}
+.why-kp-feat p{margin:0;font-size:14.5px;line-height:1.9;color:rgba(255,255,255,.78)}
+.why-kp-ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-kp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.why-kp-card{display:flex;align-items:flex-start;gap:14px;padding:18px;border-radius:20px;background:#fff;border:1px solid #efe4d8;box-shadow:0 1px 0 #fff inset,0 12px 28px -20px rgba(61,39,26,.35);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.why-kp-card:hover{transform:translateY(-3px);border-color:rgba(255,123,39,.45);box-shadow:0 1px 0 #fff inset,0 18px 34px -20px rgba(243,120,38,.45)}
+.why-kp-card .why-kp-ico{width:42px;height:42px;border-radius:12px;color:#e0621f;background:linear-gradient(135deg,rgba(255,173,56,.18),rgba(255,114,38,.14));border:1px solid rgba(255,123,39,.22);transition:background .22s ease,color .22s ease}
+.why-kp-card:hover .why-kp-ico{color:#fff;background:linear-gradient(135deg,var(--kp-o1),var(--kp-o2))}
+.why-kp-card h3{margin:2px 0 6px;font-size:16px;font-weight:800;color:var(--kp-ink)}
+.why-kp-card p{margin:0;font-size:13.5px;line-height:1.85;color:var(--kp-muted)}
+@media (max-width:1100px){.why-kp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.why-kp-featured,.why-kp-grid{grid-template-columns:1fr}.why-kp-feat{padding:22px 20px}.why-kp-feat h3{font-size:19px}}
+@media (prefers-reduced-motion:reduce){.why-kp-feat,.why-kp-card,.why-kp-feat::before{transition:none}}

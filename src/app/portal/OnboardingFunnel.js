@@ -103,6 +103,64 @@ const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احت
 // diagram scrolls into view (measured in real pixels via ResizeObserver so
 // it stays correct at any container width, then animated with a staggered
 // CSS transition) — same interaction as the reference design.
+// Icons for the LINK "why us" cards, keyed by the point label so reordering
+// the copy keeps each icon on its own point. Unknown labels get a spark.
+const WHY_ICONS = {
+  "جرّب قبل أن تقرّر": <><path d="M5 3l14 9-6 1.5L10 20z" /><path d="M13 13.5l4.5 4.5" /></>,
+  "كود بلا عمولة": <><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9M17 6l3 3M15 8l2 2" /></>,
+  "شفافية كاملة": <><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></>,
+  "التزام بالموعد": <><rect x="3" y="4.5" width="18" height="16.5" rx="2.5" /><path d="M3 9.5h18M8 2.5v4M16 2.5v4" /><path d="M8.8 15l2.2 2.2 4.4-4.4" /></>,
+  "تقنيات عالمية": <><rect x="6.5" y="2" width="11" height="20" rx="2.5" /><path d="M10.5 18.5h3" /></>,
+  "منصة تبيع وأنت نائم": <><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" /></>,
+  "تصميم يُقنع": <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></>,
+  "نحن شركاء طموحك": <><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" /><circle cx="17" cy="9" r="2.8" /><path d="M16.5 14.2c2.9.3 5 2.5 5 5.8" /></>,
+};
+const WHY_FALLBACK_ICON = <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" />;
+
+function WhyIcon({ label }) {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {WHY_ICONS[label] || WHY_FALLBACK_ICON}
+    </svg>
+  );
+}
+
+// Programming-era "about us" layout: headline, two featured dark cards, then
+// a responsive grid for the remaining points. Used for LINK only for now.
+function WhyKareemPro({ title, points }) {
+  const featured = points.slice(0, 2);
+  const rest = points.slice(2);
+  return (
+    <section className="why-kp">
+      <div className="why-kp-head">
+        <span className="why-kp-eyebrow">هنا في Kareem Pro</span>
+        {title && <h2 className="why-kp-title">{title}</h2>}
+      </div>
+      <div className="why-kp-featured">
+        {featured.map((p, i) => (
+          <article className="why-kp-feat" key={p.label}>
+            <span className="why-kp-num">{String(i + 1).padStart(2, "0")}</span>
+            <span className="why-kp-ico"><WhyIcon label={p.label} /></span>
+            <h3>{p.label}</h3>
+            <p>{p.text}</p>
+          </article>
+        ))}
+      </div>
+      <div className="why-kp-grid">
+        {rest.map((p) => (
+          <article className="why-kp-card" key={p.label}>
+            <span className="why-kp-ico"><WhyIcon label={p.label} /></span>
+            <div>
+              <h3>{p.label}</h3>
+              <p>{p.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
   const containerRef = useRef(null);
   const [size, setSize] = useState(0);
@@ -349,11 +407,17 @@ const SERVICE_ABOUT_OVERRIDES = {
 خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
 ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
 إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
-  // LINK is a build service too — same "إبداع تقني" wording as pharmacy.
-  link: `هنا في Kareem Pro:
-خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
-ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
-إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
+  // LINK: programming-only pitch (Kareem, 2026-09-25). Rendered by the
+  // WhyKareemPro layout below — first two points are the featured cards.
+  link: `لماذا تبني منصتك معنا ؟
+جرّب قبل أن تقرّر: كل مشروع في معرضنا موقع حي تفتحه بنفسك.
+كود بلا عمولة: منصتك ملكك بالكامل، باسمك وعلى نطاقك، بلا اشتراك شهري.
+شفافية كاملة: تتابع كل مرحلة ودفعة وملف من لوحتك لحظة بلحظة.
+التزام بالموعد: جدول تنفيذ واضح بمراحل محددة، مكتوب في عقدك.
+تقنيات عالمية: iPhone وAndroid بأداء حقيقي، لا مجرد موقع داخل غلاف.
+منصة تبيع وأنت نائم: تستقبل الطلبات والدفعات على مدار الساعة.
+تصميم يُقنع: كل شاشة مدروسة لتقود عميلك للخطوة التالية.
+نحن شركاء طموحك: نفكّر في مشروعك كأنه مشروعنا، قبل التسليم وبعده.`,
   // Article packages are sold to a client we have ALREADY delivered to, so
   // the funnel's opening step is a thank-you rather than an introduction —
   // same "label: text" format, same renderer, different job.
@@ -587,6 +651,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               };
             });
             const isPointList = restLines.length > 0 && points.every((p) => p !== null);
+
+            if (serviceType === "link" && isPointList) {
+              return <WhyKareemPro title={introLine} points={points} />;
+            }
 
             return (
               <>
