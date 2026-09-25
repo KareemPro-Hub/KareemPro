@@ -125,38 +125,37 @@ function WhyIcon({ label }) {
   );
 }
 
-// Programming-era "about us" layout: headline, two featured dark cards, then
-// a responsive grid for the remaining points. Used for LINK only for now.
+// Programming-era "about us" layout (option B, approved 2026-09-25): an
+// editorial side column (headline + promise) beside a numbered 01–08 list.
+// Used for LINK only for now. Collapses to one column on phones.
 function WhyKareemPro({ title, points }) {
-  const featured = points.slice(0, 2);
-  const rest = points.slice(2);
+  const hl = "منصتك";
+  const t = title || "لماذا تبني منصتك معنا ؟";
+  const at = t.indexOf(hl);
   return (
     <section className="why-kp">
-      <div className="why-kp-head">
-        <span className="why-kp-eyebrow">هنا في Kareem Pro</span>
-        {title && <h2 className="why-kp-title">{title}</h2>}
+      <div className="why-kp-side">
+        <div className="why-kp-kicker">— WHY US</div>
+        <h2 className="why-kp-title">
+          {at === -1 ? t : (<>{t.slice(0, at)}<em>{hl}</em>{t.slice(at + hl.length)}</>)}
+        </h2>
+        <p className="why-kp-lead">نلتزم بها معك من أول يوم، ونثبتها بمنصات حيّة تفتحها الآن بنفسك.</p>
+        <div className="why-kp-seal">
+          <b>{points.length}</b>
+          <span>التزامات واضحة<br />من أول يوم حتى ما بعد التسليم</span>
+        </div>
       </div>
-      <div className="why-kp-featured">
-        {featured.map((p, i) => (
-          <article className="why-kp-feat" key={p.label}>
+      <ol className="why-kp-list">
+        {points.map((p, i) => (
+          <li className={`why-kp-item${i < 2 ? " is-top" : ""}`} key={p.label}>
             <span className="why-kp-num">{String(i + 1).padStart(2, "0")}</span>
-            <span className="why-kp-ico"><WhyIcon label={p.label} /></span>
-            <h3>{p.label}</h3>
-            <p>{p.text}</p>
-          </article>
-        ))}
-      </div>
-      <div className="why-kp-grid">
-        {rest.map((p) => (
-          <article className="why-kp-card" key={p.label}>
-            <span className="why-kp-ico"><WhyIcon label={p.label} /></span>
             <div>
-              <h3>{p.label}</h3>
+              <h3><WhyIcon label={p.label} />{p.label}</h3>
               <p>{p.text}</p>
             </div>
-          </article>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }
@@ -613,14 +612,16 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
           <div className="funnel-nav funnel-nav-top">
             <button
               type="button"
-              className="btn btn-outline btn-sm"
+              className="btn btn-outline btn-sm funnel-nav-btn"
               onClick={goBack}
               disabled={stepIndex === 0}
             >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
               السابق
             </button>
-            <button type="button" className="btn btn-primary btn-sm" onClick={goNext}>
+            <button type="button" className="btn btn-primary btn-sm funnel-nav-btn" onClick={goNext}>
               التالي
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
             </button>
           </div>
         )}
