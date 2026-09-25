@@ -12,19 +12,23 @@ const DONE_KEY = "kp_passkey_ok";
 
 export default function PasskeySetup() {
   const [supported, setSupported] = useState(false);
-  const [state, setState] = useState("idle"); // idle | loading | done | error
+  const [state, setState] = useState("idle"); // idle | loading | done | hidden | error
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
     setSupported(browserSupportsWebAuthn());
     try {
-      if (localStorage.getItem(DONE_KEY) === "1") setState("done");
+      // Already enabled on this device: nothing to show at all.
+      if (localStorage.getItem(DONE_KEY) === "1") setState("hidden");
     } catch {}
   }, []);
 
+  // The "enabled" confirmation shows once, right after registering, then
+  // disappears for good (Kareem: no need to see it on every visit).
   function markDone() {
     setState("done");
     setMessage(null);
+    setTimeout(() => setState("hidden"), 4000);
     try {
       localStorage.setItem(DONE_KEY, "1");
     } catch {}
@@ -59,7 +63,7 @@ export default function PasskeySetup() {
     }
   }
 
-  if (!supported) return null;
+  if (!supported || state === "hidden") return null;
 
   if (state === "done") {
     return (
