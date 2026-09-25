@@ -15,6 +15,7 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [msgCopied, setMsgCopied] = useState(false);
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -113,6 +114,38 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
         setCopied(true);
       } catch (e) {
         setError(e.message || "حصل خطأ أثناء إنشاء الرابط");
+      }
+    });
+  }
+
+  // Copies the full welcome message (with a fresh login link) so Kareem can
+  // paste it anywhere. clipboard.write() is called synchronously inside the
+  // click with a pending ClipboardItem, because Safari rejects clipboard
+  // writes that happen after an await (the server action).
+  function handleCopyWelcomeMessage() {
+    setError(null);
+    setMsgCopied(false);
+    const textPromise = generateClientLoginLink(clientId).then((url) =>
+      welcomeMessage({ clientName, loginUrl: url })
+    );
+    startCopy(async () => {
+      try {
+        if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                "text/plain": textPromise.then((t) => new Blob([t], { type: "text/plain" })),
+              }),
+            ]);
+          } catch {
+            await navigator.clipboard.writeText(await textPromise);
+          }
+        } else {
+          await navigator.clipboard.writeText(await textPromise);
+        }
+        setMsgCopied(true);
+      } catch (e) {
+        setError(e.message || "تعذر نسخ الرسالة");
       }
     });
   }
@@ -249,11 +282,14 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
               </span>
             </button>
 
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
             <button
               type="button"
               disabled={isPending}
               onClick={handleCopyLoginLink}
               style={{
+                flex: 1,
+                minWidth: 0,
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
@@ -288,6 +324,37 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
                   : "رسالة ترحيب واتساب (رابط دخول)"}
               </span>
             </button>
+
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={handleCopyWelcomeMessage}
+              title="نسخ رسالة الترحيب"
+              aria-label="نسخ رسالة الترحيب"
+              style={{
+                flexShrink: 0,
+                width: "34px",
+                height: "34px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: msgCopied ? "#e8f8ee" : "#f3f6fa",
+                border: 0,
+                borderRadius: "8px",
+                color: msgCopied ? "#16a34a" : "#172541",
+                cursor: "pointer",
+              }}
+            >
+              {msgCopied ? (
+                <CheckIcon />
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+              )}
+            </button>
+            </div>
 
             <div style={{ height: "1px", background: "#e9eef6", margin: "8px 0" }} />
 
