@@ -169,6 +169,60 @@ function WhyKareemPro({ title, points }) {
   );
 }
 
+// Programming offers' "نماذج أعمالنا" step (design #3 «نوافذ متصفح حيّة»,
+// approved by Kareem 2026-09-25): every live project inside a browser frame
+// with its real domain, a LIVE badge and a direct "try it" link. Same six
+// projects and copy as the homepage gallery (public/index.html) — keep both
+// in sync. Images are the same public/*-preview.webp files.
+const PROGRAMMING_WORKS = [
+  { cat: "منصة تعليمية", host: "qudratmaghrabi.com", url: "https://www.qudratmaghrabi.com/", title: "منصة قدرات المغربي", desc: "منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.", tags: ["Next.js", "Supabase", "Payments"], img: "/qudrat-preview.webp" },
+  { cat: "تطبيق iOS", host: "App Store", url: "https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar", title: "تطبيق قدرات المغربي", desc: "تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.", tags: ["Swift", "SwiftUI", "App Store"], img: "/qudrat-app-preview.webp", app: true },
+  { cat: "منصة + بوابة عملاء", host: "kareempro.com", url: "https://kareempro.com/", title: "Kareem Pro", desc: "منصتنا نفسها: عرض الخدمات، وبوابة عميل يتابع منها كل عميل مراحل مشروعه ودفعاته والملفات المسلَّمة.", tags: ["Next.js", "Supabase", "Vercel"], img: "/kareempro-preview.webp" },
+  { cat: "مدونة ربحية", host: "kareemwallet.com", url: "https://www.kareemwallet.com/", title: "محفظة كريم", desc: "مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.", tags: ["Blogger", "SEO", "AdSense"], img: "/kareemwallet-preview.webp" },
+  { cat: "موقع تعريفي", host: "ebda3-media.com", url: "https://ebda3-media.com/", title: "Ebda3 Media", desc: "موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.", tags: ["Next.js", "Responsive"], img: "/ebda3-preview.webp" },
+  { cat: "موقع", host: "coffee-land-kareem-pro-s-projects.vercel.app", url: "https://coffee-land-kareem-pro-s-projects.vercel.app/", title: "Coffee Land", desc: "موقع متجاوب بهوية بصرية أنيقة وأداء عالٍ — نموذج لموقع تعريفي سريع الإطلاق.", tags: ["React", "Vercel"], img: "/coffeeland-preview.webp" },
+];
+
+function LiveWorks() {
+  return (
+    <section className="live-works">
+      <div className="live-works-head">
+        <h2>لا نعرض صور .. نعرض <em>منصات حيّة</em></h2>
+        <p>افتح أي مشروع، وقيّم شغلنا بنفسك.</p>
+      </div>
+      <div className="live-works-grid">
+        {PROGRAMMING_WORKS.map((w) => (
+          <article className="lw-win" key={w.title}>
+            <div className="lw-bar">
+              <i /><i /><i />
+              <span className="lw-url">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                <span>{w.host}</span>
+              </span>
+              <span className="lw-live">LIVE</span>
+            </div>
+            <a className="lw-shot" href={w.url} target="_blank" rel="noopener noreferrer" aria-label={`افتح ${w.title}`}>
+              <img src={w.img} alt={w.title} loading="lazy" width="1400" height="875" />
+            </a>
+            <div className="lw-body">
+              <span className="lw-cat">{w.cat}</span>
+              <h3>{w.title}</h3>
+              <p>{w.desc}</p>
+              <div className="lw-foot">
+                <div className="lw-tags">{w.tags.map((t) => <span key={t}>{t}</span>)}</div>
+                <a className="lw-cta" href={w.url} target="_blank" rel="noopener noreferrer">
+                  {w.app ? "حمّل التطبيق" : "جرّب الموقع الحي"}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
   const containerRef = useRef(null);
   const [size, setSize] = useState(0);
@@ -740,7 +794,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             </div>
           )}
 
-          {currentStepId === "portfolio" && (
+          {currentStepId === "portfolio" && PROGRAMMING_SERVICES.has(serviceType) && <LiveWorks />}
+
+          {currentStepId === "portfolio" && !PROGRAMMING_SERVICES.has(serviceType) && (
             <section className="works-showcase">
               <div className="works-carousel-head">
                 {visiblePortfolio && visiblePortfolio.length > 1 && (

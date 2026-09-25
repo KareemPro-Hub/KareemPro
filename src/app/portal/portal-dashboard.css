@@ -356,3 +356,34 @@
   .team-satellite-name{background:none;border:0;box-shadow:none;backdrop-filter:none;padding:0;font-size:.9rem}
   .team-satellite-role{margin-top:6px;font-size:.68rem;line-height:1.5;white-space:normal;display:inline-block;padding:3px 8px;border-radius:8px;background:#fff2e6}
 }
+
+/* ===== Programming offers — «نماذج أعمالنا» as live browser windows
+   (design #3, 2026-09-25). Scoped to .live-works. ===== */
+.live-works{direction:rtl;color:#2a1a12}
+.live-works-head h2{margin:0 0 8px;font-size:clamp(24px,3vw,40px);font-weight:900;line-height:1.3;color:#2a1a12}
+.live-works-head h2 em{font-style:normal;background:linear-gradient(110deg,#ffad38,#ff7226 55%,#e2366f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.live-works-head p{margin:0;color:#725f55;font-size:15px}
+.live-works-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:22px}
+.lw-win{display:flex;flex-direction:column;min-width:0;border-radius:18px;overflow:hidden;background:#fff;border:1px solid #ecdfd2;box-shadow:0 22px 44px -28px rgba(61,39,26,.5);transition:transform .25s ease,box-shadow .25s ease}
+.lw-win:hover{transform:translateY(-4px);box-shadow:0 30px 54px -28px rgba(243,120,38,.55)}
+.lw-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#f7f1eb;border-bottom:1px solid #eee2d6;direction:ltr}
+.lw-bar>i{flex-shrink:0;width:10px;height:10px;border-radius:50%;background:#ff5f57}.lw-bar>i:nth-child(2){background:#febc2e}.lw-bar>i:nth-child(3){background:#28c840}
+.lw-url{flex:1;min-width:0;margin:0 8px;display:flex;align-items:center;gap:6px;font:600 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:#6d5a4d;background:#fff;border:1px solid #eadfd4;border-radius:8px;padding:5px 10px}
+.lw-url svg{flex-shrink:0;color:#16a34a}.lw-url span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lw-live{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;font:700 11px ui-monospace,Menlo,monospace;color:#16a34a}
+.lw-live::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.2);animation:lw-blink 1.8s ease-in-out infinite}
+@keyframes lw-blink{50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+.lw-shot{display:block;overflow:hidden;background:#f3ece5}
+.lw-shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;transition:transform .5s ease}
+.lw-win:hover .lw-shot img{transform:scale(1.04)}
+.lw-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:16px 16px 18px}
+.lw-cat{font-size:11.5px;font-weight:800;color:#c8551d}
+.lw-body h3{margin:0;font-size:19px;font-weight:900;color:#2a1a12}
+.lw-body p{margin:0;font-size:13.5px;line-height:1.85;color:#725f55}
+.lw-foot{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding-top:6px}
+.lw-tags{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.lw-tags span{font:700 11px ui-monospace,Menlo,monospace;padding:4px 8px;border-radius:8px;background:#f6efe8;color:#5a4336;direction:ltr}
+.lw-cta{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:800;color:#fff!important;text-decoration:none;background:linear-gradient(110deg,#ffad38,#ff7226);box-shadow:0 10px 20px -8px rgba(243,120,38,.6);white-space:nowrap}
+@media (max-width:1100px){.live-works-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.live-works-grid{grid-template-columns:1fr;gap:16px}.live-works-head p{font-size:14px}.lw-foot{flex-direction:column;align-items:stretch}.lw-cta{min-height:46px;font-size:14px}.lw-body h3{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.lw-win,.lw-shot img{transition:none}.lw-live::before{animation:none}}
