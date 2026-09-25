@@ -14,6 +14,7 @@ const SERVICE_TYPES = [
   { value: "platform", label: "إنشاء منصة رقمية" },
   { value: "platform-apps", label: "إنشاء منصة رقمية مع التطبيقات" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
+  { value: "link", label: "منصة LINK السعودية" },
   { value: "articles", label: "باقات كتابة ونشر المقالات" },
 ];
 

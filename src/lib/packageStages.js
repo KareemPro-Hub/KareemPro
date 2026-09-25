@@ -34,6 +34,21 @@ export const PACKAGE_STAGE_AMOUNTS = {
   10000: [2000, 2000, 2000, 2000, 2000],
   15000: [3000, 3000, 3000, 3000, 3000],
   20000: [4000, 4000, 4000, 4000, 4000],
+  // LINK (منصة LINK السعودية): listed at 11,000 but the four instalments add
+  // up to the NET 8,400 — the other 2,600 is the settlement below, applied to
+  // the project automatically when the client accepts. Keep in sync with
+  // LINK_PAYMENT_PLAN in portal/OnboardingFunnel.js and the "طريقة السداد"
+  // line in SERVICE_TEMPLATES.link (admin/actions.js).
+  11000: [3400, 2000, 1500, 1500],
+};
+
+// Packages whose price is reduced at signing by a settlement agreed before
+// the contract (not a promotional discount). acceptProposal lowers the new
+// project's package_price by `amount` and records it in the same discount
+// columns the admin's discount tool uses, so admin and client both see the
+// net figure that the stages above add up to.
+export const PACKAGE_SETTLEMENTS = {
+  11000: { amount: 2600, note: "تسوية مستحقات سابقة (2,590 ريال) + خصم إضافي 10 ريال" },
 };
 
 const STAGE_TITLES = ["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة", "الدفعة الخامسة"];
@@ -105,6 +120,15 @@ const COURSE_STAGE_DESCRIPTIONS = {
   ],
 };
 
+// LINK: each payment is pinned to a real milestone of the two-month build
+// (web platform in month one, the two native apps in month two).
+const LINK_STAGE_DESCRIPTIONS = [
+  "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
+  "عند إطلاق منصة الويب، بعد اكتمال المراحل الأربع الأولى.",
+  "في منتصف تطوير التطبيقين، بعد تأسيسهما وربطهما بالمنصة وتطوير تجربة المستخدم على الهاتف.",
+  "الدفعة الأخيرة عند اجتياز الاختبار وتجهيز التطبيقين للنشر على App Store وGoogle Play.",
+];
+
 const PHARMACY_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد الانتهاء من التحليل والتصميم وبناء صلاحيات المستخدمين والأدوار.",
@@ -130,7 +154,9 @@ export function buildStagesForPackagePrice(price) {
   const numericPrice = Number(price);
   const amounts = PACKAGE_STAGE_AMOUNTS[numericPrice];
   if (!amounts) return null;
-  const descriptions = COURSE_STAGE_DESCRIPTIONS[numericPrice]
+  const descriptions = numericPrice === 11000
+    ? LINK_STAGE_DESCRIPTIONS
+    : COURSE_STAGE_DESCRIPTIONS[numericPrice]
     ? COURSE_STAGE_DESCRIPTIONS[numericPrice]
     : ARTICLES_STAGE_DESCRIPTIONS[numericPrice]
     ? ARTICLES_STAGE_DESCRIPTIONS[numericPrice]

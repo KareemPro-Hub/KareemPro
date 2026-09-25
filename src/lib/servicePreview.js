@@ -18,6 +18,7 @@ export function detectServiceType(text) {
   if (/بلوجر|blogger/i.test(t)) return "blogger";
   if (/مقال/.test(t)) return "articles";
   if (/كورس|حصة|حصص/.test(t)) return "course";
+  if (/LINK/i.test(t)) return "link";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -44,6 +45,10 @@ const PREVIEW_BY_SERVICE = {
   blogger: {
     title: "مدونة ربحية جاهزة لأدسنس",
     description: "من الإنشاء حتى أول دخل حقيقي",
+  },
+  link: {
+    title: "منصة LINK جاهزة للانطلاق",
+    description: "منصة ويب وتطبيقا iPhone وAndroid باسمك",
   },
   pharmacy: {
     title: "أدر صيدلياتك بذكاء",

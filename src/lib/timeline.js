@@ -14,6 +14,9 @@ function packageTier(packageName) {
   // "Blogger". Matching the title alone would file them under the wrong
   // tier and hand them the platform timeline instead of the blog one.
   if (/بلوجر|blogger/i.test(full)) return "blogger";
+  // LINK: matched by name, not price — the settlement applied at signing
+  // lowers package_price from 11,000 to 8,400, so price can't identify it.
+  if (/LINK/i.test(full)) return "link";
   // Article packages ("باقة 30 مقالًا" …) are a content service sold to a
   // client whose blog already exists — a different production process from
   // building one, so they get their own step list below. Checked AFTER
@@ -221,6 +224,58 @@ const PHARMACY_STEPS = [
   },
 ];
 
+// LINK (منصة LINK السعودية) — the client's own 8-phase plan: month one
+// builds the web platform (phases 1–4), month two the native iPhone and
+// Android apps (phases 5–8). First key is "contract_payment", the DB default
+// for projects.timeline_step — same reasoning as PHARMACY_STEPS above.
+const LINK_STEPS = [
+  {
+    key: "contract_payment",
+    title: "العقد والدفعة الأولى",
+    desc: "توقيع العقد وتأكيد استلام الدفعة الأولى.",
+  },
+  {
+    key: "link_analysis_design",
+    title: "التحليل والتصميم والتأسيس",
+    desc: "اعتماد المتطلبات، تصميم تجربة المستخدم والواجهات، تجهيز قاعدة البيانات والهيكل التقني، والحسابات والصلاحيات.",
+  },
+  {
+    key: "link_core_system",
+    title: "بناء النظام الأساسي",
+    desc: "تسجيل المعلمين والطلاب وأولياء الأمور، ملفات المستخدمين، رفع بيانات ومؤهلات المعلمين، ونظام مراجعة واعتماد الحسابات.",
+  },
+  {
+    key: "link_main_features",
+    title: "وظائف المنصة الرئيسية",
+    desc: "البحث المتقدم والفلاتر، الموقع والأحياء، المفضلة، طلبات التواصل، الشات، التقييمات والبلاغات.",
+  },
+  {
+    key: "link_admin_payments_launch",
+    title: "الإدارة والدفع وإطلاق منصة الويب",
+    desc: "لوحة الإدارة، الاشتراكات والدفع، الإشعارات، الأمان والصلاحيات، الاختبارات النهائية، إصلاح الأخطاء ونشر المنصة.",
+  },
+  {
+    key: "link_apps_foundation",
+    title: "تأسيس التطبيقات وربطها بالمنصة",
+    desc: "إنشاء تطبيقي iPhone وAndroid وربطهما بنفس الحسابات وقاعدة البيانات والخدمات الخاصة بمنصة LINK.",
+  },
+  {
+    key: "link_apps_ux",
+    title: "تجربة المستخدم على الهاتف",
+    desc: "التسجيل والدخول، الملفات الشخصية، البحث والفلاتر، الموقع عبر GPS، المفضلة وطلبات التواصل.",
+  },
+  {
+    key: "link_apps_advanced",
+    title: "استكمال الوظائف المتقدمة",
+    desc: "الشات الفوري، رفع الصور، الإشعارات، التقييمات والبلاغات، الاشتراكات والدفع.",
+  },
+  {
+    key: "link_apps_testing_release",
+    title: "الاختبار والتجهيز للنشر",
+    desc: "اختبار التطبيقين على iPhone وAndroid، تحسين الأداء، إصلاح الأخطاء، وتجهيز النسخ النهائية للنشر على App Store وGoogle Play.",
+  },
+];
+
 // Article packages (كتابة ونشر المقالات) — publishing-only process on a blog
 // that already exists: no build, no data collection, no handover. The two
 // payment checkpoints are real steps here (rather than bookkeeping alongside
@@ -343,6 +398,7 @@ export function getAdminTimeline(packageName, packagePrice) {
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
+  if (tier === "link") return LINK_STEPS;
   if (tier === "course") {
     if (!COURSE_MASTERY_PRICES.has(Number(packagePrice))) return COURSE_STEPS;
     return COURSE_STEPS.map((s) =>
@@ -385,6 +441,7 @@ const DURATION_BY_TIER = {
   // are a separate, unbounded phase after delivery, not part of what we're
   // committing a timeframe to here.
   blogger: "5 أيام عمل",
+  link: "شهران تقريبًا — شهر لمنصة الويب وشهر للتطبيقين",
 };
 
 export function getEstimatedDuration(packageName) {

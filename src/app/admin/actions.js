@@ -280,6 +280,40 @@ const SERVICE_TEMPLATES = {
       },
     ],
   },
+  // One-off custom deal (LINK — Saudi tutoring marketplace: web platform +
+  // native iPhone/Android apps). One package only. The price is 11,000 but
+  // the client is owed 2,590 from an earlier deal, settled here as a
+  // discount (plus 10 waived) — net 8,400. The settlement itself is applied
+  // automatically on acceptance, see PACKAGE_SETTLEMENTS in
+  // lib/packageStages.js. The package name must keep the word "LINK":
+  // packageTier() in lib/timeline.js and detectServiceType() in the funnel
+  // both read it to recognise this service.
+  link: {
+    projectTitle: "منصة LINK السعودية",
+    packages: [
+      {
+        name: "باقة LINK المتكاملة|منصة ويب **مع تطبيق iPhone وتطبيق Android**",
+        price: 11000,
+        original_price: 15000,
+        is_featured: false,
+        features: [
+          "منصة ويب متكاملة تربط المعلمين بالطلاب وأولياء الأمور",
+          "**تطبيق iPhone وتطبيق Android أصليان (Native) على نفس الحسابات وقاعدة البيانات**",
+          "تسجيل المعلمين والطلاب وأولياء الأمور وملفاتهم الشخصية",
+          "رفع مؤهلات المعلمين، ونظام مراجعة واعتماد الحسابات",
+          "بحث متقدم وفلاتر، وتحديد الموقع والأحياء عبر GPS",
+          "المفضلة وطلبات التواصل والشات الفوري",
+          "التقييمات والبلاغات ورفع الصور",
+          "الاشتراكات والدفع الإلكتروني والإشعارات",
+          "لوحة إدارة شاملة مع الأمان والصلاحيات",
+          "تجهيز التطبيقين للنشر على App Store وGoogle Play",
+          "مدة التنفيذ: شهران تقريبًا — شهر لمنصة الويب وشهر للتطبيقين",
+          "دعم فني لمدة شهر بعد التسليم",
+          "طريقة السداد: يُخصم من قيمة الباقة 2,590 ريال تسوية لمستحقات سابقة و10 ريال خصم إضافي، ليصبح الصافي 8,400 ريال على أربع دفعات: 3,400 مقدمًا، 2,000 عند إطلاق منصة الويب، 1,500 في منتصف تطوير التطبيقين، 1,500 عند تجهيز التطبيقين للنشر.",
+        ].join("\n"),
+      },
+    ],
+  },
   // One-off custom deal (Urs — pharmacy SaaS platform), not a general-purpose
   // template like blogger. Kept here anyway so it's ready to auto-generate
   // the moment this client is invited, instead of being built by hand.

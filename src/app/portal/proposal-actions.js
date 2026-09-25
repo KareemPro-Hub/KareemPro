@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
-import { buildStagesForPackagePrice } from "@/lib/packageStages";
+import { buildStagesForPackagePrice, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName }) {
@@ -77,6 +77,26 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
       }))
     );
     if (stagesError) throw new Error(stagesError.message);
+  }
+
+  // A settlement agreed before signing (see PACKAGE_SETTLEMENTS) lowers the
+  // project's price to the net figure its stages add up to, recorded in the
+  // same columns the admin's discount tool uses. original_stage_amounts is
+  // left empty on purpose: there is no pre-settlement stage split to go back
+  // to, so this agreed settlement can't be "cancelled" by accident.
+  const settlement = PACKAGE_SETTLEMENTS[Number(chosenPackage.price)];
+  if (settlement && newProject) {
+    const { error: settlementError } = await admin
+      .from("projects")
+      .update({
+        package_price: Number(chosenPackage.price) - settlement.amount,
+        original_price: Number(chosenPackage.price),
+        discount_amount: settlement.amount,
+        discount_note: settlement.note,
+        discount_applied_at: now,
+      })
+      .eq("id", newProject.id);
+    if (settlementError) throw new Error(settlementError.message);
   }
 
   await sendProposalDecisionEmail({

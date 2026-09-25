@@ -290,6 +290,19 @@ const ARTICLES_PAYMENT_PLANS = {
   ],
 };
 
+// LINK: the package is listed at 11,000, but 2,590 owed to the client from
+// an earlier deal is settled against it, plus 10 waived — net 8,400 in four
+// milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
+// PACKAGE_SETTLEMENTS in lib/packageStages.js and the "طريقة السداد" line in
+// SERVICE_TEMPLATES.link (admin/actions.js).
+const LINK_SETTLEMENT = { owed: 2590, extra: 10 };
+const LINK_PAYMENT_PLAN = [
+  [3400, "مقدمًا عند توقيع العقد"],
+  [2000, "عند إطلاق منصة الويب"],
+  [1500, "في منتصف تطوير التطبيقين"],
+  [1500, "عند تجهيز التطبيقين للنشر"],
+];
+
 const BLOGGER_PAYMENT_PLANS = {
   750: [250, 250, 250],
   1300: [450, 450, 400],
@@ -316,6 +329,9 @@ function detectServiceType(text) {
   // uses either word. Checked BEFORE video so a course whose copy mentions
   // "فيديو" can never be filed as a video production job.
   if (/كورس|حصة|حصص/.test(t)) return "course";
+  // LINK is checked before "تطبيق" below — its package name mentions the
+  // apps too. Keep in sync with packageTier() in lib/timeline.js.
+  if (/LINK/i.test(t)) return "link";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -333,6 +349,11 @@ const SERVICE_ABOUT_OVERRIDES = {
 خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
 ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
 إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
+  // LINK is a build service too — same "إبداع تقني" wording as pharmacy.
+  link: `هنا في Kareem Pro:
+خبرةٌ تتحدث: 11 عامًا من الحرفية البصرية، التي تتجاوز حدود المألوف.
+ذكاء التصميم: لا نبيع خدمةً فقط! فكل تفصيلةٍ نُسِجَتْ لتخاطب عقل عميلك، وتدفعه لاختيارك.
+إبداع تقني: نصنع لعلامتك إبداعًا بصريًا وثِقلاً تقنيًا، يجبر السوق بأكمله على الالتفات إليك.`,
   // Article packages are sold to a client we have ALREADY delivered to, so
   // the funnel's opening step is a thank-you rather than an introduction —
   // same "label: text" format, same renderer, different job.
@@ -345,6 +366,7 @@ const SERVICE_ABOUT_OVERRIDES = {
 const SERVICE_META = {
   blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
   pharmacy: { partyRole: "صاحب منصة Urs", serviceLine: "منصة SaaS لإدارة الصيدليات" },
+  link: { partyRole: "صاحب منصة LINK", serviceLine: "منصة LINK السعودية (منصة ويب وتطبيقا iPhone وAndroid)" },
   voiceover: { partyRole: "صاحب التعليق الصوتي", serviceLine: "تعليق صوتي إبداعي" },
   video: { partyRole: "صاحب الفيديو", serviceLine: "فيديو سينمائي احترافي" },
   "platform-apps": { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية مع التطبيقات" },
@@ -386,6 +408,7 @@ const COURSE_PORTFOLIO_TITLES = [
 // this step at all) fall through to showing everything, unfiltered.
 const PORTFOLIO_CATEGORIES_BY_SERVICE = {
   pharmacy: ["منصات وتطبيقات"],
+  link: ["منصات وتطبيقات"],
   platform: ["منصات وتطبيقات"],
   "platform-apps": ["منصات وتطبيقات"],
   video: ["مونتاج احترافي", "عرض مرئي", "ريلز وسناب"],
@@ -595,7 +618,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             <div className="team-section">
               <TeamOrbit
                 members={
-                  serviceType === "pharmacy"
+                  serviceType === "pharmacy" || serviceType === "link"
                     ? TEAM_MEMBERS.map((m) =>
                         m.name === "ندى رحيم" ? { ...m, role: "Full Stack Developer" } : m
                       )
@@ -870,6 +893,21 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         قليلًا حسب سياسة أسعار الشركة المزوّدة.
                       </li>
                     </>
+                  ) : serviceType === "link" ? (
+                    <>
+                      <li>
+                        الاستضافة وقاعدة البيانات السحابية ومساحة تخزين الصور والملفات (تبدأ مجانية
+                        وتُرفع السعة عند الحاجة)
+                      </li>
+                      <li>رسوم بوابة الدفع (حوالي 2.5–3٪ من كل عملية)</li>
+                      <li>خدمة الخرائط وتحديد الموقع ورسائل التحقق SMS، حسب حجم الاستخدام.</li>
+                      <li>تجديد الدومين (حوالي 55<RiyalIcon size="0.75em" /> سنويًا)</li>
+                      <li>
+                        حسابات مطوري Apple وGoogle لنشر التطبيقين باسم صاحب المشروع (حوالي
+                        370<RiyalIcon size="0.75em" /> سنويًا و95<RiyalIcon size="0.75em" /> لمرة واحدة على
+                        الترتيب)
+                      </li>
+                    </>
                   ) : serviceType === "pharmacy" ? (
                     <>
                       <li>الاستضافة وقاعدة البيانات السحابية لبيانات الصيدلية وبوابة الدفع.</li>
@@ -1042,6 +1080,34 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </>
                     );
                   })()}
+                  {serviceType === "link" && (
+                    <>
+                      {" "}— يُخصم منها{" "}
+                      <span dir="ltr">{LINK_SETTLEMENT.owed.toLocaleString("en-US")}</span>
+                      <RiyalIcon size="0.75em" tone="dark" /> تسوية لمستحقات سابقة لصاحب المشروع، و
+                      {LINK_SETTLEMENT.extra}
+                      <RiyalIcon size="0.75em" tone="dark" /> خصم إضافي، ليصبح الصافي المستحق{" "}
+                      <strong>
+                        <span dir="ltr">
+                          {(
+                            Number(selectedPackage.price) -
+                            LINK_SETTLEMENT.owed -
+                            LINK_SETTLEMENT.extra
+                          ).toLocaleString("en-US")}
+                        </span>
+                        <RiyalIcon size="0.75em" tone="dark" />
+                      </strong>{" "}
+                      (أربع دفعات){" "}
+                      {LINK_PAYMENT_PLAN.map(([amount, when], i) => (
+                        <span key={i}>
+                          {i > 0 && " — "}
+                          {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة"][i]}:{" "}
+                          <span dir="ltr">{amount.toLocaleString("en-US")}</span>
+                          <RiyalIcon size="0.75em" tone="dark" /> {when}
+                        </span>
+                      ))}
+                    </>
+                  )}
                   {serviceType === "pharmacy" && (
                     <>
                       {" "}(خمس دفعات متساوية{" "}
@@ -1179,6 +1245,81 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         توقيع صاحب المشروع على هذا العقد يعني موافقته الكاملة على الباقة المختارة
                         وقيمتها وشروط تنفيذها.
                       </li>
+                    </>
+                  ) : serviceType === "link" ? (
+                    /* LINK has its own clause set, modelled on pharmacy's: a
+                       two-month build with native store apps, a settlement
+                       folded into the price, and marketplace-specific
+                       responsibilities (vetting teachers, users' data). */
+                    <>
+                      <li>
+                        يبدأ تنفيذ المشروع بعد استلام الدفعة الأولى وكافة البيانات والمتطلبات اللازمة
+                        من صاحب المشروع.
+                      </li>
+                      <li>
+                        يلتزم مقدم الخدمة بتنفيذ المراحل الثماني الموضحة في الباقة: أربع مراحل لمنصة
+                        الويب خلال الشهر الأول، وأربع مراحل لتطبيقي iPhone وAndroid الأصليين خلال
+                        الشهر الثاني.
+                      </li>
+                      <li>
+                        مدة التنفيذ التقديرية شهران تقريبًا، تبدأ من استلام الدفعة الأولى والبيانات
+                        المطلوبة. ولا يُحتسب على مقدم الخدمة أي تأخير ناتج عن تأخر البيانات أو
+                        المراجعات أو الردود من صاحب المشروع.
+                      </li>
+                      <li>
+                        أي إضافات أو تعديلات خارج الباقة المختارة يتم تسعيرها وتحديد مدة تنفيذها في
+                        ملحق منفصل، ولا تُنفَّذ إلا بعد التأكيد الكتابي عليها عبر وسائل التواصل المعتمدة
+                        (واتساب أو البريد الإلكتروني).
+                      </li>
+                      <li>
+                        يلتزم صاحب المشروع بتوفير الحسابات اللازمة باسمه: الدومين، وبوابة الدفع،
+                        وحسابي مطوري Apple وGoogle، وخدمات الخرائط والرسائل عند الحاجة إليها.
+                      </li>
+                      <li>
+                        نشر التطبيقين على App Store وGoogle Play يخضع لسياسات المتاجر وموافقتها، ولا
+                        تُحتسب مدة مراجعة المتاجر ضمن مدة التنفيذ. ويلتزم مقدم الخدمة بإجراء
+                        التعديلات التقنية التي تطلبها المتاجر لإتمام النشر.
+                      </li>
+                      <li>
+                        التشغيل اليومي للمنصة — مراجعة واعتماد حسابات المعلمين ومؤهلاتهم، ومتابعة
+                        البلاغات، والتعامل مع المستخدمين — مسؤولية صاحب المشروع، ومقدم الخدمة يوفر
+                        له الأدوات اللازمة لذلك في لوحة الإدارة.
+                      </li>
+                      <li>
+                        جميع الأكواد المصدرية وملفات المشروع الناتجة عن هذا العقد ملك كامل لصاحب
+                        المشروع فور سداد كامل المستحق، ولا يحق لمقدم الخدمة إعادة استخدامها أو بيعها
+                        لطرف آخر دون إذن كتابي.
+                      </li>
+                      <li>
+                        يلتزم مقدم الخدمة بالحفاظ على سرية بيانات صاحب المشروع ومستخدمي المنصة، وعدم
+                        مشاركتها مع أي طرف ثالث.
+                      </li>
+                      <li>
+                        قيمة الباقة 11,000 ريال، يُخصم منها 2,590 ريال تسوية لمستحقات سابقة لصاحب
+                        المشروع لدى مقدم الخدمة، و10 ريال خصم إضافي، ليصبح الصافي المستحق 8,400 ريال
+                        تُسدَّد على أربع دفعات:
+                        <ul className="contract-subpoints">
+                          <li>الدفعة الأولى: 3,400 ريال مقدمًا عند توقيع العقد.</li>
+                          <li>الدفعة الثانية: 2,000 ريال عند إطلاق منصة الويب.</li>
+                          <li>الدفعة الثالثة: 1,500 ريال في منتصف تطوير التطبيقين.</li>
+                          <li>الدفعة الرابعة: 1,500 ريال عند تجهيز التطبيقين للنشر.</li>
+                        </ul>
+                        وبتوقيع هذا العقد تُعتبر المستحقات السابقة البالغة 2,590 ريال مسدَّدة بالكامل.
+                      </li>
+                      <li>
+                        الدعم الفني لمدة شهر بعد التسليم، ويشمل معالجة الأخطاء التقنية الناتجة عن
+                        التنفيذ، ولا يشمل إضافة مزايا جديدة أو التشغيل اليومي.
+                      </li>
+                      <li>
+                        في حال تأخر صاحب المشروع في إرسال البيانات أو سداد أي دفعة لأكثر من 14 يومًا،
+                        يحق لمقدم الخدمة إيقاف العمل مؤقتًا حتى استكمال المستحق، دون أن يترتب على ذلك
+                        أي التزام إضافي من مقدم الخدمة.
+                      </li>
+                      <li>
+                        الدفعات المسددة عن مراحل منجزة وموافق عليها غير قابلة للاسترداد، فهي تقابل جهدًا
+                        حقيقيًا ووقتًا كاملًا بُذِل في تنفيذها.
+                      </li>
+                      <li>توقيع صاحب المشروع على هذا العقد يعني موافقته الكاملة على الباقة المختارة وقيمتها وشروط تنفيذها.</li>
                     </>
                   ) : serviceType === "pharmacy" ? (
                     /* Pharmacy (Urs) is its own fully separate clause set — enough
