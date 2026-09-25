@@ -87,6 +87,15 @@ const TEAM_MEMBERS = [
   { name: "مريم أحمد", role: "Graphic & Visual Designer", photo: "/team/mariam-ahmed.jpg" },
   { name: "ندى رحيم", role: "Office Documentation Specialist", photo: "/team/nada-rahim.jpg" },
 ];
+// Programming offers show programming job titles (approved by Kareem
+// 2026-09-25). Every other service keeps the titles in TEAM_MEMBERS.
+const PROGRAMMING_SERVICES = new Set(["pharmacy", "link", "platform", "platform-apps"]);
+const PROGRAMMING_ROLES = {
+  "أحمد شاهين": "Web Developer",
+  "أسماء المقدم": "Growth Marketer",
+  "مريم أحمد": "UI/UX Designer",
+  "ندى رحيم": "Full Stack Developer",
+};
 const PORTFOLIO_COVERS={"مونتاج احترافي":["https://img.youtube.com/vi/X4k2BYJuKbk/hqdefault.jpg"],"عرض مرئي":["https://img.youtube.com/vi/XA5TXQpjNrc/hqdefault.jpg"],"تعليق صوتي":["https://img.youtube.com/vi/g94wHiCSEDk/hqdefault.jpg"],"ريلز وسناب":["https://img.youtube.com/vi/zhNVbDO2lcw/hqdefault.jpg","https://img.youtube.com/vi/OG7rtRnAjvQ/hqdefault.jpg","https://img.youtube.com/vi/lMWqyAV96SI/hqdefault.jpg"]};
 const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احترافي يصنع من كل لقطة قصة تستحق المشاهدة.","عرض مرئي":"نصنع من فكرتك عرضًا بصريًا يترك أثرًا لا يُنسى.","تعليق صوتي":"نمنح عملك صوتًا يليق بقيمته.","ريلز وسناب":"نستخرج من التفاصيل الصغيرة قصة تستحق المشاهدة.","منصات وتطبيقات":"نحوّل فكرتك إلى منصة رقمية تليق بقيمة مشروعك.",
 // Five individual works (not categories) shown only in the editing-course
@@ -718,9 +727,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
             <div className="team-section">
               <TeamOrbit
                 members={
-                  serviceType === "pharmacy" || serviceType === "link"
+                  PROGRAMMING_SERVICES.has(serviceType)
                     ? TEAM_MEMBERS.map((m) =>
-                        m.name === "ندى رحيم" ? { ...m, role: "Full Stack Developer" } : m
+                        PROGRAMMING_ROLES[m.name] ? { ...m, role: PROGRAMMING_ROLES[m.name] } : m
                       )
                     : TEAM_MEMBERS
                 }
