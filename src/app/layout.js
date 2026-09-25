@@ -1,6 +1,6 @@
 import "./globals.css";
 
-const TITLE = "Kareem Pro — بوابة الدخول";
+const TITLE = "Kareem Pro — مشروعك تحت عينك";
 const DESCRIPTION = "بوابة متابعة المشاريع والمراحل — Kareem Pro";
 
 // Explicitly tells any browser / in-app webview (email apps, etc.) that this
