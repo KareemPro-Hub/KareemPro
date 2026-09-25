@@ -89,6 +89,17 @@ function LoginForm() {
       return;
     }
 
+    // Hand the credentials to the browser's password manager right away, so
+    // the next visit is one tap (Face ID / Touch ID on Apple devices, the
+    // saved-password prompt on Chrome). PasswordCredential exists in Chromium
+    // browsers only; Safari/iCloud Keychain picks the login up from the named
+    // form fields below instead. Never blocks the redirect.
+    try {
+      if (window.PasswordCredential && navigator.credentials?.store) {
+        await navigator.credentials.store(new window.PasswordCredential({ id: email, password, name: email }));
+      }
+    } catch {}
+
     window.location.href = searchParams.get("next") || ROLES[role].defaultNext;
   }
 
@@ -149,12 +160,17 @@ function LoginForm() {
               : ROLES[role].sub}
           </p>
 
-          <form onSubmit={mode === "forgot" ? handleForgot : handleSubmit}>
+          <form method="post" action={ROLES[role].loginPath} onSubmit={mode === "forgot" ? handleForgot : handleSubmit}>
             <div className="field">
               <label htmlFor="login-email">البريد الإلكتروني</label>
               <input
                 id="login-email"
+                name="username"
                 type="email"
+                inputMode="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -170,6 +186,7 @@ function LoginForm() {
                 <div className="password-field-wrap">
                   <input
                     id="login-password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     required
                     value={password}
