@@ -79,6 +79,10 @@ description: سجل القرارات المتخذة والأعطال التي ح
   الكاروسيل القديم. CSS `.live-works` في آخر `portal-dashboard.css`.
 - **مفتوح:** صورة `kareempro-preview.webp` لسه عليها «روائعنا الإبداعية» (مونتاج) —
   محتاجة سكرين شوت جديد للموقع بشكله البرمجي. مستني موافقة كريم.
+- **Coffee Land اتشال نهائيًا (2026-09-26):** رابطه بقى يفتح متجر تاني. اتحط مكانه مدونة iKareem
+  (ikareempro.com، صورة `ikareem-blog-shot.webp`) في المعرض الرئيسي و`PROGRAMMING_WORKS`، واتشال من
+  showcase في store.html و services_data.py (يدويًا). الصورة القديمة في `_to_delete/`.
+- **مفتوح:** iHealth في store.html (ihealth-mu.vercel.app) بيظهر «انتهت فترة المعاينة» — محتاج قرار كريم.
 
 ## مؤجَّل / مفتوح
 

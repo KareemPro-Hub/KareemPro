@@ -180,7 +180,7 @@ const PROGRAMMING_WORKS = [
   { cat: "منصة + بوابة عملاء", host: "kareempro.com", url: "https://kareempro.com/", title: "Kareem Pro", desc: "منصتنا نفسها: عرض الخدمات، وبوابة عميل يتابع منها كل عميل مراحل مشروعه ودفعاته والملفات المسلَّمة.", tags: ["Next.js", "Supabase", "Vercel"], img: "/kareempro-preview.webp" },
   { cat: "مدونة ربحية", host: "kareemwallet.com", url: "https://www.kareemwallet.com/", title: "محفظة كريم", desc: "مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.", tags: ["Blogger", "SEO", "AdSense"], img: "/kareemwallet-preview.webp" },
   { cat: "موقع تعريفي", host: "ebda3-media.com", url: "https://ebda3-media.com/", title: "Ebda3 Media", desc: "موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.", tags: ["Next.js", "Responsive"], img: "/ebda3-preview.webp" },
-  { cat: "موقع", host: "coffee-land-kareem-pro-s-projects.vercel.app", url: "https://coffee-land-kareem-pro-s-projects.vercel.app/", title: "Coffee Land", desc: "موقع متجاوب بهوية بصرية أنيقة وأداء عالٍ — نموذج لموقع تعريفي سريع الإطلاق.", tags: ["React", "Vercel"], img: "/coffeeland-preview.webp" },
+  { cat: "مدونة تقنية", host: "ikareempro.com", url: "https://www.ikareempro.com/", title: "iKareem", desc: "مدونة تقنية بتصميم مخصص: شروحات الذكاء الاصطناعي والماك والآيفون، بهيكلة سيو كاملة وتصفّح سريع على الموبايل.", tags: ["Blogger", "SEO", "Responsive"], img: "/ikareem-blog-shot.webp" },
 ];
 
 function LiveWorks() {
