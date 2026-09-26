@@ -82,6 +82,8 @@ description: سجل القرارات المتخذة والأعطال التي ح
 - **Coffee Land اتشال نهائيًا (2026-09-26):** رابطه بقى يفتح متجر تاني. اتحط مكانه مدونة iKareem
   (ikareempro.com، صورة `ikareem-blog-shot.webp`) في المعرض الرئيسي و`PROGRAMMING_WORKS`، واتشال من
   showcase في store.html و services_data.py (يدويًا). الصورة القديمة في `_to_delete/`.
+- **ترتيب نماذج العرض (2026-09-26، بطلب كريم):** قدرات · تطبيق قدرات · Ebda3 · محفظة كريم · مدونة الذكاء الاصطناعي
+  (ai-bander.com، `bandar-blog-shot.webp`) · iKareem. **Kareem Pro اتشال من `PROGRAMMING_WORKS` فقط** — لسه موجود في معرض index.html.
 - **مفتوح:** iHealth في store.html (ihealth-mu.vercel.app) بيظهر «انتهت فترة المعاينة» — محتاج قرار كريم.
 
 ## مؤجَّل / مفتوح
