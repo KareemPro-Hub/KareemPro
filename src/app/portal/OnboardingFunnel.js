@@ -1485,7 +1485,10 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                             </li>
                           ))}
                         </ul>
-                        وبتوقيع العقد تُعتبر المستحقات السابقة (2,600 ريال) مسدَّدة بالكامل.
+                      </li>
+                      <li>
+                        بمجرد توقيع هذا العقد تُسوّى المستحقات السابقة لصاحب المشروع (2,600 ريال) تسوية
+                        نهائية.
                       </li>
                       {Number(selectedPackage.price) === LINK_YEAR_SUPPORT_PRICE ? (
                         <>
