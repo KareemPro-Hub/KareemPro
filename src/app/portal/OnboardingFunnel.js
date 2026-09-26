@@ -441,18 +441,29 @@ const ARTICLES_PAYMENT_PLANS = {
   ],
 };
 
-// LINK: the package is listed at 9,900 (was 11,000 until 2026-09-25), but a
-// 2,600 settlement for an earlier deal is deducted from it (Kareem rounded
-// it from 2,590 + 10 waived to a single 2,600) — net 7,300 in three
-// milestone payments. Keep in sync with PACKAGE_STAGE_AMOUNTS /
-// PACKAGE_SETTLEMENTS in lib/packageStages.js and the "طريقة السداد" line in
-// SERVICE_TEMPLATES.link (admin/actions.js).
+// LINK: two packages since 2026-09-26 — المتكاملة 9,900 (one month support)
+// and الشاملة 14,700 (full support for a whole year). A 2,600 settlement for
+// an earlier deal is deducted from whichever is chosen (Kareem rounded it
+// from 2,590 + 10 waived to a single 2,600) — net 7,300 / 12,100 in three
+// milestone payments. Keyed by the listed price. Keep in sync with
+// PACKAGE_STAGE_AMOUNTS / PACKAGE_SETTLEMENTS in lib/packageStages.js and the
+// "طريقة السداد" lines in SERVICE_TEMPLATES.link (admin/actions.js).
 const LINK_SETTLEMENT = { owed: 2600 };
-const LINK_PAYMENT_PLAN = [
-  [2500, "عند توقيع العقد"],
-  [2500, "عند إطلاق منصة الويب"],
-  [2300, "عند تجهيز التطبيقين للنشر"],
-];
+const LINK_PAYMENT_PLANS = {
+  9900: [
+    [2500, "عند توقيع العقد"],
+    [2500, "عند إطلاق منصة الويب"],
+    [2300, "عند نشر التطبيقين على المتاجر"],
+  ],
+  14700: [
+    [4100, "عند توقيع العقد"],
+    [4000, "عند إطلاق منصة الويب"],
+    [4000, "عند نشر التطبيقين على المتاجر"],
+  ],
+};
+// The yearly-support package: its contract swaps the one-month support
+// clause for the full-year one below.
+const LINK_YEAR_SUPPORT_PRICE = 14700;
 
 const BLOGGER_PAYMENT_PLANS = {
   750: [250, 250, 250],
@@ -1262,7 +1273,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         <RiyalIcon size="0.75em" tone="dark" />
                       </strong>{" "}
                       (ثلاث دفعات){" "}
-                      {LINK_PAYMENT_PLAN.map(([amount, when], i) => (
+                      {(LINK_PAYMENT_PLANS[Number(selectedPackage.price)] || []).map(([amount, when], i) => (
                         <span key={i}>
                           {i > 0 && " — "}
                           {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة"][i]}:{" "}
@@ -1443,8 +1454,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         البيانات، والرسائل، والخرائط، وعمولات بوابة الدفع، واشتراكا مطوري Apple وGoogle.
                       </li>
                       <li>
-                        نشر التطبيقين يخضع لسياسات App Store وGoogle Play وموافقتهما، ويلتزم مقدم الخدمة
-                        بالتعديلات التقنية التي تطلبها المتاجر لإتمام النشر.
+                        يتولى مقدم الخدمة نشر التطبيقين على App Store وGoogle Play من حسابي صاحب المشروع،
+                        والنشر يخضع لسياسات المتاجر وموافقتها، ويلتزم مقدم الخدمة بالتعديلات التقنية التي
+                        تطلبها المتاجر حتى إتمام النشر.
                       </li>
                       <li>
                         التشغيل اليومي للمنصة (اعتماد حسابات المعلمين ومؤهلاتهم، ومتابعة البلاغات،
@@ -1460,19 +1472,40 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         أي طرف ثالث.
                       </li>
                       <li>
-                        قيمة الباقة 9,900 ريال، يُخصم منها 2,600 ريال تسوية لمستحقات سابقة لصاحب المشروع،
-                        فيصبح الصافي 7,300 ريال على ثلاث دفعات:
+                        قيمة الباقة{" "}
+                        {Number(selectedPackage.price).toLocaleString("en-US")} ريال، يُخصم منها 2,600 ريال
+                        تسوية لمستحقات سابقة لصاحب المشروع، فيصبح الصافي{" "}
+                        {(Number(selectedPackage.price) - LINK_SETTLEMENT.owed).toLocaleString("en-US")} ريال
+                        على ثلاث دفعات:
                         <ul className="contract-subpoints">
-                          <li>الدفعة الأولى: 2,500 ريال عند توقيع العقد.</li>
-                          <li>الدفعة الثانية: 2,500 ريال عند إطلاق منصة الويب.</li>
-                          <li>الدفعة الثالثة: 2,300 ريال عند تجهيز التطبيقين للنشر.</li>
+                          {(LINK_PAYMENT_PLANS[Number(selectedPackage.price)] || []).map(([amount, when], i) => (
+                            <li key={i}>
+                              {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة"][i]}:{" "}
+                              {amount.toLocaleString("en-US")} ريال {when}.
+                            </li>
+                          ))}
                         </ul>
                         وبتوقيع العقد تُعتبر المستحقات السابقة (2,600 ريال) مسدَّدة بالكامل.
                       </li>
-                      <li>
-                        الدعم الفني شهر بعد التسليم لمعالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل
-                        مزايا جديدة أو التشغيل اليومي.
-                      </li>
+                      {Number(selectedPackage.price) === LINK_YEAR_SUPPORT_PRICE ? (
+                        <>
+                          <li>
+                            الدعم الفني كامل لمدة سنة من تاريخ التسليم، ويشمل: الصيانة وإصلاح أي خطأ في
+                            المنصة أو التطبيقين، وتحديثهما للتوافق مع إصدارات iOS وAndroid الجديدة
+                            ومتطلبات المتاجر، ومتابعة الأداء والأمان، وإضافة مميزات وتحسينات جديدة ضمن
+                            نطاق المنصة الحالية.
+                          </li>
+                          <li>
+                            لا يشمل الدعم السنوي التشغيل اليومي، ولا بناء أنظمة أو تطبيقات جديدة كليًا (مثل
+                            نوع مستخدم جديد أو تطبيق إضافي)؛ فهذه تُسعَّر في ملحق منفصل.
+                          </li>
+                        </>
+                      ) : (
+                        <li>
+                          الدعم الفني شهر بعد التسليم لمعالجة الأخطاء التقنية الناتجة عن التنفيذ، ولا يشمل
+                          مزايا جديدة أو التشغيل اليومي.
+                        </li>
+                      )}
                       <li>
                         إذا تأخر صاحب المشروع في البيانات أو أي دفعة أكثر من أسبوعين، يحق لمقدم الخدمة
                         إيقاف العمل لحين استكمال المستحق، دون أي التزام إضافي عليه.

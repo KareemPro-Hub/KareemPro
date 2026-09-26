@@ -281,9 +281,10 @@ const SERVICE_TEMPLATES = {
     ],
   },
   // One-off custom deal (LINK — Saudi tutoring marketplace: web platform +
-  // native iPhone/Android apps). One package only. The price is 9,900 (was
-  // 11,000 until 2026-09-25) but a 2,600 settlement for an earlier deal is
-  // deducted as a discount (was 2,590 + 10 waived) — net 7,300. The settlement itself is applied
+  // native iPhone/Android apps). Two packages since 2026-09-26: المتكاملة 9,900
+  // (one month support; was 11,000 until 2026-09-25) and الشاملة 14,700
+  // (full-year support). A 2,600 settlement for an earlier deal is deducted
+  // from either as a discount (was 2,590 + 10 waived) — net 7,300 / 12,100. The settlement itself is applied
   // automatically on acceptance, see PACKAGE_SETTLEMENTS in
   // lib/packageStages.js. The package name must keep the word "LINK":
   // packageTier() in lib/timeline.js and detectServiceType() in the funnel
@@ -306,10 +307,26 @@ const SERVICE_TEMPLATES = {
           "التقييمات والبلاغات ورفع الصور",
           "الاشتراكات والدفع الإلكتروني والإشعارات",
           "لوحة إدارة شاملة مع الأمان والصلاحيات",
-          "تجهيز التطبيقين للنشر على App Store وGoogle Play",
+          "نشر التطبيقين على App Store وGoogle Play",
           "مدة التنفيذ: حوالي شهرين — شهر لمنصة الويب وشهر للتطبيقين",
           "دعم فني لمدة شهر بعد التسليم",
-          "طريقة السداد: يُخصم من قيمة الباقة 2,600 ريال تسوية لمستحقات سابقة، ليصبح الصافي 7,300 ريال على ثلاث دفعات: 2,500 عند توقيع العقد، 2,500 عند إطلاق منصة الويب، 2,300 عند تجهيز التطبيقين للنشر.",
+          "طريقة السداد: يُخصم من قيمة الباقة 2,600 ريال تسوية لمستحقات سابقة، ليصبح الصافي 7,300 ريال على ثلاث دفعات: 2,500 عند توقيع العقد، 2,500 عند إطلاق منصة الويب، 2,300 عند نشر التطبيقين على المتاجر.",
+        ].join("\n"),
+      },
+      {
+        name: "باقة LINK الشاملة|كل مميزات المتكاملة **+ دعم فني كامل لمدة سنة**",
+        price: 14700,
+        original_price: 20000,
+        is_featured: false,
+        features: [
+          "كل مميزات باقة LINK المتكاملة",
+          "**دعم فني كامل لمدة سنة كاملة بعد التسليم**",
+          "صيانة مستمرة وإصلاح أي مشكلة في المنصة والتطبيقين",
+          "إضافة مميزات وتحسينات جديدة طوال السنة",
+          "تحديث التطبيقين مع كل إصدار جديد من iOS وAndroid ومتطلبات المتاجر",
+          "متابعة أداء المنصة وأمانها طوال السنة",
+          "مدة التنفيذ: حوالي شهرين — شهر لمنصة الويب وشهر للتطبيقين",
+          "طريقة السداد: يُخصم من قيمة الباقة 2,600 ريال تسوية لمستحقات سابقة، ليصبح الصافي 12,100 ريال على ثلاث دفعات: 4,100 عند توقيع العقد، 4,000 عند إطلاق منصة الويب، 4,000 عند نشر التطبيقين على المتاجر.",
         ].join("\n"),
       },
     ],

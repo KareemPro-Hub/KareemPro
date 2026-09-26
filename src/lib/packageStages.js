@@ -37,9 +37,11 @@ export const PACKAGE_STAGE_AMOUNTS = {
   // LINK (منصة LINK السعودية): listed at 9,900 but the three instalments add
   // up to the NET 7,300 — the other 2,600 is the settlement below, applied to
   // the project automatically when the client accepts. Keep in sync with
-  // LINK_PAYMENT_PLAN in portal/OnboardingFunnel.js and the "طريقة السداد"
+  // LINK_PAYMENT_PLANS in portal/OnboardingFunnel.js and the "طريقة السداد"
   // line in SERVICE_TEMPLATES.link (admin/actions.js).
   9900: [2500, 2500, 2300],
+  // LINK الشاملة (full-year support): 14,700 − 2,600 settlement = 12,100.
+  14700: [4100, 4000, 4000],
 };
 
 // Packages whose price is reduced at signing by a settlement agreed before
@@ -49,6 +51,7 @@ export const PACKAGE_STAGE_AMOUNTS = {
 // net figure that the stages above add up to.
 export const PACKAGE_SETTLEMENTS = {
   9900: { amount: 2600, note: "تسوية مستحقات سابقة (2,600 ريال)" },
+  14700: { amount: 2600, note: "تسوية مستحقات سابقة (2,600 ريال)" },
 };
 
 const STAGE_TITLES = ["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة", "الدفعة الخامسة"];
@@ -126,7 +129,7 @@ const COURSE_STAGE_DESCRIPTIONS = {
 const LINK_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "عند إطلاق منصة الويب، بعد اكتمال المراحل الأربع الأولى.",
-  "الدفعة الأخيرة عند اجتياز الاختبار وتجهيز التطبيقين للنشر على App Store وGoogle Play.",
+  "الدفعة الأخيرة عند اجتياز الاختبار ونشر التطبيقين على App Store وGoogle Play.",
 ];
 
 const PHARMACY_STAGE_DESCRIPTIONS = [
@@ -154,7 +157,7 @@ export function buildStagesForPackagePrice(price) {
   const numericPrice = Number(price);
   const amounts = PACKAGE_STAGE_AMOUNTS[numericPrice];
   if (!amounts) return null;
-  const descriptions = numericPrice === 9900
+  const descriptions = numericPrice === 9900 || numericPrice === 14700
     ? LINK_STAGE_DESCRIPTIONS
     : COURSE_STAGE_DESCRIPTIONS[numericPrice]
     ? COURSE_STAGE_DESCRIPTIONS[numericPrice]

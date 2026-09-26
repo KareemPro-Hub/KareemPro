@@ -271,8 +271,8 @@ const LINK_STEPS = [
   },
   {
     key: "link_apps_testing_release",
-    title: "الاختبار والتجهيز للنشر",
-    desc: "اختبار التطبيقين على iPhone وAndroid، تحسين الأداء، إصلاح الأخطاء، وتجهيز النسخ النهائية للنشر على App Store وGoogle Play.",
+    title: "الاختبار والنشر",
+    desc: "اختبار التطبيقين على iPhone وAndroid، تحسين الأداء، إصلاح الأخطاء، ونشر النسخ النهائية على App Store وGoogle Play.",
   },
 ];
 
