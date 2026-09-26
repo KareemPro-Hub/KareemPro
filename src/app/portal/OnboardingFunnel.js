@@ -1258,31 +1258,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </>
                     );
                   })()}
-                  {serviceType === "link" && (
-                    <>
-                      {" "}— يُخصم منها{" "}
-                      <span dir="ltr">{LINK_SETTLEMENT.owed.toLocaleString("en-US")}</span>
-                      <RiyalIcon size="0.75em" tone="dark" /> تسوية لمستحقات سابقة لصاحب المشروع، ليصبح
-                      الصافي المستحق{" "}
-                      <strong>
-                        <span dir="ltr">
-                          {(
-                            Number(selectedPackage.price) - LINK_SETTLEMENT.owed
-                          ).toLocaleString("en-US")}
-                        </span>
-                        <RiyalIcon size="0.75em" tone="dark" />
-                      </strong>{" "}
-                      (ثلاث دفعات){" "}
-                      {(LINK_PAYMENT_PLANS[Number(selectedPackage.price)] || []).map(([amount, when], i) => (
-                        <span key={i}>
-                          {i > 0 && " — "}
-                          {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة", "الدفعة الرابعة"][i]}:{" "}
-                          <span dir="ltr">{amount.toLocaleString("en-US")}</span>
-                          <RiyalIcon size="0.75em" tone="dark" /> {when}
-                        </span>
-                      ))}
-                    </>
-                  )}
                   {serviceType === "pharmacy" && (
                     <>
                       {" "}(خمس دفعات متساوية{" "}
