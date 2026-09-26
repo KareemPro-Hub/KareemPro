@@ -83,8 +83,11 @@ description: سجل القرارات المتخذة والأعطال التي ح
   (ikareempro.com، صورة `ikareem-blog-shot.webp`) في المعرض الرئيسي و`PROGRAMMING_WORKS`، واتشال من
   showcase في store.html و services_data.py (يدويًا). الصورة القديمة في `_to_delete/`.
 - **ترتيب نماذج العرض (2026-09-26، بطلب كريم):** قدرات · تطبيق قدرات · Ebda3 · محفظة كريم · مدونة الذكاء الاصطناعي
-  (ai-bander.com، `bandar-blog-shot.webp`) · iKareem. **Kareem Pro اتشال من `PROGRAMMING_WORKS` فقط** — لسه موجود في معرض index.html.
-- **مفتوح:** iHealth في store.html (ihealth-mu.vercel.app) بيظهر «انتهت فترة المعاينة» — محتاج قرار كريم.
+  (ai-bander.com، `bandar-blog-shot.webp`) · iKareem. Kareem Pro اتشال من `PROGRAMMING_WORKS`.
+- **2026-09-26:** iHealth اتشال (رابطه منتهي) → store.html بقت من غير قسم نماذج ولا زرار «شاهد نماذج حقيقية»
+  (علم `hideProof` في services_data.py + شرط في build_services.py). صورته في `_to_delete/`.
+- **2026-09-26:** Kareem Pro اتشال من معرض index.html كمان، ومدونة الذكاء الاصطناعي (ai-bander.com) مكانه.
+- **2026-09-26:** ترتيب خطوات العرض: تعرّف علينا ← نماذج أعمالنا ← الفريق ← آراء العملاء ← العرض (ALL_STEPS).
 
 ## مؤجَّل / مفتوح
 

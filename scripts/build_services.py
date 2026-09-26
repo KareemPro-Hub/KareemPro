@@ -2,7 +2,7 @@
 """يولّد صفحات الخدمات الستاتيك في public/ من scripts/services_data.py
 تشغيل:  python3 scripts/build_services.py
 """
-import os, sys, json, html as H
+import os, re, sys, json, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from services_data import *
 
@@ -223,7 +223,7 @@ def page(k):
     s = SERVICES[k]
     faq_html, faq_items = faq_block(s.get('faqExtra', []))
     body_proof = proof(s)
-    return """<!DOCTYPE html>
+    out = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
@@ -330,6 +330,10 @@ def page(k):
            proofTitle=s['proofTitle'], proofSub=s['proofSub'], proof=body_proof,
            logos='', compare=compare(), steps=steps(), pricing=pricing(s['tab']),
            guarantees=guarantees(), faq=faq_html, final=final(s), footer=FOOT, script=SCRIPT)
+    if s.get('hideProof'):  # صفحة بلا نماذج حيّة: نشيل قسم النماذج وزرار «شاهد نماذج حقيقية»
+        out = re.sub(r'\n<section id="proof".*?</section>\n', '\n', out, count=1, flags=re.S)
+        out = re.sub(r'\n\s*<a class="btn btn-ghost" href="#proof">.*?</a>', '', out, count=1, flags=re.S)
+    return out
 
 if __name__ == '__main__':
     for k in ORDER:

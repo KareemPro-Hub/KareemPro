@@ -69,8 +69,8 @@ function DocIcon() {
 // shift anything else.
 const ALL_STEPS = [
   { id: "about", label: "تعرّف علينا", Icon: AboutIcon },
-  { id: "team", label: "الفريق", Icon: TeamIcon },
   { id: "portfolio", label: "نماذج أعمالنا", Icon: PortfolioIcon },
+  { id: "team", label: "الفريق", Icon: TeamIcon },
   { id: "testimonials", label: "آراء عملائنا", Icon: QuoteIcon },
   { id: "proposal", label: "العرض الفني والمالي", Icon: DocIcon },
 ];
