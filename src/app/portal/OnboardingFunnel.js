@@ -442,7 +442,7 @@ const ARTICLES_PAYMENT_PLANS = {
 };
 
 // LINK: two packages since 2026-09-26 — المتكاملة 9,900 (one month support)
-// and الشاملة 14,700 (full support for a whole year). A 2,600 settlement for
+// and الذهبية 14,700 (full support for a whole year). A 2,600 settlement for
 // an earlier deal is deducted from whichever is chosen (Kareem rounded it
 // from 2,590 + 10 waived to a single 2,600) — net 7,300 / 12,100 in three
 // milestone payments. Keyed by the listed price. Keep in sync with

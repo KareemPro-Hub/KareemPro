@@ -282,7 +282,7 @@ const SERVICE_TEMPLATES = {
   },
   // One-off custom deal (LINK — Saudi tutoring marketplace: web platform +
   // native iPhone/Android apps). Two packages since 2026-09-26: المتكاملة 9,900
-  // (one month support; was 11,000 until 2026-09-25) and الشاملة 14,700
+  // (one month support; was 11,000 until 2026-09-25) and الذهبية 14,700
   // (full-year support). A 2,600 settlement for an earlier deal is deducted
   // from either as a discount (was 2,590 + 10 waived) — net 7,300 / 12,100. The settlement itself is applied
   // automatically on acceptance, see PACKAGE_SETTLEMENTS in
@@ -314,7 +314,7 @@ const SERVICE_TEMPLATES = {
         ].join("\n"),
       },
       {
-        name: "باقة LINK الشاملة|كل مميزات المتكاملة **+ دعم فني كامل لمدة سنة**",
+        name: "باقة LINK الذهبية|كل مميزات المتكاملة **+ دعم فني كامل لمدة سنة**",
         price: 14700,
         original_price: 20000,
         is_featured: false,

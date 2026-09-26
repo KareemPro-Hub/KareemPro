@@ -40,7 +40,7 @@ export const PACKAGE_STAGE_AMOUNTS = {
   // LINK_PAYMENT_PLANS in portal/OnboardingFunnel.js and the "طريقة السداد"
   // line in SERVICE_TEMPLATES.link (admin/actions.js).
   9900: [2500, 2500, 2300],
-  // LINK الشاملة (full-year support): 14,700 − 2,600 settlement = 12,100.
+  // LINK الذهبية (full-year support): 14,700 − 2,600 settlement = 12,100.
   14700: [4100, 4000, 4000],
 };
 
