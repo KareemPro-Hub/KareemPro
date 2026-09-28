@@ -67,7 +67,7 @@ cd "<مسار المشروع>" && node -e "const b=require('./node_modules/next/
 
 | الجهاز | مسار القرص | مسار الشِل |
 |---|---|---|
-| `kareem-mac-local` | `/Users/KareemMac/Documents/AI/Kareem Pro` | `$HOME/mnt/Kareem Pro` |
+| `kareem-mac-local` | `/Volumes/MacBook SSD/Kareem-AI/Kareem Pro` (اتنقل 2026-09-28، كان `/Users/KareemMac/Documents/AI/Kareem Pro`) | `$HOME/mnt/Kareem Pro` |
 | MacBook Air | `/Volumes/MacBook SSD/Kareem-AI/Kareem Pro` (قرص خارجي) | `$HOME/mnt/Kareem Pro` |
 
 مسار الشِل واحد على أي جهاز لأن الـ mount يستخدم اسم المجلد لا مساره.
