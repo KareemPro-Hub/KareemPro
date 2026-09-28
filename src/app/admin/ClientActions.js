@@ -118,16 +118,16 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
     });
   }
 
-  // Copies the full welcome message (with a fresh login link) so Kareem can
-  // paste it anywhere. clipboard.write() is called synchronously inside the
+  // Copies ONLY the bare login link (no welcome text) so Kareem can paste it
+  // straight into a browser or forward it. The link is reusable for its whole
+  // lifetime (see lib/loginLinks.js), so anyone it's forwarded to gets in too.
+  // clipboard.write() is called synchronously inside the
   // click with a pending ClipboardItem, because Safari rejects clipboard
   // writes that happen after an await (the server action).
   function handleCopyWelcomeMessage() {
     setError(null);
     setMsgCopied(false);
-    const textPromise = generateClientLoginLink(clientId).then((url) =>
-      welcomeMessage({ clientName, loginUrl: url })
-    );
+    const textPromise = generateClientLoginLink(clientId);
     startCopy(async () => {
       try {
         if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
@@ -145,7 +145,7 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
         }
         setMsgCopied(true);
       } catch (e) {
-        setError(e.message || "تعذر نسخ الرسالة");
+        setError(e.message || "تعذر نسخ الرابط");
       }
     });
   }
@@ -329,8 +329,8 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
               type="button"
               disabled={isPending}
               onClick={handleCopyWelcomeMessage}
-              title="نسخ رسالة الترحيب"
-              aria-label="نسخ رسالة الترحيب"
+              title="نسخ رابط الدخول"
+              aria-label="نسخ رابط الدخول"
               style={{
                 flexShrink: 0,
                 width: "34px",
