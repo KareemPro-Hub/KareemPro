@@ -248,22 +248,34 @@ details p{padding:0 20px 18px;color:var(--muted);font-size:14.8px;line-height:1.
 
 /* ═══ الفوتر ═══ */
 footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
-.f-top{display:grid;grid-template-columns:1.4fr 2fr;gap:36px;margin-bottom:34px}
+.f-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2.2fr);gap:48px;margin-bottom:34px;align-items:start}
 .f-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .f-brand img{height:36px}
 .f-brand b{font-weight:900;font-size:16px}
 .f-top p{color:var(--muted);font-size:14.5px;max-width:42ch}
-.f-links{display:grid;grid-template-columns:repeat(3,1fr);gap:9px 18px;font-size:14.5px;color:var(--muted)}
+.f-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;font-size:14.5px;color:var(--muted)}
+.f-column{display:flex;flex-direction:column;align-items:flex-start;min-width:0;gap:4px}
+.f-column>a{display:flex;align-items:center;min-height:44px;width:100%;line-height:1.65}
+.f-column>a:first-child{color:var(--text);font-weight:700;margin-bottom:4px}
 .f-links a:hover{color:var(--g1)}
-.pay{border-top:1px solid var(--line);padding-top:22px;text-align:center}
+.f-links a:focus-visible,.f-contact a:focus-visible{outline:2px solid var(--g1);outline-offset:4px;border-radius:4px}
+.f-about{width:100%;margin-top:12px;padding:16px 0 0;border-top:1px solid var(--line)}
+.f-about h2{color:var(--text);font-size:15px;font-weight:700;margin-bottom:8px}
+.f-about address{font-style:normal;font-size:14px;line-height:1.9}
+.f-about address span{display:block}
+.f-about address a{display:block;padding-block:5px;font-family:var(--mono);font-size:12px;overflow-wrap:anywhere;color:var(--g1);text-align:right}
+.f-bottom{display:grid;grid-template-columns:1fr 1fr;gap:36px;border-top:1px solid var(--line);padding-top:24px;align-items:start}
+.pay{text-align:right}
 .pay-label{font-size:13px;color:var(--muted);margin-bottom:13px}
-.pay-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.pay-row{display:flex;gap:9px;flex-wrap:wrap}
 .pay-chip{background:#fff;border-radius:9px;padding:6px 11px;height:38px;display:grid;place-items:center}
 .pay-chip img{max-height:22px;width:auto}
-.f-contact{margin-top:24px;text-align:center;font-size:14.5px;line-height:2.2}
-.f-contact a{color:var(--g1);font-family:var(--mono)}
+.f-contact{font-size:14px;line-height:1.8}
+.f-contact>div:not(.pay-label){display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;border-bottom:1px solid var(--line)}
+.f-contact a{color:var(--g1);font-family:var(--mono);direction:ltr;unicode-bidi:isolate;display:inline-flex;align-items:center;min-height:44px}
 .f-copy{text-align:center;color:var(--muted);font-size:13px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-@media(max-width:780px){.f-top{grid-template-columns:1fr}.f-links{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:980px){.f-top{grid-template-columns:1fr;gap:28px}}
+@media(max-width:560px){footer{padding-top:32px}.f-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px}.f-column:last-child{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px}.f-column:last-child>a:first-child{margin-bottom:0}.f-about{grid-column:1/-1;margin-top:8px}.f-about address a{font-size:13px}.f-bottom{grid-template-columns:1fr;gap:26px}.pay{text-align:center}.pay-row{justify-content:center}}
 
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
 .reveal.in{opacity:1;transform:none}
@@ -547,23 +559,38 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
         <a href="#home" class="f-brand"><b>KAREEM<span class="g-text"> PRO</span></b><img src="logo-transparent.png" alt="Kareem Pro" /></a>
         <p>برمجة وتطوير منصات ومواقع ومتاجر إلكترونية وتطبيقات الجوال — بخبرة تتجاوز 11 عامًا.</p>
       </div>
-      <div class="f-links">
+      <div class="f-links" role="navigation" aria-label="روابط أسفل الصفحة">
+        <div class="f-column">
         <a href="#services">الخدمات</a>
-        <a href="#work">الأعمال</a>
-        <a href="#stack">التقنيات</a>
         <a href="#process">كيف نشتغل</a>
-        <a href="#faq">أسئلة شائعة</a>
-        <a href="/platforms">كل الخدمات</a>
         <a href="/store">متجر إلكتروني</a>
-        <a href="/edu-platform">منصة تعليمية</a>
-        <a href="/pos-system">نقاط بيع</a>
         <a href="/booking">حجز مواعيد</a>
-        <a href="/portal-system">بوابة عملاء</a>
-        <a href="/charity">مواقع الجمعيات</a>
         <a href="/blog">مدونة ربحية</a>
+        </div>
+        <div class="f-column">
+        <a href="#work">الأعمال</a>
+        <a href="#faq">أسئلة شائعة</a>
+        <a href="/edu-platform">منصة تعليمية</a>
+        <a href="/portal-system">بوابة عملاء</a>
         <a href="refund-policy.html">سياسة الاسترجاع</a>
+        </div>
+        <div class="f-column">
+        <a href="terms.html">الشروط والأحكام</a>
+        <a href="/platforms">كل الخدمات</a>
+        <a href="/pos-system">نقاط بيع</a>
+        <a href="/charity">مواقع الجمعيات</a>
+        <section class="f-about" aria-labelledby="footer-about-title">
+          <h2 id="footer-about-title">من نحن</h2>
+          <address>
+            <span>Kareem Pro — برمجة وتطوير</span>
+            <span>مصر — البحيرة — حوش عيسى</span>
+            <a href="mailto:contact@kareempro.com" dir="ltr" aria-label="البريد الإلكتروني: contact@kareempro.com">contact@kareempro.com</a>
+          </address>
+        </section>
+        </div>
       </div>
     </div>
+    <div class="f-bottom">
     <div class="pay">
       <div class="pay-label">وسائل الدفع المتاحة</div>
       <div class="pay-row">
@@ -574,10 +601,12 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
         <div class="pay-chip"><img src="payments/vodafone-cash.png" alt="فودافون كاش" loading="lazy" /></div>
         <div class="pay-chip"><img src="payments/orange-cash.png" alt="أورنج كاش" loading="lazy" /></div>
       </div>
-      <div class="f-contact">
-        <div>للتواصل من داخل مصر على الواتساب فقط: <a href="https://wa.me/201044277311" target="_blank" rel="noopener">01044277311</a></div>
-        <div>للتواصل من داخل السعودية على الواتساب فقط: <a href="https://wa.me/966507069605" target="_blank" rel="noopener">0507069605</a></div>
-      </div>
+    </div>
+    <div class="f-contact">
+      <div class="pay-label">تواصل عبر واتساب</div>
+      <div><span>مصر — واتساب فقط</span><a href="https://wa.me/201044277311" target="_blank" rel="noopener">01044277311</a></div>
+      <div><span>السعودية — واتساب فقط</span><a href="https://wa.me/966507069605" target="_blank" rel="noopener">0507069605</a></div>
+    </div>
     </div>
     <div class="f-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة.</div>
   </div>
