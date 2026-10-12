@@ -124,19 +124,21 @@ def steps():
       '<div class="steps">%s</div></div></section>' % out)
 
 def service_packages(svc_tab):
-    if svc_tab == SERVICES['blog']['tab']:
-        catalog = json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8'))
-        packages = next(s['packages'] for s in catalog if s['id'] == 'blog')
-        return [(p['name'].split('|')[0], p['name'].split('|')[1].replace('**', ''),
-                 format(p['price'], ','), p['is_featured'], p['features'].replace('**', '').split('\n')) for p in packages]
-    return PKGS
+    catalog = json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8'))
+    url = next((s['url'] for s in SERVICES.values() if s['tab'] == svc_tab), '/platforms')
+    packages = next(s['packages'] for s in catalog if s['url'] == url)
+    return [(p['name'].split('|')[0], p['name'].split('|')[1].replace('**', ''),
+             format(p['price'], ','), p['is_featured'], p['features'].replace('**', '').split('\n')) for p in packages]
 
 def pricing(svc_tab):
     cards = []
-    for name, sub, price, best, feats in service_packages(svc_tab):
+    catalog = json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8'))
+    url = next((s['url'] for s in SERVICES.values() if s['tab'] == svc_tab), '/platforms')
+    service_id = next(s['id'] for s in catalog if s['url'] == url)
+    for tier, (name, sub, price, best, feats) in enumerate(service_packages(svc_tab)):
         lis = ''.join('<li>%s<span>%s</span></li>' % (CHK, f) for f in feats)
         tag = '<span class="pk-tag">الأكثر طلبًا</span>' if best else ''
-        href = wa('السلام عليكم، دخلت من صفحة %s في موقع Kareem Pro، ومهتم بـ%s 🙏' % (svc_tab, name))
+        href = '/checkout?service=%s&tier=%d' % (service_id, tier)
         cards.append('<div class="pk%s">%s<span class="pk-name">%s</span><span class="pk-sub">%s</span>'
           '<div class="pk-price"><span class="pk-from">تبدأ من</span><span class="pk-val">%s</span>'
           '<img class="pk-cur" src="/riyal-symbol-white.png" alt="ريال سعودي" width="20" height="20" /></div>'
