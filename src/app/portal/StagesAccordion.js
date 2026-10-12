@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 
@@ -107,6 +108,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                       <span dir="ltr">{Number(stage.amount || 0).toLocaleString("en-US")}</span>{" "}
                       <RiyalIcon size="0.8em" />
                     </p>
+                    <CurrencyEquivalent amount={Number(stage.amount || 0)} />
                     {isOpen && stage.status === "awaiting_payment" && (
                       <div className="stages-accordion-instructions" onClick={(e) => e.stopPropagation()}>
                         <p>
@@ -114,6 +116,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                           الدفع المناسبة اللي تم إرسالها على الواتساب.
                         </p>
                         <p>بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة 🚀</p>
+                        <a className="payment-request-link" href={`https://wa.me/966507069605?text=${encodeURIComponent(`السلام عليكم، أريد رابط سداد ${stage.title} بقيمة ${Number(stage.amount || 0).toLocaleString("en-US")} ريال سعودي، وتأكيد مبلغها بالجنيه المصري.`)}`} target="_blank" rel="noopener noreferrer">طلب رابط السداد</a>
                       </div>
                     )}
                   </div>

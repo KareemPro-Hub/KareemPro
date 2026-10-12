@@ -22,6 +22,8 @@
 | [08 — إعادة تصميم الرئيسية](08-homepage-redesign.md) | **قبل أي شغل على `public/index.html`.** قرار «برمجة فقط + سيو»، اتجاه التصميم، وآخر نقطة وقفنا عندها. |
 
 ## ملفات Instructions الجاهزة
+مرجع الأسعار والعملتين: [09 — الأسعار والعملتان](09-pricing-currencies.md)، قبل تعديل عرض الأسعار أو الربط اللاحق مع Xpay.
+
 
 `.claude/instructions/mac-mini-KareemMac.md` — نسخة جهاز «kareem-mac-local».
 `.claude/instructions/macbook-air.md` — نسخة MacBook Air.

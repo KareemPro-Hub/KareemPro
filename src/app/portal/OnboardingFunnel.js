@@ -3,6 +3,7 @@
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
 import "./portal-dashboard.css";
@@ -988,6 +989,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" tone="dark" />
                         </div>
+                          <CurrencyEquivalent amount={Number(pkg.price)} />
                         <div className="package-launch-note">
                           {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "عرض خاص لأول تعاون معنا ❤️"}
                         </div>
@@ -1197,6 +1199,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
                     <RiyalIcon size="0.8em" tone="dark" /> سعودي
                   </strong>
+                  <CurrencyEquivalent amount={Number(selectedPackage.price)} />
                   {serviceType === "blogger" && (() => {
                     // Three payments, derived from the package price instead of
                     // hardcoded — the Blogger ladder now has two tiers (750 and

@@ -123,9 +123,17 @@ def steps():
       '<h2 class="sec-title">من الفكرة إلى <span class="g-text">الإطلاق</span> في 4 خطوات</h2>'
       '<div class="steps">%s</div></div></section>' % out)
 
+def service_packages(svc_tab):
+    if svc_tab == SERVICES['blog']['tab']:
+        catalog = json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8'))
+        packages = next(s['packages'] for s in catalog if s['id'] == 'blog')
+        return [(p['name'].split('|')[0], p['name'].split('|')[1].replace('**', ''),
+                 format(p['price'], ','), p['is_featured'], p['features'].replace('**', '').split('\n')) for p in packages]
+    return PKGS
+
 def pricing(svc_tab):
     cards = []
-    for name, sub, price, best, feats in PKGS:
+    for name, sub, price, best, feats in service_packages(svc_tab):
         lis = ''.join('<li>%s<span>%s</span></li>' % (CHK, f) for f in feats)
         tag = '<span class="pk-tag">الأكثر طلبًا</span>' if best else ''
         href = wa('السلام عليكم، دخلت من صفحة %s في موقع Kareem Pro، ومهتم بـ%s 🙏' % (svc_tab, name))
@@ -210,7 +218,7 @@ def jsonld(s, faq_items):
      "serviceType":s['tab'],"areaServed":{"@type":"Country","name":"SA"},
      "provider":{"@type":"Organization","name":"Kareem Pro","url":SITE,"logo":SITE+"/logo-transparent.png"},
      "url":SITE+s['url'],
-     "offers":[{"@type":"Offer","name":n,"price":p.replace(',',''),"priceCurrency":"SAR"} for n,_,p,_,_ in PKGS]}
+     "offers":[{"@type":"Offer","name":n,"price":p.replace(',',''),"priceCurrency":"SAR"} for n,_,p,_,_ in service_packages(s['tab'])]}
     faq = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
       {"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq_items]}
     bc = {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -230,6 +238,8 @@ def page(k):
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0a0e26" />
 <title>{title}</title>
+<link rel="stylesheet" href="/pricing.css" />
+<script type="module" src="/pricing.js"></script>
 <meta name="description" content="{desc}" />
 <meta name="keywords" content="{kw}" />
 <meta name="robots" content="index, follow, max-image-preview:large" />

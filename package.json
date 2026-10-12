@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "pricing:build": "node scripts/build_pricing.mjs",
+    "prebuild": "node scripts/build_pricing.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

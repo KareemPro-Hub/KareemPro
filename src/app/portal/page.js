@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
+import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import OnboardingFunnel from "./OnboardingFunnel";
 import StagesAccordion from "./StagesAccordion";
@@ -288,6 +289,7 @@ export default async function PortalPage() {
                       <span dir="ltr">{Number(project.package_price).toLocaleString("en-US")}</span>
                       <RiyalIcon size="0.6em" />
                     </div>
+                    <CurrencyEquivalent amount={Number(project.package_price || 0)} />
                     <div className="project-luxe-paid-wrap">
                       <div className="project-luxe-paid-track"><i style={{ width: `${Math.min(Math.max(paidPercent, 0), 100)}%` }} /></div>
                       <small>تم سداد {paidPercent}% من إجمالي المبلغ</small>
