@@ -45,3 +45,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 src/app/admin/_deleted_tasks_*/
+
+# Local source backup, never served or deployed
+/backups/xpay-portfolio-2026-10-14/

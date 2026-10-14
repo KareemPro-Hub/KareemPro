@@ -278,6 +278,9 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 </style>
 <link rel="stylesheet" href="/pricing.css" />
 <script type="module" src="/pricing.js"></script>
+
+<link rel="stylesheet" href="/work-preview.css" />
+<script src="/work-preview.js" defer></script>
 </head>
 <body>
 <div class="bg-fx"></div>
@@ -372,36 +375,36 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
   created_at  timestamptz <span class="ck">default</span> now()
 );</pre></div></div>
   <div class="container hero-in">
-    <h1>لا نعرض صور .. نعرض <span class="g-text">منصات حيّة</span></h1>
-    <p class="sub">افتح أي مشروع، وقيّم شغلنا بنفسك.</p>
+    <h1>مواقع وتطبيقات .. <span class="g-text">من أعمالنا</span></h1>
+    <p class="sub">شاهد صور المشاريع وتعرّف على تفاصيل شغلنا.</p>
     <a class="cta" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%A8%D9%86%D8%A7%D8%A1%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" rel="noopener">ابدأ بناء مشروعك <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></a>
 
 
     <div class="gal" id="work"><div class="gal-track" id="galTrack">
-      <a class="gcard" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener">
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">منصة تعليمية</span><span class="gurl">qudratmaghrabi.com</span></div><div class="gname">منصة قدرات المغربي</div><p class="gdesc">منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.</p><div class="gstack"><span>Next.js</span><span>Supabase</span><span>Payments</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
-      <a class="gcard" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener">
+        <div class="meta"><div><div class="gtop"><span class="gtag">منصة تعليمية</span><span class="gurl">qudratmaghrabi.com</span></div><div class="gname">منصة قدرات المغربي</div><p class="gdesc">منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.</p><div class="gstack"><span>Next.js</span><span>Supabase</span><span>Payments</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">تطبيق iOS</span><span class="gurl">App Store</span></div><div class="gname">تطبيق قدرات المغربي</div><p class="gdesc">تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.</p><div class="gstack"><span>Swift</span><span>SwiftUI</span><span>App Store</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
-      <a class="gcard" href="https://www.ai-bander.com/" target="_blank" rel="noopener">
+        <div class="meta"><div><div class="gtop"><span class="gtag">تطبيق iOS</span><span class="gurl">App Store</span></div><div class="gname">تطبيق قدرات المغربي</div><p class="gdesc">تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.</p><div class="gstack"><span>Swift</span><span>SwiftUI</span><span>App Store</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="bandar-blog-shot.webp" alt="مدونة الذكاء الاصطناعي" width="1800" height="1200" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ذكاء اصطناعي</span><span class="gurl">ai-bander.com</span></div><div class="gname">مدونة الذكاء الاصطناعي</div><p class="gdesc">مدونة عربية متخصصة في الذكاء الاصطناعي وأدواته وأخباره: تصميم مخصص، هيكلة سيو، ووضع ليلي وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
-      <a class="gcard" href="https://www.kareemwallet.com/" target="_blank" rel="noopener">
+        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ذكاء اصطناعي</span><span class="gurl">ai-bander.com</span></div><div class="gname">مدونة الذكاء الاصطناعي</div><p class="gdesc">مدونة عربية متخصصة في الذكاء الاصطناعي وأدواته وأخباره: تصميم مخصص، هيكلة سيو، ووضع ليلي وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ربحية</span><span class="gurl">kareemwallet.com</span></div><div class="gname">محفظة كريم</div><p class="gdesc">مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.</p><div class="gstack"><span>Blogger</span><span>SEO</span><span>AdSense</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
-      <a class="gcard" href="https://ebda3-media.com/" target="_blank" rel="noopener">
+        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ربحية</span><span class="gurl">kareemwallet.com</span></div><div class="gname">محفظة كريم</div><p class="gdesc">مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.</p><div class="gstack"><span>Blogger</span><span>SEO</span><span>AdSense</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">موقع تعريفي</span><span class="gurl">ebda3-media.com</span></div><div class="gname">Ebda3 Media</div><p class="gdesc">موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.</p><div class="gstack"><span>Next.js</span><span>Responsive</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
-      <a class="gcard" href="https://www.ikareempro.com/" target="_blank" rel="noopener">
+        <div class="meta"><div><div class="gtop"><span class="gtag">موقع تعريفي</span><span class="gurl">ebda3-media.com</span></div><div class="gname">Ebda3 Media</div><p class="gdesc">موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.</p><div class="gstack"><span>Next.js</span><span>Responsive</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
+      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
         <div class="gshot"><img src="ikareem-blog-shot.webp" alt="مدونة iKareem" width="1800" height="1260" loading="lazy" /></div>
-        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة تقنية</span><span class="gurl">ikareempro.com</span></div><div class="gname">iKareem</div><p class="gdesc">مدونة تقنية بتصميم مخصص: شروحات الذكاء الاصطناعي والماك والآيفون، بهيكلة سيو كاملة وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span></div>
-      </a>
+        <div class="meta"><div><div class="gtop"><span class="gtag">مدونة تقنية</span><span class="gurl">ikareempro.com</span></div><div class="gname">iKareem</div><p class="gdesc">مدونة تقنية بتصميم مخصص: شروحات الذكاء الاصطناعي والماك والآيفون، بهيكلة سيو كاملة وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen">عرض النموذج</span></div>
+      </button>
     </div>
     <div class="gnav" id="galNav">
       <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
