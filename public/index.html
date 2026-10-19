@@ -279,6 +279,8 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 <link rel="stylesheet" href="/pricing.css" />
 <script type="module" src="/pricing.js"></script>
 
+<link rel="stylesheet" href="/certificates.css" />
+<script src="/certificates.js" defer></script>
 <link rel="stylesheet" href="/work-preview.css" />
 <script src="/work-preview.js" defer></script>
 </head>
@@ -291,11 +293,12 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
       <b>KAREEM<span class="g-text"> PRO</span></b>
       <img src="logo-transparent.png" alt="Kareem Pro" />
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="main-nav-links">
       <a href="#services">الخدمات</a>
       <a href="#pricing">الأسعار</a>
       <a href="#work">الأعمال</a>
       <a href="#stack">التقنيات</a>
+      <a href="#certificates">شهاداتي</a>
       <a href="#process">كيف نشتغل</a>
       <a href="#faq">أسئلة شائعة</a>
     </div>
@@ -308,7 +311,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
         استشارة مجانية
       </a>
     </div>
-    <button class="nav-burger" aria-label="القائمة" onclick="document.querySelector('.nav-links').style.display='flex'">
+    <button class="nav-burger" aria-label="القائمة" aria-controls="main-nav-links" aria-expanded="false">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
@@ -553,6 +556,31 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
           <span>من مصر<small>واتساب فقط</small><span class="num">01044277311</span></span>
         </a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certificates: local image previews, no external navigation. -->
+<section id="certificates" class="certificates-section" aria-labelledby="certificates-title">
+  <div class="container">
+    <div class="certificates-heading"><div><span class="certificates-eyebrow">معرفة تتجدد. وأفكار تتطور.</span><h2 id="certificates-title">شها<span class="g-text">داتي</span></h2></div><p>التعلّم المستمر جزء من كل فكرة أطورها.</p></div>
+    <div class="certificates-grid">
+      <button class="certificate-card" type="button" data-certificate="/certificates/certificate-01.png" aria-haspopup="dialog" aria-label="عرض شهادة ابتكار نماذج الأعمال: من الفكرة إلى الفرصة">
+        <span class="certificate-image"><img src="/certificates/certificate-01.png" alt="شهادة كريم عبد الصادق — ابتكار نماذج الأعمال: من الفكرة إلى الفرصة" width="1516" height="1038" loading="lazy" decoding="async" /><span class="certificate-view">عرض الشهادة <span aria-hidden="true">↗</span></span></span>
+        <span class="certificate-info"><span class="certificate-number" aria-hidden="true">01</span><span><span class="certificate-topic" lang="en" dir="ltr">Business Model Innovation</span><span class="certificate-title">ابتكار نماذج الأعمال: من الفكرة إلى الفرصة</span></span></span>
+      </button>
+      <button class="certificate-card" type="button" data-certificate="/certificates/certificate-02.png" aria-haspopup="dialog" aria-label="عرض شهادة النماذج اللغوية الضخمة والتوليد المعزز بالاسترجاع">
+        <span class="certificate-image"><img src="/certificates/certificate-02.png" alt="شهادة كريم عبد الصادق — النماذج اللغوية الضخمة والتوليد المعزز بالاسترجاع" width="1516" height="1038" loading="lazy" decoding="async" /><span class="certificate-view">عرض الشهادة <span aria-hidden="true">↗</span></span></span>
+        <span class="certificate-info"><span class="certificate-number" aria-hidden="true">02</span><span><span class="certificate-topic" lang="en" dir="ltr">LLMs & RAG</span><span class="certificate-title">النماذج اللغوية الضخمة والتوليد المعزز بالاسترجاع</span></span></span>
+      </button>
+      <button class="certificate-card" type="button" data-certificate="/certificates/certificate-03.png" aria-haspopup="dialog" aria-label="عرض شهادة التطوير البرمجي الوكيلي بالذكاء الاصطناعي">
+        <span class="certificate-image"><img src="/certificates/certificate-03.png" alt="شهادة كريم عبد الصادق — التطوير البرمجي الوكيلي بالذكاء الاصطناعي" width="1516" height="1038" loading="lazy" decoding="async" /><span class="certificate-view">عرض الشهادة <span aria-hidden="true">↗</span></span></span>
+        <span class="certificate-info"><span class="certificate-number" aria-hidden="true">03</span><span><span class="certificate-topic" lang="en" dir="ltr">Agentic Software Development</span><span class="certificate-title">التطوير البرمجي الوكيلي بالذكاء الاصطناعي</span></span></span>
+      </button>
+      <button class="certificate-card" type="button" data-certificate="/certificates/certificate-04.png" aria-haspopup="dialog" aria-label="عرض شهادة تصميم الواجهات وتجربة المستخدم بالذكاء الاصطناعي">
+        <span class="certificate-image"><img src="/certificates/certificate-04.png" alt="شهادة كريم عبد الصادق — تصميم الواجهات وتجربة المستخدم بالذكاء الاصطناعي" width="1516" height="1038" loading="lazy" decoding="async" /><span class="certificate-view">عرض الشهادة <span aria-hidden="true">↗</span></span></span>
+        <span class="certificate-info"><span class="certificate-number" aria-hidden="true">04</span><span><span class="certificate-topic" lang="en" dir="ltr">UI & UX Design</span><span class="certificate-title">تصميم الواجهات وتجربة المستخدم بالذكاء الاصطناعي</span></span></span>
+      </button>
     </div>
   </div>
 </section>
