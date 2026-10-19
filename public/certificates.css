@@ -32,3 +32,5 @@ html.certificate-open{overflow:hidden}
 @media(min-width:601px) and (max-width:1050px){.certificates-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:780px;margin-inline:auto}}
 @media(max-width:600px){.certificates-section{padding:64px 0 72px}.certificates-heading{display:block;margin-bottom:26px}.certificates-heading p{margin-top:18px;font-size:14px}.certificates-grid{grid-template-columns:1fr;gap:18px;max-width:300px;margin-inline:auto}.certificate-card{border-radius:20px;padding:9px}.certificate-title{font-size:16px}.certificate-info{padding:17px 6px 8px;gap:12px}.certificate-dialog{width:calc(100% - 20px);padding:12px;border-radius:16px}.certificate-dialog h2{font-size:14px}.certificate-dialog header{gap:12px}.certificate-dialog button{padding:9px 12px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.certificate-card,.certificate-image img{transition:none}.certificate-card:hover,.certificate-card:hover img{transform:none}}
+
+.certificate-location{display:block;margin-top:7px;color:var(--muted);font-size:11px;font-weight:400;line-height:1.8}
