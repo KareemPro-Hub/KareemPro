@@ -1,4 +1,4 @@
-import RiyalIcon from "@/app/components/RiyalIcon";
+import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
 import { selectedPayment, paymentsReady, paymentSnapshot } from '@/lib/xpay-server';
 import { redirect } from 'next/navigation';
 import { signQuote } from '@/lib/xpay.mjs';
@@ -44,7 +44,7 @@ export default async function CheckoutPage({ searchParams }) {
           <h3>{name}</h3><p>{tagline.replaceAll('**', '')}</p>
           <dl><div><dt>سعر الباقة</dt><dd><span dir="ltr">{amount}</span> <RiyalIcon /></dd></div><div className="checkout-total"><dt>الإجمالي</dt><dd><span dir="ltr">{amount}</span> <RiyalIcon /></dd></div></dl>
           {equivalent && <div className="checkout-egp-box"><span>ما يعادله بالجنيه المصري</span><strong dir="ltr">{equivalent} ج.م</strong></div>}
-          <h4>مميزات الباقة</h4><ul>{pkg.features.split('\n').map((feature, i) => <li key={i}>{feature.replaceAll('**', '')}</li>)}</ul>
+          <h4>مميزات الباقة</h4><ul>{pkg.features.split('\n').map((feature, i) => <li key={i}><RiyalText>{feature.replaceAll('**', '')}</RiyalText></li>)}</ul>
         </aside>
       </div>
     </main>

@@ -26,7 +26,9 @@ const services = [
     ...pkg,
     price: offer.prices?.[i] ?? pkg.price + (Array.isArray(offer.adjustment) ? offer.adjustment[i] : (offer.adjustment || 0)),
     name: offer.taglines ? pkg.name.split('|')[0] + '|' + offer.taglines[i] : pkg.name,
-    features: offer.features ? offer.features[i].join('\n') : pkg.features,
+    // Revised public prices must not inherit obsolete fixed installment amounts.
+    features: (offer.features ? offer.features[i].join('\n') : pkg.features).split('\n')
+      .filter(line => !offer.omitFixedInstallments || !line.startsWith('طريقة السداد:')).join('\n'),
   } : pkg;
 }) }));
 const presentation = JSON.parse(fs.readFileSync(new URL('../public/pricing-display.json', import.meta.url), 'utf8'));
