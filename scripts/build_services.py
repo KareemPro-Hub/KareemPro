@@ -6,6 +6,15 @@ import os, re, sys, json, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from services_data import *
 
+SEO = json.load(open(os.path.join(os.path.dirname(__file__), 'seo-pages.json'), encoding='utf-8'))
+for service in SERVICES.values():
+    spec = SEO['pages'].get(service['url'])
+    if spec:
+        service['title'], service['desc'] = spec['title'], spec['description']
+regional_faq = [SEO['regionalFaq']['question'], SEO['regionalFaq']['answer']]
+if not any(q == regional_faq[0] for q, _ in FAQS):
+    FAQS.append(regional_faq)
+
 ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'public')
 BASE_CSS = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base.css'), encoding='utf-8').read()
 SITE = "https://kareempro.com"
@@ -224,7 +233,7 @@ SCRIPT = """<script>
 
 def jsonld(s, faq_items):
     svc = {"@context":"https://schema.org","@type":"Service","name":s['tab'],
-     "serviceType":s['tab'],"areaServed":{"@type":"Country","name":"SA"},
+     "serviceType":s['tab'],"areaServed":SEO['areaServed'],
      "provider":{"@type":"Organization","name":"Kareem Pro","url":SITE,"logo":SITE+"/logo-transparent.png"},
      "url":SITE+s['url'],
      "offers":[{"@type":"Offer","name":n,"price":p.replace(',',''),"priceCurrency":"SAR"} for n,_,p,_,_ in service_packages(s['tab'])]}
@@ -267,7 +276,7 @@ def page(k):
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}{url}" />
 <meta property="og:image" content="{site}/og-banner-v2.jpg" />
-<meta property="og:image:type" content="image/png" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
@@ -385,9 +394,8 @@ def hub():
         cards.append('<a class="svc" href="%s"><span class="svc-ico"><svg viewBox="0 0 24 24">%s</svg></span>'
           '<b>%s</b><p>%s</p>%s</a>' % (s['url'], ICO[k], s['tab'], s['lead'], GO % 'اعرف التفاصيل'))
     faq_html, faq_items = faq_block([])
-    title = "منصات ومتاجر وتطبيقات وأنظمة إدارة باسمك — Kareem Pro"
-    desc = ("تصميم وبرمجة متاجر إلكترونية ومنصات تعليمية وأنظمة حجز مواعيد وبوابات عملاء ومنصات جمعيات "
-            "ومدونات ربحية — باسمك وملكيتك الكاملة، بلا عمولة ولا اشتراك شهري.")
+    title = SEO['pages']['/platforms']['title']
+    desc = SEO['pages']['/platforms']['description']
     ld = [{"@context":"https://schema.org","@type":"ItemList","name":"خدمات Kareem Pro","itemListElement":[
             {"@type":"ListItem","position":i+1,"name":SERVICES[k]['tab'],"url":SITE+SERVICES[k]['url']}
             for i,k in enumerate(ORDER)]},
@@ -417,7 +425,7 @@ def hub():
 <meta property="og:site_name" content="Kareem Pro" />
 <meta property="og:url" content="{site}/platforms" />
 <meta property="og:image" content="{site}/og-banner-v2.jpg" />
-<meta property="og:image:type" content="image/png" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Kareem Pro — تصميم وبرمجة منصات ومواقع وتطبيقات" />
