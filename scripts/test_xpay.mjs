@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
+import {egpMinor,signQuote,readQuote,verifySignature,sessionMatches,safeCheckoutUrl} from '../src/lib/xpay.mjs';
+let checks=0;const ok=(v)=>{assert(v);checks++};const rejects=(f)=>{assert.throws(f);checks++};
+const secret='test-only-secret';const now=1792500000000;
+ok(egpMinor(500,13.4567)===672835);for(const n of [NaN,Infinity,0,-2])rejects(()=>egpMinor(n,12));
+const token=signQuote({amount_sar:500,amount_egp_minor:600000},secret,now);
+ok(readQuote(token,secret,now).amount_sar===500);rejects(()=>readQuote(token,secret,now+901000));rejects(()=>readQuote(token+'x',secret,now));rejects(()=>readQuote(token,'wrong',now));rejects(()=>readQuote('garbage',secret,now));
+const raw=JSON.stringify({id:'evt_test',type:'checkout.session.completed'});const t=String(now/1000);const sig=createHmac('sha256',secret).update(t+'.'+raw).digest('hex');
+ok(verifySignature(raw,`t=${t},v1=${sig}`,secret,now));ok(!verifySignature(raw+' ',`t=${t},v1=${sig}`,secret,now));ok(!verifySignature(raw,`t=${t},v1=${sig}`,secret,now+301000));ok(!verifySignature(raw,'t=bad,v1=abc',secret,now));ok(!verifySignature(raw,`t=${t},t=${t},v1=${sig}`,secret,now));
+const o={id:'order',session_id:'cs_live_123',amount_egp_minor:600000,livemode:true};const s={id:o.session_id,metadata:{order_id:o.id},amountTotal:600000,currency:'EGP',livemode:true};ok(sessionMatches(s,o));ok(!sessionMatches({...s,amountTotal:1},o));ok(!sessionMatches({...s,livemode:false},o));ok(!sessionMatches({...s,currency:'SAR'},o));ok(safeCheckoutUrl('https://checkout.xpay.app/c/cs_live_123'));for(const u of ['https://evil.test/c/x','https://checkout.xpay.app.evil.test/c/x','javascript:alert(1)','http://checkout.xpay.app/c/x'])ok(!safeCheckoutUrl(u));console.log({passed:checks});

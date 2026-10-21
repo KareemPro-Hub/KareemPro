@@ -1,5 +1,6 @@
-import catalog from '../../../public/pricing-catalog.json';
-import { checkoutPackage } from '@/lib/checkout';
+import { selectedPayment, paymentsReady, makeSnapshot } from '@/lib/xpay-server';
+import { signQuote } from '@/lib/xpay.mjs';
+export const dynamic = 'force-dynamic';
 import { GET as getRate } from '@/app/api/exchange-rate/route';
 import { egpText, rateDate } from '../../../public/currency.js';
 import './checkout.css';
@@ -7,11 +8,13 @@ import './checkout.css';
 export const metadata = { title: 'الدفع — Kareem Pro', robots: { index: false, follow: false } };
 
 export default async function CheckoutPage({ searchParams }) {
-  const selected = checkoutPackage(catalog, await searchParams);
+  const selected = await selectedPayment(await searchParams);
   if (!selected) return <main className="checkout-page"><div className="checkout-container checkout-empty"><h1>الباقة غير موجودة</h1><p>اختر باقة من صفحة الأسعار للاطلاع على ملخصها.</p><a href="/#pricing">العودة للأسعار</a></div></main>;
   const { service, pkg } = selected;
   const response = await getRate();
   const rate = response.ok ? await response.json() : null;
+  const ready = paymentsReady() && !!rate;
+  const quote = ready ? signQuote(makeSnapshot(selected, rate), process.env.XPAY_QUOTE_SECRET) : '';
   const [name, tagline] = pkg.name.split('|');
   const amount = pkg.price.toLocaleString('en-US');
   const equivalent = rate ? egpText(pkg.price, rate.rate) : null;
@@ -24,10 +27,10 @@ export default async function CheckoutPage({ searchParams }) {
           <div className="checkout-payment-box">
             <h2>إتمام طلب الباقة</h2>
             <p>راجع الباقة وقيمتها بالريال السعودي وما يعادلها بالجنيه المصري.</p>
-            <button className="checkout-pay-button" type="button" disabled aria-describedby="payment-status">ادفع الآن <span dir="ltr">{amount}</span> ريال</button>
-            {equivalent ? <p className="checkout-equivalent">المبلغ المقابل بالجنيه المصري: <strong dir="ltr">{equivalent} ج.م</strong></p> : <p className="checkout-error">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
-            <p className="checkout-payment-status" id="payment-status" role="status">الدفع الإلكتروني غير متاح حاليًا. سنفعّله قريبًا.</p>
-            <p className="checkout-payment-note">المبلغ بالجنيه محسوب بسعر التحويل الموضح. يُؤكَّد المبلغ النهائي قبل أي عملية دفع.</p>
+            <form action="/api/xpay/checkout" method="post"><input type="hidden" name="quote" value={quote} /><button className="checkout-pay-button" type="submit" disabled={!ready} aria-describedby="payment-status">ادفع الآن <span dir="ltr">{amount}</span> ريال</button></form>
+            {equivalent ? <p className="checkout-equivalent">سيتم سداد مبلغ: <strong dir="ltr">{equivalent} ج.م</strong></p> : <p className="checkout-error">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
+            <p className="checkout-payment-status" id="payment-status" role="status">{ready ? 'ستنتقل إلى صفحة Xpay الآمنة لإتمام السداد.' : 'الدفع الإلكتروني غير متاح حاليًا. يرجى المحاولة لاحقًا.'}</p>
+            <p className="checkout-payment-note">المبلغ الموضح بالجنيه هو مبلغ السداد عبر Xpay، وثابت لهذا العرض لمدة 15 دقيقة. لا نضيف رسومًا على المبلغ الموضح.</p>
           </div>
           <p className="checkout-terms">اطلع على <a href="/terms.html">الشروط والأحكام</a> و<a href="/refund-policy.html">سياسة الاسترجاع</a> قبل السداد.</p>
         </section>

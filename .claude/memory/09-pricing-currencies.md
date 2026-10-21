@@ -17,3 +17,10 @@
 - «اطلب هذه الباقة» في الرئيسية وصفحات الخدمات يفتح `/checkout?service=...&tier=...` داخل الموقع، وليس واتساب. الصفحة تستخرج السعر والمزايا على السيرفر من الكتالوج، وتتجاهل أي مبلغ يمرره الزائر في الرابط؛ تعرض ملخص الباقة والريال ومقابل الجنيه.
 - كريم أكد أن حساب Xpay لا يزال ينتظر التفعيل. زر «ادفع الآن» في صفحة الدفع غير مفعّل ورسالة عدم إتاحة الدفع ظاهرة؛ لا رابط بوابة ولا خصم فعلي ولا إنشاء طلب مالي. التفعيل والربط لاحقًا.
 - عروض العملاء والعقود والدفعات المسجلة بقاعدة البيانات لم تُعدَّل. الأسعار العامة للخدمات التعليمية والمتاجر مستقلة عن قوالب العروض القديمة؛ عند إنشاء عرض خاص جديد اعتمد السعر والنطاق الحاليين، ولا تعِد تسعير عقد سابق تلقائيًا.
+
+## ربط Xpay — 2026-10-21
+- كريم أكد تفعيل الحساب؛ API أكد livePaymentsEnabled وحساب Kareem Pro. مفتاح مقيد بـCheckout Sessions READ/WRITE فقط، والمفاتيح والتوقيعات متغيرات Vercel سرية لا تُحفظ في Git.
+- `/checkout` يعرض SAR ومبلغ EGP ثابتًا موقّعًا لمدة 15 دقيقة → `/api/xpay/checkout` → Hosted Checkout → `/checkout/result`. دفعات المشروع `/checkout?stage=...` تتطلب العميل المالك ومرحلة awaiting_payment.
+- `xpay_orders` و`xpay_events` server-only/RLS؛ RPC ذرية `confirm_xpay_payment` لتأكيد السداد والمرحلة والإشعار مرة واحدة. `/admin/payments` سجل الإدارة. `/api/xpay/webhook` يفحص HMAC والوقت ثم يجلب الجلسة ويطابق السعر والعملة والوضع والسجل؛ لا يعتمد redirect أو completed غير paid.
+- أسماء المتغيرات فقط: XPAY_SECRET_KEY, XPAY_QUOTE_SECRET, XPAY_WEBHOOK_SECRET, XPAY_TEST_SECRET_KEY, XPAY_TEST_WEBHOOK_SECRET, XPAY_ENABLED. يبقى زر الدفع مغلقًا حتى انتهاء التحقق وتعيين XPAY_ENABLED=true والنشر.
+- الوثائق: https://docs.xpay.app/en/integrate/integration-patterns/hosted-checkout و https://docs.xpay.app/en/integrate/webhooks/verifying-signatures . لا تستعد روابط الأعمال الخارجية تلقائيًا.

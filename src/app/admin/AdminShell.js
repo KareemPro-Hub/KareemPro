@@ -37,6 +37,7 @@ const NAV_GROUPS = [
     items: [
       { href: "/admin/delivery", label: "مركز التسليم", iconComponent: DeliveryIcon },
       { href: "/admin/wallet", label: "المحفظة", iconComponent: WalletIcon },
+      { href: "/admin/payments", label: "عمليات Xpay", iconComponent: WalletIcon },
     ],
   },
 ];
