@@ -35,3 +35,21 @@ export async function confirmSession(session,eventId,eventType){
   const {error}=await db.from('xpay_orders').update({status:session.status==='expired'?'expired':'failed'}).eq('id',id).eq('status','pending');if(error)throw Error('Order expiration failed');
  }
 }
+
+// Reopening a project instalment resumes the same locked order and idempotency key.
+export async function paymentSnapshot(selected,rate){
+ const snapshot=makeSnapshot(selected,rate);
+ if(!selected.stageId)return snapshot;
+ const db=createAdminClient();
+ const {data:prior,error}=await db.from('xpay_orders').select('*').eq('stage_id',selected.stageId).eq('status','pending').maybeSingle();
+ if(error)throw Error('Payment lookup failed');
+ if(!prior)return snapshot;
+ if(Number(prior.amount_sar)!==snapshot.amount_sar||prior.client_id!==snapshot.client_id||prior.livemode!==snapshot.livemode)throw Error('Pending stage amount changed; contact support');
+ if(prior.session_id){
+  const session=await xpay('/checkout/sessions/'+prior.session_id);
+  await confirmSession(session,'reconcile:'+prior.session_id);
+  if(session.paymentStatus==='paid')return {paidSession:prior.session_id};
+  if(session.status==='expired')return snapshot;
+ }
+ return {...snapshot,id:prior.id,amount_egp_minor:Number(prior.amount_egp_minor),exchange_rate:Number(prior.exchange_rate),rate_updated_at:prior.rate_updated_at};
+}

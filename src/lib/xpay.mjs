@@ -6,7 +6,7 @@ export function egpMinor(sar, rate) {
 }
 export function signQuote(data,secret,now=Date.now()) {
  if(!secret) throw Error('Payments not configured');
- const body=Buffer.from(JSON.stringify({...data,id:randomUUID(),exp:Math.floor(now/1000)+900})).toString('base64url');
+ const body=Buffer.from(JSON.stringify({...data,id:data.id??randomUUID(),exp:Math.floor(now/1000)+900})).toString('base64url');
  return body+'.'+createHmac('sha256',secret).update(body).digest('base64url');
 }
 export function readQuote(token,secret,now=Date.now()) {

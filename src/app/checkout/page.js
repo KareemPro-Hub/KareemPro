@@ -1,4 +1,5 @@
-import { selectedPayment, paymentsReady, makeSnapshot } from '@/lib/xpay-server';
+import { selectedPayment, paymentsReady, paymentSnapshot } from '@/lib/xpay-server';
+import { redirect } from 'next/navigation';
 import { signQuote } from '@/lib/xpay.mjs';
 export const dynamic = 'force-dynamic';
 import { GET as getRate } from '@/app/api/exchange-rate/route';
@@ -12,12 +13,15 @@ export default async function CheckoutPage({ searchParams }) {
   if (!selected) return <main className="checkout-page"><div className="checkout-container checkout-empty"><h1>الباقة غير موجودة</h1><p>اختر باقة من صفحة الأسعار للاطلاع على ملخصها.</p><a href="/#pricing">العودة للأسعار</a></div></main>;
   const { service, pkg } = selected;
   const response = await getRate();
-  const rate = response.ok ? await response.json() : null;
+  let rate = response.ok ? await response.json() : null;
   const ready = paymentsReady() && !!rate;
-  const quote = ready ? signQuote(makeSnapshot(selected, rate), process.env.XPAY_QUOTE_SECRET) : '';
+  const snapshot = ready ? await paymentSnapshot(selected, rate) : null;
+  if (snapshot?.paidSession) redirect('/checkout/result?session_id=' + encodeURIComponent(snapshot.paidSession));
+  if (snapshot) rate = { ...rate, rate: snapshot.exchange_rate, updatedAt: Date.parse(snapshot.rate_updated_at) };
+  const quote = ready ? signQuote(snapshot, process.env.XPAY_QUOTE_SECRET) : '';
   const [name, tagline] = pkg.name.split('|');
   const amount = pkg.price.toLocaleString('en-US');
-  const equivalent = rate ? (makeSnapshot(selected, rate).amount_egp_minor / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : null;
+  const equivalent = rate ? ((snapshot?.amount_egp_minor ?? Math.round(pkg.price * rate.rate * 100)) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : null;
   return (
     <main className="checkout-page">
       <header className="checkout-header checkout-container"><a href="/" className="checkout-brand"><img src="/logo-transparent.png" alt="" width="32" height="32" />KAREEM <span>PRO</span></a><a href="/#pricing">العودة للأسعار</a></header>
