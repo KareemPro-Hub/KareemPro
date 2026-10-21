@@ -87,7 +87,7 @@ a{color:inherit;text-decoration:none}
 main,nav,footer{position:relative;z-index:1}
 
 /* ═══ الشريط العلوي ═══ */
-nav{position:sticky;top:0;z-index:50;padding-top:12px;pointer-events:none}
+body>nav{position:sticky;top:0;z-index:50;padding-top:12px;pointer-events:none}
 @property --na{syntax:'<angle>';inherits:false;initial-value:0deg}
 .nav-inner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;pointer-events:auto;
   width:min(1180px,calc(100% - 24px));margin-inline:auto;padding:9px 10px 9px 18px;border-radius:20px;border:1px solid transparent;
@@ -553,8 +553,8 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 <section id="contact">
   <div class="container">
     <div class="contact reveal">
-      <h2>جاهز تبدأ <span class="g-text">حلمك</span> ؟<br />يلا كلمنا</h2>
-      <p style="color:var(--muted);margin-top:12px;max-width:52ch;margin-inline:auto">كلّمنا على الواتساب واحصل على استشارة مجانية وعرض فني ومالي واضح — بدون أي التزام.</p>
+      <h2>جاهز تبدأ <span class="g-text">حلمك</span> ؟</h2>
+      <p style="color:var(--muted);margin-top:12px;max-width:52ch;margin-inline:auto">يلا كلمنا على الواتساب واحصل على استشارة مجانية وعرض فني ومالي واضح — بدون أي التزام.</p>
       <div class="wa-row">
         <a class="wa" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%20%D8%A8%D8%B1%D9%85%D8%AC%D8%A9" target="_blank" rel="noopener">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.4 0-1 .1-3.3-.9-2.8-1.2-4.5-4-4.6-4.2-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.3-.2.5-.1l2 .9c.2.1.4.2.4.3 0 .2 0 .8-.2 1.3Z"/></svg>
@@ -600,12 +600,21 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 
 </main>
 
-<footer class="site-footer">
-<div class="f-top"><div class="f-identity">
+<footer>
+  <div class="container">
+    <div class="f-top">
+      <div class="f-identity">
         <a href="#home" class="f-brand"><b>KAREEM<span class="g-text"> PRO</span></b><img src="logo-transparent.png" alt="Kareem Pro" /></a>
         <p><span class="f-tagline-line">نبني ما يختصر وقتك، ويخدم</span> <span class="f-tagline-line">عميلك، ويجعلك في الصدارة.</span></p>
-      </div></div>
-<!-- PAYMENTS:START -->
+      </div>
+      <div class="f-links" role="navigation" aria-label="روابط أسفل الصفحة">
+        <a href="/platforms">كل الخدمات</a>
+        <a href="/refund-policy.html">سياسة الاسترداد</a>
+        <a href="/terms.html">الشروط والأحكام</a>
+      </div>
+    </div>
+    <div class="f-bottom">
+    <!-- PAYMENTS:START -->
 <div class="pay" data-payment-methods>
       <div class="pay-label">وسائل الدفع المتاحة</div>
       <div class="pay-row">
@@ -621,17 +630,9 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
       </div>
     </div>
 <!-- PAYMENTS:END -->
-<!-- FOOTER-BOTTOM:START -->
-<div class="footer-bottom">
-  <nav class="footer-nav" aria-label="روابط أسفل الصفحة">
-    <a href="/">الرئيسية</a>
-    <a href="/platforms">الخدمات</a>
-    <a href="/refund-policy.html">سياسة الاسترداد</a>
-    <a href="/terms.html">الشروط والأحكام</a>
-  </nav>
-  <p class="footer-rights">© <span data-current-year>2026</span> <bdi>Kareem Pro</bdi><span>جميع الحقوق محفوظة</span></p>
-</div>
-<!-- FOOTER-BOTTOM:END -->
+    </div>
+    <div class="f-copy">Kareem Pro <span data-current-year>2026</span> — جميع الحقوق محفوظة.</div>
+  </div>
 </footer>
 
 <script>

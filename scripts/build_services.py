@@ -179,10 +179,17 @@ def final(s):
 def waMsg(s):
     return 'السلام عليكم، دخلت من صفحة %s في موقع Kareem Pro، و%s 🙏' % (s['tab'], s['cta'])
 
-FOOT = '<footer class="site-footer">\n' + '\n'.join(
-    open(os.path.join(os.path.dirname(os.path.abspath(__file__)), name), encoding='utf-8').read().strip()
-    for name in ['payment-methods.html', 'footer-bottom.html']
-) + '\n</footer>'
+FOOT = """<footer>
+  <div class="ft-top"><nav class="ft-links">
+    <a href="/">الموقع الرئيسي</a>
+    <a href="/platforms">كل الخدمات</a>
+    <a href="#pricing">الباقات والأسعار</a>
+    <a href="/refund-policy.html">سياسة الاسترداد</a>
+  </nav></div>
+  <div class="ft-copy">Kareem Pro <span data-current-year>2026</span> — جميع الحقوق محفوظة</div>
+</footer>"""
+
+FOOT = FOOT.replace('<div class="ft-copy">', open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'payment-methods.html'), encoding='utf-8').read() + '<div class="ft-copy">')
 
 SCRIPT = """<script>
 (function(){

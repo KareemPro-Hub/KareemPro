@@ -77,6 +77,6 @@ for (const name of fs.readdirSync(new URL('../public/', import.meta.url)).filter
   const url = new URL('../public/' + name, import.meta.url);
   const html = fs.readFileSync(url, 'utf8');
   const next = html.replace(/<!-- PAYMENTS:START -->[\s\S]*?<!-- PAYMENTS:END -->/g, paymentMethods)
-    .replace(/<!-- FOOTER-BOTTOM:START -->[\s\S]*?<!-- FOOTER-BOTTOM:END -->/g, footerBottom);
+    .replace(/<!-- FOOTER-BOTTOM:START -->[\s\S]*?<!-- FOOTER-BOTTOM:END -->/g, match => ['terms.html', 'refund-policy.html'].includes(name) ? footerBottom : match);
   if (next !== html) fs.writeFileSync(url, next);
 }

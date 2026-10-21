@@ -25,7 +25,7 @@ section{padding:5rem 0;position:relative;z-index:2;scroll-margin-top:130px}
 #prog{position:fixed;top:0;inset-inline:0;height:3px;background:var(--grad);width:0;z-index:1200;transition:width .1s linear}
 
 /* NAV */
-nav{position:fixed;top:0;inset-inline:0;z-index:1000;padding:.8rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+body>nav{position:fixed;top:0;inset-inline:0;z-index:1000;padding:.8rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;
   background:rgba(10,14,38,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--text)}
 .nav-logo img{width:36px;height:36px;object-fit:contain}
