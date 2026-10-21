@@ -24,3 +24,8 @@
 - `xpay_orders` و`xpay_events` server-only/RLS؛ RPC ذرية `confirm_xpay_payment` لتأكيد السداد والمرحلة والإشعار مرة واحدة. `/admin/payments` سجل الإدارة. `/api/xpay/webhook` يفحص HMAC والوقت ثم يجلب الجلسة ويطابق السعر والعملة والوضع والسجل؛ لا يعتمد redirect أو completed غير paid.
 - أسماء المتغيرات فقط: XPAY_SECRET_KEY, XPAY_QUOTE_SECRET, XPAY_WEBHOOK_SECRET, XPAY_TEST_SECRET_KEY, XPAY_TEST_WEBHOOK_SECRET, XPAY_ENABLED. يبقى زر الدفع مغلقًا حتى انتهاء التحقق وتعيين XPAY_ENABLED=true والنشر.
 - الوثائق: https://docs.xpay.app/en/integrate/integration-patterns/hosted-checkout و https://docs.xpay.app/en/integrate/webhooks/verifying-signatures . لا تستعد روابط الأعمال الخارجية تلقائيًا.
+
+### نتيجة التحقق والتفعيل — 2026-10-21
+- اختبار Xpay TEST ناجح ببطاقة الاختبار ومحاكي 3DS؛ webhook الفعلي `checkout.session.completed` سجل عملية test بقيمة100EGP، حدثًا واحدًا وإشعار إدارة واحدًا. إعادة صفحة النتيجة مرتين لم تكرر التسجيل. لا خصم حقيقي.
+- فحوص المال/توقيع العرض/توقيع webhook/التلاعب/الانتهاء:24 ناجحة (`scripts/test_xpay.mjs`). رفض webhook غير الموقّع400 وPOST خارجي403، وRLS يمنع قراءة الطلبات وتأكيدها من anon/authenticated. بناء Vercel نجح.
+- بعد نجاح الاختبار تم تعيين XPAY_ENABLED=true للنشر النهائي. سجل الإدارة يميز عمليات TEST. مرحلة الدفع لا تتغير إلا لسداد مؤكد بنفس المبلغ؛ التغيّر اليدوي بعد إنشاء الجلسة يحتاج مراجعة الإدارة.

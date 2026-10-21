@@ -1,5 +1,5 @@
 import { readQuote, sessionMatches, safeCheckoutUrl } from '@/lib/xpay.mjs';
-import { paymentsReady, selectedPayment, xpay } from '@/lib/xpay-server';
+import { paymentsReady, selectedPayment, xpay, confirmSession } from '@/lib/xpay-server';
 import { createAdminClient } from '@/lib/supabase/server';
 export const runtime='nodejs';
 export async function POST(request){
@@ -11,6 +11,15 @@ export async function POST(request){
   const selected=await selectedPayment(q.stage_id?{stage:q.stage_id}:{service:q.service_id,tier:String(q.tier)});
   if(!selected||selected.pkg.price!==q.amount_sar||Boolean(selected.stageId)!==Boolean(q.stage_id)||q.client_id!==(selected.clientId??null))return Response.json({error:'تغيّرت بيانات الطلب. أعد فتح صفحة الدفع.'},{status:409});
   const db=createAdminClient();
+  // Release an expired stage attempt only after Xpay confirms its actual state.
+  if(q.stage_id){
+   const {data:prior,error:priorError}=await db.from('xpay_orders').select('id,session_id').eq('stage_id',q.stage_id).eq('status','pending').neq('id',q.id).maybeSingle();
+   if(priorError)throw Error('Pending payment lookup failed');
+   if(prior?.session_id){
+    const fresh=await xpay('/checkout/sessions/'+prior.session_id);
+    await confirmSession(fresh,'reconcile:'+prior.session_id);
+   }
+  }
   const {error:insertError}=await db.from('xpay_orders').upsert({id:q.id,service_id:q.service_id,tier:q.tier,stage_id:q.stage_id,client_id:q.client_id,title:q.title,amount_sar:q.amount_sar,amount_egp_minor:q.amount_egp_minor,exchange_rate:q.exchange_rate,rate_updated_at:q.rate_updated_at,livemode:q.livemode},{onConflict:'id',ignoreDuplicates:true});
   if(insertError)throw Error('Order unavailable');
   const {data:order,error}=await db.from('xpay_orders').select('*').eq('id',q.id).single();if(error)throw Error('Order lookup failed');

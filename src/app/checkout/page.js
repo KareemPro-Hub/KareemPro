@@ -2,7 +2,7 @@ import { selectedPayment, paymentsReady, makeSnapshot } from '@/lib/xpay-server'
 import { signQuote } from '@/lib/xpay.mjs';
 export const dynamic = 'force-dynamic';
 import { GET as getRate } from '@/app/api/exchange-rate/route';
-import { egpText, rateDate } from '../../../public/currency.js';
+import { rateDate } from '../../../public/currency.js';
 import './checkout.css';
 
 export const metadata = { title: 'الدفع — Kareem Pro', robots: { index: false, follow: false } };
@@ -17,7 +17,7 @@ export default async function CheckoutPage({ searchParams }) {
   const quote = ready ? signQuote(makeSnapshot(selected, rate), process.env.XPAY_QUOTE_SECRET) : '';
   const [name, tagline] = pkg.name.split('|');
   const amount = pkg.price.toLocaleString('en-US');
-  const equivalent = rate ? egpText(pkg.price, rate.rate) : null;
+  const equivalent = rate ? (makeSnapshot(selected, rate).amount_egp_minor / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : null;
   return (
     <main className="checkout-page">
       <header className="checkout-header checkout-container"><a href="/" className="checkout-brand"><img src="/logo-transparent.png" alt="" width="32" height="32" />KAREEM <span>PRO</span></a><a href="/#pricing">العودة للأسعار</a></header>
