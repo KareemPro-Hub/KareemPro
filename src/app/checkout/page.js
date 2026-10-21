@@ -36,7 +36,7 @@ export default async function CheckoutPage({ searchParams }) {
             <p className="checkout-payment-status" id="payment-status" role="status">{ready ? 'ستنتقل إلى صفحة Xpay الآمنة لإتمام السداد.' : 'الدفع الإلكتروني غير متاح حاليًا. يرجى المحاولة لاحقًا.'}</p>
             <p className="checkout-payment-note">المبلغ الموضح بالجنيه هو مبلغ السداد عبر Xpay، وثابت لهذا العرض لمدة 15 دقيقة. لا نضيف رسومًا على المبلغ الموضح.</p>
           </div>
-          <p className="checkout-terms">اطلع على <a href="/terms.html">الشروط والأحكام</a> و<a href="/refund-policy.html">سياسة الاسترجاع</a> قبل السداد.</p>
+          <p className="checkout-terms">اطلع على <a href="/terms.html">الشروط والأحكام</a> و<a href="/refund-policy.html">سياسة الاسترداد</a> قبل السداد.</p>
         </section>
         <aside className="checkout-panel checkout-summary" aria-labelledby="summary-title">
           <h2 id="summary-title">ملخص الطلب</h2>

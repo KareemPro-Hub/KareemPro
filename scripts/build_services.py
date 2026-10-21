@@ -180,7 +180,7 @@ FOOT = """<footer>
     <a href="/">الموقع الرئيسي</a>
     <a href="/platforms">كل الخدمات</a>
     <a href="#pricing">الباقات والأسعار</a>
-    <a href="/refund-policy.html">سياسة الاسترجاع</a>
+    <a href="/refund-policy.html">سياسة الاسترداد</a>
   </nav></div>
   <div class="ft-copy">Kareem Pro <span data-current-year>2026</span> — جميع الحقوق محفوظة</div>
 </footer>"""
