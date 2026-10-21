@@ -2,7 +2,7 @@
 
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import RiyalIcon from "@/app/components/RiyalIcon";
+import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
 import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
@@ -1010,13 +1010,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                               <span>
                                 {line.startsWith("كل مميزات") || line.startsWith("**") ? (
                                   <>
-                                    <strong>{line.replace(/^\*\*/, "").replace(/\*\*$/, "")}</strong>
+                                    <strong><RiyalText>{line.replace(/^\*\*/, "").replace(/\*\*$/, "")}</RiyalText></strong>
                                     {/* The crown belongs to the top tier only — on the base
                                         card the same line is still bold, just uncrowned. */}
                                     {pkg.is_featured && <CrownIcon />}
                                   </>
                                 ) : (
-                                  line
+                                  <RiyalText>{line}</RiyalText>
                                 )}
                               </span>
                             </li>
@@ -1197,7 +1197,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   قيمة الباقة:{" "}
                   <strong>
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
-                    <RiyalIcon size="0.8em" tone="dark" /> سعودي
+                    <RiyalIcon size="0.8em" tone="dark" />
                   </strong>
                   <CurrencyEquivalent amount={Number(selectedPackage.price)} />
                   {serviceType === "blogger" && (() => {
@@ -1297,11 +1297,11 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         تُسدَّد قيمة الباقة على دفعات مرتبطة بعدد الحصص المنفَّذة فعليا:
                         <ul className="contract-subpoints">
                           <li>
-                            باقة التأسيس (600 ريال): 200 مقدما — 200 عند الحصة الرابعة — 200 عند
+                            باقة التأسيس (600 <RiyalIcon />): 200 مقدما — 200 عند الحصة الرابعة — 200 عند
                             الحصة الثامنة.
                           </li>
                           <li>
-                            باقة الاحتراف (900 ريال): 300 مقدما — 300 عند الحصة الخامسة — 300 عند
+                            باقة الاحتراف (900 <RiyalIcon />): 300 مقدما — 300 عند الحصة الخامسة — 300 عند
                             الحصة العاشرة.
                           </li>
                         </ul>
@@ -1358,14 +1358,14 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         — على النحو التالي:
                         <ul className="contract-subpoints">
                           <li>
-                            باقة 30 مقالًا (650 ريال): 350 مقدمًا — 300 عند نشر المقال الخامس عشر.
+                            باقة 30 مقالًا (650 <RiyalIcon />): 350 مقدمًا — 300 عند نشر المقال الخامس عشر.
                           </li>
                           <li>
-                            باقة 60 مقالًا (1,100 ريال): 400 مقدمًا — 350 عند المقال العشرين — 350 عند
+                            باقة 60 مقالًا (1,100 <RiyalIcon />): 400 مقدمًا — 350 عند المقال العشرين — 350 عند
                             المقال الأربعين.
                           </li>
                           <li>
-                            باقة 100 مقال (1,750 ريال): 650 مقدمًا — 550 عند المقال الخامس والثلاثين —
+                            باقة 100 مقال (1,750 <RiyalIcon />): 650 مقدمًا — 550 عند المقال الخامس والثلاثين —
                             550 عند المقال السبعين.
                           </li>
                         </ul>
@@ -1448,21 +1448,21 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       </li>
                       <li>
                         قيمة الباقة{" "}
-                        {Number(selectedPackage.price).toLocaleString("en-US")} ريال، يُخصم منها 2,600 ريال
+                        {Number(selectedPackage.price).toLocaleString("en-US")} <RiyalIcon />، يُخصم منها 2,600 <RiyalIcon />
                         تسوية لمستحقات سابقة لصاحب المشروع، فيصبح الصافي{" "}
-                        {(Number(selectedPackage.price) - LINK_SETTLEMENT.owed).toLocaleString("en-US")} ريال
+                        {(Number(selectedPackage.price) - LINK_SETTLEMENT.owed).toLocaleString("en-US")} <RiyalIcon />
                         على ثلاث دفعات:
                         <ul className="contract-subpoints">
                           {(LINK_PAYMENT_PLANS[Number(selectedPackage.price)] || []).map(([amount, when], i) => (
                             <li key={i}>
                               {["الدفعة الأولى", "الدفعة الثانية", "الدفعة الثالثة"][i]}:{" "}
-                              {amount.toLocaleString("en-US")} ريال {when}.
+                              {amount.toLocaleString("en-US")} <RiyalIcon /> {when}.
                             </li>
                           ))}
                         </ul>
                       </li>
                       <li>
-                        بمجرد توقيع هذا العقد تُسوّى المستحقات السابقة لصاحب المشروع (2,600 ريال) تسوية
+                        بمجرد توقيع هذا العقد تُسوّى المستحقات السابقة لصاحب المشروع (2,600 <RiyalIcon />) تسوية
                         نهائية.
                       </li>
                       {Number(selectedPackage.price) === LINK_YEAR_SUPPORT_PRICE ? (

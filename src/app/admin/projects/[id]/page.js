@@ -83,7 +83,7 @@ export default async function ProjectDetailPage({ params }) {
             <span className="proj-detail-discount-old" dir="ltr">
               {Number(project.original_price).toLocaleString("en-US")}
             </span>
-            <span>خصم {Number(project.discount_amount).toLocaleString("en-US")} ريال</span>
+            <span>خصم {Number(project.discount_amount).toLocaleString("en-US")} <RiyalIcon /></span>
           </div>
         )}
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>

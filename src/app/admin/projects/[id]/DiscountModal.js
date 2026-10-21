@@ -89,7 +89,7 @@ export default function DiscountModal({ projectId, packagePrice }) {
             <form ref={formRef} action={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <input type="hidden" name="project_id" value={projectId} />
               <p className="muted" style={{ margin: 0, fontSize: "0.85em" }}>
-                قيمة الباقة الحالية: <b>{Number(packagePrice).toLocaleString("en-US")}</b> ريال. الخصم
+                قيمة الباقة الحالية: <b>{Number(packagePrice).toLocaleString("en-US")}</b> <RiyalIcon />. الخصم
                 هينزل من آخر المراحل اللي لسه ما اتدفعتش، والمراحل اللي اتدفعت فعلًا مش هتتأثر.
               </p>
               <div className="field">

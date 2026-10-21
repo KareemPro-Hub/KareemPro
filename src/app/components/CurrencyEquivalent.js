@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getRate, egpText, rateDate } from '../../../public/currency.js';
+import { getRate, egpText } from '../../../public/currency.js';
 import '../../../public/pricing.css';
 
 export default function CurrencyEquivalent({ amount, tone = 'light' }) {
@@ -18,7 +18,6 @@ export default function CurrencyEquivalent({ amount, tone = 'light' }) {
     <span className="currency-equivalent" data-tone={tone} aria-live="polite">
       {rate ? <>
         <span>يعادل <b dir="ltr">{egpText(Number(amount), rate.rate)} ج.م</b></span>
-        <small>تحديث {rateDate(rate.updatedAt)} · <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">مصدر التحويل</a></small>
       </> : <span>{unavailable ? 'تعذر تحديث مقابل الجنيه حاليًا' : 'جارٍ حساب مقابل الجنيه…'}</span>}
     </span>
   );

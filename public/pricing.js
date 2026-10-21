@@ -1,4 +1,4 @@
-import { getRate, egpText, rateDate } from './currency.js';
+import { getRate, egpText } from './currency.js';
 
 const tabs = [...document.querySelectorAll('[data-price-tab]')];
 document.querySelector('.nav-links a[href="#pricing"]')?.addEventListener('click', () => {
@@ -38,10 +38,6 @@ if (equivalents.length) getRate().then(rate => {
     if (!Number.isFinite(value) || value < 0) return;
     const amount = document.createElement('b');
     amount.dir = 'ltr'; amount.textContent = egpText(value, rate.rate) + ' ج.م';
-    const meta = document.createElement('small');
-    const link = document.createElement('a');
-    link.href = 'https://www.exchangerate-api.com'; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'مصدر التحويل';
-    meta.append('تحديث ' + rateDate(rate.updatedAt) + ' · ', link);
-    element.replaceChildren('يعادل ', amount, meta);
+    element.replaceChildren('يعادل ', amount);
   });
 }).catch(() => equivalents.forEach(element => { element.textContent = 'تعذر تحديث مقابل الجنيه حاليًا؛ تواصل معنا لتأكيد المبلغ.'; }));

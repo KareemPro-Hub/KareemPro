@@ -283,8 +283,8 @@ h1{font-weight:900;line-height:1.35;letter-spacing:-.5px;font-size:clamp(1.75rem
 .q{border:1px solid var(--border);border-radius:16px;margin-bottom:.75rem;background:rgba(17,22,58,.45);overflow:hidden}
 .q>summary{cursor:pointer;list-style:none;padding:1.1rem 1.4rem;font-weight:700;font-size:.98rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .q>summary::-webkit-details-marker{display:none}
-.q>summary::after{content:'+';color:var(--g1);font-weight:900;font-size:1.3rem;flex:none}
-.q[open]>summary::after{content:'−'}
+.q>summary::after{content:'';width:9px;height:9px;border-right:2px solid var(--g1);border-bottom:2px solid var(--g1);transform:rotate(45deg);flex:none}
+.q[open]>summary::after{transform:rotate(225deg)}
 .q p{padding:0 1.4rem 1.3rem;color:var(--muted);font-weight:300;line-height:2}
 
 /* FINAL */

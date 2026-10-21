@@ -20,7 +20,7 @@ FONTS = """<style>
 WA_SVG = ('<svg class="i-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2.02c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.47 1.34 4.99L2 22.02l5.2-1.36a9.93 9.93 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04a9.9 9.9 0 0 0-7.05-2.87zm5.83 14.06c-.25.7-1.45 1.33-2 1.41-.51.08-1.16.11-1.87-.12-.43-.13-.98-.32-1.69-.63-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.62-1.21-3.08s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37h.57c.19 0 .43-.07.67.51.25.6.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.14-.3.3-.13.6.17.3.76 1.27 1.64 2.05 1.13 1.01 2.08 1.32 2.38 1.47.29.15.47.13.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.41z"/></svg>')
 DOWN_SVG = '<svg class="i-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14M5.8 12.6 12 18.8l6.2-6.2"/></svg>'
 CHK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.6 4.6L19 7.4"/></svg>'
-XX  = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+XX  = '<svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>'
 SHIELD = '<svg viewBox="0 0 24 24"><path d="M12 2.8 4.5 6v6c0 4.5 3.2 7.9 7.5 9.2 4.3-1.3 7.5-4.7 7.5-9.2V6z"/><path d="M9 12.2l2.1 2.1L15.4 10"/></svg>'
 MIC = '<svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3.5"/><path d="M8.5 21.5h7"/></svg>'
 GO = '<span class="shot-go">%s<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg></span>'
@@ -135,20 +135,25 @@ def pricing(svc_tab):
     catalog = json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8'))
     url = next((s['url'] for s in SERVICES.values() if s['tab'] == svc_tab), '/platforms')
     service_id = next(s['id'] for s in catalog if s['url'] == url)
+    display = json.load(open(os.path.join(ROOT, 'pricing-display.json'), encoding='utf-8'))
     for tier, (name, sub, price, best, feats) in enumerate(service_packages(svc_tab)):
+        references = display.get('beforePrices', {}).get(service_id, [])
+        additions = display.get('beforeIncrease', {}).get(service_id, display['defaultBeforeIncrease'])
+        before = references[tier] if tier < len(references) else int(price.replace(',', '')) + additions[tier]
         lis = ''.join('<li>%s<span>%s</span></li>' % (CHK, f) for f in feats)
         tag = '<span class="pk-tag">الأكثر طلبًا</span>' if best else ''
         href = '/checkout?service=%s&tier=%d' % (service_id, tier)
         cards.append('<div class="pk%s">%s<span class="pk-name">%s</span><span class="pk-sub">%s</span>'
-          '<div class="pk-price"><span class="pk-from">تبدأ من</span><span class="pk-val">%s</span>'
-          '<img class="pk-cur" src="/riyal-symbol-white.png" alt="ريال سعودي" width="20" height="20" /></div>'
+          '<div class="price-before"><span>قبل</span><del dir="ltr">%s</del><span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>'
+          '<div class="pk-price"><span class="pk-from">بعد</span><span class="pk-val">%s</span>'
+          '<span class="pk-cur riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>'
           '<ul class="pk-list">%s</ul>'
           '<a class="pk-cta" href="%s" target="_blank" rel="noopener">اطلب هذه الباقة</a></div>'
-          % (' pk-best' if best else '', tag, name, sub, price, lis, href))
+          % (' pk-best' if best else '', tag, name, sub, format(before, ','), price, lis, href))
     return ('<section id="pricing" class="rv"><div class="wrap center"><span class="sec-tag">الباقات والأسعار</span>'
       '<h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>'
       '<div class="pk-grid">%s</div>'
-      '<p class="pk-note">الأسعار بالريال السعودي وتشمل التنفيذ الكامل والتسليم .. ولا تشمل الرسوم الخارجية '
+      '<p class="pk-note">الأسعار <span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span> وتشمل التنفيذ الكامل والتسليم .. ولا تشمل الرسوم الخارجية '
       '(الدومين، الاستضافة، حساب Apple Developer وGoogle Play). الفاتورة الرسمية متاحة عند الطلب.</p>'
       '</div></section>' % ''.join(cards))
 
@@ -174,15 +179,10 @@ def final(s):
 def waMsg(s):
     return 'السلام عليكم، دخلت من صفحة %s في موقع Kareem Pro، و%s 🙏' % (s['tab'], s['cta'])
 
-FOOT = """<footer>
-  <div class="ft-top"><nav class="ft-links">
-    <a href="/">الموقع الرئيسي</a>
-    <a href="/platforms">كل الخدمات</a>
-    <a href="#pricing">الباقات والأسعار</a>
-    <a href="/refund-policy.html">سياسة الاسترداد</a>
-  </nav></div>
-  <div class="ft-copy">Kareem Pro <span data-current-year>2026</span> — جميع الحقوق محفوظة</div>
-</footer>"""
+FOOT = '<footer class="site-footer">\n' + '\n'.join(
+    open(os.path.join(os.path.dirname(os.path.abspath(__file__)), name), encoding='utf-8').read().strip()
+    for name in ['payment-methods.html', 'footer-bottom.html']
+) + '\n</footer>'
 
 SCRIPT = """<script>
 (function(){

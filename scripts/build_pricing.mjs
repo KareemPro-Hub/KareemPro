@@ -20,22 +20,32 @@ const services = [
   ['store', 'متجر إلكتروني', '/store'], ['pos', 'نقاط بيع', '/pos-system'],
   ['booking', 'حجز مواعيد', '/booking'], ['portal', 'بوابة عملاء', '/portal-system'],
   ['charity', 'مواقع الجمعيات', '/charity'], ['blog', 'مدونات بلوجر', '/blog'],
-].map(([id, name, url]) => ({ id, name, url, packages: id === 'blog' ? blogger : defaults.map((pkg, i) => {
+].map(([id, name, url]) => ({ id, name, url, packages: (id === 'blog' ? blogger : defaults).map((pkg, i) => {
   const offer = offers[id];
-  return offer ? { ...pkg, price: pkg.price + offer.adjustment, name: pkg.name.split('|')[0] + '|' + offer.taglines[i], features: offer.features[i].join('\n') } : pkg;
+  return offer ? {
+    ...pkg,
+    price: offer.prices?.[i] ?? pkg.price + (Array.isArray(offer.adjustment) ? offer.adjustment[i] : (offer.adjustment || 0)),
+    name: offer.taglines ? pkg.name.split('|')[0] + '|' + offer.taglines[i] : pkg.name,
+    features: offer.features ? offer.features[i].join('\n') : pkg.features,
+  } : pkg;
 }) }));
+const presentation = JSON.parse(fs.readFileSync(new URL('../public/pricing-display.json', import.meta.url), 'utf8'));
+const RIYAL = '<span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span>';
+function beforePrice(id, tier, price) {
+  return presentation.beforePrices[id]?.[tier] ?? price + (presentation.beforeIncrease[id] || presentation.defaultBeforeIncrease)[tier];
+}
 const visibleServices = services.filter(s => ['platforms', 'edu', 'store', 'blog'].includes(s.id));
 const esc = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 function card(pkg, service, tier) {
   const [name, tagline] = pkg.name.split('|');
   const features = pkg.features.split('\n').slice(0, 6);
   const url = `/checkout?service=${service.id}&tier=${tier}`;
-  return `<article class="pricing-card${pkg.is_featured ? ' featured' : ''}"><h3>${esc(name)}</h3><p class="price-tagline">${esc(tagline.replaceAll('**', ''))}</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">${pkg.price.toLocaleString('en-US')}</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="${pkg.price}" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul>${features.map(f => `<li>${esc(f.replaceAll('**', ''))}</li>`).join('')}</ul><a class="price-cta" href="${esc(url)}">اطلب هذه الباقة</a></article>`;
+  return `<article class="pricing-card${pkg.is_featured ? ' featured' : ''}"><h3>${esc(name)}</h3><p class="price-tagline">${esc(tagline.replaceAll('**', ''))}</p><div class="price-before"><span>قبل</span><del dir="ltr">${beforePrice(service.id, tier, pkg.price).toLocaleString('en-US')}</del>${RIYAL}</div><div class="price-sar"><small>بعد</small><span dir="ltr">${pkg.price.toLocaleString('en-US')}</span>${RIYAL}</div><div class="currency-equivalent" data-sar="${pkg.price}" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul>${features.map(f => `<li>${esc(f.replaceAll('**', ''))}</li>`).join('')}</ul><a class="price-cta" href="${esc(url)}">اطلب هذه الباقة</a></article>`;
 }
 const tabs = visibleServices.map((s, i) => `<button type="button" role="tab" id="price-tab-${s.id}" data-price-tab aria-controls="price-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(s.name)}</button>`).join('');
 const panels = visibleServices.map((s, i) => `<div class="pricing-grid" role="tabpanel" id="price-panel-${s.id}" data-price-panel aria-labelledby="price-tab-${s.id}"${i ? ' hidden' : ''}>${s.packages.map((p, tier) => card(p, s, tier)).join('')}</div>`).join('\n');
 const section = `<!-- PRICING:START -->
-<section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}</div></section>
+<section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر ${RIYAL} وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}</div></section>
 <!-- PRICING:END -->`;
 const homeUrl = new URL('../public/index.html', import.meta.url);
 let home = fs.readFileSync(homeUrl, 'utf8');
@@ -57,3 +67,14 @@ page = page.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
 fs.writeFileSync(pageUrl, page);
 }
 console.log('Pricing generated: 4 visible services; service-specific prices, features and checkout links.');
+
+// Keep every static page's payment strip identical to the homepage.
+const footerBottom = fs.readFileSync(new URL('./footer-bottom.html', import.meta.url), 'utf8').trim();
+const paymentMethods = fs.readFileSync(new URL('./payment-methods.html', import.meta.url), 'utf8').trim();
+for (const name of fs.readdirSync(new URL('../public/', import.meta.url)).filter(name => name.endsWith('.html'))) {
+  const url = new URL('../public/' + name, import.meta.url);
+  const html = fs.readFileSync(url, 'utf8');
+  const next = html.replace(/<!-- PAYMENTS:START -->[\s\S]*?<!-- PAYMENTS:END -->/g, paymentMethods)
+    .replace(/<!-- FOOTER-BOTTOM:START -->[\s\S]*?<!-- FOOTER-BOTTOM:END -->/g, footerBottom);
+  if (next !== html) fs.writeFileSync(url, next);
+}

@@ -1,11 +1,13 @@
 (function () {
   'use strict';
   function year() {
-    document.querySelectorAll('[data-current-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
+    var now = new Date();
+    document.querySelectorAll('[data-current-year]').forEach(function (el) { var value = String(now.getFullYear()); if (el.textContent !== value) el.textContent = value; });
+    document.querySelectorAll('[data-current-month]').forEach(function (el) { var value = new Intl.DateTimeFormat('ar-EG-u-nu-latn', { timeZone: 'Africa/Cairo', month: 'long', year: 'numeric' }).format(now); if (el.textContent !== value) el.textContent = value; });
   }
   year();
   document.addEventListener('visibilitychange', function () { if (!document.hidden) year(); });
-  setInterval(year, 3600000);
+  setInterval(year, 60000);
   if (document.querySelector('.whatsapp-launcher')) return;
   var link = document.querySelector('a.float[href*="wa.me/"]') || document.createElement('a');
   if (!link.hasAttribute('href')) link.href = 'https://wa.me/966507069605';

@@ -1,4 +1,9 @@
 /* One persistent WhatsApp entry point, with room for the device safe area. */
+.riyal-symbol{display:inline-block;flex-shrink:0;width:.895em;height:1em;vertical-align:-.1em;background-color:currentColor;-webkit-mask:url('/riyal-symbol-black.png') center/contain no-repeat;mask:url('/riyal-symbol-black.png') center/contain no-repeat}
+.pricing-card h3,.pk-name,.package-card .package-name,.project-package-name,.checkout-summary>h3{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;padding:10px 14px;border:1px solid rgba(255,168,38,.5);border-radius:14px;text-align:center;line-height:1.5}
+.price-before{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:0 0 8px;color:var(--muted,#777);font-size:13px}
+.price-before del{font-size:18px;font-weight:700;text-decoration-thickness:1.5px}
+.pk .price-before{justify-content:center;margin-top:16px}
 footer:has([data-current-year]){padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 .whatsapp-launcher,.float.whatsapp-launcher{position:fixed;inset-inline-start:auto;inset-inline-end:auto;left:auto;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;display:grid;place-items:center;width:56px;height:56px;padding:13px;border:0;border-radius:50%;background:#25d366;color:#073b21;box-shadow:0 8px 28px #0004;text-decoration:none;transition:transform .2s,box-shadow .2s}
 .whatsapp-launcher svg,.float.whatsapp-launcher svg{display:block;width:30px;height:30px;fill:currentColor;flex:none}
@@ -11,3 +16,39 @@ footer:has([data-current-year]){padding-bottom:calc(84px + env(safe-area-inset-b
 :where(.nav-cta,.nav-login,.cta,.price-tabs button,.price-cta,.btn,.pk-cta,.checkout-pay-button,.f-links a){transition:transform .2s,filter .2s,box-shadow .2s,background .2s}
 @media(hover:hover){:where(.nav-cta,.nav-login,.cta,.price-tabs button,.price-cta,.btn,.pk-cta,.checkout-pay-button,.f-links a):hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 10px 24px rgba(217,24,122,.22)}}
 @media(prefers-reduced-motion:reduce){:where(.nav-cta,.nav-login,.cta,.price-tabs button,.price-cta,.btn,.pk-cta,.checkout-pay-button,.f-links a){transition:none}:where(.nav-cta,.nav-login,.cta,.price-tabs button,.price-cta,.btn,.pk-cta,.checkout-pay-button,.f-links a):hover{transform:none}}
+
+/* One payment strip and one asset set across the public website. */
+[data-payment-methods].pay{width:100%;max-width:1180px;margin:28px auto;text-align:center;padding-inline:16px}
+.f-bottom [data-payment-methods].pay{margin-block:0}
+[data-payment-methods] .pay-label{font-size:14px;font-weight:700;color:var(--muted,#a888a8);margin-bottom:18px}
+[data-payment-methods] .pay-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;max-width:980px;margin-inline:auto}
+[data-payment-methods] .pay-chip{background:#fff;border-radius:10px;padding:8px 12px;height:42px;display:grid;place-items:center}
+[data-payment-methods] .pay-chip img{max-height:24px;max-width:180px;width:auto;object-fit:contain}
+[data-payment-methods] .pay-chip--stc{background:#4f008c}
+[data-payment-methods] .pay-chip--snb img{width:90px;height:24px}
+@media(max-width:560px){[data-payment-methods] .pay-row{gap:8px}[data-payment-methods] .pay-chip{height:40px;padding:7px 10px}}
+
+/* Compact public footer, shared by legal and service pages. */
+footer.site-footer{border-top:1px solid rgba(168,136,168,.2);padding:38px 20px calc(84px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--muted,#a888a8)}
+.site-footer .f-identity{margin:0 auto 30px;max-width:100%}
+.site-footer [data-payment-methods].pay{margin:0 auto 26px}
+.site-footer .footer-bottom{max-width:1040px;margin:auto;padding-top:20px;border-top:1px solid rgba(168,136,168,.16)}
+.site-footer .footer-nav{position:static;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 12px;background:none;border:0;padding:0;box-shadow:none;backdrop-filter:none}
+.site-footer .footer-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border:0;border-radius:12px;color:var(--text,#f1e8f1);font-size:14px;font-weight:700;line-height:1.6;text-decoration:none;transition:color .2s,background .2s}
+.site-footer .footer-nav a:hover{color:#ffa826;background:rgba(255,168,38,.08)}
+.site-footer .footer-nav a:focus-visible{outline:2px solid #ffa826;outline-offset:2px}
+.site-footer .footer-rights{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px;margin:14px 0 0;font-size:12px;line-height:1.8;color:var(--muted,#a888a8)}
+.site-footer .footer-rights>span:last-child{flex-basis:100%;font-size:11px}
+.terms-points{display:grid;gap:10px;padding-inline-start:22px;color:var(--muted);font-size:15px}
+.terms-points li::marker{color:#ffa826}
+.terms-points a{overflow-wrap:anywhere}
+@media(max-width:560px){footer.site-footer{padding-inline:16px}.site-footer .footer-nav{gap:2px 4px}.site-footer .footer-nav a{font-size:13px;padding-inline:10px}}
+@media(prefers-reduced-motion:reduce){.site-footer .footer-nav a{transition:none}}
+
+@media(max-width:560px){
+  [data-payment-methods].pay{padding-inline:0}
+  [data-payment-methods] .pay-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-width:360px}
+  [data-payment-methods] .pay-chip{box-sizing:border-box;width:100%;min-width:0;padding:7px 8px}
+  [data-payment-methods] .pay-chip img{max-width:100%}
+  .site-footer .footer-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:350px;margin-inline:auto}
+}

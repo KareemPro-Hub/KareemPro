@@ -7,7 +7,7 @@
   dialog.className = 'work-preview';
   dialog.setAttribute('aria-labelledby', 'work-preview-title');
   dialog.setAttribute('aria-describedby', 'work-preview-description');
-  dialog.innerHTML = '<div class="work-preview-head"><span>نموذج من أعمالنا</span><button type="button" class="work-preview-close" aria-label="إغلاق عرض النموذج" autofocus>إغلاق ×</button></div><h2 id="work-preview-title"></h2><p id="work-preview-description"></p><img class="work-preview-image" alt="" /><p class="work-preview-note">صور من المشروع</p>';
+  dialog.innerHTML = '<div class="work-preview-head"><span>نموذج من أعمالنا</span><button type="button" class="work-preview-close" aria-label="إغلاق عرض النموذج" autofocus>إغلاق</button></div><h2 id="work-preview-title"></h2><p id="work-preview-description"></p><img class="work-preview-image" alt="" /><p class="work-preview-note">صور من المشروع</p>';
   document.body.appendChild(dialog);
   var opener;
   var image = dialog.querySelector('img');
