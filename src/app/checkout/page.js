@@ -1,4 +1,5 @@
-import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
+import RiyalIcon from "@/app/components/RiyalIcon";
+import { checkoutTagline } from '@/lib/checkout-copy';
 import { selectedPayment, paymentsReady, paymentSnapshot } from '@/lib/xpay-server';
 import { redirect } from 'next/navigation';
 import { signQuote } from '@/lib/xpay.mjs';
@@ -19,7 +20,8 @@ export default async function CheckoutPage({ searchParams }) {
   if (snapshot?.paidSession) redirect('/checkout/result?session_id=' + encodeURIComponent(snapshot.paidSession));
   if (snapshot) rate = { ...rate, rate: snapshot.exchange_rate, updatedAt: Date.parse(snapshot.rate_updated_at) };
   const quote = ready ? signQuote(snapshot, process.env.XPAY_QUOTE_SECRET) : '';
-  const [name, tagline] = pkg.name.split('|');
+  const [name] = pkg.name.split('|');
+  const tagline = checkoutTagline(selected);
   const amount = pkg.price.toLocaleString('en-US');
   const egyptian = pkg.currency === 'EGP';
   const currencyUnit = egyptian ? <span>ج.م</span> : <RiyalIcon size="0.8em" />;
@@ -37,12 +39,8 @@ export default async function CheckoutPage({ searchParams }) {
             <p className="checkout-section-label" id="summary-title">ملخص الطلب</p>
             <span className="checkout-service">{service.name}</span>
             <h2 className="checkout-plan-name">{name}</h2>
-            <p className="checkout-tagline">{(tagline || '').replaceAll('**', '')}</p>
+            <p className="checkout-tagline">{tagline}</p>
             <div className="checkout-sar-total"><span>قيمة الطلب</span><strong><bdi>{amount}</bdi> {currencyUnit}</strong></div>
-            <details className="checkout-features">
-              <summary>ماذا يشمل طلبك ؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
-              <ul>{pkg.features.split('\n').map((feature, i) => <li key={i}><RiyalText>{feature.replaceAll('**', '')}</RiyalText></li>)}</ul>
-            </details>
           </section>
           <section className="checkout-payment" aria-labelledby="payment-title">
             <div className="checkout-payment-heading"><span className="checkout-lock"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg></span><h2 id="payment-title">الدفع</h2></div>
