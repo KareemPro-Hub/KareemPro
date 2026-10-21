@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0a0e26" />
-<title>تصميم وبرمجة مواقع ومتاجر وتطبيقات جوال — Kareem Pro</title>
+<title>نبرمج فكرتك باحتراف</title>
 <meta name="description" content="تصميم وبرمجة مواقع ومتاجر إلكترونية ومنصات تعليمية وتطبيقات iOS وأندرويد ومدونات ربحية — بخبرة تتجاوز 11 عامًا في البرمجة والتطوير." />
 <meta name="keywords" content="تصميم مواقع, برمجة مواقع, برمجة تطبيقات, تصميم وبرمجة متجر إلكتروني, إنشاء منصة تعليمية, تطوير الويب, تطبيقات iOS, تطبيقات أندرويد, إنشاء مدونة ربحية, نظام حجز مواعيد, بوابة عملاء, Next.js, React, Node.js, TypeScript, Swift, Supabase, كريم برو, Kareem Pro" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -69,7 +69,9 @@
   --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
+main [id]{scroll-margin-top:calc(var(--navh,76px) + 20px)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{font-family:'FrutigerArabic',sans-serif;font-weight:400;background:var(--dark);color:var(--text);line-height:1.85;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -281,6 +283,7 @@ footer{border-top:1px solid var(--line);padding:46px 0 26px;margin-top:20px}
 
 <link rel="stylesheet" href="/certificates.css" />
 <script src="/certificates.js" defer></script>
+<script src="/navigation.js" defer></script>
 <link rel="stylesheet" href="/work-preview.css" />
 <script src="/work-preview.js" defer></script>
 </head>
