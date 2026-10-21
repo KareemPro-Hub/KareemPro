@@ -1,6 +1,8 @@
 import "./globals.css";
+import "../../public/site-tools.css";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
-const TITLE = "Kareem Pro — مشروعك تحت عينك";
+const TITLE = "Kareem Pro | نبرمج فكرتك باحتراف";
 const DESCRIPTION = "بوابة متابعة المشاريع والمراحل — Kareem Pro";
 
 // Explicitly tells any browser / in-app webview (email apps, etc.) that this
@@ -16,6 +18,7 @@ export const metadata = {
   metadataBase: new URL("https://kareempro.com"),
   title: TITLE,
   description: DESCRIPTION,
+  icons: { icon: [{ url: "/favicon-v3.svg", type: "image/svg+xml", sizes: "any" }], apple: [{ url: "/apple-touch-icon-v3.png", sizes: "180x180" }] },
   robots: { index: false, follow: false },
   openGraph: {
     title: TITLE,
@@ -37,7 +40,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
-      <body>{children}</body>
+      <body>{children}<FloatingWhatsApp /></body>
     </html>
   );
 }

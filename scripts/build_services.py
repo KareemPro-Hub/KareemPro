@@ -182,7 +182,7 @@ FOOT = """<footer>
     <a href="#pricing">الباقات والأسعار</a>
     <a href="/refund-policy.html">سياسة الاسترجاع</a>
   </nav></div>
-  <div class="ft-copy">© 2026 Kareem Pro — جميع الحقوق محفوظة</div>
+  <div class="ft-copy">Kareem Pro <span data-current-year>2026</span> — جميع الحقوق محفوظة</div>
 </footer>"""
 
 SCRIPT = """<script>
@@ -251,8 +251,8 @@ def page(k):
 <meta name="author" content="Kareem Pro" />
 <meta name="geo.region" content="SA" />
 <link rel="canonical" href="{site}{url}" />
-<link rel="icon" type="image/png" href="/logo-transparent.png" />
-<link rel="apple-touch-icon" href="/logo-transparent.png" />
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon-v3.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon-v3.png" />
 <link rel="preload" as="font" type="font/woff2" href="/FrutigerLTArabic55Roman.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="/frutigerltarabic75black.woff2" crossorigin />
 <meta property="og:title" content="{title}" />
@@ -274,6 +274,8 @@ def page(k):
 {ld}
 {fonts}
 <style>{css}</style>
+<link rel="stylesheet" href="/site-tools.css" />
+<script src="/site-tools.js" defer></script>
 </head>
 <body>
 <div id="prog"></div>
@@ -400,7 +402,7 @@ def hub():
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="geo.region" content="SA" />
 <link rel="canonical" href="{site}/platforms" />
-<link rel="icon" type="image/png" href="/logo-transparent.png" />
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon-v3.svg" />
 <link rel="preload" as="font" type="font/woff2" href="/FrutigerLTArabic55Roman.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="/frutigerltarabic75black.woff2" crossorigin />
 <meta property="og:title" content="{title}" />
@@ -422,6 +424,8 @@ def hub():
 {ld}
 {fonts}
 <style>{css}{hubcss}</style>
+<link rel="stylesheet" href="/site-tools.css" />
+<script src="/site-tools.js" defer></script>
 </head>
 <body>
 <div id="prog"></div>

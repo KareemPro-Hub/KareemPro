@@ -1,0 +1,8 @@
+/* One persistent WhatsApp entry point, with room for the device safe area. */
+footer:has([data-current-year]){padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.whatsapp-launcher,.float.whatsapp-launcher{position:fixed;inset-inline-start:auto;inset-inline-end:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;display:grid;place-items:center;width:56px;height:56px;padding:13px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:#25d366;color:#073b21;box-shadow:0 8px 28px #0004;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.whatsapp-launcher svg,.float.whatsapp-launcher svg{display:block;width:30px;height:30px;fill:currentColor;flex:none}
+.whatsapp-launcher:hover{transform:translateY(-3px);box-shadow:0 12px 32px #0005}
+.whatsapp-launcher:focus-visible{outline:3px solid #FFA826;outline-offset:4px}
+@media(max-width:600px){.whatsapp-launcher,.float.whatsapp-launcher{inset-inline-end:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:52px;height:52px;padding:12px}}
+@media(prefers-reduced-motion:reduce){.whatsapp-launcher{transition:none}}
