@@ -21,6 +21,8 @@ export default async function CheckoutPage({ searchParams }) {
   const quote = ready ? signQuote(snapshot, process.env.XPAY_QUOTE_SECRET) : '';
   const [name, tagline] = pkg.name.split('|');
   const amount = pkg.price.toLocaleString('en-US');
+  const egyptian = pkg.currency === 'EGP';
+  const currencyUnit = egyptian ? <span>ج.م</span> : <RiyalIcon size="0.8em" />;
   const equivalent = rate ? ((snapshot?.amount_egp_minor ?? Math.round(pkg.price * rate.rate * 100)) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : null;
   return (
     <main className="checkout-page" dir="rtl">
@@ -36,7 +38,7 @@ export default async function CheckoutPage({ searchParams }) {
             <span className="checkout-service">{service.name}</span>
             <h2 className="checkout-plan-name">{name}</h2>
             <p className="checkout-tagline">{(tagline || '').replaceAll('**', '')}</p>
-            <div className="checkout-sar-total"><span>قيمة الطلب</span><strong><bdi>{amount}</bdi> <RiyalIcon size="0.8em" /></strong></div>
+            <div className="checkout-sar-total"><span>قيمة الطلب</span><strong><bdi>{amount}</bdi> {currencyUnit}</strong></div>
             <details className="checkout-features">
               <summary>ماذا يشمل طلبك ؟<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
               <ul>{pkg.features.split('\n').map((feature, i) => <li key={i}><RiyalText>{feature.replaceAll('**', '')}</RiyalText></li>)}</ul>
@@ -45,8 +47,8 @@ export default async function CheckoutPage({ searchParams }) {
           <section className="checkout-payment" aria-labelledby="payment-title">
             <div className="checkout-payment-heading"><span className="checkout-lock"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg></span><h2 id="payment-title">الدفع</h2></div>
             <p className="checkout-amount-label">المبلغ المطلوب</p>
-            <div className="checkout-amount"><strong dir="ltr">{amount}</strong><RiyalIcon size="0.8em" /></div>
-            {equivalent ? <details className="checkout-currency-details"><summary>عرض المبلغ بالجنيه المصري<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary><p className="checkout-equivalent"><span>بما يعادل</span><bdi>{equivalent}</bdi><span>ج.م</span></p></details> : <p className="checkout-error" role="alert">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
+            <div className="checkout-amount"><strong dir="ltr">{amount}</strong>{currencyUnit}</div>
+            {equivalent ? (!egyptian && <details className="checkout-currency-details"><summary>عرض المبلغ بالجنيه المصري<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary><p className="checkout-equivalent"><span>بما يعادل</span><bdi>{equivalent}</bdi><span>ج.م</span></p></details>) : <p className="checkout-error" role="alert">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
             <p className="checkout-conversion-note">السداد عبر Xpay بالجنيه المصري.</p>
             <form action="/api/xpay/checkout" method="post">
               <input type="hidden" name="quote" value={quote} />

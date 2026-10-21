@@ -1,4 +1,5 @@
 import { readQuote, sessionMatches, safeCheckoutUrl } from '@/lib/xpay.mjs';
+import { checkoutPriceMatches } from '@/lib/checkout';
 import { paymentsReady, selectedPayment, xpay, confirmSession } from '@/lib/xpay-server';
 import { createAdminClient } from '@/lib/supabase/server';
 export const runtime='nodejs';
@@ -9,7 +10,7 @@ export async function POST(request){
  try{
   const form=await request.formData();const q=readQuote(form.get('quote'),process.env.XPAY_QUOTE_SECRET);
   const selected=await selectedPayment(q.stage_id?{stage:q.stage_id}:{service:q.service_id,tier:String(q.tier)});
-  if(!selected||selected.pkg.price!==q.amount_sar||Boolean(selected.stageId)!==Boolean(q.stage_id)||q.client_id!==(selected.clientId??null))return Response.json({error:'تغيّرت بيانات الطلب. أعد فتح صفحة الدفع.'},{status:409});
+  if(!selected||!checkoutPriceMatches(selected.pkg,q)||Boolean(selected.stageId)!==Boolean(q.stage_id)||q.client_id!==(selected.clientId??null))return Response.json({error:'تغيّرت بيانات الطلب. أعد فتح صفحة الدفع.'},{status:409});
   const db=createAdminClient();
   // Release an expired stage attempt only after Xpay confirms its actual state.
   if(q.stage_id){
