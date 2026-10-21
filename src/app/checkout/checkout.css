@@ -12,7 +12,7 @@
 .checkout-payment-box{border:1px solid #e7ddf0;background:#fcfaff;border-radius:20px;padding:30px;text-align:center}
 .checkout-payment-box h2{font-size:23px;margin-bottom:12px}
 .checkout-payment-box p{color:#6a6d7d;font-size:15px;margin:0 0 18px}
-.checkout-pay-button{font:inherit;font-size:20px;font-weight:900;background:linear-gradient(120deg,#FFD963,#FFAB20);border:1px solid #ffe7a2;border-radius:16px;width:100%;min-height:64px;padding:14px 18px;margin:26px 0;color:#452810}
+.checkout-pay-button{font:inherit;font-size:20px;font-weight:900;background:linear-gradient(120deg,#FFD963,#FFAB20);border:0;border-radius:16px;width:100%;min-height:64px;padding:14px 18px;margin:26px 0;color:#452810}
 .checkout-pay-button:disabled{cursor:not-allowed}
 .checkout-payment-box .checkout-equivalent{font-size:17px;color:#15234c;font-weight:700}
 .checkout-equivalent strong,.checkout-egp-box strong{color:#a23e12;display:inline-block}

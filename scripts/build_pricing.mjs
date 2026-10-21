@@ -35,7 +35,7 @@ function card(pkg, service, tier) {
 const tabs = visibleServices.map((s, i) => `<button type="button" role="tab" id="price-tab-${s.id}" data-price-tab aria-controls="price-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(s.name)}</button>`).join('');
 const panels = visibleServices.map((s, i) => `<div class="pricing-grid" role="tabpanel" id="price-panel-${s.id}" data-price-panel aria-labelledby="price-tab-${s.id}"${i ? ' hidden' : ''}>${s.packages.map((p, tier) => card(p, s, tier)).join('')}</div>`).join('\n');
 const section = `<!-- PRICING:START -->
-<section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}<p class="pricing-note">الأسعار تبدأ من المبالغ الموضحة. يحدد عرض مشروعك وعقده النطاق والسعر النهائي والدفعات. مقابل الجنيه محسوب بسعر التحويل الموضح؛ يُؤكَّد مبلغ السداد قبل الدفع. الرسوم الخارجية مثل الدومين والاستضافة وحسابات المتاجر حسب العرض.</p></div></section>
+<section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}</div></section>
 <!-- PRICING:END -->`;
 const homeUrl = new URL('../public/index.html', import.meta.url);
 let home = fs.readFileSync(homeUrl, 'utf8');

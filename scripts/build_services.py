@@ -58,27 +58,26 @@ def proof(s):
         cards = []
         for sh in s['shots']:
             img, url, name, sub, href, btn = sh
-            cards.append('<button type="button" class="shot" data-work-preview aria-haspopup="dialog">'
+            cards.append('<a class="shot" href="%s" target="_blank" rel="noopener noreferrer">'
                 '<div class="shot-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>'
                 '<span class="shot-url">%s</span></div>'
                 '<img src="/%s" alt="%s — %s" width="1200" height="750" loading="lazy" />'
-                '<div class="shot-cap"><div><b>%s</b><span>%s</span></div>%s</div></button>'
-                % (url, img, name, sub, name, sub, GO % 'عرض النموذج'))
+                '<div class="shot-cap"><div><b>%s</b><span>%s</span></div>%s</div></a>'
+                % (href, url, img, name, sub, name, sub, GO % 'عرض النموذج'))
         out += '<div class="showcase">%s</div>' % ''.join(cards)
     if s.get('sites'):
         cards = []
         for name, dom, desc, href, theme in s['sites']:
             mini = ''.join('<div class="m-card"><div class="m-img"></div><div class="m-l"></div><div class="m-l s"></div></div>' for _ in range(3))
-            preview = {'kareemwallet.com': 'kareemwallet-preview.webp', 'ikareempro.com': 'ikareem-blog-shot.webp'}[dom]
-            cards.append('<button type="button" class="sitecard" data-work-preview aria-haspopup="dialog" data-preview-image="/%s">'
+            cards.append('<a class="sitecard" href="%s" target="_blank" rel="noopener noreferrer">'
                 '<div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span>%s</span></div>'
                 '<div class="mock-screen" style="%s">'
                 '<div class="m-top"><span class="m-logo"></span><span class="m-nav"><i></i><i></i><i></i></span><span class="m-cta"></span></div>'
                 '<div class="m-h1"></div><div class="m-h2"></div>'
                 '<div class="m-strip"><i></i><i></i><i></i><i></i></div>'
                 '<div class="m-grid">%s</div></div></div>'
-                '<div class="site-body"><b>%s</b><code>%s</code><p>%s</p>%s</div></button>'
-                % (preview, dom, theme, mini, name, dom, desc, GO % 'عرض النموذج'))
+                '<div class="site-body"><b>%s</b><code>%s</code><p>%s</p>%s</div></a>'
+                % (href, dom, theme, mini, name, dom, desc, GO % 'عرض النموذج'))
         out += '<div class="sitegrid">%s</div>' % ''.join(cards)
     if s.get('chips'):
         chips = ''.join('<div class="pchip"><img src="/clients/%s.webp" alt="" width="200" height="110" loading="lazy" /></div>' % c for c in s['chips'])
@@ -243,7 +242,6 @@ def page(k):
 <title>{title}</title>
 <link rel="stylesheet" href="/pricing.css" />
 <link rel="stylesheet" href="/work-preview.css" />
-<script src="/work-preview.js" defer></script>
 <script type="module" src="/pricing.js"></script>
 <meta name="description" content="{desc}" />
 <meta name="keywords" content="{kw}" />

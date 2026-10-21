@@ -1,5 +1,5 @@
 .price-tabs{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:26px 0}
-.price-tabs button{font:inherit;color:var(--text,#f0e8f0);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:12px;min-height:44px;padding:8px 16px;cursor:pointer}
+.price-tabs button{font:inherit;color:var(--text,#f0e8f0);background:rgba(255,255,255,.04);border:0;border-radius:12px;min-height:44px;padding:8px 16px;cursor:pointer}
 .price-tabs button[aria-selected="true"]{background:linear-gradient(135deg,#FFA826,#FF5535);color:#0a0e26;border-color:transparent;font-weight:700}
 .price-tabs button:focus-visible,.pricing-card a:focus-visible{outline:2px solid #FFA826;outline-offset:4px}
 .pricing-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
@@ -14,7 +14,6 @@
 .pricing-card ul{padding:20px 18px 20px 0;margin:0;display:grid;gap:10px;color:#cbbccb;font-size:13px;line-height:1.8;flex:1}
 .pricing-card .price-cta{display:flex;align-items:center;justify-content:center;min-height:46px;border:1px solid rgba(255,168,38,.6);border-radius:12px;padding:10px;color:#FFA826;font-weight:700;font-size:14px;text-decoration:none}
 .pricing-card.featured .price-cta{background:linear-gradient(135deg,#FFA826,#FF5535);color:#0a0e26;border-color:transparent}
-.pricing-note{color:#cbbccb;font-size:13px;text-align:center;margin-top:22px;line-height:1.9}
 .currency-equivalent{display:block;margin:10px 0;color:#FFA826;font-size:14px;line-height:1.8;font-weight:400;overflow-wrap:anywhere}
 .currency-equivalent b{display:inline-block;font-weight:700}
 .currency-equivalent small{display:block;font-size:10px;color:#cbbccb;font-weight:400}

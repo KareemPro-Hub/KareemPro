@@ -106,7 +106,7 @@ nav{position:sticky;top:0;z-index:50;padding-top:12px;pointer-events:none}
 .nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--grad);color:#0a0e26;font-weight:900;font-size:14.5px;padding:10px 20px;border-radius:12px;white-space:nowrap}
 .nav-actions{display:flex;align-items:center;gap:10px}
 .nav-login{width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--text);
-  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);transition:background .2s,color .2s,border-color .2s}
+  border:0;background:rgba(255,255,255,.05);transition:background .2s,color .2s,border-color .2s}
 .nav-login:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
 .nav-login:focus-visible{outline:2px solid var(--g1);outline-offset:3px}
 .nav-burger{display:none;background:none;border:0;color:var(--text);cursor:pointer}
@@ -179,7 +179,7 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 .gnav button{position:absolute;top:var(--ny,34%);transform:translateY(-50%);pointer-events:auto;
   width:46px;height:46px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
   background:rgba(10,14,38,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.3);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.55);transition:background .2s,color .2s,border-color .2s}
+  border:0;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.55);transition:background .2s,color .2s,border-color .2s}
 #galPrev{right:calc(50% - var(--cw) / 2 - 23px)}
 #galNext{left:calc(50% - var(--cw) / 2 - 23px)}
 .gnav button:hover{background:var(--grad);color:#0a0e26;border-color:transparent}
@@ -191,13 +191,16 @@ h1{font-size:clamp(25px,5.2vw,56px);font-weight:900;line-height:1.24;letter-spac
 /* ═══ عناوين الأقسام ═══ */
 section{padding:78px 0}
 .sec-head{text-align:center;max-width:64ch;margin:0 auto 46px}
-.sec-tag,#certificates .certificates-eyebrow{display:inline-flex;align-items:center;justify-content:center;max-width:100%;min-height:54px;padding:12px 26px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:linear-gradient(110deg,var(--g1),var(--g2),var(--g3));color:var(--dark);font-family:inherit;font-size:clamp(18px,2vw,22px);font-weight:900;line-height:1.5;letter-spacing:0;text-align:center;margin-bottom:18px;box-shadow:0 8px 24px rgba(217,24,122,.16)}
+.sec-tag,#certificates .certificates-eyebrow{display:inline-flex;align-items:center;justify-content:center;max-width:100%;min-height:54px;padding:12px 26px;border:0;border-radius:18px;background:linear-gradient(110deg,var(--g1),var(--g2),var(--g3));color:var(--dark);font-family:inherit;font-size:clamp(18px,2vw,22px);font-weight:900;line-height:1.5;letter-spacing:0;text-align:center;margin-bottom:18px;box-shadow:0 8px 24px rgba(217,24,122,.16);transition:transform .2s,filter .2s,box-shadow .2s}
+@media(hover:hover){.sec-tag:hover,#certificates .certificates-eyebrow:hover{transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 12px 30px rgba(217,24,122,.3)}}
+@media(prefers-reduced-motion:reduce){.sec-tag,#certificates .certificates-eyebrow{transition:none}.sec-tag:hover,#certificates .certificates-eyebrow:hover{transform:none}}
+
 h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 .sec-head p{color:var(--muted);margin-top:13px;font-size:16px}
 
 /* ═══ الخدمات — مختصرة ═══ */
 #services .sec-head{margin-bottom:28px}
-.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1000px;margin-inline:auto}
+.svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:1000px;margin-inline:auto}
 .sv{position:relative;display:flex;flex-direction:column;gap:3px;padding:16px 16px 15px;border-radius:18px;color:inherit;
   background:linear-gradient(168deg,#1b2350 0%,#121840 50%,#0e1336 100%);border:1px solid rgba(255,255,255,.16);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px rgba(0,0,0,.45);transition:transform .2s,border-color .2s,box-shadow .2s}
@@ -206,7 +209,7 @@ h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 .sv-t{font-size:15.5px;font-weight:900;line-height:1.35}
 .sv-d{font-size:12.5px;color:var(--muted);line-height:1.65}
 .sv-go{position:absolute;inset-inline-end:14px;top:16px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
-  color:var(--muted);border:1px solid rgba(255,255,255,.14);transition:.2s}
+  color:var(--muted);border:0;transition:.2s}
 .sv:hover .sv-go{background:var(--grad);color:#0a0e26;border-color:transparent}
 @media(max-width:880px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:380px){.sv{padding:14px 12px}.sv-t{font-size:14.5px}}
@@ -256,7 +259,8 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 .f-brand{display:flex;align-items:center;justify-content:center;gap:13px;width:fit-content;margin:0 auto 18px;text-decoration:none}
 .f-brand img{height:44px;width:auto;object-fit:contain}
 .f-brand b{font-weight:900;font-size:22px;line-height:1.3;white-space:nowrap}
-.f-top p{color:var(--text);font-size:clamp(17px,2vw,20px);font-weight:700;line-height:1.9;max-width:36ch;margin:0 auto;text-wrap:balance}
+.f-top p{color:var(--text);font-size:clamp(17px,2vw,20px);font-weight:700;line-height:1.9;width:fit-content;max-width:32ch;margin:0 auto}
+.f-tagline-line{display:block;text-align:justify;text-align-last:justify}
 .f-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(100%,660px)}
 .f-links a{display:flex;align-items:center;justify-content:center;min-height:52px;padding:11px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);color:var(--muted);font-size:15px;font-weight:700;line-height:1.6;text-decoration:none;transition:color .2s,border-color .2s,background .2s}
 .f-links a:hover{color:var(--text);border-color:rgba(255,168,38,.45);background:rgba(255,168,38,.06)}
@@ -284,7 +288,6 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 <script src="/certificates.js" defer></script>
 <script src="/navigation.js" defer></script>
 <link rel="stylesheet" href="/work-preview.css" />
-<script src="/work-preview.js" defer></script>
 <link rel="stylesheet" href="/site-tools.css" />
 <script src="/site-tools.js" defer></script>
 </head>
@@ -382,36 +385,35 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
   created_at  timestamptz <span class="ck">default</span> now()
 );</pre></div></div>
   <div class="container hero-in">
-    <h1>مواقع وتطبيقات .. <span class="g-text">من أعمالنا</span></h1>
-    <p class="sub">شاهد صور المشاريع وتعرّف على تفاصيل شغلنا.</p>
-    <a class="cta" href="https://wa.me/966507069605?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%A8%D9%86%D8%A7%D8%A1%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" rel="noopener">ابدأ بناء مشروعك <span class="arw"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></span></a>
+    <h1>إبداعٌ <span class="g-text">يُرى</span></h1>
+    <p class="sub">خذ جولة، وتخيّل ما سنبنيه لك !</p>
 
 
     <div class="gal" id="work"><div class="gal-track" id="galTrack">
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      <a class="gcard" href="https://www.qudratmaghrabi.com/" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="qudrat-preview.webp" alt="منصة قدرات المغربي التعليمية" width="1400" height="875" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">منصة تعليمية</span><span class="gurl">qudratmaghrabi.com</span></div><div class="gname">منصة قدرات المغربي</div><p class="gdesc">منصة متخصصة في اختبار القدرات الكمي: كورسات، اشتراكات، متابعة طلاب، ولوحة تحكم كاملة للمدرّب.</p><div class="gstack"><span>Next.js</span><span>Supabase</span><span>Payments</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      </a>
+      <a class="gcard" href="https://apps.apple.com/us/app/%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%D9%8A/id6799747012?l=ar" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="qudrat-app-preview.webp" alt="تطبيق قدرات المغربي على App Store" width="1400" height="875" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">تطبيق iOS</span><span class="gurl">App Store</span></div><div class="gname">تطبيق قدرات المغربي</div><p class="gdesc">تطبيق أيفون منشور فعليًا على App Store — نفس محتوى المنصة بتجربة أصلية وسرعة أعلى.</p><div class="gstack"><span>Swift</span><span>SwiftUI</span><span>App Store</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      </a>
+      <a class="gcard" href="https://www.ai-bander.com/" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="bandar-blog-shot.webp" alt="مدونة الذكاء الاصطناعي" width="1800" height="1200" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ذكاء اصطناعي</span><span class="gurl">ai-bander.com</span></div><div class="gname">مدونة الذكاء الاصطناعي</div><p class="gdesc">مدونة عربية متخصصة في الذكاء الاصطناعي وأدواته وأخباره: تصميم مخصص، هيكلة سيو، ووضع ليلي وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      </a>
+      <a class="gcard" href="https://www.kareemwallet.com/" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="kareemwallet-preview.webp" alt="مدونة محفظة كريم" width="1400" height="875" loading="lazy" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">مدونة ربحية</span><span class="gurl">kareemwallet.com</span></div><div class="gname">محفظة كريم</div><p class="gdesc">مدونة ربحية كاملة: قالب مخصص، هيكلة أقسام، سيو، ومحتوى مهيّأ للقبول في أدسنس.</p><div class="gstack"><span>Blogger</span><span>SEO</span><span>AdSense</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      </a>
+      <a class="gcard" href="https://ebda3-media.com/" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="ebda3-preview.webp" alt="موقع إبداع ميديا" width="1400" height="875" loading="lazy" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">موقع تعريفي</span><span class="gurl">ebda3-media.com</span></div><div class="gname">Ebda3 Media</div><p class="gdesc">موقع تعريفي لوكالة إبداعية بهوية داكنة أنيقة وتصفّح سلس — من تصميمنا وبرمجتنا بالكامل.</p><div class="gstack"><span>Next.js</span><span>Responsive</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
-      <button type="button" class="gcard" data-work-preview aria-haspopup="dialog">
+      </a>
+      <a class="gcard" href="https://www.ikareempro.com/" target="_blank" rel="noopener noreferrer">
         <div class="gshot"><img src="ikareem-blog-shot.webp" alt="مدونة iKareem" width="1800" height="1260" loading="lazy" /></div>
         <div class="meta"><div><div class="gtop"><span class="gtag">مدونة تقنية</span><span class="gurl">ikareempro.com</span></div><div class="gname">iKareem</div><p class="gdesc">مدونة تقنية بتصميم مخصص: شروحات الذكاء الاصطناعي والماك والآيفون، بهيكلة سيو كاملة وتصفّح سريع على الموبايل.</p><div class="gstack"><span>Blogger</span><span>SEO</span></div></div><span class="gopen">عرض النموذج</span></div>
-      </button>
+      </a>
     </div>
     <div class="gnav" id="galNav">
       <button type="button" id="galPrev" aria-label="العمل السابق"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></button>
@@ -446,13 +448,13 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
       <a class="sv" href="/platforms">
         <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg></span>
         <h3 class="sv-t">مواقع ومنصات</h3>
-        <span class="sv-d">مواقع ولوحات تحكم مهيّأة للسيو</span>
+        <span class="sv-d">موقع يليق بطموحك، وتجربة تكسب ثقة عميلك.</span>
         <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
       <a class="sv" href="/store">
         <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-1.6 9.5a2 2 0 0 1-2 1.7H7.6a2 2 0 0 1-2-1.7L4 6Z"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg></span>
         <h3 class="sv-t">متجر إلكتروني</h3>
-        <span class="sv-d">منتجات ودفع وشحن ومخزون</span>
+        <span class="sv-d">افتح لمنتجاتك سوقًا يتجاوز حدود مكانك.</span>
         <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
       <a class="sv" href="/edu-platform">
@@ -464,31 +466,19 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
       <a class="sv" href="/platforms">
         <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.6h2"/></svg></span>
         <h3 class="sv-t">تطبيقات الجوال</h3>
-        <span class="sv-d">iOS وأندرويد باسمك على المتاجر</span>
+        <span class="sv-d">ضع خدماتك بين يدي عميلك، أينما كان.</span>
         <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
       <a class="sv" href="/blog">
         <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3.5h15v17l-7.5-4-7.5 4v-17Z"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg></span>
         <h3 class="sv-t">مدونة ربحية</h3>
-        <span class="sv-d">جاهزة لأدسنس بمحتوى وسيو</span>
-        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
-      </a>
-      <a class="sv" href="/booking">
-        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
-        <h3 class="sv-t">حجز مواعيد</h3>
-        <span class="sv-d">تقويم وتنبيهات ودفع مسبق</span>
-        <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
-      </a>
-      <a class="sv" href="/portal-system">
-        <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.1 7-6.1s7 2.5 7 6.1"/></svg></span>
-        <h3 class="sv-t">بوابة عملاء</h3>
-        <span class="sv-d">عميلك يتابع مشروعه ودفعاته</span>
+        <span class="sv-d">جاهزة لأدسنس بمحتوى يستحق المتابعة.</span>
         <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
       <a class="sv" href="/pos-system">
         <span class="sv-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0e26" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></span>
         <h3 class="sv-t">نقاط بيع</h3>
-        <span class="sv-d">كاشير ومخزون وفواتير ضريبية</span>
+        <span class="sv-d">بيع أسهل، ومخزون منظّم، وقرارات أوضح.</span>
         <span class="sv-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17M15.5 17H7V8.5"/></svg></span>
       </a>
     </div>
@@ -499,12 +489,12 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 <section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات"><button type="button" role="tab" id="price-tab-platforms" data-price-tab aria-controls="price-panel-platforms" aria-selected="true" tabindex="0">منصات ومواقع</button><button type="button" role="tab" id="price-tab-edu" data-price-tab aria-controls="price-panel-edu" aria-selected="false" tabindex="-1">منصة تعليمية</button><button type="button" role="tab" id="price-tab-store" data-price-tab aria-controls="price-panel-store" aria-selected="false" tabindex="-1">متجر إلكتروني</button><button type="button" role="tab" id="price-tab-blog" data-price-tab aria-controls="price-panel-blog" aria-selected="false" tabindex="-1">مدونات بلوجر</button></div><div class="pricing-grid" role="tabpanel" id="price-panel-platforms" data-price-panel aria-labelledby="price-tab-platforms"><article class="pricing-card"><h3>الباقة الاقتصادية</h3><p class="price-tagline">موقع تعريفي لبداية نشاطك</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">1,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="1500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>صفحات تعريف بالنشاط والخدمات وبيانات التواصل.</li><li>تصميم متجاوب يناسب الموبايل والكمبيوتر.</li><li>نموذج استفسار وروابط تواصل واضحة.</li><li>ربط الدومين الرسمي وإعداد أساسيات ظهور الموقع بالبحث.</li><li>تسليم الموقع جاهزًا للنشر حسب النطاق المتفق عليه.</li></ul><a class="price-cta" href="/checkout?service=platforms&amp;tier=0">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الأساسية</h3><p class="price-tagline">موقع خدمي بلوحة إدارة</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">2,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="2500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>موقع لعرض خدماتك واستقبال طلبات العملاء.</li><li>لوحة إدارة لتحديث الصفحات والمحتوى.</li><li>تنظيم الطلبات والاستفسارات داخل لوحة الإدارة.</li><li>حسابات وصلاحيات بحسب طبيعة المشروع.</li><li>إعداد الإشعارات المطلوبة وربط الخدمات المتفق عليها.</li><li>واجهة ويب بدون تطبيقات جوال.</li></ul><a class="price-cta" href="/checkout?service=platforms&amp;tier=1">اطلب هذه الباقة</a></article><article class="pricing-card featured"><h3>الباقة المتميزة</h3><p class="price-tagline">منصة رقمية مع تطبيقات WebView</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">5,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="5500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>كل مميزات الموقع الخدمي ولوحة الإدارة.</li><li>تطبيق آيفون وأندرويد بنظام WebView مرتبطان بالمنصة.</li><li>تجهيز ملفات النشر لمتجري التطبيقات.</li><li>إشعارات للمستخدمين وفق الخدمات المدعومة.</li><li>دعم فني لمدة 6 أشهر بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=platforms&amp;tier=2">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الاحترافية</h3><p class="price-tagline">منصة وتطبيقات أصلية قابلة للتطوير</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">7,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="7500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>منصة ويب متكاملة حسب متطلبات المشروع المعتمدة.</li><li>تطبيق آيفون وأندرويد أصليان Native.</li><li>واجهة استخدام مخصصة للويب وتطبيقات الجوال.</li><li>صلاحيات إدارة وتقارير بحسب نشاطك.</li><li>بنية تتيح إضافة وظائف جديدة لاحقًا.</li><li>دعم فني لمدة عام بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=platforms&amp;tier=3">اطلب هذه الباقة</a></article></div>
 <div class="pricing-grid" role="tabpanel" id="price-panel-edu" data-price-panel aria-labelledby="price-tab-edu" hidden><article class="pricing-card"><h3>الباقة الاقتصادية</h3><p class="price-tagline">إطلاق دورتك التعليمية الأولى</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">2,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="2500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>صفحة تعريف بالدورة والمدرب ومحتوى المنهج.</li><li>تسجيل الطلاب وحساب لكل طالب.</li><li>تنظيم الدروس والمواد داخل الدورة.</li><li>تحديد صلاحيات الوصول للمحتوى.</li><li>لوحة أساسية لإدارة الطلاب والدروس.</li><li>واجهة متجاوبة للتعلم من الموبايل.</li></ul><a class="price-cta" href="/checkout?service=edu&amp;tier=0">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الأساسية</h3><p class="price-tagline">إدارة دورات وطلاب واشتراكات</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">3,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="3500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>إنشاء وتنظيم عدة دورات ومسارات تعليمية.</li><li>إدارة الطلاب والاشتراكات من لوحة التحكم.</li><li>ربط بوابة دفع واحدة بعد موافقة مزودها.</li><li>اختبارات إلكترونية ونتائج للطلاب.</li><li>متابعة تقدم الطالب داخل الدروس.</li><li>إعداد رسائل التسجيل والإشعارات الأساسية.</li></ul><a class="price-cta" href="/checkout?service=edu&amp;tier=1">اطلب هذه الباقة</a></article><article class="pricing-card featured"><h3>الباقة المتميزة</h3><p class="price-tagline">منصة تعليمية مع تطبيقات WebView</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">6,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="6500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>كل مميزات إدارة الدورات والاشتراكات.</li><li>تطبيق آيفون وأندرويد بنظام WebView.</li><li>الوصول للدروس وحساب الطالب من التطبيق.</li><li>تنبيهات للدروس والتحديثات المدعومة.</li><li>تجهيز ملفات النشر في متجري التطبيقات.</li><li>دعم فني لمدة 6 أشهر بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=edu&amp;tier=2">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الاحترافية</h3><p class="price-tagline">تجربة تعليمية بتطبيقات أصلية</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">8,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="8500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>منصة ويب وتطبيق آيفون وأندرويد أصليان Native.</li><li>واجهة تعليمية مخصصة للدورات والدروس.</li><li>بنك أسئلة واختبارات بحسب النطاق المتفق عليه.</li><li>تقارير تقدم الطلاب وأداء الدورات.</li><li>أدوار منفصلة للإدارة والمدربين والطلاب.</li><li>دعم فني لمدة عام بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=edu&amp;tier=3">اطلب هذه الباقة</a></article></div>
 <div class="pricing-grid" role="tabpanel" id="price-panel-store" data-price-panel aria-labelledby="price-tab-store" hidden><article class="pricing-card"><h3>الباقة الاقتصادية</h3><p class="price-tagline">كتالوج منتجات لاستقبال الطلبات</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>عرض المنتجات بالصور والأسعار والتصنيفات.</li><li>صفحات تعريف المتجر وبيانات التواصل.</li><li>تصميم متجاوب يناسب الموبايل.</li><li>استقبال طلبات المنتجات عبر واتساب.</li><li>ربط الدومين وتجهيز المتجر للنشر.</li><li>هذه الباقة كتالوج بدون سلة أو دفع إلكتروني داخل المتجر.</li></ul><a class="price-cta" href="/checkout?service=store&amp;tier=0">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الأساسية</h3><p class="price-tagline">متجر إلكتروني بالسلة والدفع</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">1,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="1500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>كتالوج منتجات وسلة مشتريات وإتمام الطلب.</li><li>لوحة إدارة للمنتجات والمخزون والطلبات.</li><li>ربط بوابة دفع واحدة بعد موافقة مزودها.</li><li>إعداد خيارات الشحن والتوصيل المتفق عليها.</li><li>رسائل لتأكيد الطلب ومتابعة حالته.</li><li>واجهة متجر ويب بدون تطبيقات جوال.</li></ul><a class="price-cta" href="/checkout?service=store&amp;tier=1">اطلب هذه الباقة</a></article><article class="pricing-card featured"><h3>الباقة المتميزة</h3><p class="price-tagline">متجر مع تطبيقات WebView</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">4,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="4500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>كل مميزات المتجر بالسلة والدفع.</li><li>تطبيق آيفون وأندرويد بنظام WebView.</li><li>تزامن المنتجات والطلبات مع المتجر.</li><li>أكواد خصم وعروض للمنتجات.</li><li>تجهيز ملفات النشر في متجري التطبيقات.</li><li>دعم فني لمدة 6 أشهر بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=store&amp;tier=2">اطلب هذه الباقة</a></article><article class="pricing-card"><h3>الباقة الاحترافية</h3><p class="price-tagline">تجربة تسوق بتطبيقات أصلية</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">6,500</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="6500" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>متجر ويب وتطبيق آيفون وأندرويد أصليان Native.</li><li>واجهة تسوق مخصصة للمنتجات والسلة والحساب.</li><li>إدارة المخزون والطلبات وصلاحيات الفريق.</li><li>تقارير المبيعات والمنتجات حسب النطاق المعتمد.</li><li>ربط خدمات الدفع والشحن المتفق عليها.</li><li>دعم فني لمدة عام بعد التسليم.</li></ul><a class="price-cta" href="/checkout?service=store&amp;tier=3">اطلب هذه الباقة</a></article></div>
-<div class="pricing-grid" role="tabpanel" id="price-panel-blog" data-price-panel aria-labelledby="price-tab-blog" hidden><article class="pricing-card"><h3>الباقة الأساسية</h3><p class="price-tagline">مدونة Blogger احترافية جاهزة لأدسنس</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">750</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="750" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>إنشاء المدونة على Blogger وربط الدومين</li><li>تصميم وتخصيص قالب احترافي متجاوب بالكامل</li><li>هيكلة التصنيفات والأقسام حسب مجال المدونة</li><li>إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)</li><li>تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)</li><li>كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا</li></ul><a class="price-cta" href="/checkout?service=blog&amp;tier=0">اطلب هذه الباقة</a></article><article class="pricing-card featured"><h3>الباقة الاحترافية</h3><p class="price-tagline">مدونة Blogger احترافية جاهزة لأدسنس بمحتوى كامل</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">1,300</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="1300" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>إنشاء المدونة على Blogger وربط الدومين</li><li>تصميم وتخصيص قالب احترافي متجاوب بالكامل</li><li>هيكلة التصنيفات والأقسام حسب مجال المدونة</li><li>إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)</li><li>تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)</li><li>كتابة ونشر 50 مقالًا احترافيًا من فريقنا خلال 30 يوم عمل</li></ul><a class="price-cta" href="/checkout?service=blog&amp;tier=1">اطلب هذه الباقة</a></article></div><p class="pricing-note">الأسعار تبدأ من المبالغ الموضحة. يحدد عرض مشروعك وعقده النطاق والسعر النهائي والدفعات. مقابل الجنيه محسوب بسعر التحويل الموضح؛ يُؤكَّد مبلغ السداد قبل الدفع. الرسوم الخارجية مثل الدومين والاستضافة وحسابات المتاجر حسب العرض.</p></div></section>
+<div class="pricing-grid" role="tabpanel" id="price-panel-blog" data-price-panel aria-labelledby="price-tab-blog" hidden><article class="pricing-card"><h3>الباقة الأساسية</h3><p class="price-tagline">مدونة Blogger احترافية جاهزة لأدسنس</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">750</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="750" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>إنشاء المدونة على Blogger وربط الدومين</li><li>تصميم وتخصيص قالب احترافي متجاوب بالكامل</li><li>هيكلة التصنيفات والأقسام حسب مجال المدونة</li><li>إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)</li><li>تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)</li><li>كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا</li></ul><a class="price-cta" href="/checkout?service=blog&amp;tier=0">اطلب هذه الباقة</a></article><article class="pricing-card featured"><h3>الباقة الاحترافية</h3><p class="price-tagline">مدونة Blogger احترافية جاهزة لأدسنس بمحتوى كامل</p><div class="price-sar"><small>تبدأ من</small><span dir="ltr">1,300</span><small>ريال سعودي</small></div><div class="currency-equivalent" data-sar="1300" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul><li>إنشاء المدونة على Blogger وربط الدومين</li><li>تصميم وتخصيص قالب احترافي متجاوب بالكامل</li><li>هيكلة التصنيفات والأقسام حسب مجال المدونة</li><li>إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)</li><li>تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)</li><li>كتابة ونشر 50 مقالًا احترافيًا من فريقنا خلال 30 يوم عمل</li></ul><a class="price-cta" href="/checkout?service=blog&amp;tier=1">اطلب هذه الباقة</a></article></div></div></section>
 <!-- PRICING:END -->
 <!-- Certificates: local image previews, no external navigation. -->
 <section id="certificates" class="certificates-section" aria-labelledby="certificates-title">
   <div class="container">
-    <div class="certificates-heading"><div><span class="certificates-eyebrow">معرفة تتجدد. وأفكار تتطور.</span><h2 id="certificates-title">شها<span class="g-text">داتي</span></h2></div><p>التعلّم المستمر جزء من كل فكرة أطورها.</p></div>
+    <div class="certificates-heading"><div><span class="certificates-eyebrow">معرفة تتجدد. وأفكار تتطور.</span><h2 id="certificates-title">شها<span class="g-text">داتي</span></h2></div></div>
     <div class="certificates-grid">
       <button class="certificate-card" type="button" data-certificate="/certificates/certificate-01.png" aria-haspopup="dialog" aria-label="عرض شهادة ابتكار نماذج الأعمال: من الفكرة إلى الفرصة">
         <span class="certificate-image"><img src="/certificates/certificate-01.png" alt="شهادة كريم عبد الصادق — ابتكار نماذج الأعمال: من الفكرة إلى الفرصة" width="1516" height="1038" loading="lazy" decoding="async" /><span class="certificate-view">عرض الشهادة <span aria-hidden="true">↗</span></span></span>
@@ -531,7 +521,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <div class="sec-head reveal">
       <div class="sec-tag">كيف نبني مشروعك ؟</div>
       <h2>من الفكرة إلى <span class="g-text">الإطلاق</span></h2>
-      <p>مسار واضح بخمس مراحل، وكل دفعة مرتبطة بمرحلة منجزة — تتابعها من بوابتك لحظة بلحظة.</p>
+      <p>مسار واضح بمراحل، وكل دفعة مرتبطة بمرحلة منجزة — تتابعها من لوحة تحكمك لحظة بلحظة.</p>
     </div>
     <div class="steps reveal">
       <div class="step"><div class="n">1</div><h4>الاستشارة</h4><p>نفهم فكرتك وجمهورك ونرشّح لك الحل المناسب مجانًا.</p></div>
@@ -599,7 +589,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <div class="f-top">
       <div class="f-identity">
         <a href="#home" class="f-brand"><b>KAREEM<span class="g-text"> PRO</span></b><img src="logo-transparent.png" alt="Kareem Pro" /></a>
-        <p>نبني ما يختصر وقتك، ويخدم عميلك، ويوسّع فرصك.</p>
+        <p><span class="f-tagline-line">نبني ما يختصر وقتك، ويخدم</span> <span class="f-tagline-line">عميلك، ويجعلك في الصدارة.</span></p>
       </div>
       <div class="f-links" role="navigation" aria-label="روابط أسفل الصفحة">
         <a href="/platforms">كل الخدمات</a>
