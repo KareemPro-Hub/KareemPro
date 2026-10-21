@@ -217,6 +217,10 @@ h2{font-size:clamp(25px,3.4vw,38px);font-weight:900;line-height:1.35}
 /* ═══ الأعمال ═══ */
 
 /* ═══ شكل شرائح التقنيات ═══ */
+#stack{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(17,22,58,.28)}
+#stack .sec-head{margin-bottom:24px}
+#stack .sec-tag{margin-bottom:0}
+#stack .techs{margin-top:0}
 .tech{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:13px;padding:11px 18px;font-family:var(--mono);font-size:13.5px;color:var(--muted);background:rgba(255,255,255,.025);transition:.2s}
 .tech:hover{color:var(--text);border-color:rgba(255,168,38,.3)}
 .tech svg{flex:none}
@@ -420,7 +424,15 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
       <button type="button" id="galNext" aria-label="العمل التالي"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></svg></button>
     </div>
     </div>
-    <div class="techs" id="stack">
+
+  </div>
+</section>
+
+<!-- ═══ التقنيات ═══ -->
+<section id="stack" aria-labelledby="stack-title">
+  <div class="container">
+    <div class="sec-head reveal"><h2 class="sec-tag" id="stack-title">التقنيات</h2></div>
+    <div class="techs">
       <span class="tech">Next.js</span>
       <span class="tech">React</span>
       <span class="tech">TypeScript</span>
