@@ -52,5 +52,6 @@ export function checkoutTagline(selected) {
   const service = selected.service.id;
   if (service === 'payment-check' || service === 'payment-check-egp') return 'سداد حقيقي يُخصم من بطاقتك.';
   if (selected.stageId || service === 'stage') return 'دفعة لإنجاز مرحلة من مشروعك.';
+  if (selected.pkg.id) return selected.pkg.name.split('|')[1];
   return taglines[service]?.[selected.tier] || 'حل رقمي يواكب طموحك.';
 }

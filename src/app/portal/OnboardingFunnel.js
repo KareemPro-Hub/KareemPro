@@ -1,5 +1,7 @@
 "use client";
 
+import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
+import { buildStagesForProposal } from "@/lib/packageStages";
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
@@ -616,6 +618,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const serviceMeta = SERVICE_META[serviceType];
+  const currentBloggerCount = currentBloggerArticleCount(selectedPackage);
   // True only for the Blogger tier where WE deliver the full 50 articles.
   const isFullContentBlogger =
     serviceType === "blogger" && BLOGGER_FULL_CONTENT_PRICES.has(Number(selectedPackage?.price));
@@ -951,7 +954,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   const maxPackagePrice = Math.max(...packagePrices);
                   const minPackagePrice = Math.min(...packagePrices);
                   return packages.map((pkg) => {
-                    const featureLines = (pkg.features || "")
+                    const featureLines = publicPackageCardFeatures(pkg)
                       .split("\n")
                       .map((l) => l.trim())
                       .filter(Boolean);
@@ -968,13 +971,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       className={`package-card ${pkg.is_featured ? "featured" : ""} ${tierClass}`}
                       key={pkg.id}
                     >
-                      {pkg.is_featured && <span className="package-badge">⭐ الأكثر طلبًا</span>}
+                      {pkg.is_featured && <span className="package-badge">الأكثر طلبًا</span>}
                       {/* Both badges sit in the same pinned slot at the top of the card,
                           so a card that is BOTH the featured pick and the top tier (the
                           two-tier Blogger ladder) would stack them on top of each other.
                           "الأكثر طلبًا" is the one that drives the choice, so it wins. */}
                       {isPremiumTier && !pkg.is_featured && (
-                        <span className="package-badge premium-badge">💎 الأرقى والأشمل</span>
+                        <span className="package-badge premium-badge">الأرقى والأشمل</span>
                       )}
                       <div className="package-head">
                         <div className="package-name">{pkgName}</div>
@@ -991,7 +994,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         </div>
                           <CurrencyEquivalent amount={Number(pkg.price)} />
                         <div className="package-launch-note">
-                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "عرض خاص لأول تعاون معنا ❤️"}
+                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون"}
                         </div>
                       </div>
                       {featureLines.length > 0 && (
@@ -1207,7 +1210,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     // holds the agreed numbers per price; anything else falls back
                     // to an even three-way split so a future tier can never print
                     // a wrong figure.
-                    const [first, second, third] = bloggerPaymentPlan(selectedPackage.price);
+                    const [first, second, third] = currentBloggerCount
+                      ? buildStagesForProposal(selectedPackage).map(stage => stage.amount)
+                      : bloggerPaymentPlan(selectedPackage.price);
                     return (
                       <>
                         {" "}(ثلاث دفعات) الدفعة الأولى: {first}
@@ -1215,7 +1220,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         <RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات الإلزامية — الدفعة
                         الثالثة: {third}
                         <RiyalIcon size="0.75em" tone="dark" />{" "}
-                        {isFullContentBlogger
+                        {currentBloggerCount ? `عند تسليم المدونة واكتمال نشر ${currentBloggerCount} مقالًا إجمالًا` : isFullContentBlogger
                           ? "عند اكتمال نشر المقالات الخمسين"
                           : "عند تسليم المدونة وكتابة المقالات التأسيسية"}
                       </>
@@ -1579,7 +1584,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                               we write and publish all 50. Keeping both wordings side by
                               side (instead of patching numbers into one shared sentence)
                               keeps each contract readable on its own. */}
-                          {isFullContentBlogger ? (
+                          {currentBloggerCount ? (
+                            <>
+                              <li>يشمل الطلب كتابة ونشر {currentBloggerCount} مقالًا إجمالًا، وتسليم كامل الصلاحيات وفق مميزات الباقة المختارة.</li>
+                              <li>عدد المقالات إجمالي للباقة ولا يُجمع مع أعداد الباقات السابقة.</li>
+                              <li>عند تسليم المدونة واكتمال نشر مقالات الباقة، يُستحق باقي المبلغ.</li>
+                            </>
+                          ) : isFullContentBlogger ? (
                             <>
                               <li>
                                 يلتزم مقدم الخدمة بكتابة ونشر 50 مقالًا احترافيًا للمدونة خلال 30 يوم عمل

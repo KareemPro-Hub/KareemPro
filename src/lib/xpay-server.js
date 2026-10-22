@@ -25,7 +25,7 @@ export function makeSnapshot(selected,rate){
  const egyptian=selected.pkg.currency==='EGP';
  const amountSar=egyptian?Math.round(selected.pkg.price/rate.rate*100)/100:selected.pkg.price;
  if(!Number.isFinite(amountSar)||amountSar<=0)throw Error('Invalid reference amount');
- return {service_id:selected.service.id,tier:selected.tier??null,stage_id:selected.stageId??null,client_id:selected.clientId??null,title:selected.service.name+' — '+selected.pkg.name.split('|')[0],amount_sar:amountSar,amount_egp_minor:egpMinor(selected.pkg.price,egyptian?1:rate.rate),exchange_rate:rate.rate,rate_updated_at:new Date(rate.updatedAt).toISOString(),livemode:!process.env.XPAY_SECRET_KEY?.includes('_test_')};
+ return {service_id:selected.service.id,tier:selected.tier??null,...(selected.pkg.id?{tier_key:selected.pkg.id}:{}),stage_id:selected.stageId??null,client_id:selected.clientId??null,title:selected.service.name+' — '+selected.pkg.name.split('|')[0],amount_sar:amountSar,amount_egp_minor:egpMinor(selected.pkg.price,egyptian?1:rate.rate),exchange_rate:rate.rate,rate_updated_at:new Date(rate.updatedAt).toISOString(),livemode:!process.env.XPAY_SECRET_KEY?.includes('_test_')};
 }
 export async function confirmSession(session,eventId,eventType){
  const db=createAdminClient();const id=session.metadata?.order_id;

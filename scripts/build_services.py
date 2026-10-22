@@ -148,20 +148,21 @@ def pricing(svc_tab):
     for tier, (name, sub, price, best, feats) in enumerate(service_packages(svc_tab)):
         references = display.get('beforePrices', {}).get(service_id, [])
         additions = display.get('beforeIncrease', {}).get(service_id, display['defaultBeforeIncrease'])
-        before = references[tier] if tier < len(references) else int(price.replace(',', '')) + additions[tier]
+        before = references[tier] if tier < len(references) else None
         lis = ''.join('<li>%s<span>%s</span></li>' % (CHK, f) for f in feats)
         tag = '<span class="pk-tag">الأكثر طلبًا</span>' if best else ''
-        href = '/checkout?service=%s&tier=%d' % (service_id, tier)
+        before_html = ('<div class="price-before"><span>قبل</span><del dir="ltr">%s</del><span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>' % format(before, ',')) if before else ''
+        href = '/checkout?service=%s&tier=%s' % (service_id, ['basic', 'featured', 'professional'][tier])
         cards.append('<div class="pk%s">%s<span class="pk-name">%s</span><span class="pk-sub">%s</span>'
-          '<div class="price-before"><span>قبل</span><del dir="ltr">%s</del><span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>'
-          '<div class="pk-price"><span class="pk-from">بعد</span><span class="pk-val">%s</span>'
+          '%s'
+          '<div class="pk-price"><span class="pk-from">%s</span><span class="pk-val">%s</span>'
           '<span class="pk-cur riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>'
           '<ul class="pk-list">%s</ul>'
           '<a class="pk-cta" href="%s" target="_blank" rel="noopener">اطلب هذه الباقة</a></div>'
-          % (' pk-best' if best else '', tag, name, sub, format(before, ','), price, lis, href))
+          % (' pk-best' if best else '', tag, name, sub, before_html, 'بعد' if before else '', price, lis, href))
     return ('<section id="pricing" class="rv"><div class="wrap center"><span class="sec-tag">الباقات والأسعار</span>'
       '<h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>'
-      '<div class="pk-grid">%s</div>'
+      '<p class="pricing-launch-badge">أسعار خاصة لأول تعاون</p><div class="pk-grid">%s</div>'
       '<p class="pk-note">الأسعار <span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span> وتشمل التنفيذ الكامل والتسليم .. ولا تشمل الرسوم الخارجية '
       '(الدومين، الاستضافة، حساب Apple Developer وGoogle Play). الفاتورة الرسمية متاحة عند الطلب.</p>'
       '</div></section>' % ''.join(cards))

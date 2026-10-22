@@ -1,7 +1,7 @@
 export function checkoutPackage(catalog, params) {
   const serviceId = params?.service;
   const tier = params?.tier;
-  if (typeof serviceId !== 'string' || typeof tier !== 'string' || !/^[0-3]$/.test(tier)) return null;
+  if (typeof serviceId !== 'string' || typeof tier !== 'string' || !(/^[0-3]$/.test(tier) || ['basic', 'featured', 'professional'].includes(tier))) return null;
   // Fixed-price, unlisted live payment check; never accept an amount from the URL.
   const egyptianCheck = serviceId === 'payment-check-egp';
   const service = serviceId === 'payment-check' || egyptianCheck ? {
@@ -14,9 +14,12 @@ export function checkoutPackage(catalog, params) {
       features: 'سداد حقيقي يُخصم من بطاقتك عند تأكيد الدفع.\nيُحتسب المبلغ بالجنيه المصري وفق القيمة الموضحة قبل السداد.\nهذا الطلب مخصص لتجربة الدفع ولا يتضمن شراء باقة خدمات.',
     }],
   } : catalog.find(s => s.id === serviceId);
-  const pkg = service?.packages[Number(tier)];
+  const index = service?.packages.findIndex((pkg, i) => pkg.id
+    ? pkg.id === tier || (/^[0-3]$/.test(tier) && pkg.legacyTiers?.includes(Number(tier)))
+    : i === Number(tier));
+  const pkg = service?.packages[index];
   if (!pkg || !Number.isFinite(pkg.price) || pkg.price <= 0) return null;
-  return { service, pkg, tier: Number(tier) };
+  return { service, pkg, tier: index };
 }
 
 export function checkoutPriceMatches(pkg, quote) {

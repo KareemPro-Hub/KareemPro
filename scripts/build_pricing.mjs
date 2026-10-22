@@ -1,53 +1,29 @@
 import fs from 'node:fs';
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const parser = require('../node_modules/next/dist/compiled/babel/bundle.js').parser();
-const ast = parser.parse(fs.readFileSync(new URL('../src/app/admin/actions.js', import.meta.url), 'utf8'), { sourceType: 'module' });
-const declarations = ast.program.body.filter(n => n.type === 'VariableDeclaration').flatMap(n => n.declarations);
-function literal(node) {
-  if (['StringLiteral', 'NumericLiteral', 'BooleanLiteral'].includes(node.type)) return node.value;
-  if (node.type === 'NullLiteral') return null;
-  if (node.type === 'ArrayExpression') return node.elements.map(literal);
-  if (node.type === 'ObjectExpression') return Object.fromEntries(node.properties.map(p => [p.key.name || p.key.value, literal(p.value)]));
-  if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression' && node.callee.property.name === 'join') return literal(node.callee.object).join(literal(node.arguments[0]));
-  throw new Error('Unsupported pricing literal: ' + node.type);
-}
-const defaults = literal(declarations.find(n => n.id.name === 'DEFAULT_PACKAGES').init);
-const blogger = literal(declarations.find(n => n.id.name === 'SERVICE_TEMPLATES').init.properties.find(p => p.key.name === 'blogger').value).packages;
 const offers = JSON.parse(fs.readFileSync(new URL('../public/service-offers.json', import.meta.url), 'utf8'));
 const services = [
   ['platforms', 'منصات ومواقع', '/platforms'], ['edu', 'منصة تعليمية', '/edu-platform'],
   ['store', 'متجر إلكتروني', '/store'], ['pos', 'نقاط بيع', '/pos-system'],
   ['booking', 'حجز مواعيد', '/booking'], ['portal', 'بوابة عملاء', '/portal-system'],
   ['charity', 'مواقع الجمعيات', '/charity'], ['blog', 'مدونات بلوجر', '/blog'],
-].map(([id, name, url]) => ({ id, name, url, packages: (id === 'blog' ? blogger : defaults).map((pkg, i) => {
-  const offer = offers[id];
-  return offer ? {
-    ...pkg,
-    price: offer.prices?.[i] ?? pkg.price + (Array.isArray(offer.adjustment) ? offer.adjustment[i] : (offer.adjustment || 0)),
-    name: offer.taglines ? pkg.name.split('|')[0] + '|' + offer.taglines[i] : pkg.name,
-    // Revised public prices must not inherit obsolete fixed installment amounts.
-    features: (offer.features ? offer.features[i].join('\n') : pkg.features).split('\n')
-      .filter(line => !offer.omitFixedInstallments || !line.startsWith('طريقة السداد:')).join('\n'),
-  } : pkg;
-}) }));
+].map(([id, name, url]) => ({ id, name, url, packages: offers[id].packages }));
 const presentation = JSON.parse(fs.readFileSync(new URL('../public/pricing-display.json', import.meta.url), 'utf8'));
 const RIYAL = '<span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span>';
 function beforePrice(id, tier, price) {
-  return presentation.beforePrices[id]?.[tier] ?? price + (presentation.beforeIncrease[id] || presentation.defaultBeforeIncrease)[tier];
+  return presentation.beforePrices[id]?.[tier] ?? null;
 }
 const visibleServices = services.filter(s => ['platforms', 'edu', 'store', 'blog'].includes(s.id));
 const esc = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 function card(pkg, service, tier) {
   const [name, tagline] = pkg.name.split('|');
   const features = pkg.features.split('\n').slice(0, 6);
-  const url = `/checkout?service=${service.id}&tier=${tier}`;
-  return `<article class="pricing-card${pkg.is_featured ? ' featured' : ''}"><h3>${esc(name)}</h3><p class="price-tagline">${esc(tagline.replaceAll('**', ''))}</p><div class="price-before"><span>قبل</span><del dir="ltr">${beforePrice(service.id, tier, pkg.price).toLocaleString('en-US')}</del>${RIYAL}</div><div class="price-sar"><small>بعد</small><span dir="ltr">${pkg.price.toLocaleString('en-US')}</span>${RIYAL}</div><div class="currency-equivalent" data-sar="${pkg.price}" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul>${features.map(f => `<li>${esc(f.replaceAll('**', ''))}</li>`).join('')}</ul><a class="price-cta" href="${esc(url)}">اطلب هذه الباقة</a></article>`;
+  const url = `/checkout?service=${service.id}&tier=${pkg.id}`;
+  const before = beforePrice(service.id, tier, pkg.price);
+  return `<article class="pricing-card${pkg.is_featured ? ' featured' : ''}"><h3>${esc(name)}</h3><p class="price-tagline">${esc(tagline.replaceAll('**', ''))}</p>${before ? `<div class="price-before"><span>قبل</span><del dir="ltr">${before.toLocaleString('en-US')}</del>${RIYAL}</div>` : '<div class="price-before price-before--empty" aria-hidden="true"></div>'}<div class="price-sar">${before ? '<small>بعد</small>' : ''}<span dir="ltr">${pkg.price.toLocaleString('en-US')}</span>${RIYAL}</div><div class="currency-equivalent" data-sar="${pkg.price}" aria-live="polite">جارٍ حساب مقابل الجنيه…</div><ul>${features.map(f => `<li>${esc(f.replaceAll('**', ''))}</li>`).join('')}</ul><a class="price-cta" href="${esc(url)}">اطلب هذه الباقة</a></article>`;
 }
 const tabs = visibleServices.map((s, i) => `<button type="button" role="tab" id="price-tab-${s.id}" data-price-tab aria-controls="price-panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(s.name)}</button>`).join('');
 const panels = visibleServices.map((s, i) => `<div class="pricing-grid" role="tabpanel" id="price-panel-${s.id}" data-price-panel aria-labelledby="price-tab-${s.id}"${i ? ' hidden' : ''}>${s.packages.map((p, tier) => card(p, s, tier)).join('')}</div>`).join('\n');
 const section = `<!-- PRICING:START -->
-<section id="pricing"><div class="container"><div class="sec-head"><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}</div></section>
+<section id="pricing"><div class="container"><div class="sec-head"><p class="pricing-launch-badge">أسعار خاصة لأول تعاون</p><div class="sec-tag">الباقات والأسعار</div><h2 class="sec-title">اختر باقة <span class="g-text">مشروعك</span></h2><p class="sec-sub">السعر بالريال السعودي وما يعادله بالجنيه المصري. اختر الخدمة للاطلاع على باقاتها.</p></div><div class="price-tabs" role="tablist" aria-label="خدمات الباقات">${tabs}</div>${panels}</div></section>
 <!-- PRICING:END -->`;
 const homeUrl = new URL('../public/index.html', import.meta.url);
 let home = fs.readFileSync(homeUrl, 'utf8');
@@ -58,8 +34,8 @@ fs.writeFileSync(new URL('../public/pricing-catalog.json', import.meta.url), JSO
 for (const service of services) {
 const pageUrl = new URL(`../public/${service.url.slice(1)}.html`, import.meta.url);
 let page = fs.readFileSync(pageUrl, 'utf8');
-const cards = `<div class="pricing-grid">${service.packages.map((p, tier) => card(p, service, tier)).join('')}</div>`;
-page = page.replace(/<div class="(?:pk-grid|pricing-grid)">[\s\S]*?<p class="pk-note">/, cards + '<p class="pk-note">');
+const cards = `<p class="pricing-launch-badge">أسعار خاصة لأول تعاون</p><div class="pricing-grid">${service.packages.map((p, tier) => card(p, service, tier)).join('')}</div>`;
+page = page.replace(/(?:<p class="pricing-launch-badge">[^<]*<\/p>)?<div class="(?:pk-grid|pricing-grid)">[\s\S]*?<p class="pk-note">/, cards + '<p class="pk-note">');
 page = page.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (match, json) => {
   const data = JSON.parse(json);
   if (data['@type'] !== 'Service') return match;

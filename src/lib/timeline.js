@@ -1,3 +1,5 @@
+import { currentBloggerCountFromName } from "./public-offers";
+
 // ══════════════════ Project process timeline ══════════════════
 // Single source of truth for both the admin's and the client's timeline view
 // — the client now sees the exact same steps as the admin, 1:1, so a step
@@ -411,6 +413,10 @@ export function getAdminTimeline(packageName, packagePrice) {
     return ARTICLES_STEPS;
   }
   if (tier === "blogger") {
+    const count = currentBloggerCountFromName(packageName);
+    if (count) return BLOGGER_STEPS.filter(s => !['blog_remaining_content', 'blog_adsense_submission'].includes(s.key)).map(s =>
+      s.key === 'blog_delivery_articles' ? { ...s, title: `نشر محتوى الباقة (${count} مقالًا)`, desc: `كتابة ونشر ${count} مقالًا إجمالًا حسب الباقة المختارة.` } : s);
+
     if (!BLOGGER_FULL_CONTENT_PRICES.has(Number(packagePrice))) return BLOGGER_STEPS;
     return BLOGGER_STEPS.map((s) => (BLOGGER_FULL_CONTENT_STEPS[s.key] ? { ...s, ...BLOGGER_FULL_CONTENT_STEPS[s.key] } : s));
   }

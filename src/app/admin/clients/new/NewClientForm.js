@@ -13,6 +13,8 @@ const SERVICE_TYPES = [
   { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
   { value: "platform", label: "إنشاء منصة رقمية" },
   { value: "platform-apps", label: "إنشاء منصة رقمية مع التطبيقات" },
+  { value: "edu", label: "إنشاء منصة تعليمية" },
+  { value: "store", label: "إنشاء متجر إلكتروني" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
   { value: "link", label: "منصة LINK السعودية" },
   { value: "articles", label: "باقات كتابة ونشر المقالات" },

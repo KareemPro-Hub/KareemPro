@@ -1,5 +1,6 @@
 "use server";
 
+import { publicProposalPackages } from "@/lib/public-offers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
@@ -100,124 +101,20 @@ export async function clearAllAdminNotifications() {
 // full technical & financial offer the moment they log in — no manual step.
 // Edit these constants any time to change the standard packages everyone gets.
 const DEFAULT_PROPOSAL_TITLE = "مشروعك مع Kareem Pro";
-const DEFAULT_PACKAGES = [
-  {
-    name: "الباقة الاقتصادية|للبداية السريعة بأقل تكلفة",
-    price: 1500,
-    is_featured: false,
-    features: [
-      "موقع احترافي متكامل لعرض مشروعك أو خدماتك.",
-      "تصميم متجاوب يعمل بكفاءة على الجوال والكمبيوتر.",
-      "ربط مباشر بواتساب ووسائل التواصل الاجتماعي.",
-      "نموذج تواصل لاستقبال طلبات أصحاب المشاريع.",
-      "ربط الدومين الرسمي والتأكد من جاهزيته للإطلاق.",
-      "مناسبة لأصحاب الأفكار والمشاريع في بدايتها.",
-      "طريقة السداد: دفعتان.",
-    ].join("\n"),
-  },
-  {
-    name: "الباقة الأساسية|منصة احترافية بدون تطبيقات",
-    price: 2500,
-    is_featured: false,
-    features: [
-      "ابدأ منصتك بسرعة وبدون تعقيدات تقنية.",
-      "موقع كامل جاهز لعرض خدماتك أو منتجاتك أو محتواك.",
-      "للمنصات التعليمية: حماية محتواك من التحميل غير المصرّح به.",
-      "تفعيل بوابة الدفع المناسبة: مدى، فيزا، Apple Pay، STC Bank.",
-      "تفعيل تلقائي لإيميلات المستخدمين.",
-      "ربط الدومين الرسمي بالمنصة والتأكد من جاهزيته قبل الإطلاق.",
-      "مناسبة لاختبار الفكرة في السوق بأقل مخاطرة.",
-      "بدون تطبيقات جوال.",
-      "طريقة السداد: دفعتان.",
-    ].join("\n"),
-  },
-  {
-    name: "الباقة المتميزة|الأفضل لمعظم المشاريع",
-    price: 5500,
-    is_featured: true,
-    features: [
-      "كل مميزات الباقة الأساسية.",
-      "تطبيق آيفون وأندرويد بنظام WebView.",
-      "نشر التطبيق رسميًا على Google Play وApp Store.",
-      "وصول أسهل للمستخدمين من خلال تطبيق الجوال.",
-      "دعم فني لمدة 6 أشهر بعد التسليم.",
-      "الخيار الأنسب لمن يريد حضورًا أقوى وتجربة أكثر احترافية.",
-      "طريقة السداد: ثلاث دفعات.",
-    ].join("\n"),
-  },
-  {
-    name: "الباقة الاحترافية|للمشاريع الاحترافية القابلة للتوسع",
-    price: 7500,
-    is_featured: false,
-    features: [
-      "كل مميزات الباقة المتميزة.",
-      "تطبيق آيفون وأندرويد أصليان Native.",
-      "تجربة استخدام أسرع وأكثر سلاسة وثباتًا.",
-      "بنية جاهزة لدمج الذكاء الاصطناعي حسب طبيعة المشروع.",
-      "تحليلات ذكية تساعدك على فهم أداء المستخدمين وزيادة أرباحك.",
-      "دعم فني لمدة عام كامل بعد التسليم.",
-      "أولوية في المتابعة والصيانة بعد الإطلاق.",
-      "الخيار الأنسب لمن يريد منصة قوية قابلة للنمو والتوسع.",
-      "طريقة السداد: أربع دفعات.",
-    ].join("\n"),
-  },
-];
+const DEFAULT_PACKAGES = publicProposalPackages('platforms');
 
 // ══════════════════ Service-line templates ══════════════════
 // The "new client" form lets the admin pick which of Kareem Pro's service
-// lines this client is for. Most lines don't have a dedicated template yet
-// (they fall back to the standard 4-package proposal above) — only Blogger
-// is wired up so far, since it's the one in active use. Add a key here (and
-// a matching option in NewClientForm.js) to give another service line its
-// own single-package proposal.
+// lines this client is for. New public proposals use the same three-tier
+// catalog as checkout; existing saved proposals and client-specific templates
+// are preserved.
 const SERVICE_TEMPLATES = {
+  edu: { projectTitle: "إنشاء منصة تعليمية", packages: publicProposalPackages('edu') },
+  store: { projectTitle: "إنشاء متجر إلكتروني", packages: publicProposalPackages('store') },
+
   blogger: {
     projectTitle: "إنشاء وإطلاق مدونة بلوجر ربحية",
-    // Two tiers with ONE deliberate difference: how many articles our team
-    // writes (5 vs 50). Everything else is identical, so the article line is
-    // marked with ** … ** — the funnel renders any line wrapped that way in
-    // bold, which is what makes the difference between the two cards pop.
-    // Both names keep the word "Blogger" on purpose: packageTier() in
-    // lib/timeline.js and detectServiceType() in the funnel both read the
-    // package name to recognise a blogger project.
-    packages: [
-      {
-        name: "الباقة الأساسية|مدونة Blogger احترافية جاهزة لأدسنس",
-        price: 750,
-        original_price: 1500,
-        is_featured: false,
-        features: [
-          "إنشاء المدونة على Blogger وربط الدومين",
-          "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
-          "هيكلة التصنيفات والأقسام حسب مجال المدونة",
-          "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
-          "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-          "**كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا**",
-          "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
-          "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
-          "تسليم كامل الصلاحيات والوصول",
-          "طريقة السداد: ثلاث دفعات. كل دفعة 250 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات التأسيسية.",
-        ].join("\n"),
-      },
-      {
-        name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس **بمحتوى كامل**",
-        price: 1300,
-        original_price: 2000,
-        is_featured: true,
-        features: [
-          "إنشاء المدونة على Blogger وربط الدومين",
-          "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
-          "هيكلة التصنيفات والأقسام حسب مجال المدونة",
-          "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
-          "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-          "**كتابة ونشر 50 مقالًا احترافيًا من فريقنا خلال 30 يوم عمل**",
-          "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
-          "متابعة مجانية معك في التقديم لأدسنس بعد اكتمال نشر المقالات",
-          "تسليم كامل الصلاحيات والوصول",
-          "طريقة السداد: ثلاث دفعات — 450 ريال مقدم، 450 ريال بعد إعداد الصفحات الإلزامية، 400 ريال عند اكتمال نشر المقالات الخمسين.",
-        ].join("\n"),
-      },
-    ],
+    packages: publicProposalPackages('blog'),
   },
   // Article packages — a general-purpose, repeatable content service for any
   // client whose blog already exists (typically sold as a follow-on after a

@@ -9,8 +9,8 @@ export async function POST(request){
  if(!paymentsReady())return Response.json({error:'الدفع غير متاح حاليًا.'},{status:503});
  try{
   const form=await request.formData();const q=readQuote(form.get('quote'),process.env.XPAY_QUOTE_SECRET);
-  const selected=await selectedPayment(q.stage_id?{stage:q.stage_id}:{service:q.service_id,tier:String(q.tier)});
-  if(!selected||!checkoutPriceMatches(selected.pkg,q)||Boolean(selected.stageId)!==Boolean(q.stage_id)||q.client_id!==(selected.clientId??null))return Response.json({error:'تغيّرت بيانات الطلب. أعد فتح صفحة الدفع.'},{status:409});
+  const selected=await selectedPayment(q.stage_id?{stage:q.stage_id}:{service:q.service_id,tier:q.tier_key??String(q.tier)});
+  if(!selected||!checkoutPriceMatches(selected.pkg,q)||(!q.stage_id&&q.title!==selected.service.name+' — '+selected.pkg.name.split('|')[0])||Boolean(selected.stageId)!==Boolean(q.stage_id)||q.client_id!==(selected.clientId??null))return Response.json({error:'تغيّرت بيانات الطلب. أعد فتح صفحة الدفع.'},{status:409});
   const db=createAdminClient();
   // Release an expired stage attempt only after Xpay confirms its actual state.
   if(q.stage_id){

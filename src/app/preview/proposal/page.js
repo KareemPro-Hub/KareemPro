@@ -1,3 +1,4 @@
+import { publicProposalPackages } from "@/lib/public-offers";
 import OnboardingFunnel from "@/app/portal/OnboardingFunnel";
 
 // ══════════════════ Design preview — fake data, no login required ══════════════════
@@ -65,7 +66,7 @@ const fakeTestimonials = [
   { id: 8, quote: "اهتمام بالتفاصيل الدقيقة ونتيجة نهائية عكست بالظبط اللي كنت أتخيله.", client_name: "هند الشهري", role: "صاحبة متجر إلكتروني" },
 ];
 
-// Mirrors the live "مدونة بلوجر ربحية" offer (two tiers) so Kareem can review
+// Mirrors the live "مدونة بلوجر ربحية" offer (three tiers) so Kareem can review
 // the Blogger-specific cards, contract wording and cost note on his phone
 // without creating/re-creating a real test client each time. Keep the names,
 // prices and feature lines identical to SERVICE_TEMPLATES.blogger in
@@ -75,48 +76,7 @@ const fakeProposal = {
   project_title: "إنشاء وإطلاق مدونة بلوجر ربحية",
   status: "pending",
   selected_package_id: null,
-  proposal_packages: [
-    {
-      id: "pkg-1",
-      name: "الباقة الأساسية|مدونة Blogger احترافية جاهزة لأدسنس",
-      price: 750,
-      original_price: 1500,
-      is_featured: false,
-      sort_order: 0,
-      features: [
-        "إنشاء المدونة على Blogger وربط الدومين",
-        "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
-        "هيكلة التصنيفات والأقسام حسب مجال المدونة",
-        "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
-        "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-        "**كتابة ونشر 5 مقالات تأسيسية احترافية من فريقنا**",
-        "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
-        "متابعة مجانية لمساعدتك في نشر باقي المحتوى والتقديم لأدسنس لاحقًا",
-        "تسليم كامل الصلاحيات والوصول",
-        "طريقة السداد: ثلاث دفعات. كل دفعة 250 ريال — مقدم، بعد إعداد الصفحات الإلزامية، وعند تسليم المدونة وكتابة المقالات التأسيسية.",
-      ].join("\n"),
-    },
-    {
-      id: "pkg-2",
-      name: "الباقة الاحترافية|مدونة Blogger احترافية جاهزة لأدسنس **بمحتوى كامل**",
-      price: 1300,
-      original_price: 2000,
-      is_featured: true,
-      sort_order: 1,
-      features: [
-        "إنشاء المدونة على Blogger وربط الدومين",
-        "تصميم وتخصيص قالب احترافي متجاوب بالكامل",
-        "هيكلة التصنيفات والأقسام حسب مجال المدونة",
-        "إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا)",
-        "تحسين السيو الأساسي (Meta tags، خريطة الموقع، Schema)",
-        "**كتابة ونشر 50 مقالًا احترافيًا من فريقنا خلال 30 يوم عمل**",
-        "تسليم المدونة كاملة جاهزة خلال 5 أيام عمل",
-        "متابعة مجانية معك في التقديم لأدسنس بعد اكتمال نشر المقالات",
-        "تسليم كامل الصلاحيات والوصول",
-        "طريقة السداد: ثلاث دفعات — 450 ريال مقدم، 450 ريال بعد إعداد الصفحات الإلزامية، 400 ريال عند اكتمال نشر المقالات الخمسين.",
-      ].join("\n"),
-    },
-  ],
+  proposal_packages: publicProposalPackages('blog').map((pkg, index) => ({ ...pkg, id: `pkg-${index}`, sort_order: index })),
 };
 
 export default function ProposalPreviewPage() {

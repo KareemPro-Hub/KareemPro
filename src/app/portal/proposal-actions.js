@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
-import { buildStagesForPackagePrice, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
+import { buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName }) {
@@ -64,7 +64,7 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
   // platform ladder, the two Blogger tiers and the pharmacy tiers) gets its
   // payment stages created immediately too, matching the same breakdown the
   // admin uses when creating a project by hand — no manual step needed here.
-  const stagePlan = buildStagesForPackagePrice(chosenPackage.price);
+  const stagePlan = buildStagesForProposal(chosenPackage);
   if (stagePlan && newProject) {
     const { error: stagesError } = await admin.from("stages").insert(
       stagePlan.map((s, i) => ({

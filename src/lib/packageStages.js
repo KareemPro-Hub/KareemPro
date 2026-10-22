@@ -1,3 +1,5 @@
+import { currentBloggerArticleCount, currentBloggerCountFromName, isPublicProposal } from "./public-offers";
+
 // Standard payment-stage breakdown per package price — the exact numbers and
 // wording Kareem quotes to clients. Shared by two places so they can never
 // drift apart: the manual "new project" admin form (auto-fill on price
@@ -174,5 +176,27 @@ export function buildStagesForPackagePrice(price) {
     title: STAGE_TITLES[i] || `الدفعة ${i + 1}`,
     description: descriptions ? descriptions[i] : descriptionFor(i, amounts.length),
     amount,
+  }));
+}
+
+// New Blogger offers are scoped by their saved article total, never by a price
+// shared with a course/article service. Keep legacy price plans above intact.
+export function buildStagesForProposal(pkg) {
+  const count = currentBloggerArticleCount(pkg) ?? currentBloggerCountFromName(pkg?.name);
+  if (!count) {
+    const existing = buildStagesForPackagePrice(pkg.price);
+    if (existing || !isPublicProposal(pkg)) return existing;
+    const total = Math.round(Number(pkg.price) * 100);
+    const first = Math.floor(total / 2);
+    return [first, total - first].map((minor, i) => ({ title: STAGE_TITLES[i], description: descriptionFor(i, 2), amount: minor / 100 }));
+  }
+  const total = Math.round(Number(pkg.price) * 100);
+  if (!Number.isSafeInteger(total) || total <= 0) return null;
+  const first = Math.floor(total / 3);
+  const amounts = [first, first, total - first * 2];
+  return amounts.map((minor, i) => ({
+    title: STAGE_TITLES[i],
+    description: i === 2 ? `عند تسليم المدونة واكتمال نشر ${count} مقالًا إجمالًا.` : BLOGGER_STAGE_DESCRIPTIONS[i],
+    amount: minor / 100,
   }));
 }
