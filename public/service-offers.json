@@ -380,11 +380,11 @@
         "is_featured": false,
         "features": "مدونة بتصميم احترافي يناسب الكمبيوتر والجوال.\nربط الدومين وتجهيز الأقسام والصفحات.\nتهيئة احترافية للسيو تعزّز انتشارك وظهورك في نتائج البحث.\nكامل الصلاحيات مع 3 مقالات هدية.",
         "deliveryDays": {
-          "min": 14,
-          "max": 14,
+          "min": 5,
+          "max": 5,
           "unit": "calendar"
         },
-        "deliveryLabel": "أسبوعان"
+        "deliveryLabel": "5 أيام"
       },
       {
         "id": "featured",
@@ -396,11 +396,11 @@
         "is_featured": true,
         "features": "كل مميزات الباقة الأساسية.\nكتابة ونشر 10 مقالات احترافية إجمالًا.\nدعم فني أسبوعين.",
         "deliveryDays": {
-          "min": 21,
-          "max": 21,
+          "min": 10,
+          "max": 10,
           "unit": "calendar"
         },
-        "deliveryLabel": "3 أسابيع"
+        "deliveryLabel": "10 أيام"
       },
       {
         "id": "professional",

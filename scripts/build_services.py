@@ -173,8 +173,13 @@ def guarantees():
     out = ''.join('<div>%s%s</div>' % (SHIELD, g) for g in GRS)
     return '<section class="rv" style="padding-top:0"><div class="wrap center"><div class="gr">%s</div></div></section>' % out
 
-def faq_block(extra):
+def faq_block(extra, blogger=False):
     items = FAQS + list(extra)
+    if blogger:
+        packages = next(s['packages'] for s in json.load(open(os.path.join(ROOT, 'pricing-catalog.json'), encoding='utf-8')) if s['id'] == 'blog')
+        labels = [p['deliveryLabel'] for p in packages]
+        answer = 'المدة التقديرية %s للأساسية، و%s للمتميزة، و%s للاحترافية، بعد استلام البيانات والمقدّم. ويُحدد الجدول النهائي حسب نطاق المشروع.' % tuple(labels)
+        items = [(q, answer if q == 'كم تستغرق مدة التنفيذ ؟' else a) for q, a in items]
     out = ''.join('<details class="q"><summary>%s</summary><p>%s</p></details>' % (q, a) for q, a in items)
     return ('<section class="rv"><div class="wrap center"><span class="sec-tag">أسئلة شائعة</span>'
       '<h2 class="sec-title">قبل أن تبدأ</h2><div class="faq">%s</div></div></section>' % out), items
@@ -250,7 +255,7 @@ def jsonld(s, faq_items):
 
 def page(k):
     s = SERVICES[k]
-    faq_html, faq_items = faq_block(s.get('faqExtra', []))
+    faq_html, faq_items = faq_block(s.get('faqExtra', []), s['url'] == '/blog')
     body_proof = proof(s)
     out = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
