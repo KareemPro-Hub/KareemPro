@@ -150,6 +150,8 @@ def pricing(svc_tab):
         additions = display.get('beforeIncrease', {}).get(service_id, display['defaultBeforeIncrease'])
         before = references[tier] if tier < len(references) else None
         lis = ''.join('<li>%s<span>%s</span></li>' % (CHK, f) for f in feats)
+        current = next(s['packages'][tier] for s in catalog if s['id'] == service_id)
+        delivery = '<p class="price-delivery">المدة التقديرية: %s</p>' % H.escape(current['deliveryLabel'])
         tag = '<span class="pk-tag">الأكثر طلبًا</span>' if best else ''
         before_html = ('<div class="price-before"><span>قبل</span><del dir="ltr">%s</del><span class="riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>' % format(before, ',')) if before else ''
         href = '/checkout?service=%s&tier=%s' % (service_id, ['basic', 'featured', 'professional'][tier])
@@ -157,9 +159,9 @@ def pricing(svc_tab):
           '%s'
           '<div class="pk-price"><span class="pk-from">%s</span><span class="pk-val">%s</span>'
           '<span class="pk-cur riyal-symbol" role="img" aria-label="ريال سعودي"></span></div>'
-          '<ul class="pk-list">%s</ul>'
+          '%s<ul class="pk-list">%s</ul>'
           '<a class="pk-cta" href="%s" target="_blank" rel="noopener">اطلب هذه الباقة</a></div>'
-          % (' pk-best' if best else '', tag, name, sub, before_html, 'بعد' if before else '', price, lis, href))
+          % (' pk-best' if best else '', tag, name, sub, before_html, 'بعد' if before else '', price, delivery, lis, href))
     return ('<section id="pricing" class="rv"><div class="wrap center"><span class="sec-tag">الباقات والأسعار</span>'
       '<h2 class="sec-title">أسعار <span class="g-text">واضحة</span> .. بدون مفاجآت</h2>'
       '<p class="pricing-launch-badge">أسعار خاصة لأول تعاون</p><div class="pk-grid">%s</div>'

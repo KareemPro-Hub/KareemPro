@@ -16,6 +16,7 @@ export function publicProposalPackages(serviceId) {
     if (index === 2 && serviceId !== 'blog') features = features.filter(line => !line.includes('WebView'));
     const support = pkg.features.split('\n').find(line => line.startsWith('دعم فني'));
     if (support) features.push(support);
+    if (pkg.deliveryDays) features.push(`المدة التقديرية: ${pkg.deliveryLabel} بعد استلام البيانات والمقدّم.`);
     return { name: pkg.name, price: pkg.price, is_featured: pkg.is_featured, features: features.join('\n') };
   });
 }

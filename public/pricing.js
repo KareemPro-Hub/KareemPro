@@ -1,3 +1,4 @@
+import { mountPackageFinder } from './package-finder.js';
 import { getRate, egpText } from './currency.js';
 
 const tabs = [...document.querySelectorAll('[data-price-tab]')];
@@ -41,3 +42,5 @@ if (equivalents.length) getRate().then(rate => {
     element.replaceChildren('يعادل ', amount);
   });
 }).catch(() => equivalents.forEach(element => { element.textContent = 'تعذر تحديث مقابل الجنيه حاليًا؛ تواصل معنا لتأكيد المبلغ.'; }));
+
+mountPackageFinder();

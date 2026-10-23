@@ -954,6 +954,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   const maxPackagePrice = Math.max(...packagePrices);
                   const minPackagePrice = Math.min(...packagePrices);
                   return packages.map((pkg) => {
+                    const deliveryText = (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
                     const featureLines = publicPackageCardFeatures(pkg)
                       .split("\n")
                       .map((l) => l.trim())
@@ -993,6 +994,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <RiyalIcon size="0.7em" tone="dark" />
                         </div>
                           <CurrencyEquivalent amount={Number(pkg.price)} />
+                          {deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>}
                         <div className="package-launch-note">
                           {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون"}
                         </div>
@@ -1575,8 +1577,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                       {serviceType === "blogger" && (
                         <>
                           <li>
-                            يتم تسليم المدونة كاملة (التصميم، الهيكلة، والصفحات الإلزامية) خلال 5 أيام عمل
-                            من استلام كافة البيانات المطلوبة من صاحب المشروع.
+                            {currentBloggerCount && selectedPackage.features.includes('المدة التقديرية:')
+                              ? selectedPackage.features.split('\n').find(line => line.startsWith('المدة التقديرية:'))
+                              : 'يتم تسليم المدونة كاملة (التصميم، الهيكلة، والصفحات الإلزامية) خلال 5 أيام عمل من استلام كافة البيانات المطلوبة من صاحب المشروع.'}
                           </li>
                           {/* The three clauses below are the ONLY place the two Blogger
                               tiers really differ: on the 750 package we write 5 articles
