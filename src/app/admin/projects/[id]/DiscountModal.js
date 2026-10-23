@@ -36,7 +36,7 @@ export default function DiscountModal({ projectId, packagePrice }) {
   return (
     <>
       <button type="button" className="proj-detail-discount-trigger" onClick={() => setOpen(true)}>
-        🏷️ تطبيق خصم
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#document"></use></svg> تطبيق خصم
       </button>
 
       {open && (
@@ -45,11 +45,11 @@ export default function DiscountModal({ projectId, packagePrice }) {
             <div className="proj-detail-modal-head">
               <button
                 type="button"
-                className="proj-detail-modal-close"
+                className="proj-detail-modal-close" aria-label="إغلاق"
                 onClick={closeAll}
                 disabled={isPending}
               >
-                ✕
+                <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#angle-small-down"></use></svg>
               </button>
               <div className="proj-detail-modal-title">
                 {applied ? "تم تطبيق الخصم" : "تطبيق خصم على المشروع"}
@@ -58,7 +58,7 @@ export default function DiscountModal({ projectId, packagePrice }) {
 
             {applied ? (
               <div style={{ textAlign: "center", padding: "0.6rem 0 0.2rem" }}>
-                <div style={{ fontSize: "34px", marginBottom: "8px" }}>🎉</div>
+                <div style={{ fontSize: "34px", marginBottom: "8px" }}><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#star"></use></svg></div>
                 <p className="muted" style={{ lineHeight: 1.9, marginBottom: "1.2rem" }}>
                   الخصم اتطبّق، والإشعار والإيميل وصلوا للعميل.
                   {applied.clientPhone

@@ -1,5 +1,6 @@
 "use client";
 
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { useState, useTransition } from "react";
 import { getProjectFileUrl, deleteProjectFile } from "@/app/admin/actions";
 import { FILE_TYPE_META, formatFileSize } from "@/lib/fileTypes";
@@ -49,7 +50,7 @@ export default function ProjectFilesSection({ projectId, files }) {
     <div className="proj-detail-section">
       <div className="proj-detail-section-head">
         <div className="proj-detail-section-title">
-          <span className="proj-detail-section-icon">📁</span>
+          <span className="proj-detail-section-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#folder"></use></svg></span>
           الملفات والتسليمات
         </div>
         <AddProjectFileModal projectId={projectId} />
@@ -69,7 +70,7 @@ export default function ProjectFilesSection({ projectId, files }) {
             <div className="proj-detail-row" key={f.id}>
               <div className="proj-detail-row-text">
                 <div className="proj-detail-row-title">
-                  {t.icon} {f.name}
+                  <InterfaceSymbol value={t.icon} /> {f.name}
                 </div>
                 <div className="proj-detail-row-desc">{fileMeta(f)}</div>
                 <div className="proj-detail-row-actions">
@@ -79,7 +80,7 @@ export default function ProjectFilesSection({ projectId, files }) {
                     onClick={() => handleOpen(f)}
                     disabled={isPending && openingId === f.id}
                   >
-                    {isPending && openingId === f.id ? "جارِ الفتح..." : f.type === "link" ? "فتح الرابط ↗" : "تحميل ⬇"}
+                    {isPending && openingId === f.id ? "جارِ الفتح..." : f.type === "link" ? "فتح الرابط" : "تحميل"} <InterfaceSymbol value={f.type === "link" ? "arrow-up-right-from-square" : "download"} />
                   </button>
                   <button type="button" className="proj-detail-btn danger" onClick={() => handleDelete(f)} disabled={isPending}>
                     حذف

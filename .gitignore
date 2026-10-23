@@ -48,3 +48,7 @@ src/app/admin/_deleted_tasks_*/
 
 # Local source backup, never served or deployed
 /backups/xpay-portfolio-2026-10-14/
+
+# Supplied interface artwork: Icon? also matches icons on case-insensitive macOS
+!/public/icons/
+!/public/icons/**

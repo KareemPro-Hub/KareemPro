@@ -1,5 +1,6 @@
 "use client";
 
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { useMemo, useState } from "react";
 import Money from "@/app/components/Money";
 import ProposalActions from "./ProposalActions";
@@ -39,27 +40,27 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
         <div className="pipeline-luxe-summary-card">
           <div className="pipeline-luxe-summary-head">
             <span>بانتظار الموافقة</span>
-            <span className="pipeline-luxe-summary-icon pending">⏳</span>
+            <span className="pipeline-luxe-summary-icon pending"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#clock"></use></svg></span>
           </div>
           <div className="pipeline-luxe-summary-count">{counts.pending}</div>
         </div>
         <div className="pipeline-luxe-summary-card">
           <div className="pipeline-luxe-summary-head">
             <span>تمت الموافقة</span>
-            <span className="pipeline-luxe-summary-icon accepted">✅</span>
+            <span className="pipeline-luxe-summary-icon accepted"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg></span>
           </div>
           <div className="pipeline-luxe-summary-count">{counts.accepted}</div>
         </div>
         <div className="pipeline-luxe-summary-card">
           <div className="pipeline-luxe-summary-head">
             <span>مرفوضة</span>
-            <span className="pipeline-luxe-summary-icon rejected">✕</span>
+            <span className="pipeline-luxe-summary-icon rejected"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#minus"></use></svg></span>
           </div>
           <div className="pipeline-luxe-summary-count">{counts.rejected}</div>
         </div>
         <div className="pipeline-luxe-summary-card dark">
           <div className="pipeline-luxe-summary-head">
-            <span>💰 إجمالي قيمة العروض المقبولة</span>
+            <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#wallet"></use></svg> إجمالي قيمة العروض المقبولة</span>
           </div>
           <div className="pipeline-luxe-summary-count">
             <Money value={totalAcceptedValue} size="0.6em" tone="light" />
@@ -69,7 +70,7 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
 
       <div className="pipeline-luxe-toolbar">
         <div className="pipeline-luxe-search">
-          <span>🔍</span>
+          <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#search"></use></svg></span>
           <input
             type="text"
             placeholder="بحث بالمشروع أو صاحب المشروع…"
@@ -123,7 +124,7 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
               </div>
               <div>
                 <span className="pipeline-luxe-status" style={{ color: s.color, background: s.bg }}>
-                  {s.icon} {s.label}
+                  <InterfaceSymbol value={s.icon} /> {s.label}
                 </span>
               </div>
               <div className="pipeline-luxe-date">{i.dateLabel}</div>
@@ -143,7 +144,7 @@ export default function PipelineBoard({ items, counts, totalAcceptedValue, recen
           {recentEvents.length === 0 && <p className="muted">لا يوجد أحداث بعد.</p>}
           {recentEvents.map((ev, idx) => (
             <div className={`pipeline-luxe-event${idx === recentEvents.length - 1 ? " last" : ""}`} key={idx}>
-              <span className="pipeline-luxe-event-icon">{ev.icon}</span>
+              <span className="pipeline-luxe-event-icon"><InterfaceSymbol value={ev.icon} /></span>
               <div>
                 <div className="pipeline-luxe-event-time">{ev.timeLabel}</div>
                 <div className="pipeline-luxe-event-text">{ev.text}</div>

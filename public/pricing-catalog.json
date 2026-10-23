@@ -169,7 +169,7 @@
   },
   {
     "id": "pos",
-    "name": "نقاط بيع",
+    "name": "كاشير وإدارة مخزون",
     "url": "/pos-system",
     "packages": [
       {

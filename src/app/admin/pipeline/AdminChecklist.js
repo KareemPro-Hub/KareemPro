@@ -78,7 +78,7 @@ export default function AdminChecklist({ items, projectOptions }) {
   return (
     <div className="admin-checklist-card">
       <div className="admin-checklist-title">
-        <span>📝 ملاحظات وطلبات المشاريع</span>
+        <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#document-signed"></use></svg> ملاحظات وطلبات المشاريع</span>
         {list.length > 0 && (
           <span className="admin-checklist-count">
             {open.length} مفتوحة · {done.length} تمت
@@ -102,7 +102,7 @@ export default function AdminChecklist({ items, projectOptions }) {
           disabled={isPending}
         />
         <button type="submit" disabled={isPending}>
-          + إضافة
+          <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> إضافة
         </button>
       </form>
 
@@ -128,7 +128,7 @@ export default function AdminChecklist({ items, projectOptions }) {
               {item.text}
             </span>
             <button type="button" className="admin-checklist-delete" onClick={() => handleDelete(item)}>
-              ✕
+              <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#trash"></use></svg>
             </button>
           </div>
         ))}
@@ -143,14 +143,14 @@ export default function AdminChecklist({ items, projectOptions }) {
               onClick={() => handleToggle(item)}
               aria-label="إعادة فتحها"
             >
-              ✓
+              <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg>
             </button>
             <span className="admin-checklist-text">
               {item.projects?.title && <span className="admin-checklist-project">{item.projects.title}</span>}
               {item.text}
             </span>
             <button type="button" className="admin-checklist-delete" onClick={() => handleDelete(item)}>
-              ✕
+              <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#trash"></use></svg>
             </button>
           </div>
         ))}

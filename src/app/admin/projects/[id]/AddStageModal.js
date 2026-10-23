@@ -26,7 +26,7 @@ export default function AddStageModal({ projectId }) {
   return (
     <>
       <button type="button" className="proj-detail-add-trigger" onClick={() => setOpen(true)}>
-        + إضافة مرحلة سداد
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#calendar"></use></svg> إضافة مرحلة سداد
       </button>
 
       {open && (
@@ -35,11 +35,11 @@ export default function AddStageModal({ projectId }) {
             <div className="proj-detail-modal-head">
               <button
                 type="button"
-                className="proj-detail-modal-close"
+                className="proj-detail-modal-close" aria-label="إغلاق"
                 onClick={() => setOpen(false)}
                 disabled={isPending}
               >
-                ✕
+                <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#angle-small-down"></use></svg>
               </button>
               <div className="proj-detail-modal-title">إضافة مرحلة سداد</div>
             </div>

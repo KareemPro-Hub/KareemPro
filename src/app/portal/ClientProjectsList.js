@@ -52,7 +52,7 @@ export default function ClientProjectsList({ projects }) {
   return (
     <div className="my-projects-wrap">
       <div className="my-projects-hero">
-        <div className="my-projects-hero-icon">📊</div>
+        <div className="my-projects-hero-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#chart-histogram"></use></svg></div>
         <div>
           <div className="my-projects-hero-title">إدارة مشاريعي</div>
           <div className="my-projects-hero-sub">تابع كل مشاريعك في مكان واحد</div>
@@ -63,28 +63,28 @@ export default function ClientProjectsList({ projects }) {
         <div className="my-projects-stat-card">
           <div className="my-projects-stat-head">
             <span>إجمالي المشاريع</span>
-            <span className="my-projects-stat-icon">📁</span>
+            <span className="my-projects-stat-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#folder"></use></svg></span>
           </div>
           <div className="my-projects-stat-value">{counts.all}</div>
         </div>
         <div className="my-projects-stat-card">
           <div className="my-projects-stat-head">
             <span>مشاريع نشطة</span>
-            <span className="my-projects-stat-icon active">🟢</span>
+            <span className="my-projects-stat-icon active"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg></span>
           </div>
           <div className="my-projects-stat-value">{counts.active}</div>
         </div>
         <div className="my-projects-stat-card">
           <div className="my-projects-stat-head">
             <span>مشاريع مكتملة</span>
-            <span className="my-projects-stat-icon completed">🔵</span>
+            <span className="my-projects-stat-icon completed"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#info"></use></svg></span>
           </div>
           <div className="my-projects-stat-value">{counts.completed}</div>
         </div>
         <div className="my-projects-stat-card">
           <div className="my-projects-stat-head">
             <span>متوقفة</span>
-            <span className="my-projects-stat-icon on_hold">🟠</span>
+            <span className="my-projects-stat-icon on_hold"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#clock"></use></svg></span>
           </div>
           <div className="my-projects-stat-value">{counts.on_hold}</div>
         </div>
@@ -133,7 +133,7 @@ export default function ClientProjectsList({ projects }) {
               <div className="my-project-card-foot">
                 <span>{p.meta}</span>
                 <a href={`#project-detail-${p.id}`} onClick={(e) => openProject(e, `#project-detail-${p.id}`)}>
-                  فتح المشروع ←
+                  فتح المشروع <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
                 </a>
               </div>
             </div>

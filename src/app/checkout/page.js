@@ -30,7 +30,7 @@ export default async function CheckoutPage({ searchParams }) {
     <main className="checkout-page" dir="rtl">
       <header className="checkout-header checkout-container">
         <a href="/" className="checkout-brand" aria-label="Kareem Pro — الرئيسية"><img src="/logo-transparent.png" alt="" width="34" height="38" />KAREEM <span>PRO</span></a>
-        <a className="checkout-back" href="/#pricing">العودة للأسعار<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></a>
+        <a className="checkout-back" href="/#pricing">العودة للأسعار<svg width="18" height="18" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-right"></use></svg></a>
       </header>
       <div className="checkout-container">
         <div className="checkout-intro"><h1>إتمام الدفع</h1><p>راجع طلبك، وأكمل خطوتك التالية.</p></div>
@@ -43,14 +43,14 @@ export default async function CheckoutPage({ searchParams }) {
             <div className="checkout-sar-total"><span>قيمة الطلب</span><strong><bdi>{amount}</bdi> {currencyUnit}</strong></div>
           </section>
           <section className="checkout-payment" aria-labelledby="payment-title">
-            <div className="checkout-payment-heading"><span className="checkout-lock"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg></span><h2 id="payment-title">الدفع</h2></div>
+            <div className="checkout-payment-heading"><span className="checkout-lock"><svg width="21" height="21" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#lock"></use></svg></span><h2 id="payment-title">الدفع</h2></div>
             <p className="checkout-amount-label">المبلغ المطلوب</p>
             <div className="checkout-amount"><strong dir="ltr">{amount}</strong>{currencyUnit}</div>
-            {equivalent ? (!egyptian && <details className="checkout-currency-details"><summary>عرض المبلغ بالجنيه المصري<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary><p className="checkout-equivalent"><span>بما يعادل</span><bdi>{equivalent}</bdi><span>ج.م</span></p></details>) : <p className="checkout-error" role="alert">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
+            {equivalent ? (!egyptian && <details className="checkout-currency-details"><summary>عرض المبلغ بالجنيه المصري<svg width="16" height="16" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#angle-small-down"></use></svg></summary><p className="checkout-equivalent"><span>بما يعادل</span><bdi>{equivalent}</bdi><span>ج.م</span></p></details>) : <p className="checkout-error" role="alert">تعذر تحديث سعر التحويل حاليًا. أعد تحميل الصفحة لاحقًا.</p>}
             <p className="checkout-conversion-note">السداد عبر Xpay بالجنيه المصري.</p>
             <form action="/api/xpay/checkout" method="post">
               <input type="hidden" name="quote" value={quote} />
-              <button className="checkout-pay-button" type="submit" disabled={!ready} aria-describedby="payment-status">المتابعة للدفع<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg></button>
+              <button className="checkout-pay-button" type="submit" disabled={!ready} aria-describedby="payment-status">المتابعة للدفع<svg width="20" height="20" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-left"></use></svg></button>
             </form>
             <p className={`checkout-payment-status${ready ? '' : ' unavailable'}`} id="payment-status" role="status">{ready ? 'ستكمل السداد على صفحة Xpay الآمنة.' : 'الدفع الإلكتروني غير متاح حاليًا. يرجى المحاولة لاحقًا.'}</p>
             <p className="checkout-payment-note">المبلغ بالجنيه ثابت لهذا العرض لمدة 15 دقيقة.<br />لا نضيف رسومًا على المبلغ الموضح.</p>

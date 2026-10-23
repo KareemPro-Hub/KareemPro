@@ -75,7 +75,7 @@ export default async function AdminDeliveryPage() {
                       <div className="delivery-luxe-name">
                         {p.title}{" "}
                         <a className="delivery-luxe-open" href={`/admin/projects/${p.id}`}>
-                          فتح المشروع ←
+                          فتح المشروع <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
                         </a>
                       </div>
                       <div className="delivery-luxe-sub">{p.clientName}</div>

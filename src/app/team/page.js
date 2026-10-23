@@ -35,14 +35,14 @@ export default async function TeamPortalPage() {
         </div>
         <form action="/auth/signout" method="post">
           <button type="submit" className="team-portal-logout" aria-label="تسجيل الخروج">
-            ↪ تسجيل الخروج
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#sign-out-alt"></use></svg> تسجيل الخروج
           </button>
         </form>
       </header>
 
       <main className="team-portal-main">
         <div className="team-portal-welcome">
-          <h1>أهلًا، {name} 👋</h1>
+          <h1>أهلًا، {name} <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user"></use></svg></h1>
           <p>هذه مهامك المطلوبة اليوم</p>
         </div>
 

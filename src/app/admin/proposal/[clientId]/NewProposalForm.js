@@ -105,7 +105,7 @@ export default function NewProposalForm({ clientId }) {
         onClick={addPackage}
         style={{ marginBottom: "1.5rem" }}
       >
-        + إضافة باقة
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#document-signed"></use></svg> إضافة باقة
       </button>
 
       <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>

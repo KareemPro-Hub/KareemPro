@@ -1,5 +1,6 @@
 "use client";
 
+import PlatformIcon from "@/app/components/PlatformIcon";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AdminNotificationBell from "./AdminNotificationBell";
@@ -13,12 +14,12 @@ import ClientsIcon from "@/app/components/ClientsIcon";
 import "./kp-dashboard.css";
 
 const QUICK_ACTIONS = [
-  { href: "/admin/projects/new", label: "مشروع جديد", desc: "ابدأ مساحة عمل" },
-  { href: "/admin/clients/new", label: "عميل جديد", desc: "أضف بيانات عميل" },
-  { href: "/admin/pipeline", label: "عرض سعر", desc: "أنشئ عرضًا احترافيًا" },
-  { href: "/admin/wallet", label: "فاتورة جديدة", desc: "سجّل مستحقاتك" },
-  { href: "/admin/team", label: "مهمة لفريق العمل", desc: "كلّف عضو فريق بمهمة" },
-  { href: "/admin/delivery", label: "موعد جديد", desc: "جدول تسليمًا" },
+  { href: "/admin/projects/new", label: "مشروع جديد", icon: "briefcase", desc: "ابدأ مساحة عمل" },
+  { href: "/admin/clients/new", label: "عميل جديد", icon: "user", desc: "أضف بيانات عميل" },
+  { href: "/admin/pipeline", label: "عرض سعر", icon: "document-signed", desc: "أنشئ عرضًا احترافيًا" },
+  { href: "/admin/wallet", label: "فاتورة جديدة", icon: "file-invoice", desc: "سجّل مستحقاتك" },
+  { href: "/admin/team", label: "مهمة لفريق العمل", icon: "users-alt", desc: "كلّف عضو فريق بمهمة" },
+  { href: "/admin/delivery", label: "موعد جديد", icon: "calendar", desc: "جدول تسليمًا" },
 ];
 
 const NAV_GROUPS = [
@@ -80,7 +81,7 @@ export default function AdminShell({ children }) {
           </a>
 
           <button className="new-btn" type="button" onClick={() => setModalOpen(true)}>
-            <span>＋</span> إجراء جديد
+            <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg></span> إجراء جديد
           </button>
 
           <nav>
@@ -97,7 +98,7 @@ export default function AdminShell({ children }) {
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="ico nav-image-icon">
-                      {item.iconComponent ? <item.iconComponent size="1.4em" /> : <img src={`/admin-ui/icons/${item.icon}.png`} alt="" />}
+                      {item.iconComponent ? <item.iconComponent size="1.4em" /> : <PlatformIcon name="eye" size="1.4em" />}
                     </span>
                     {item.label}
                   </a>
@@ -111,9 +112,7 @@ export default function AdminShell({ children }) {
           <div className="sidebar-foot compact-account">
             <form action="/auth/signout" method="post">
               <button className="account-logout" type="submit" aria-label="تسجيل الخروج">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M10 17l5-5-5-5M15 12H3M13 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5" />
-                </svg>
+                <svg aria-hidden="true" className="ui-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#sign-out-alt"></use></svg>
               </button>
             </form>
             <div className="account-copy">
@@ -129,7 +128,7 @@ export default function AdminShell({ children }) {
         <main>
           <header>
             <button className="mobile-menu" onClick={() => setSidebarOpen((v) => !v)} aria-label="القائمة">
-              ☰
+              <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#menu-burger"></use></svg>
             </button>
             <div className="welcome">
               <h1>صباح التوفيق يا كريم</h1>
@@ -137,7 +136,7 @@ export default function AdminShell({ children }) {
             </div>
             <div className="header-actions">
               <form className="search" onSubmit={handleSearch}>
-                <span>⌕</span>
+                <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#search"></use></svg></span>
                 <input
                 placeholder="ابحث عن مشروع أو عميل..."
                   value={search}
@@ -157,15 +156,15 @@ export default function AdminShell({ children }) {
 
       <div className={`modal-wrap${modalOpen ? " open" : ""}`} onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}>
         <div className="modal">
-          <button className="modal-close" type="button" onClick={() => setModalOpen(false)}>
-            ×
+          <button className="modal-close" type="button" aria-label="إغلاق" onClick={() => setModalOpen(false)}>
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#angle-small-down"></use></svg>
           </button>
           <span className="overline">اختصار سريع</span>
           <h2>ماذا تريد أن تنشئ ؟</h2>
           <div className="action-grid">
             {QUICK_ACTIONS.map((a) => (
               <a key={a.href} href={a.href}>
-                <i>＋</i>
+                <i><PlatformIcon name={a.icon} /></i>
                 <b>{a.label}</b>
                 <span>{a.desc}</span>
               </a>

@@ -1,5 +1,6 @@
 "use client";
 
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { useTransition } from "react";
 import { toggleDeliveryAction } from "@/app/admin/actions";
 
@@ -16,7 +17,7 @@ export default function DeliveryActionCard({ projectId, actionKey, icon, title, 
   return (
     <div className={`delivery-luxe-action${isDone ? " done" : ""}`}>
       <div className="delivery-luxe-action-top">
-        <div className="delivery-luxe-icon">{icon}</div>
+        <div className="delivery-luxe-icon"><InterfaceSymbol value={icon} /></div>
         <div className={`delivery-luxe-status${isDone ? " done" : ""}`}>
           {isDone ? "تم" : "بانتظار الإجراء"}
         </div>

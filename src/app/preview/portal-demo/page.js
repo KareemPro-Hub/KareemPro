@@ -62,7 +62,7 @@ export default function PortalPreviewPage() {
           textAlign: "center",
         }}
       >
-        🔍 معاينة داخلية — بيانات وهمية لعرض شكل بوابة صاحب المشروع، مش حساب حقيقي
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#search"></use></svg> معاينة داخلية — بيانات وهمية لعرض شكل بوابة صاحب المشروع، مش حساب حقيقي
       </div>
 
       <div className="top-bar">
@@ -76,7 +76,7 @@ export default function PortalPreviewPage() {
       </div>
 
       <h1 className="title">
-        أهلًا بك، <span className="g-text">{clientName}</span> 👋
+        أهلًا بك، <span className="g-text">{clientName}</span> <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user"></use></svg>
       </h1>
       <p className="muted" style={{ marginBottom: "2rem" }}>
         الآن .. راقب نمو مشروعك واستثمارك لحظة بلحظة ..
@@ -124,7 +124,7 @@ export default function PortalPreviewPage() {
                         الدفع المناسبة اللي تم إرسالها على الواتساب.
                       </p>
                       <p style={{ margin: 0 }}>
-                        بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة 🚀
+                        بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>
                       </p>
                     </div>
                   )}

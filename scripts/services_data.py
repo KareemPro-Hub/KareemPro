@@ -5,15 +5,7 @@
 
 WA_PHONE = "966507069605"
 
-ICO = {
- 'edu':'<path d="M12 3 2.5 8 12 13l9.5-5z"/><path d="M6.5 10.7V16c0 1.9 2.7 3.3 5.5 3.3S17.5 17.9 17.5 16v-5.3"/><path d="M21.5 8v6"/>',
- 'store':'<path d="M4.6 3.6h14.8l2.2 5.1H2.4z"/><path d="M2.4 8.7a3 3 0 0 0 5.9 0 3 3 0 0 0 5.9 0 3 3 0 0 0 5.9 0"/><path d="M4.5 11.2v9.2h15v-9.2"/><path d="M9.6 20.4v-5.6h4.8v5.6"/>',
- 'booking':'<rect x="3" y="4.6" width="18" height="16.8" rx="2.6"/><path d="M3 9.6h18"/><path d="M8 2.6v4M16 2.6v4"/><path d="M8.6 14.4l2.2 2.2 4.4-4.6"/>',
- 'portal':'<rect x="2.6" y="3.4" width="18.8" height="17.2" rx="2.6"/><path d="M2.6 8.2h18.8"/><path d="M7.4 17.2v-4.6M12 17.2v-6.6M16.6 17.2v-2.8"/>',
- 'charity':'<path d="M12 20.6S3.4 15.6 3.4 9.8a4.6 4.6 0 0 1 8.6-2.4 4.6 4.6 0 0 1 8.6 2.4c0 5.8-8.6 10.8-8.6 10.8z"/>',
- 'blog':'<rect x="2.6" y="4" width="18.8" height="16" rx="2.6"/><path d="M2.6 8.7h18.8"/><path d="M6.3 12.5h11.4M6.3 16.2h7"/>',
- 'pos':'<rect x="3.6" y="9.4" width="16.8" height="10.4" rx="1.8"/><path d="M7 9.4V6.6a5 5 0 0 1 10 0v2.8"/><path d="M8.6 13.4h6.8M8.6 16.4h6.8"/>',
-}
+ICO = {'edu': '<use href="/icons/ui.svg#graduation-cap"></use>', 'store': '<use href="/icons/ui.svg#shopping-cart"></use>', 'pos': '<use href="/icons/ui.svg#cash-register"></use>', 'booking': '<use href="/icons/ui.svg#calendar"></use>', 'portal': '<use href="/icons/ui.svg#chart-histogram"></use>', 'charity': '<use href="/icons/ui.svg#heart"></use>', 'blog': '<use href="/icons/ui.svg#document"></use>'}
 
 # slug -> صفحة
 SERVICES = {
@@ -159,7 +151,7 @@ SERVICES = {
 
 "pos": {
  "file":"pos-system.html", "url":"/pos-system",
- "tab":"نظام كاشير ومخزون",
+ "tab":"كاشير وإدارة مخزون",
  "title":"نظام كاشير ومخزون لإدارة المحلات والصيدليات — Kareem Pro",
  "desc":"نظام كاشير ومخزون بهويتك: بيع سريع، أصناف وتنبيهات نفاد وصلاحية، فوترة إلكترونية متوافقة مع فاتورة، تقارير ومحاسبة، ولوحة إدارة عربية لفرع أو أكثر.",
  "kw":"نظام كاشير, برنامج كاشير, نظام نقاط بيع, نظام مخزون, برنامج محاسبة صيدليات, نظام كاشير صيدليات, فوترة إلكترونية",

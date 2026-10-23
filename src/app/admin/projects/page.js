@@ -32,7 +32,7 @@ export default async function AdminProjectsPage() {
             <h2>كل المشاريع</h2>
           </div>
           <a className="text-btn" href="/admin/projects/new">
-            + مشروع جديد
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#briefcase"></use></svg> مشروع جديد
           </a>
         </div>
 

@@ -24,7 +24,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
       <div className="stages-accordion-col">
         <div className="stages-accordion-heading-wrap">
           <div className="stages-accordion-heading">
-            <span className="stages-accordion-heading-icon">🛠️</span> مراحل الإنتاج
+            <span className="stages-accordion-heading-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#settings"></use></svg></span> مراحل الإنتاج
           </div>
           <div className="stages-accordion-subheading">أين يقف مشروعك الآن في التنفيذ</div>
         </div>
@@ -69,7 +69,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
       <div className="stages-accordion-col">
         <div className="stages-accordion-heading-wrap">
           <div className="stages-accordion-heading">
-            <span className="stages-accordion-heading-icon">💳</span> مراحل السداد
+            <span className="stages-accordion-heading-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#wallet"></use></svg></span> مراحل السداد
           </div>
           <div className="stages-accordion-subheading">مراحل سداد قيمة الباقة على دفعات</div>
         </div>
@@ -88,7 +88,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                   onClick={() => setPayOpen(isOpen ? -1 : idx)}
                 >
                   <span className="stages-accordion-node" style={{ background: st.ring }}>
-                    {st.icon === "✓" ? <CheckIcon size="0.75em" color="#fff" /> : stage.stage_number}
+                    {st.icon === <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg> ? <CheckIcon size="0.75em" color="#fff" /> : stage.stage_number}
                   </span>
                   <div className="stages-accordion-row-body">
                     <div className="stages-accordion-row-title-line">

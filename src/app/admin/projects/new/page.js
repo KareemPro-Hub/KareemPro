@@ -11,7 +11,7 @@ export default async function NewProjectPage() {
   return (
     <section className="view active" style={{ maxWidth: 640 }}>
       <a href="/admin/projects" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للمشاريع
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg> رجوع للمشاريع
       </a>
       <div className="card" style={{ marginTop: "1.2rem" }}>
         <h1 className="title">مشروع جديد</h1>

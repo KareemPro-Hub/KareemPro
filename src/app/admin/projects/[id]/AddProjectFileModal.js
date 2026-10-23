@@ -38,22 +38,22 @@ export default function AddProjectFileModal({ projectId }) {
   return (
     <>
       <button type="button" className="proj-detail-add-trigger" onClick={() => setOpen(true)}>
-        + إضافة ملف
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#folder"></use></svg> إضافة ملف
       </button>
 
       {open && (
         <div className="proj-detail-modal-overlay" onClick={() => !isPending && closeAll()}>
           <div className="proj-detail-modal" onClick={(e) => e.stopPropagation()}>
             <div className="proj-detail-modal-head">
-              <button type="button" className="proj-detail-modal-close" onClick={closeAll} disabled={isPending}>
-                ✕
+              <button type="button" className="proj-detail-modal-close" aria-label="إغلاق" onClick={closeAll} disabled={isPending}>
+                <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#angle-small-down"></use></svg>
               </button>
               <div className="proj-detail-modal-title">{added ? "تم إضافة الملف" : "إضافة ملف أو رابط"}</div>
             </div>
 
             {added ? (
               <div style={{ textAlign: "center", padding: "0.6rem 0 0.2rem" }}>
-                <div style={{ fontSize: "34px", marginBottom: "8px" }}>📁</div>
+                <div style={{ fontSize: "34px", marginBottom: "8px" }}><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#folder"></use></svg></div>
                 <p className="muted" style={{ lineHeight: 1.9, marginBottom: "1.2rem" }}>
                   الملف اتضاف، والإشعار والإيميل وصلوا للعميل.
                   {added.clientPhone

@@ -5,8 +5,8 @@ import { contactLine } from "@/lib/whatsapp";
 
 const STATUS_LABEL = {
   pending: "بانتظار قرار صاحب المشروع",
-  accepted: "تمت الموافقة ✅",
-  rejected: "مرفوض ⚠️",
+  accepted: "تمت الموافقة",
+  rejected: "مرفوض",
 };
 
 export default async function ClientProposalPage({ params }) {
@@ -38,7 +38,7 @@ export default async function ClientProposalPage({ params }) {
   return (
     <section className="view active">
       <a href="/admin/clients" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للعملاء
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg> رجوع للعملاء
       </a>
 
       <h1 className="title" style={{ marginTop: "1rem" }}>
@@ -71,7 +71,7 @@ export default async function ClientProposalPage({ params }) {
               >
                 <div className="stage-head">
                   <span className="stage-title">
-                    {pkg.is_featured && "⭐ "}
+                    {pkg.is_featured && <svg className="ui-icon" width="1em" height="1em" aria-hidden="true"><use href="/icons/ui.svg#star" /></svg>}
                     {pkg.name}
                   </span>
                   {proposal.selected_package_id === pkg.id && (

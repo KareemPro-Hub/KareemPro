@@ -1,5 +1,6 @@
 "use client";
 
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { useMemo, useState, useTransition } from "react";
 import { getMyFileUrl } from "./files-actions";
 import { FILE_TYPE_META, formatFileSize } from "@/lib/fileTypes";
@@ -76,21 +77,21 @@ export default function ClientFiles({ files }) {
 
       <div className="client-files-stats">
         <div className="client-files-stat-card">
-          <div className="client-files-stat-icon">📁</div>
+          <div className="client-files-stat-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#folder"></use></svg></div>
           <div>
             <div className="client-files-stat-label">إجمالي الملفات</div>
             <div className="client-files-stat-value">{counts.all}</div>
           </div>
         </div>
         <div className="client-files-stat-card">
-          <div className="client-files-stat-icon">🎨</div>
+          <div className="client-files-stat-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#browser"></use></svg></div>
           <div>
             <div className="client-files-stat-label">أعمال المشروع</div>
             <div className="client-files-stat-value">{counts.design}</div>
           </div>
         </div>
         <div className="client-files-stat-card">
-          <div className="client-files-stat-icon">🧾</div>
+          <div className="client-files-stat-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#file-invoice"></use></svg></div>
           <div>
             <div className="client-files-stat-label">عقود وفواتير</div>
             <div className="client-files-stat-value">{counts.docsAndContracts}</div>
@@ -130,7 +131,7 @@ export default function ClientFiles({ files }) {
           return (
             <div className="client-files-row" key={f.id}>
               <div className="client-files-row-icon" style={{ background: t.bg }}>
-                {t.icon}
+                <InterfaceSymbol value={t.icon} />
               </div>
               <div className="client-files-row-info">
                 <div className="client-files-row-name">{f.name}</div>
@@ -145,7 +146,7 @@ export default function ClientFiles({ files }) {
                 onClick={() => handleOpen(f)}
                 disabled={isPending && openingId === f.id}
               >
-                {isPending && openingId === f.id ? "جارِ الفتح..." : f.type === "link" ? "فتح الرابط ↗" : "تحميل ⬇"}
+                {isPending && openingId === f.id ? "جارِ الفتح..." : f.type === "link" ? "فتح الرابط" : "تحميل"} <InterfaceSymbol value={f.type === "link" ? "arrow-up-right-from-square" : "download"} />
               </button>
             </div>
           );
@@ -160,7 +161,7 @@ export default function ClientFiles({ files }) {
         <p className="client-support-note-text">
           تواصل معنا وهنساعدك في أي استفسار حول ملفاتك.{" "}
           <a href="#support" onClick={goToSupport}>
-            تواصل معنا ←
+            تواصل معنا <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
           </a>
         </p>
       </div>

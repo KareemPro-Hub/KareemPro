@@ -2040,3 +2040,6 @@ table.admin-table td:nth-child(6) {
   }
   .team-satellite-name { padding: 6px 12px; font-size: 0.78rem; }
 }
+
+/* Interface glyphs from Kareem's SVG.rar; branding, currency glyphs and data charts retain their own assets. */
+.ui-icon,svg:has(>use[href^="/icons/ui.svg#"]){display:inline-block;vertical-align:-.12em;flex-shrink:0;fill:currentColor!important;stroke:none!important}

@@ -65,3 +65,20 @@ footer.site-footer{border-top:1px solid rgba(168,136,168,.2);padding:38px 20px c
 .price-before--empty{min-height:38px}
 @media(max-width:1000px) and (min-width:701px){.pricing-grid{gap:16px}.pricing-card{padding:24px 18px}.pricing-card h3{font-size:20px}}
 @media(max-width:700px){.pricing-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Interface glyphs from Kareem's SVG.rar; branding, currency glyphs and data charts retain their own assets. */
+.ui-icon,svg:has(>use[href^="/icons/ui.svg#"]){display:inline-block;vertical-align:-.12em;flex-shrink:0;fill:currentColor!important;stroke:none!important}
+
+/* Explicit user-requested heart emoji; offer label stays beside each price. */
+.pricing-card .pricing-launch-badge,.pk .pricing-launch-badge{display:flex;align-items:center;justify-content:center;gap:6px;width:fit-content;max-width:100%;margin:14px auto 12px;padding:6px 12px;font-size:12px;line-height:1.6;flex-shrink:0}
+.pricing-launch-badge span{font-family:Apple Color Emoji,Segoe UI Emoji,sans-serif;font-size:14px}
+
+/* Approved package-guide shortcut shares the existing dialog and catalog. */
+.package-finder-launcher{position:fixed;right:20px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:45;display:inline-flex;align-items:center;justify-content:center;gap:8px;max-width:calc(100vw - 40px);min-height:44px;padding:9px 15px;border:1px solid #ffbc6866;border-radius:999px;background:linear-gradient(115deg,#ffa826,#ff5535 60%,#d9187a);color:#0a0e26;box-shadow:0 7px 24px #0004;font-family:inherit;font-weight:700;font-size:13px;line-height:1.5;cursor:pointer}
+.package-finder-launcher:focus-visible{outline:3px solid #ffa826;outline-offset:4px}
+@media(max-width:600px){.package-finder-launcher{right:16px;bottom:calc(80px + env(safe-area-inset-bottom,0px));padding-inline:13px;font-size:12px}}
+
+/* Current header section: visible selection without changing navigation width. */
+.nav-links a,.section-nav a{display:inline-flex;align-items:center;border:1px solid transparent;border-radius:11px;padding:7px 10px;margin:-8px -11px;transition:border-color .18s,color .18s,background-color .18s}
+.nav-links a.is-active,.section-nav a.is-active{border-color:#ffa826;color:#ffd08a;background:rgba(255,168,38,.09)}
+.nav-links a:focus-visible,.section-nav a:focus-visible{outline:2px solid #ffa826;outline-offset:3px}

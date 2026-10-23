@@ -135,7 +135,7 @@ export default function NewProjectForm({ clients }) {
       ))}
 
       <button type="button" className="btn btn-outline" onClick={addStage} style={{ marginBottom: "1.5rem" }}>
-        + إضافة مرحلة
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#calendar"></use></svg> إضافة مرحلة
       </button>
 
       <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>

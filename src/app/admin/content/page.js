@@ -20,7 +20,7 @@ export default async function AdminContentPage() {
   return (
     <section className="view active">
       <a href="/admin" className="muted" style={{ textDecoration: "none" }}>
-        ← رجوع للوحة التحكم
+        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg> رجوع للوحة التحكم
       </a>
 
       <h1 className="title" style={{ marginTop: "1rem" }}>
@@ -76,7 +76,7 @@ export default async function AdminContentPage() {
               )}
               {item.stack_count > 1 && (
                 <div className="muted" style={{ fontSize: "0.8rem" }}>
-                  شارة العدد: +{item.stack_count - 1} أعمال أخرى
+                  شارة العدد: {item.stack_count - 1} أعمال أخرى
                 </div>
               )}
             </div>
@@ -105,11 +105,11 @@ export default async function AdminContentPage() {
             <input type="url" name="link_url" placeholder="https://..." />
           </div>
           <div className="field">
-            <label>عدد الأعمال في نفس التصنيف (اختياري — يظهر شارة &quot;+رقم أعمال أخرى&quot; مع تأثير كروت متكدسة خلف الكارت)</label>
+            <label>عدد الأعمال في نفس التصنيف (اختياري — يظهر شارة &quot;رقم أعمال أخرى&quot; مع تأثير كروت متكدسة خلف الكارت)</label>
             <input type="number" name="stack_count" min="2" placeholder="مثال: 6" />
           </div>
           <button type="submit" className="btn btn-outline btn-sm">
-            + إضافة نموذج
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> إضافة نموذج
           </button>
         </form>
       </div>
@@ -162,7 +162,7 @@ export default async function AdminContentPage() {
             <input type="url" name="avatar_url" placeholder="https://..." />
           </div>
           <button type="submit" className="btn btn-outline btn-sm">
-            + إضافة رأي
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> إضافة رأي
           </button>
         </form>
       </div>

@@ -52,7 +52,7 @@ export default function TimelineActions({ projectId, currentStep, steps, isProje
           onClick={() => move(prevStep)}
           disabled={isPending || !prevStep}
         >
-          <span>→</span> <span>رجوع مرحلة</span>
+          <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-right"></use></svg></span> <span>رجوع مرحلة</span>
         </button>
         <button
           className="proj-detail-btn primary"
@@ -63,11 +63,11 @@ export default function TimelineActions({ projectId, currentStep, steps, isProje
             "جارِ التحديث..."
           ) : nextStep ? (
             <>
-              <span>المرحلة التالية</span> <span>←</span>
+              <span>المرحلة التالية</span> <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg></span>
             </>
           ) : isProjectCompleted ? (
             <>
-              <span>إلغاء الاكتمال</span> <span>→</span>
+              <span>إلغاء الاكتمال</span> <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-right"></use></svg></span>
             </>
           ) : (
             <>

@@ -1,5 +1,6 @@
 "use client";
 
+import PlatformIcon from "@/app/components/PlatformIcon";
 import { useEffect, useState } from "react";
 import FilesIcon from "@/app/components/FilesIcon";
 import SupportIcon from "@/app/components/SupportIcon";
@@ -50,19 +51,19 @@ export default function ClientNav() {
     <nav className="client-nav">
       <a className={active === "#overview" ? "active" : ""} href="#overview" onClick={(e) => handleClick(e, "#overview")}>
         <span className="ico nav-image-icon">
-          <img src="/admin-ui/icons/binocular.png" alt="" />
+          <PlatformIcon name="eye" size="1.5em" />
         </span>{" "}
         نظرة عامة
       </a>
       <a className={active === "#projects" ? "active" : ""} href="#projects" onClick={(e) => handleClick(e, "#projects")}>
         <span className="ico nav-image-icon">
-          <img src="/admin-ui/icons/project-management.png" alt="" />
+          <PlatformIcon name="briefcase" size="1.5em" />
         </span>{" "}
         إدارة مشاريعي
       </a>
       <a className={active === "#payments" ? "active" : ""} href="#payments" onClick={(e) => handleClick(e, "#payments")}>
         <span className="ico nav-image-icon">
-          <img src="/admin-ui/icons/checklist.png" alt="" />
+          <PlatformIcon name="list-check" size="1.5em" />
         </span>{" "}
         مراحل الإنتاج والسداد
       </a>

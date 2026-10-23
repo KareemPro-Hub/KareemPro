@@ -1,4 +1,5 @@
 import { requireAdmin } from "@/lib/admin";
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import ClientActions from "../ClientActions";
 import Money from "@/app/components/Money";
 import { clientFinance } from "@/lib/adminFinance";
@@ -44,7 +45,7 @@ export default async function AdminClientsPage({ searchParams }) {
             <h2>أصحاب المشاريع {q && <span className="muted" style={{ fontSize: "0.7em" }}>— نتائج البحث عن "{params.q}"</span>}</h2>
           </div>
           <a className="client-luxe-add-btn" href="/admin/clients/new">
-            <span>+</span> عميل جديد
+            <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg></span> عميل جديد
           </a>
         </div>
 
@@ -100,11 +101,11 @@ export default async function AdminClientsPage({ searchParams }) {
                         href={`/admin/proposal/${c.id}`}
                         style={{ color: offer.color, background: offer.bg }}
                       >
-                        {offer.icon} {offer.label}
+                        <InterfaceSymbol value={offer.icon} /> {offer.label}
                       </a>
                     ) : (
                       <a className="client-luxe-project-link" href={`/admin/proposal/${c.id}`}>
-                        + إنشاء عرض
+                        <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> إنشاء عرض
                       </a>
                     )}
                   </div>

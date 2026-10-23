@@ -1,5 +1,6 @@
 "use client";
 
+import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
 import { buildStagesForProposal } from "@/lib/packageStages";
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
@@ -12,56 +13,32 @@ import "./portal-dashboard.css";
 
 function AboutIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <line x1="12" y1="11" x2="12" y2="16.5" />
-      <circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
+    <svg width="15" height="15" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#info"></use></svg>
   );
 }
 function TeamIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="3" />
-      <path d="M6 20c0-3 2.5-5 6-5s6 2 6 5" />
-      <circle cx="4.5" cy="9.5" r="1.8" />
-      <circle cx="19.5" cy="9.5" r="1.8" />
-    </svg>
+    <svg width="15" height="15" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#users-alt"></use></svg>
   );
 }
 function PersonIcon() {
   return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="3.6" />
-      <path d="M5 20c0-3.6 3-6.2 7-6.2s7 2.6 7 6.2" />
-    </svg>
+    <svg width="26" height="26" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#user"></use></svg>
   );
 }
 function PortfolioIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="7.5" width="18" height="12" rx="2" />
-      <path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" />
-      <line x1="3" y1="12.5" x2="21" y2="12.5" />
-    </svg>
+    <svg width="15" height="15" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#briefcase"></use></svg>
   );
 }
 function QuoteIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 8.5c-2 0-3.2 1.4-3.2 3.4C3.8 14 5 15.3 6.6 15.3c1 0 1.4 1 .7 1.9-1 1.3-2.5 1.9-2.5 1.9" />
-      <path d="M16 8.5c-2 0-3.2 1.4-3.2 3.4 0 2.1 1.2 3.4 2.8 3.4 1 0 1.4 1 .7 1.9-1 1.3-2.5 1.9-2.5 1.9" />
-    </svg>
+    <svg width="15" height="15" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#quote-right"></use></svg>
   );
 }
 function DocIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 3.5h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z" />
-      <path d="M14 3.5v4h4" />
-      <line x1="8.5" y1="13" x2="15.5" y2="13" />
-      <line x1="8.5" y1="16.5" x2="13.5" y2="16.5" />
-    </svg>
+    <svg width="15" height="15" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#document"></use></svg>
   );
 }
 
@@ -117,25 +94,8 @@ const PORTFOLIO_DESCRIPTIONS={"مونتاج احترافي":"مونتاج احت
 // CSS transition) — same interaction as the reference design.
 // Icons for the LINK "why us" cards, keyed by the point label so reordering
 // the copy keeps each icon on its own point. Unknown labels get a spark.
-const WHY_ICONS = {
-  "جرّب قبل أن تقرّر": <><path d="M5 3l14 9-6 1.5L10 20z" /><path d="M13 13.5l4.5 4.5" /></>,
-  "كود بلا عمولة": <><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9M17 6l3 3M15 8l2 2" /></>,
-  "شفافية كاملة": <><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></>,
-  "التزام بالموعد": <><rect x="3" y="4.5" width="18" height="16.5" rx="2.5" /><path d="M3 9.5h18M8 2.5v4M16 2.5v4" /><path d="M8.8 15l2.2 2.2 4.4-4.4" /></>,
-  "تقنيات عالمية": <><rect x="6.5" y="2" width="11" height="20" rx="2.5" /><path d="M10.5 18.5h3" /></>,
-  "منصة تبيع وأنت نائم": <><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" /></>,
-  "تصميم يُقنع": <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></>,
-  "نحن شركاء طموحك": <><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" /><circle cx="17" cy="9" r="2.8" /><path d="M16.5 14.2c2.9.3 5 2.5 5 5.8" /></>,
-};
-const WHY_FALLBACK_ICON = <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" />;
-
-function WhyIcon({ label }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {WHY_ICONS[label] || WHY_FALLBACK_ICON}
-    </svg>
-  );
-}
+const WHY_ICONS = {"جرّب قبل أن تقرّر": "eye", "كود بلا عمولة": "code-simple", "شفافية كاملة": "eye", "التزام بالموعد": "calendar", "تقنيات عالمية": "smartphone", "منصة تبيع وأنت نائم": "shopping-cart", "تصميم يُقنع": "browser", "نحن شركاء طموحك": "users-alt"};
+function WhyIcon({ label }) { return <PlatformIcon name={WHY_ICONS[label] || "star"} size="22" />; }
 
 // Programming-era "about us" layout (option B, approved 2026-09-25): an
 // editorial side column (headline + promise) beside a numbered 01–08 list.
@@ -199,7 +159,7 @@ function LiveWorks() {
             <div className="lw-bar">
               <i /><i /><i />
               <span className="lw-url">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                <svg width="12" height="12" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#lock"></use></svg>
                 <span>{w.host}</span>
               </span>
               <span className="lw-live">LIVE</span>
@@ -215,7 +175,7 @@ function LiveWorks() {
                 <div className="lw-tags">{w.tags.map((t) => <span key={t}>{t}</span>)}</div>
                 <a className="lw-cta" href={w.url} target="_blank" rel="noopener noreferrer">
                   {w.app ? "حمّل التطبيق" : "جرّب الموقع الحي"}
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8.5 7H17v8.5" /></svg>
+                  <svg width="15" height="15" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-up-right-from-square"></use></svg>
                 </a>
               </div>
             </div>
@@ -299,9 +259,7 @@ function TeamOrbit({ members, centerPhoto, centerName, centerRole }) {
       )}
       <div className="team-avatar team-avatar-center" style={{ backgroundImage: `url(${centerPhoto})` }}>
         <span className="team-crown">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8Z" />
-          </svg>
+          <svg width="14" height="14" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#crown"></use></svg>
         </span>
       </div>
       <div className="team-orbit-satellites">
@@ -368,14 +326,11 @@ function CrownIcon() {
     <svg
       width="15"
       height="15"
-      viewBox="0 0 24 24"
-      fill="currentColor"
+
+
       aria-hidden="true"
       style={{ flexShrink: 0, marginInlineStart: "5px", verticalAlign: "-2px", color: "#ffc266" }}
-    >
-      <path d="M3 8.2a1.3 1.3 0 1 1 1.72 1.23l1.2 4.02h12.16l1.2-4.02A1.3 1.3 0 1 1 21 8.2a1.3 1.3 0 0 1-.77 1.19l-2.2 1.53-2.9-3.63a1.3 1.3 0 1 0-2.26-.02L12 8.9l-.87-1.63a1.3 1.3 0 1 0-2.26.02l-2.9 3.63-2.2-1.53A1.3 1.3 0 0 1 3 8.2Z" />
-      <path d="M5.6 15.45h12.8a.9.9 0 0 1 .9.9v.6a.9.9 0 0 1-.9.9H5.6a.9.9 0 0 1-.9-.9v-.6a.9.9 0 0 1 .9-.9Z" />
-    </svg>
+     className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#crown"></use></svg>
   );
 }
 
@@ -725,12 +680,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
               onClick={goBack}
               disabled={stepIndex === 0}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+              <svg width="16" height="16" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-right"></use></svg>
               السابق
             </button>
             <button type="button" className="btn btn-primary btn-sm funnel-nav-btn" onClick={goNext}>
               التالي
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+              <svg width="16" height="16" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-left"></use></svg>
             </button>
           </div>
         )}
@@ -851,21 +806,18 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         }}
                         style={{ "--offset": offset }}
                       >
-                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i>▶</i></span>)}</div>:<div className={`works-card-bg${["محفظة كريم","iKareem"].includes(item.description)?" works-card-bg--full":""}`} style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
+                          {coverImages.length>1?<div className="works-cover-strip">{coverImages.map((src)=><span key={src} style={{backgroundImage:`url(${src})`}}><i><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#play"></use></svg></i></span>)}</div>:<div className={`works-card-bg${["محفظة كريم","iKareem"].includes(item.description)?" works-card-bg--full":""}`} style={coverImages[0]?{backgroundImage:`url(${coverImages[0]})`}:undefined}/>}
                           <div className="works-card-shade" />
                           {hasStack && serviceType !== "course" && (
                             <span className="works-stack-badge">
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="4" y="4" width="12" height="12" rx="2" />
-                                <path d="M8 20h12a2 2 0 0 0 2 -2v-12" />
-                              </svg>
-                              +{item.stack_count - 1} أعمال أخرى
+                              <svg width="12" height="12" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#folder"></use></svg>
+                              {item.stack_count - 1} أعمال أخرى
                             </span>
                           )}
                           <div className="works-card-body">
                             <div className="works-card-title">{itemLabel}</div>
                           </div>
-                          {offset === 0 && VIDEO_PORTFOLIO_TITLES.has(item.title) && <span className="works-play">▶</span>}
+                          {offset === 0 && VIDEO_PORTFOLIO_TITLES.has(item.title) && <span className="works-play"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#play"></use></svg></span>}
                       </button>
                     );
                   })}
@@ -883,12 +835,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     // YouTube link is one video, anything else is the works page
                     // (which is what every other service still gets).
                     const label = /youtube\.com|youtu\.be/.test(href || "")
-                      ? "شاهد الفيديو ←"
-                      : "شاهد كل الأعمال ←";
+                      ? "شاهد الفيديو"
+                      : "شاهد كل الأعمال";
                     return href ? (
                       <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
                     ) : (
-                      <span className="works-detail-button">شاهد كل الأعمال ←</span>
+                      <span className="works-detail-button">شاهد كل الأعمال <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg></span>
                     );
                   })()}
                 </div>
@@ -913,7 +865,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     return (
                       <div className="testimonial-card" key={t.id}>
                         <div className="testimonial-stars" aria-hidden="true">
-                          ★★★★★
+                          {[0,1,2,3,4].map(star => <PlatformIcon key={star} name="star" />)}
                         </div>
                         <div className="quote">&quot;{t.quote}&quot;</div>
                         <div className="testimonial-footer">
@@ -946,7 +898,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 السابق
               </button>
               <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
-                حدد باقتك، ولنبدأ نبض مشروعك .. 🚀
+                حدد باقتك، ولنبدأ نبض مشروعك .. <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>
               </h2>
               <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}${packages.length === 1 ? " package-grid-one" : ""}`}>
                 {(() => {
@@ -1004,9 +956,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           {featureLines.map((line, i) => (
                             <li key={i}>
                               <span className="package-check">
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
+                                <svg width="11" height="11" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#check"></use></svg>
                               </span>
                               {/* A feature line wrapped in ** … ** is the one that sets this
                                   tier apart (e.g. 5 vs 50 articles on the Blogger ladder) —

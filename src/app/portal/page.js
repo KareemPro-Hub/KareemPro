@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { redirect } from "next/navigation";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
@@ -117,7 +118,7 @@ export default async function PortalPage() {
       const chosenName = chosen ? chosen.name.split("|")[0].trim() : null;
       onboardingContent = (
         <div className="card">
-          <span className="signed-badge-lg">✅ تم توقيع العقد</span>
+          <span className="signed-badge-lg"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg> تم توقيع العقد</span>
           <h2 className="title" style={{ marginTop: "1rem" }}>
             بانتظار بدء العمل على مشروعك
           </h2>
@@ -134,7 +135,7 @@ export default async function PortalPage() {
             )}
             <div className="meta-item">
               <span className="meta-label">الحالة</span>
-              <span className="meta-value">جاري التجهيز للبدء 🚀</span>
+              <span className="meta-value">جاري التجهيز للبدء <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg></span>
             </div>
           </div>
           <p className="muted" style={{ marginTop: "1.2rem" }}>
@@ -308,7 +309,7 @@ export default async function PortalPage() {
                             <div className="project-luxe-payment-row" key={stage.id}>
                               <div className="project-luxe-payment-left">
                                 <span className="project-luxe-payment-node" style={{ background: st.ring }}>
-                                  {st.icon}
+                                  <InterfaceSymbol value={st.icon} />
                                 </span>
                                 <div>
                                   <div className="project-luxe-payment-title">الدفعة {stage.stage_number}</div>
@@ -392,7 +393,7 @@ export default async function PortalPage() {
 
           <div className="client-support-grid">
             <div className="client-support-card whatsapp">
-              <div className="client-support-icon">💬</div>
+              <div className="client-support-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#comment"></use></svg></div>
               <div className="client-support-title">تواصل عبر واتساب</div>
               <div className="client-support-desc">أسرع طريقة للرد على استفساراتك ومتابعة طلبك أول بأول.</div>
               <div className="client-support-value" dir="ltr">+966 50 706 9605</div>
@@ -407,7 +408,7 @@ export default async function PortalPage() {
             </div>
 
             <div className="client-support-card email">
-              <div className="client-support-icon">✉️</div>
+              <div className="client-support-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#comment"></use></svg></div>
               <div className="client-support-title">تواصل عبر البريد الإلكتروني</div>
               <div className="client-support-desc">لإرسال الملفات والمستندات، أو الاستفسارات التفصيلية.</div>
               <div className="client-support-value" dir="ltr">Egy.Kareem.Pro@gmail.com</div>

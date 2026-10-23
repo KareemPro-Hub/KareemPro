@@ -43,4 +43,15 @@ if (equivalents.length) getRate().then(rate => {
   });
 }).catch(() => equivalents.forEach(element => { element.textContent = 'تعذر تحديث مقابل الجنيه حاليًا؛ تواصل معنا لتأكيد المبلغ.'; }));
 
+// Reuse the same guide and catalog for the approved floating shortcut.
+const finderSource = document.getElementById('package-finder-catalog');
+if (finderSource && !document.querySelector('.package-finder-launcher')) {
+  const shortcut = document.createElement('button');
+  shortcut.type = 'button';
+  shortcut.className = 'package-finder-launcher';
+  shortcut.dataset.packageFinder = document.querySelector('[data-package-finder]')?.dataset.packageFinder || '';
+  shortcut.setAttribute('aria-haspopup', 'dialog');
+  shortcut.innerHTML = '<svg class="ui-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><use href="/icons/ui.svg#interrogation"></use></svg><span>ساعدني أختار</span>';
+  document.body.append(shortcut);
+}
 mountPackageFinder();

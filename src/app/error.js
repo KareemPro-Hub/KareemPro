@@ -17,7 +17,7 @@ export default function Error({ error, reset }) {
         </a>
 
         <div className="admin-auth-card" style={{ textAlign: "center" }}>
-          <div style={{ fontSize: "44px", lineHeight: 1.3 }}>⚠️</div>
+          <div style={{ fontSize: "44px", lineHeight: 1.3 }}><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#info"></use></svg></div>
           <h1 className="title">حصل خطأ غير متوقع</h1>
           <p className="muted" style={{ marginBottom: "1.6rem" }}>
             معلش، حاجة ما مشيتش صح. جرب تاني — ولو المشكلة استمرت كلمنا على الواتساب.

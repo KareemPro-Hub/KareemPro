@@ -1,4 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
+import InterfaceSymbol from "@/app/components/InterfaceSymbol";
+import PlatformIcon from "@/app/components/PlatformIcon";
 import Money from "@/app/components/Money";
 import ProjectActions from "./ProjectActions";
 import { clientFinance, sumFinances } from "@/lib/adminFinance";
@@ -92,7 +94,7 @@ export default async function AdminOverview() {
             </div>
           </div>
           <p className="positive">
-            ↗ <span>{(clients || []).length} عميل · {allProjects.length} مشروع</span>
+            <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-up-right-from-square"></use></svg> <span>{(clients || []).length} عميل · {allProjects.length} مشروع</span>
           </p>
         </div>
         <div className="spark">
@@ -106,14 +108,14 @@ export default async function AdminOverview() {
         <div className="hero-side">
           <span>المتاح للتحصيل</span>
           <b><AdminMoneyPrivacy value={totals.pending} /></b>
-          <a href="/admin/wallet">عرض المحفظة ←</a>
+          <a href="/admin/wallet">عرض المحفظة <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg></a>
         </div>
       </div>
 
       <div className="stats">
         <article>
           <div className="stat-icon blue custom-stat-icon">
-            <img src="/admin-ui/icons/projects-schedule.png" alt="مشاريع نشطة" />
+            <PlatformIcon name="calendar" size="1.5em" />
           </div>
           <div>
             <span>مشاريع نشطة</span>
@@ -123,7 +125,7 @@ export default async function AdminOverview() {
         </article>
         <article>
           <div className="stat-icon purple custom-stat-icon">
-            <img src="/admin-ui/icons/target.png" alt="عروض بانتظار قرار" />
+            <PlatformIcon name="list-check" size="1.5em" />
           </div>
           <div>
             <span>عروض بانتظار قرار</span>
@@ -133,7 +135,7 @@ export default async function AdminOverview() {
         </article>
         <article>
           <div className="stat-icon green custom-stat-icon checklist-icon">
-            <img src="/admin-ui/icons/checklist.png" alt="مراحل سداد مكتملة" />
+            <PlatformIcon name="list-check" size="1.5em" />
           </div>
           <div>
             <span>مراحل سداد مكتملة</span>
@@ -143,7 +145,7 @@ export default async function AdminOverview() {
         </article>
         <article>
           <div className="stat-icon orange custom-stat-icon">
-            <img src="/admin-ui/icons/time-is-money.png" alt="مستحقات قادمة" />
+            <PlatformIcon name="clock" size="1.5em" />
           </div>
           <div>
             <span>مستحقات قادمة</span>
@@ -163,7 +165,7 @@ export default async function AdminOverview() {
               <h2>المشاريع الجارية</h2>
             </div>
             <a className="text-btn" href="/admin/projects">
-              عرض الكل ←
+              عرض الكل <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
             </a>
           </div>
           {recentProjects.length === 0 && <p className="muted">لسه مفيش مشاريع.</p>}
@@ -218,10 +220,10 @@ export default async function AdminOverview() {
               <h2>يحتاج إجراء</h2>
             </div>
             <a className="text-btn" href="/admin/pipeline">
-              عرض الكل ←
+              عرض الكل <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
             </a>
           </div>
-          {actionItems.length === 0 && <p className="muted">لا يوجد شيء بانتظار إجراء الآن 🎉</p>}
+          {actionItems.length === 0 && <p className="muted">لا يوجد شيء بانتظار إجراء الآن <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#star"></use></svg></p>}
           {actionItems.map((item) => (
             <a
               key={item.key}
@@ -276,7 +278,7 @@ export default async function AdminOverview() {
           {activity.length === 0 && <p className="muted">لا يوجد نشاط بعد.</p>}
           {activity.map((item, i) => (
             <div className="activity-item" key={i}>
-              <span className={`activity-icon ${item.icon}`}>{item.symbol}</span>
+              <span className={`activity-icon ${item.icon}`}><InterfaceSymbol value={item.symbol} /></span>
               <p>
                 <b>{item.text}</b>
                 {item.money != null && (

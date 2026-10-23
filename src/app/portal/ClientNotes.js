@@ -1,5 +1,6 @@
 "use client";
 
+import PlatformIcon from "@/app/components/PlatformIcon";
 import { useMemo, useRef, useState, useTransition } from "react";
 import { addMyNote, sendMyNoteToAdmin, deleteMyNote } from "./notes-actions";
 
@@ -72,7 +73,7 @@ export default function ClientNotes({ notes, projectOptions }) {
   return (
     <div className="client-notes-card">
       <div className="client-notes-title">
-        <span>💡 أفكارك وملاحظاتك</span>
+        <span><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#bolt"></use></svg> أفكارك وملاحظاتك</span>
         <span className="client-notes-sub">دوّن أي فكرة أو طلب، وابعتها لكريم لما تكون جاهزة</span>
       </div>
 
@@ -89,7 +90,7 @@ export default function ClientNotes({ notes, projectOptions }) {
         )}
         <input type="text" name="text" placeholder="اكتب فكرتك أو ملاحظتك هنا…" disabled={isPending} />
         <button type="submit" disabled={isPending}>
-          + إضافة ملاحظة
+          <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#edit"></use></svg> إضافة ملاحظة
         </button>
       </form>
 
@@ -110,7 +111,7 @@ export default function ClientNotes({ notes, projectOptions }) {
             </div>
             <div className="client-notes-item-actions">
               {note.sent_to_admin ? (
-                <span className="client-notes-sent-badge">تم الإرسال إلى كريم ✓</span>
+                <span className="client-notes-sent-badge">تم الإرسال إلى كريم <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg></span>
               ) : (
                 <button
                   type="button"
@@ -118,11 +119,11 @@ export default function ClientNotes({ notes, projectOptions }) {
                   onClick={() => handleSend(note)}
                   disabled={isPending && sendingId === note.id}
                 >
-                  {isPending && sendingId === note.id ? "جارِ الإرسال..." : "إرسال لكريم ↗"}
+                  {isPending && sendingId === note.id ? "جارِ الإرسال..." : <>إرسال لكريم <PlatformIcon name="paper-plane" /></>}
                 </button>
               )}
               <button type="button" className="client-notes-delete" onClick={() => handleDelete(note)}>
-                ✕
+                <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#trash"></use></svg>
               </button>
             </div>
           </div>

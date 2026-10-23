@@ -68,9 +68,7 @@ export default function PasskeySetup() {
   if (state === "done") {
     return (
       <div className="passkey-setup is-done">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 6 9 17l-5-5" />
-        </svg>
+        <svg aria-hidden="true" className="ui-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#check"></use></svg>
         البصمة مفعّلة على هذا الجهاز
       </div>
     );
@@ -79,14 +77,7 @@ export default function PasskeySetup() {
   return (
     <div className="passkey-setup-wrap">
       <button type="button" className="passkey-setup" onClick={register} disabled={state === "loading"}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 11c0 3.5-1 6.5-2.6 9" />
-          <path d="M8.5 7.6A5 5 0 0 1 17 11c0 1.3-.1 2.6-.4 3.8" />
-          <path d="M5.7 9.2A8 8 0 0 1 19.9 9.5" />
-          <path d="M6.4 16.3A15 15 0 0 0 7 11a5 5 0 0 1 .4-2" />
-          <path d="M14.6 21c.4-1.3.8-2.8 1-4.4" />
-          <path d="M4.3 13.3c.2-.9.3-1.6.3-2.3 0-1.4.3-2.7.9-3.9" />
-        </svg>
+        <svg aria-hidden="true" className="ui-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#fingerprint"></use></svg>
         {state === "loading" ? "لحظة واحدة..." : "تفعيل الدخول بالبصمة"}
       </button>
       {message && <p className="passkey-setup-msg">{message}</p>}

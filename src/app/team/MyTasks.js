@@ -73,7 +73,7 @@ export default function MyTasks({ tasks: initialTasks }) {
               {t.amount != null && <div className="team-portal-task-amount">{formatTeamAmount(t.amount)}</div>}
 
               {eff === "done" ? (
-                <span className="team-portal-done-badge">✓ منجزة</span>
+                <span className="team-portal-done-badge"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg> منجزة</span>
               ) : (
                 <button
                   type="button"

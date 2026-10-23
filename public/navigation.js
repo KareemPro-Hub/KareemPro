@@ -1,6 +1,16 @@
 (function () {
   'use strict';
-  var nav = document.querySelector('nav');
+  var nav = document.querySelector('.page-header') || document.querySelector('nav');
+  var sectionLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"], .section-nav a[href^="#"]'));
+  function selectSection(hash) {
+    sectionLinks.forEach(function (link) {
+      var selected = link.getAttribute('href') === hash;
+      link.classList.toggle('is-active', selected);
+      if (selected) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  selectSection(location.hash);
   var initialHash = location.hash;
   var navigated = false;
   var sequence = 0;
@@ -40,10 +50,11 @@
     if (!destination(hash)) return;
     event.preventDefault();
     navigated = true;
+    selectSection(hash);
     if (location.hash !== hash) history.pushState(null, '', hash);
     align(hash);
   });
-  window.addEventListener('hashchange', function () { align(location.hash); });
+  window.addEventListener('hashchange', function () { selectSection(location.hash); align(location.hash); });
   window.addEventListener('load', function () {
     if (!navigated && initialHash && location.hash === initialHash) align(initialHash);
   }, { once: true });

@@ -117,10 +117,10 @@ export default function TeamBoard({ members: initialMembers, tasks: initialTasks
         <div className="team-luxe-badge">فريق العمل</div>
         <div style={{ flex: 1 }} />
         <button type="button" className="team-luxe-btn secondary" onClick={() => setShowAddMember((v) => !v)}>
-          + عضو جديد
+          <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> عضو جديد
         </button>
         <button type="button" className="team-luxe-btn primary" onClick={() => setShowNewTask((v) => !v)}>
-          + مهمة جديدة
+          <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#user-pen"></use></svg> مهمة جديدة
         </button>
       </div>
 
@@ -241,7 +241,7 @@ export default function TeamBoard({ members: initialMembers, tasks: initialTasks
                   onClick={() => handleToggleDone(t)}
                   aria-label="تبديل حالة الإنجاز"
                 >
-                  {eff === "done" ? "✓" : ""}
+                  {eff === "done" ? <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#check"></use></svg> : ""}
                 </button>
                 <div className="team-luxe-task-info">
                   <div className={`team-luxe-task-title${eff === "done" ? " done" : ""}`}>{t.title}</div>
@@ -266,7 +266,7 @@ export default function TeamBoard({ members: initialMembers, tasks: initialTasks
                   {meta.label}
                 </span>
                 <button type="button" className="team-luxe-delete" onClick={() => handleDeleteTask(t)}>
-                  ✕
+                  <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#trash"></use></svg>
                 </button>
               </div>
             );

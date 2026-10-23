@@ -57,7 +57,7 @@ export default async function ProjectDetailPage({ params }) {
   return (
     <section className="view active">
       <a href="/admin/projects" className="proj-detail-back">
-        رجوع للوحة التحكم ←
+        رجوع للوحة التحكم <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#arrow-left"></use></svg>
       </a>
 
       <div className="proj-detail-title-bar">
@@ -95,7 +95,7 @@ export default async function ProjectDetailPage({ params }) {
       <div className="proj-detail-section">
         <div className="proj-detail-section-head">
           <div className="proj-detail-section-title">
-            <span className="proj-detail-section-icon">🛠️</span>
+            <span className="proj-detail-section-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#settings"></use></svg></span>
             مسار الإنتاج
           </div>
           <div className="proj-detail-timeline-actions-head">
@@ -157,7 +157,7 @@ export default async function ProjectDetailPage({ params }) {
       <div className="proj-detail-section">
         <div className="proj-detail-section-head">
           <div className="proj-detail-section-title">
-            <span className="proj-detail-section-icon">💳</span>
+            <span className="proj-detail-section-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#wallet"></use></svg></span>
             المراحل المالية (السداد)
           </div>
           <AddStageModal projectId={project.id} />
