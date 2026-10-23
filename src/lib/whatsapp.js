@@ -1,9 +1,9 @@
 // ══════════════════ WhatsApp message helpers ══════════════════
 // All client communication happens over WhatsApp (Kareem's clients come from
 // ads straight into his WhatsApp — many never open email). Nothing here sends
-// anything by itself: every function just builds a wa.me URL that opens the
+// anything by itself: every function prepares a native-app URL that opens the
 // client's chat with the message pre-typed, and Kareem himself presses Send.
-// Emails keep firing automatically in the background as the backup channel.
+// Client emails remain disabled; this helper never sends a message itself.
 //
 // Pure functions only — safe to import from client components.
 
@@ -65,38 +65,29 @@ export function splitDialCode(phone) {
 export function buildWhatsAppUrl(phone, text) {
   const digits = normalizeWhatsAppPhone(phone);
   if (!digits) return null;
-  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+  return `whatsapp://send?phone=${digits}&text=${encodeURIComponent(text)}`;
 }
 
-// Opens the client's WhatsApp chat with the message pre-typed, and copies
-// the same message to the clipboard as a safety net.
-//
-// Why not a plain wa.me link everywhere: on desktop, wa.me hands the text to
-// the installed WhatsApp app, whose macOS build mangles emoji into "?" —
-// WhatsApp Web renders them correctly, so desktop goes straight to
-// web.whatsapp.com. Mobile keeps wa.me (it opens the native app properly).
-// Returns true when the clipboard copy also succeeded.
+// Always use the installed WhatsApp app, per Karim's explicit preference.
+// Keep a complete clipboard copy, including emoji and line breaks. Neither
+// opening the draft nor copying it sends anything; Karim still presses Send.
 export async function openWhatsApp(phone, text) {
-  const digits = normalizeWhatsAppPhone(phone);
-  if (!digits) return false;
+  const url = buildWhatsAppUrl(phone, text);
+  if (!url) return false;
 
-  const isMobile =
-    typeof navigator !== "undefined" &&
-    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-
-  const url = isMobile
-    ? `https://wa.me/${digits}?text=${encodeURIComponent(text)}`
-    : `https://web.whatsapp.com/send?phone=${digits}&text=${encodeURIComponent(text)}`;
-
-  let copied = false;
+  let copied;
   try {
-    await navigator.clipboard.writeText(text);
-    copied = true;
+    copied = Promise.resolve(navigator.clipboard.writeText(text)).then(
+      () => true,
+      () => false,
+    );
   } catch {
-    // Clipboard permissions vary — the prefilled text is the primary path.
+    copied = Promise.resolve(false);
   }
 
-  window.open(url, "_blank", "noopener,noreferrer");
+  // Dispatch immediately: clipboard permission must not delay the app handoff.
+  // No browser tab and no automatic WhatsApp Web fallback.
+  window.location.assign(url);
   return copied;
 }
 

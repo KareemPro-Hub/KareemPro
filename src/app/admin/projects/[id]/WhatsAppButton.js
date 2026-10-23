@@ -36,9 +36,8 @@ const BUILDERS = {
 // live when it's sent. When `data.loginUrl` is already set (the action that
 // just ran returned one), that link is used as-is instead.
 //
-// Goes through openWhatsApp() rather than a plain href because the macOS
-// WhatsApp desktop app mangles emoji in prefilled text (they arrive as "?"),
-// while WhatsApp Web handles them correctly — see lib/whatsapp.js.
+// All outbound project messages use the installed WhatsApp application.
+// The shared helper retains a clipboard copy and never sends automatically.
 export default function WhatsAppButton({ phone, kind, data, projectId, label, small = false }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);

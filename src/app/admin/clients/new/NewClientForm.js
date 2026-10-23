@@ -66,8 +66,7 @@ export default function NewClientForm() {
         </h2>
         {waSent ? (
           <p className="muted" style={{ marginBottom: "1.4rem", lineHeight: 1.9 }}>
-            تم إرسال رسالة الترحيب على الواتساب — العميل جاهز يدخل على لوحته
-            مباشرة.
+            رسالة الترحيب جاهزة في تطبيق واتساب — راجعها ثم اضغط إرسال.
           </p>
         ) : (
           <>
