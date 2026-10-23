@@ -2,11 +2,13 @@
 
 import { useState, useTransition, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 import { deleteClient, generateClientLoginLink, updateClient } from "@/app/admin/actions";
 import { MoreIcon, TrashIcon, CheckIcon } from "./AdminIcons";
 import { openWhatsApp, welcomeMessage, DIAL_CODES, splitDialCode } from "@/lib/whatsapp";
 
 export default function ClientActions({ clientId, clientName, clientPhone }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const [isDeleting, startDelete] = useTransition();
@@ -88,10 +90,15 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
     setError(null);
     startDelete(async () => {
       try {
-        await deleteClient(clientId);
+        const result = await deleteClient(clientId);
+        if (!result?.ok) {
+          setError(result?.error || "تعذّر حذف صاحب المشروع الآن. حاول مجددًا.");
+          return;
+        }
         closeMenu();
+        router.refresh();
       } catch (e) {
-        setError(e.message || "حصل خطأ أثناء الحذف");
+        setError("تعذّر حذف صاحب المشروع الآن. حدّث الصفحة وحاول مجددًا.");
       }
     });
   }
@@ -374,7 +381,7 @@ export default function ClientActions({ clientId, clientName, clientPhone }) {
             </button>
 
             {error && (
-              <div style={{ fontSize: "11px", color: "#e0234a", padding: "6px 8px 0" }}>{error}</div>
+              <div role="alert" style={{ fontSize: "11px", color: "#e0234a", padding: "6px 8px 0" }}>{error}</div>
             )}
               </>
             )}

@@ -1205,15 +1205,31 @@ export async function generateClientLoginLink(clientId) {
 // DB (clients -> projects -> stages -> payment_reminders), and since the
 // account itself is gone, the same email can sign up again as if brand new. ──
 export async function deleteClient(clientId) {
-  await requireAdmin();
+  const { user } = await requireAdmin();
   const admin = createAdminClient();
 
-  if (!clientId) throw new Error("معرّف صاحب المشروع مفقود");
+  if (typeof clientId !== "string" || !/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(clientId)) {
+    return { ok: false, error: "معرّف صاحب المشروع غير صحيح." };
+  }
+  if (clientId === user.id) return { ok: false, error: "لا يمكن حذف حساب الإدارة المستخدم حاليًا." };
 
-  const { error } = await admin.auth.admin.deleteUser(clientId);
-  if (error) throw new Error(error.message);
+  try {
+    const { data: client, error: lookupError } = await admin.from("clients")
+      .select("id").eq("id", clientId).maybeSingle();
+    if (lookupError) throw lookupError;
+    // A stale card can be dismissed, but must never delete a non-client auth user.
+    if (client) {
+      const { error } = await admin.auth.admin.deleteUser(clientId);
+      if (error) throw error;
+    }
+  } catch (error) {
+    console.error("[client-delete] failed", { code: error?.code, status: error?.status });
+    return { ok: false, error: "تعذّر حذف صاحب المشروع الآن. حدّث الصفحة وحاول مجددًا." };
+  }
 
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
+  revalidatePath("/portal");
+  return { ok: true };
 }
 
 // ══════════════════ Site content (About Us) ══════════════════
