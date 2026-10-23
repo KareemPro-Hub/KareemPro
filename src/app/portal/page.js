@@ -1,3 +1,4 @@
+import WhatsAppIcon from "@/app/components/WhatsAppIcon";
 import { createClient } from "@/lib/supabase/server";
 import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import { redirect } from "next/navigation";
@@ -393,7 +394,7 @@ export default async function PortalPage() {
 
           <div className="client-support-grid">
             <div className="client-support-card whatsapp">
-              <div className="client-support-icon"><svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#comment"></use></svg></div>
+              <div className="client-support-icon"><WhatsAppIcon width="1em" /></div>
               <div className="client-support-title">تواصل عبر واتساب</div>
               <div className="client-support-desc">أسرع طريقة للرد على استفساراتك ومتابعة طلبك أول بأول.</div>
               <div className="client-support-value" dir="ltr">+966 50 706 9605</div>

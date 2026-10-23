@@ -1,5 +1,6 @@
 "use client";
 
+import WhatsAppIcon from "@/app/components/WhatsAppIcon";
 import { useState, useTransition } from "react";
 import {
   openWhatsApp,
@@ -79,7 +80,7 @@ export default function WhatsAppButton({ phone, kind, data, projectId, label, sm
           opacity: isPending ? 0.7 : 1,
         }}
       >
-        <svg width={small ? 14 : 16} height={small ? 14 : 16} className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#comment"></use></svg>
+        <WhatsAppIcon width={small ? 14 : 16} height={small ? 14 : 16} />
         {isPending ? "لحظة..." : label}
       </a>
       {error && <span style={{ fontSize: "11px", color: "#c81e3f" }}>{error}</span>}

@@ -1,5 +1,6 @@
 "use client";
 
+import WhatsAppIcon from "@/app/components/WhatsAppIcon";
 import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
 import { openWhatsApp, welcomeMessage, DIAL_CODES } from "@/lib/whatsapp";
@@ -95,7 +96,7 @@ export default function NewClientForm() {
                 boxShadow: "0 8px 20px rgba(37,211,102,.35)",
               }}
             >
-              <svg width="20" height="20" className="ui-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#comment"></use></svg>
+              <WhatsAppIcon width="20" height="20" />
               إرسال الترحيب على الواتساب
             </a>
           </>
