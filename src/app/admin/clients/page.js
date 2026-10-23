@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import ClientActions from "../ClientActions";
@@ -22,10 +23,10 @@ export default async function AdminClientsPage({ searchParams }) {
   const params = await searchParams;
   const q = (params?.q || "").trim().toLowerCase();
 
-  const { data: allClients } = await supabase
+  const { data: allClients } = await withModarresiBranding(supabase
     .from("clients")
     .select("*, projects(*, stages(*)), proposals(status, created_at)")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const clients = q
     ? (allClients || []).filter(

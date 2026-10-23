@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import InterfaceSymbol from "@/app/components/InterfaceSymbol";
 import PlatformIcon from "@/app/components/PlatformIcon";
@@ -13,10 +14,10 @@ const LOGO_COLORS = ["coral", "cyan", "violet"];
 export default async function AdminOverview() {
   const { supabase } = await requireAdmin();
 
-  const { data: clients } = await supabase
+  const { data: clients } = await withModarresiBranding(supabase
     .from("clients")
     .select("*, projects(*, stages(*)), proposals(id, status, created_at, decided_at, project_title)")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const totals = sumFinances(clients);
   const allProjects = (clients || []).flatMap((c) =>

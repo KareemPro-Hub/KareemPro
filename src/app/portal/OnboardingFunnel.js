@@ -3,6 +3,7 @@
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
 import { buildStagesForProposal } from "@/lib/packageStages";
+import { isModarresi, modarresiDisplayData } from "@/lib/modarresi-branding";
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
@@ -451,7 +452,7 @@ function detectServiceType(text) {
   if (/كورس|حصة|حصص/.test(t)) return "course";
   // LINK is checked before "تطبيق" below — its package name mentions the
   // apps too. Keep in sync with packageTier() in lib/timeline.js.
-  if (/LINK/i.test(t)) return "link";
+  if (isModarresi(t)) return "link";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -557,7 +558,8 @@ const VIDEO_PORTFOLIO_TITLES = new Set([
   "ريلز وسناب",
 ]);
 
-export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal }) {
+export default function OnboardingFunnel({ clientName, about, portfolio, testimonials, proposal: savedProposal }) {
+  const proposal = modarresiDisplayData(savedProposal);
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState(null);
   const [showReject, setShowReject] = useState(false);

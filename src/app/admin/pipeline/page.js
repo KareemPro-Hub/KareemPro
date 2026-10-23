@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import PipelineBoard from "./PipelineBoard";
 import AdminChecklist from "./AdminChecklist";
@@ -13,7 +14,7 @@ function timeAgoLabel(dateStr) {
 export default async function AdminPipelinePage() {
   const { supabase } = await requireAdmin();
 
-  const [{ data: checklistItems }, { data: projectsRaw }] = await Promise.all([
+  const [{ data: checklistItems }, { data: projectsRaw }] = await withModarresiBranding(Promise.all([
     supabase
       .from("admin_checklist")
       .select("*, projects(title)")
@@ -22,19 +23,19 @@ export default async function AdminPipelinePage() {
       .from("projects")
       .select("id, title, clients(full_name)")
       .order("created_at", { ascending: false }),
-  ]);
+  ]));
 
   const projectOptions = (projectsRaw || []).map((p) => ({
     id: p.id,
     label: p.clients?.full_name ? `${p.title} — ${p.clients.full_name}` : p.title,
   }));
 
-  const { data: clients } = await supabase
+  const { data: clients } = await withModarresiBranding(supabase
     .from("clients")
     .select(
       "id, full_name, proposals(id, status, created_at, decided_at, project_title, selected_package_id, proposal_packages(id, name, price))"
     )
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const proposals = (clients || [])
     .flatMap((c) => (c.proposals || []).map((pr) => ({ ...pr, clientId: c.id, clientName: c.full_name })))

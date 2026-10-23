@@ -5,6 +5,8 @@
 // gradient/brand styling come out pixel-identical to the rest of the app —
 // a plain PDF library (pdf-lib/pdfkit) can't shape Arabic text properly.
 
+import { modarresiDisplayData } from "./modarresi-branding";
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kareempro.com";
 
 function receiptHtml({ receiptNumber, dateLabel, dateValue, clientName, projectTitle, stageTitle, amount, remaining }) {
@@ -141,7 +143,7 @@ export async function generatePaymentReceiptPdf(data) {
 
   try {
     const page = await browser.newPage();
-    await page.setContent(receiptHtml(data), { waitUntil: "networkidle0" });
+    await page.setContent(receiptHtml(modarresiDisplayData(data)), { waitUntil: "networkidle0" });
     const pdfBytes = await page.pdf({ format: "A4", printBackground: true });
     return Buffer.from(pdfBytes);
   } finally {

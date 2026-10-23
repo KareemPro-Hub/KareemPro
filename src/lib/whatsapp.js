@@ -1,3 +1,5 @@
+import { modarresiText } from "./modarresi-branding";
+
 // ══════════════════ WhatsApp message helpers ══════════════════
 // All client communication happens over WhatsApp (Kareem's clients come from
 // ads straight into his WhatsApp — many never open email). Nothing here sends
@@ -72,6 +74,7 @@ export function buildWhatsAppUrl(phone, text) {
 // Keep a complete clipboard copy, including emoji and line breaks. Neither
 // opening the draft nor copying it sends anything; Karim still presses Send.
 export async function openWhatsApp(phone, text) {
+  text = modarresiText(text);
   const url = buildWhatsAppUrl(phone, text);
   if (!url) return false;
 

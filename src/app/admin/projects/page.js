@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import Money from "@/app/components/Money";
 import ProjectActions from "../ProjectActions";
@@ -14,10 +15,10 @@ const AVATAR_PALETTE = [
 export default async function AdminProjectsPage() {
   const { supabase } = await requireAdmin();
 
-  const { data: clients } = await supabase
+  const { data: clients } = await withModarresiBranding(supabase
     .from("clients")
     .select("full_name, projects(*, stages(*))")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const projects = (clients || [])
     .flatMap((c) => (c.projects || []).map((p) => ({ ...p, clientName: c.full_name })))

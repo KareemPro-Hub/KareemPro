@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import DeliveryActionCard from "./DeliveryActionCard";
 
@@ -31,10 +32,10 @@ const ACTION_TYPES = [
 export default async function AdminDeliveryPage() {
   const { supabase } = await requireAdmin();
 
-  const { data: clients } = await supabase
+  const { data: clients } = await withModarresiBranding(supabase
     .from("clients")
     .select("full_name, projects(*)")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const projects = (clients || []).flatMap((c) =>
     (c.projects || []).map((p) => ({ ...p, clientName: c.full_name }))

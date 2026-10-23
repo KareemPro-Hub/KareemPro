@@ -1,4 +1,5 @@
 import { currentBloggerCountFromName } from "./public-offers";
+import { isModarresi } from "./modarresi-branding";
 
 // ══════════════════ Project process timeline ══════════════════
 // Single source of truth for both the admin's and the client's timeline view
@@ -18,7 +19,7 @@ function packageTier(packageName) {
   if (/بلوجر|blogger/i.test(full)) return "blogger";
   // LINK: matched by name, not price — the settlement applied at signing
   // lowers package_price from 9,900 to 7,300, so price can't identify it.
-  if (/LINK/i.test(full)) return "link";
+  if (isModarresi(full)) return "link";
   // Article packages ("باقة 30 مقالًا" …) are a content service sold to a
   // client whose blog already exists — a different production process from
   // building one, so they get their own step list below. Checked AFTER
@@ -259,7 +260,7 @@ const LINK_STEPS = [
   {
     key: "link_apps_foundation",
     title: "تأسيس التطبيقات وربطها بالمنصة",
-    desc: "إنشاء تطبيقي iPhone وAndroid وربطهما بنفس الحسابات وقاعدة البيانات والخدمات الخاصة بمنصة LINK.",
+    desc: "إنشاء تطبيقي iPhone وAndroid وربطهما بنفس الحسابات وقاعدة البيانات والخدمات الخاصة بمنصة مُدرسي.",
   },
   {
     key: "link_apps_ux",

@@ -13,12 +13,14 @@
 // that one lives inside a "use client" component and importing it into a
 // server route would pull React along with it. If a service keyword ever
 // changes, change it in BOTH places.
+import { isModarresi } from "./modarresi-branding";
+
 export function detectServiceType(text) {
   const t = text || "";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
   if (/مقال/.test(t)) return "articles";
   if (/كورس|حصة|حصص/.test(t)) return "course";
-  if (/LINK/i.test(t)) return "link";
+  if (isModarresi(t)) return "link";
   if (/صيدلي|Urs/i.test(t)) return "pharmacy";
   if (/تعليق صوتي/i.test(t)) return "voiceover";
   if (/فيديو/i.test(t)) return "video";
@@ -47,7 +49,7 @@ const PREVIEW_BY_SERVICE = {
     description: "من الإنشاء حتى أول دخل حقيقي",
   },
   link: {
-    title: "منصة LINK جاهزة للانطلاق",
+    title: "منصة مُدرسي جاهزة للانطلاق",
     description: "منصة ويب وتطبيقا iPhone وAndroid باسمك",
   },
   pharmacy: {

@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import WhatsAppIcon from "@/app/components/WhatsAppIcon";
 import { createClient } from "@/lib/supabase/server";
 import InterfaceSymbol from "@/app/components/InterfaceSymbol";
@@ -36,7 +37,7 @@ export default async function PortalPage() {
   if (!user) redirect("/login");
 
   const [{ data: projects }, { data: client }, { data: notifications }, { data: files }, { data: notes }] =
-    await Promise.all([
+    await withModarresiBranding(Promise.all([
       supabase
         .from("projects")
         .select("*, stages(*)")
@@ -60,16 +61,16 @@ export default async function PortalPage() {
         .select("*, projects(title)")
         .eq("client_id", user.id)
         .order("created_at", { ascending: false }),
-    ]);
+    ]));
 
   // Signed in but not a client: a team member who lands on /portal (e.g. via
   // an old link) belongs on their own tasks page, not the client onboarding.
   if (!client) {
-    const { data: teamMember } = await supabase
+    const { data: teamMember } = await withModarresiBranding(supabase
       .from("team_members")
       .select("id")
       .eq("id", user.id)
-      .maybeSingle();
+      .maybeSingle());
     if (teamMember) redirect("/team");
   }
 
@@ -80,7 +81,7 @@ export default async function PortalPage() {
   let onboardingContent = null;
   if (!projects || projects.length === 0) {
     const [{ data: about }, { data: portfolio }, { data: testimonials }, { data: proposal }] =
-      await Promise.all([
+      await withModarresiBranding(Promise.all([
         supabase.from("site_content").select("*").eq("key", "about_us").maybeSingle(),
         supabase.from("portfolio_items").select("*").order("sort_order", { ascending: true }),
         supabase.from("testimonials").select("*").order("sort_order", { ascending: true }),
@@ -91,7 +92,7 @@ export default async function PortalPage() {
           .order("created_at", { ascending: false })
           .limit(1)
           .maybeSingle(),
-      ]);
+      ]));
 
     if (!proposal) {
       onboardingContent = (

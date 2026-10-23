@@ -1,6 +1,7 @@
 "use server";
 
 import { publicProposalPackages } from "@/lib/public-offers";
+import { modarresiDisplayData } from "@/lib/modarresi-branding";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
@@ -56,7 +57,7 @@ export async function getAdminNotifications() {
     .order("created_at", { ascending: false })
     .limit(30);
   if (error) throw new Error(error.message);
-  return data || [];
+  return modarresiDisplayData(data || []);
 }
 
 // ── Admin marks a single one of their own notifications as read. ──
@@ -183,14 +184,13 @@ const SERVICE_TEMPLATES = {
   // (full-year support). A 2,600 settlement for an earlier deal is deducted
   // from either as a discount (was 2,590 + 10 waived) — net 7,300 / 12,100. The settlement itself is applied
   // automatically on acceptance, see PACKAGE_SETTLEMENTS in
-  // lib/packageStages.js. The package name must keep the word "LINK":
-  // packageTier() in lib/timeline.js and detectServiceType() in the funnel
-  // both read it to recognise this service.
+  // lib/packageStages.js. The stable service key remains "link"; display
+  // detection accepts both the current name and historical saved names.
   link: {
     projectTitle: "منصة مُدرسي",
     packages: [
       {
-        name: "باقة LINK المتكاملة|منصة ويب **مع تطبيق iPhone وتطبيق Android**",
+        name: "باقة مُدرسي المتكاملة|منصة ويب **مع تطبيق iPhone وتطبيق Android**",
         price: 9900,
         original_price: 15000,
         is_featured: false,
@@ -211,12 +211,12 @@ const SERVICE_TEMPLATES = {
         ].join("\n"),
       },
       {
-        name: "باقة LINK الذهبية|كل مميزات المتكاملة **+ دعم فني كامل لمدة سنة**",
+        name: "باقة مُدرسي الذهبية|كل مميزات المتكاملة **+ دعم فني كامل لمدة سنة**",
         price: 14700,
         original_price: 20000,
         is_featured: false,
         features: [
-          "كل مميزات باقة LINK المتكاملة",
+          "كل مميزات باقة مُدرسي المتكاملة",
           "**دعم فني كامل لمدة سنة كاملة بعد التسليم**",
           "صيانة مستمرة وإصلاح أي مشكلة في المنصة والتطبيقين",
           "إضافة مميزات وتحسينات جديدة طوال السنة",

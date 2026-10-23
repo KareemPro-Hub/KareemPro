@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import StageCard from "./StageCard";
 import TimelineActions from "./TimelineActions";
@@ -20,11 +21,11 @@ export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
   const { supabase } = await requireAdmin();
 
-  const { data: project } = await supabase
+  const { data: project } = await withModarresiBranding(supabase
     .from("projects")
     .select("*, clients(*), stages(*), project_files(*)")
     .eq("id", id)
-    .single();
+    .single());
 
   if (!project) {
     return (

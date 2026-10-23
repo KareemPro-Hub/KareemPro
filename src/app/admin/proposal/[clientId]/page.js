@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import NewProposalForm from "./NewProposalForm";
 import DeleteProposalButton from "./DeleteProposalButton";
@@ -13,11 +14,11 @@ export default async function ClientProposalPage({ params }) {
   const { clientId } = await params;
   const { supabase } = await requireAdmin();
 
-  const { data: client } = await supabase
+  const { data: client } = await withModarresiBranding(supabase
     .from("clients")
     .select("*")
     .eq("id", clientId)
-    .single();
+    .single());
 
   if (!client) {
     return (
@@ -27,13 +28,13 @@ export default async function ClientProposalPage({ params }) {
     );
   }
 
-  const { data: proposal } = await supabase
+  const { data: proposal } = await withModarresiBranding(supabase
     .from("proposals")
     .select("*, proposal_packages!proposal_packages_proposal_id_fkey(*)")
     .eq("client_id", clientId)
     .order("created_at", { ascending: false })
     .limit(1)
-    .maybeSingle();
+    .maybeSingle());
 
   return (
     <section className="view active">

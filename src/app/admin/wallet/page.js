@@ -1,3 +1,4 @@
+import { withModarresiBranding } from "@/lib/modarresi-branding";
 import { requireAdmin } from "@/lib/admin";
 import Money from "@/app/components/Money";
 import RiyalIcon from "@/app/components/RiyalIcon";
@@ -7,10 +8,10 @@ import { timeAgo } from "@/lib/timeAgo";
 export default async function AdminWalletPage() {
   const { supabase } = await requireAdmin();
 
-  const { data: clients } = await supabase
+  const { data: clients } = await withModarresiBranding(supabase
     .from("clients")
     .select("*, projects(*, stages(*))")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }));
 
   const totals = sumFinances(clients);
 
