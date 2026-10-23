@@ -113,18 +113,17 @@ export function welcomeMessage({ clientName, loginUrl }) {
 export function paymentRequestMessage({ clientName, stageTitle, amount, loginUrl }) {
   const amountValue = Number(amount).toLocaleString("en-US");
   return (
-    `أ. ${clientName}، مشروعك جاهز لينطلق للمحطة القادمة 🚀\n\n` +
-    `حان موعد *"${stageTitle}"* لتفعيل المرحلة ومباشرة العمل فورًا:\n\n` +
-    `💰 المبلغ المستحق: *${amountValue} ريال*\n\n` +
-    `🏦 التحويل يكون عبر وسيلة الدفع المناسبة اللي تم إرسالها على الواتساب.\n\n` +
-    `بعد التحويل، فضلاً زودنا بصورة الإيصال عبر الواتساب لننطلق مباشرة 🚀\n` +
-    (loginUrl || PORTAL_URL)
+    `مرحبًا أ. ${clientName} 🌷\n\n` +
+    `حان موعد سداد *${stageTitle}* بقيمة *${amountValue} ريال سعودي*.\n\n` +
+    `للسداد بسهولة، افتح رابط مشروعك واضغط *«سداد المرحلة»*:\n` +
+    (loginUrl || PORTAL_URL) +
+    `\n\nبعد تأكيد الدفع، تتحدّث حالة الدفعة تلقائيًا في لوحة مشروعك ✅`
   );
 }
 
 // ── Overdue first-payment reminder ──────────────────────────────────────
 // Deliberately NOT a variant of paymentRequestMessage above: that one is
-// upbeat ("مشروعك جاهز لينطلق 🚀") and fits a stage that has just been
+// a portal-payment request and fits a stage that has just been
 // opened for payment. This one is for a stage that has been sitting in
 // "awaiting_payment" long enough that the project is effectively on hold —
 // so the voice is calm, formal and corporate, the pause is framed as a
