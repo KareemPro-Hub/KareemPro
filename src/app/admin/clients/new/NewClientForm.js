@@ -5,11 +5,8 @@ import { useState, useTransition } from "react";
 import { inviteClient } from "@/app/admin/actions";
 import { openWhatsApp, welcomeMessage, DIAL_CODES } from "@/lib/whatsapp";
 
-// "blogger" and "pharmacy" are fully wired up (each auto-creates its own
-// finalized proposal — see SERVICE_TEMPLATES in admin/actions.js). Blogger
-// also hides the "نماذج أعمالنا" step in the client's funnel. The remaining
-// options exist as real choices the admin can pick, but behave like a
-// normal client until each one gets its own template.
+// Each service creates its matching proposal (or the shared platform offer).
+// Keep stable values: saved clients and service-specific flows use them.
 const SERVICE_TYPES = [
   { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
   { value: "platform", label: "إنشاء منصة رقمية" },
@@ -17,7 +14,7 @@ const SERVICE_TYPES = [
   { value: "edu", label: "إنشاء منصة تعليمية" },
   { value: "store", label: "إنشاء متجر إلكتروني" },
   { value: "pharmacy", label: "منصة Urs SaaS لإدارة الصيدليات" },
-  { value: "link", label: "منصة LINK السعودية" },
+  { value: "link", label: "منصة مُدرسي" },
   { value: "articles", label: "باقات كتابة ونشر المقالات" },
 ];
 
@@ -178,7 +175,7 @@ export default function NewClientForm() {
           ))}
         </select>
         <small className="muted" style={{ display: "block", marginTop: "4px" }}>
-          حاليًا العرض والخطوات الجاهزة تلقائيًا مفعّلة لمدونة بلوجر فقط، والباقي هيتفعّل تباعًا.
+          اختر الخدمة لتجهيز باقاتها تلقائيًا. تُقسّم الدفعات بعد اختيار الباقة وتوقيع العقد.
         </small>
       </div>
       {error && (

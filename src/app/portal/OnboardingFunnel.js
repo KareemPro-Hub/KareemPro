@@ -492,7 +492,7 @@ const SERVICE_ABOUT_OVERRIDES = {
 const SERVICE_META = {
   blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
   pharmacy: { partyRole: "صاحب منصة Urs", serviceLine: "منصة SaaS لإدارة الصيدليات" },
-  link: { partyRole: "صاحب منصة LINK", serviceLine: "منصة LINK السعودية (منصة ويب وتطبيقا iPhone وAndroid)" },
+  link: { partyRole: "صاحب منصة مُدرسي", serviceLine: "منصة مُدرسي (منصة ويب وتطبيقا iPhone وAndroid)" },
   voiceover: { partyRole: "صاحب التعليق الصوتي", serviceLine: "تعليق صوتي إبداعي" },
   video: { partyRole: "صاحب الفيديو", serviceLine: "فيديو سينمائي احترافي" },
   "platform-apps": { partyRole: "صاحب المنصة الرقمية", serviceLine: "منصة رقمية مع التطبيقات" },

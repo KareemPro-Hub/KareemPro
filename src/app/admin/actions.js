@@ -187,7 +187,7 @@ const SERVICE_TEMPLATES = {
   // packageTier() in lib/timeline.js and detectServiceType() in the funnel
   // both read it to recognise this service.
   link: {
-    projectTitle: "منصة LINK السعودية",
+    projectTitle: "منصة مُدرسي",
     packages: [
       {
         name: "باقة LINK المتكاملة|منصة ويب **مع تطبيق iPhone وتطبيق Android**",
