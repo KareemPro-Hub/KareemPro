@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
 import { advanceStage, updateStage, deleteStage } from "@/app/admin/actions";
 import WhatsAppButton from "./WhatsAppButton";
+import { markPaymentConfirmationSent } from "./confirmation-actions";
 
 const STATUS_META = {
   upcoming: { label: "لم تبدأ بعد", color: "#7a6a5a", bg: "rgba(120,100,80,.1)" },
@@ -38,6 +39,10 @@ export default function StageCard({ stage, clientName, clientPhone, projectTitle
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState(null);
+  const [confirmationAt, setConfirmationAt] = useState(stage.payment_confirmation_sent_at || null);
+  useEffect(() => {
+    setConfirmationAt(stage.payment_confirmation_sent_at || null);
+  }, [stage.id, stage.status, stage.paid_at, stage.payment_confirmation_sent_at]);
 
   const action = NEXT_ACTION[stage.status];
   const prevStatus = PREV_STATUS[stage.status];
@@ -62,6 +67,17 @@ export default function StageCard({ stage, clientName, clientPhone, projectTitle
   // this one states that the project is on hold. See overduePaymentMessage
   // in lib/whatsapp.js.
   const showOverdue = stage.status === "awaiting_payment";
+
+  function confirmMessageSent() {
+    setError(null);
+    startTransition(async () => {
+      try {
+        setConfirmationAt(await markPaymentConfirmationSent(stage.id));
+      } catch (e) {
+        setError(e.message || "تعذر حفظ التأكيد");
+      }
+    });
+  }
 
   function run(target) {
     setError(null);
@@ -182,7 +198,13 @@ export default function StageCard({ stage, clientName, clientPhone, projectTitle
             </button>
           )}
 
-          {waKind && clientPhone && (
+          {stage.status === "paid" && confirmationAt && (
+            <span role="status" className="proj-detail-btn" style={{ color: "#2f8a4e", background: "rgba(47,138,78,.1)" }}>
+              تم التأكيد
+            </span>
+          )}
+
+          {waKind && clientPhone && !(stage.status === "paid" && confirmationAt) && (
             <WhatsAppButton
               phone={clientPhone}
               kind={waKind}
@@ -191,6 +213,13 @@ export default function StageCard({ stage, clientName, clientPhone, projectTitle
               label={waLabel}
               small
             />
+          )}
+
+          {stage.status === "paid" && !confirmationAt && (
+            <button type="button" className="proj-detail-btn" onClick={confirmMessageSent} disabled={isPending}
+              title="اضغط بعد إرسال رسالة التأكيد فعلًا عبر واتساب">
+              {isPending ? "جارِ الحفظ..." : "أرسلت التأكيد"}
+            </button>
           )}
 
           {showOverdue && clientPhone && (

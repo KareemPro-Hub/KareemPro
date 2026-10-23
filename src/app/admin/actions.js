@@ -561,6 +561,9 @@ export async function advanceStage(stageId, targetStatus) {
     }[targetStatus] || null;
 
   const update = { status: targetStatus };
+  if (targetStatus === "upcoming" || targetStatus === "awaiting_payment") {
+    update.payment_confirmation_sent_at = null;
+  }
   if (timestampField) update[timestampField] = new Date().toISOString();
 
   const { error: updateError } = await admin
@@ -734,14 +737,16 @@ export async function updateStage(formData) {
 
   const { data: stage, error: fetchError } = await admin
     .from("stages")
-    .select("project_id")
+    .select("project_id,title,amount")
     .eq("id", stage_id)
     .single();
   if (fetchError) throw new Error(fetchError.message);
 
   const { error } = await admin
     .from("stages")
-    .update({ title, description, amount })
+    .update({ title, description, amount,
+      ...(stage.title !== title || Number(stage.amount) !== amount
+        ? { payment_confirmation_sent_at: null } : {}) })
     .eq("id", stage_id);
   if (error) throw new Error(error.message);
 
