@@ -3,35 +3,45 @@
 import { useEffect, useState } from "react";
 import { startRegistration, browserSupportsWebAuthn } from "@simplewebauthn/browser";
 
-// Sidebar button: "تفعيل الدخول بالبصمة" — registers a passkey for the
-// signed-in admin on THIS device (Face ID / Touch ID / fingerprint). Once
-// done, the admin login page's "الدخول بالبصمة" button signs in with one
-// touch. The "already enabled" state is remembered per device in
-// localStorage — a convenience only; the server is the source of truth.
-const DONE_KEY = "kp_passkey_ok";
+// The server verifies this admin's saved registration on every mount.
+// A local browser hint cannot prove either registration or its removal.
 
 export default function PasskeySetup() {
   const [supported, setSupported] = useState(false);
-  const [state, setState] = useState("idle"); // idle | loading | done | hidden | error
+  const [enabled, setEnabled] = useState(null);
+  const [state, setState] = useState("checking");
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    setSupported(browserSupportsWebAuthn());
-    try {
-      // Already enabled on this device: nothing to show at all.
-      if (localStorage.getItem(DONE_KEY) === "1") setState("hidden");
-    } catch {}
+    const supports = browserSupportsWebAuthn();
+    setSupported(supports);
+    const controller = new AbortController();
+    if (supports) checkStatus(controller.signal);
+    return () => controller.abort();
   }, []);
 
-  // The "enabled" confirmation shows once, right after registering, then
-  // disappears for good (Kareem: no need to see it on every visit).
-  function markDone() {
-    setState("done");
+  async function checkStatus(signal) {
+    setState("checking");
     setMessage(null);
-    setTimeout(() => setState("hidden"), 4000);
     try {
-      localStorage.setItem(DONE_KEY, "1");
-    } catch {}
+      const res = await fetch("/auth/passkey/status", { cache: "no-store", signal });
+      if (!res.ok) throw new Error("status");
+      const body = await res.json();
+      if (typeof body.enabled !== "boolean") throw new Error("status");
+      if (signal?.aborted) return;
+      setEnabled(body.enabled);
+      setState("idle");
+    } catch (e) {
+      if (signal?.aborted) return;
+      setState("error");
+      setMessage("تعذّر التحقق من حالة البصمة.");
+    }
+  }
+
+  function markDone() {
+    setEnabled(true);
+    setState("idle");
+    setMessage(null);
   }
 
   async function register() {
@@ -57,28 +67,35 @@ export default function PasskeySetup() {
     } catch (e) {
       // InvalidStateError = this device already holds a passkey for this
       // admin (excludeCredentials matched) — that IS the goal, so say so.
-      if (e?.name === "InvalidStateError") return markDone();
+      if (e?.name === "InvalidStateError") return checkStatus();
       setState("error");
       setMessage(e?.name === "NotAllowedError" ? "تم الإلغاء." : "تعذّر تفعيل البصمة على هذا الجهاز.");
     }
   }
 
-  if (!supported || state === "hidden") return null;
+  if (!supported) return null;
 
-  if (state === "done") {
+  if (enabled) {
     return (
-      <div className="passkey-setup is-done">
+      <div className="passkey-setup-wrap">
+      <div className="passkey-setup is-done" role="status">
         <svg aria-hidden="true" className="ui-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#check"></use></svg>
-        البصمة مفعّلة على هذا الجهاز
+        تم تفعيل البصمة
+      </div>
+      <button type="button" onClick={register} disabled={state === "loading"}
+        style={{ display: "block", margin: "6px auto 0", background: "none", border: 0, color: "#ead7ca", font: "inherit", fontSize: 11, cursor: "pointer" }}>
+        {state === "loading" ? "لحظة واحدة..." : "إضافة بصمة أخرى"}
+      </button>
+      {message && <p className="passkey-setup-msg" role="alert">{message}</p>}
       </div>
     );
   }
 
   return (
     <div className="passkey-setup-wrap">
-      <button type="button" className="passkey-setup" onClick={register} disabled={state === "loading"}>
+      <button type="button" className="passkey-setup" onClick={enabled === null ? () => checkStatus() : register} disabled={state === "loading" || state === "checking"}>
         <svg aria-hidden="true" className="ui-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#fingerprint"></use></svg>
-        {state === "loading" ? "لحظة واحدة..." : "تفعيل الدخول بالبصمة"}
+        {state === "checking" ? "جارِ التحقق من البصمة..." : state === "loading" ? "لحظة واحدة..." : enabled === null ? "إعادة التحقق" : "تفعيل الدخول بالبصمة"}
       </button>
       {message && <p className="passkey-setup-msg">{message}</p>}
     </div>
