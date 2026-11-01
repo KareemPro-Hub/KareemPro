@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { startAuthentication, browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { usePathname, useSearchParams } from "next/navigation";
+import { safeAuthNext } from "@/lib/authRedirect";
 
 function EyeIcon({ off }) {
   return off ? (
@@ -94,7 +95,7 @@ function LoginForm() {
         setPasskeyLoading(false);
         return;
       }
-      window.location.href = searchParams.get("next") || ROLES.admin.defaultNext;
+      window.location.href = safeAuthNext(searchParams.get("next"), ROLES.admin.defaultNext);
     } catch (e) {
       setPasskeyLoading(false);
       // Cancelled, or this device holds no Kareem Pro passkey yet — the
@@ -112,11 +113,18 @@ function LoginForm() {
     setStatus("loading");
     setErrorMsg(null);
 
-    const res = await fetch(ROLES[role].endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ROLES[role].passwordless ? { email } : { email, password }),
-    });
+    let res;
+    try {
+      res = await fetch(ROLES[role].endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ROLES[role].passwordless ? { email } : { email, password }),
+      });
+    } catch {
+      setErrorMsg("تعذر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.");
+      setStatus("error");
+      return;
+    }
 
     if (!res.ok) {
       // Surface the server's own message when it has one (e.g. "this isn't
@@ -143,7 +151,7 @@ function LoginForm() {
       }
     } catch {}
 
-    window.location.href = searchParams.get("next") || ROLES[role].defaultNext;
+    window.location.href = safeAuthNext(searchParams.get("next"), ROLES[role].defaultNext);
   }
 
   async function handleForgot(e) {
@@ -151,11 +159,18 @@ function LoginForm() {
     setStatus("loading");
     setErrorMsg(null);
 
-    const res = await fetch("/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, role }),
-    });
+    let res;
+    try {
+      res = await fetch("/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, role }),
+      });
+    } catch {
+      setErrorMsg("تعذر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.");
+      setStatus("error");
+      return;
+    }
 
     if (!res.ok) {
       setStatus("error");

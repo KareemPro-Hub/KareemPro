@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
 import { DEFAULT_PREVIEW, previewCopyFor } from "@/lib/servicePreview";
+import { safeAuthNext } from "@/lib/authRedirect";
 
 // ── Preview copy for THIS client's service line ──
 // The card used to carry one generic pair of lines for every client. We know
@@ -53,7 +54,7 @@ async function previewForToken(token) {
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url);
   const t = searchParams.get("t");
-  const next = searchParams.get("next") || "/portal";
+  const next = safeAuthNext(searchParams.get("next"));
 
   if (!t) {
     return NextResponse.redirect(`${origin}/login?error=auth`);

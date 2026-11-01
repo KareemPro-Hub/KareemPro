@@ -33,90 +33,39 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
   const chosenPackage = (proposal.proposal_packages || []).find((p) => p.id === packageId);
   if (!chosenPackage) throw new Error("الباقة المختارة غير موجودة");
 
-  const now = new Date().toISOString();
-  const { error: updateError } = await admin
-    .from("proposals")
-    .update({
-      status: "accepted",
-      selected_package_id: packageId,
-      signer_name: name,
-      signed_at: now,
-      decided_at: now,
-    })
-    .eq("id", proposalId);
-
-  if (updateError) throw new Error(updateError.message);
-
-  // Automation: a project record is created immediately so the client sees
-  // their production timeline right away — no manual admin step needed.
-  const { data: newProject, error: projectError } = await admin
-    .from("projects")
-    .insert({
-      client_id: proposal.client_id,
-      title: proposal.project_title,
-      package_name: chosenPackage.name,
-      package_price: chosenPackage.price,
-    })
-    .select()
-    .single();
-  if (projectError) throw new Error(projectError.message);
-
-  // Automation: every package price listed in PACKAGE_STAGE_AMOUNTS (the
-  // platform ladder, the two Blogger tiers and the pharmacy tiers) gets its
-  // payment stages created immediately too, matching the same breakdown the
-  // admin uses when creating a project by hand — no manual step needed here.
-  const stagePlan = buildStagesForProposal(chosenPackage);
-  if (stagePlan && newProject) {
-    const { error: stagesError } = await admin.from("stages").insert(
-      stagePlan.map((s, i) => ({
-        project_id: newProject.id,
-        stage_number: i + 1,
-        title: s.title,
-        description: s.description,
-        amount: s.amount,
-        status: isTechfixer(chosenPackage.name) && i === 0 ? "awaiting_payment" : "upcoming",
-      }))
-    );
-    if (stagesError) throw new Error(stagesError.message);
-  }
-
-  // A settlement agreed before signing (see PACKAGE_SETTLEMENTS) lowers the
-  // project's price to the net figure its stages add up to, recorded in the
-  // same columns the admin's discount tool uses. original_stage_amounts is
-  // left empty on purpose: there is no pre-settlement stage split to go back
-  // to, so this agreed settlement can't be "cancelled" by accident.
+  // A single database transaction prevents duplicate projects and partial
+  // signatures if project/stage creation fails. Only the server can call it.
   const settlement = PACKAGE_SETTLEMENTS[Number(chosenPackage.price)];
-  if (settlement && newProject) {
-    const { error: settlementError } = await admin
-      .from("projects")
-      .update({
-        package_price: Number(chosenPackage.price) - settlement.amount,
-        original_price: Number(chosenPackage.price),
-        discount_amount: settlement.amount,
-        discount_note: settlement.note,
-        discount_applied_at: now,
-      })
-      .eq("id", newProject.id);
-    if (settlementError) throw new Error(settlementError.message);
+  const stages = (buildStagesForProposal(chosenPackage) || []).map((stage, index) => ({
+    ...stage,
+    status: isTechfixer(chosenPackage.name) && index === 0 ? "awaiting_payment" : "upcoming",
+  }));
+  const { error: acceptanceError } = await admin.rpc("accept_proposal_atomic", {
+    p_proposal_id: proposalId,
+    p_package_id: packageId,
+    p_client_id: user.id,
+    p_signer_name: name,
+    p_expected_name: chosenPackage.name,
+    p_expected_price: chosenPackage.price,
+    p_stages: stages,
+    p_discount: settlement?.amount || 0,
+    p_discount_note: settlement?.note || null,
+  });
+  if (acceptanceError) throw new Error(acceptanceError.message);
+
+  try {
+    await sendProposalDecisionEmail({
+      clientName: proposal.clients.full_name,
+      clientEmail: proposal.clients.email,
+      status: "accepted",
+      packageName: chosenPackage.name,
+      price: chosenPackage.price,
+      projectTitle: proposal.project_title,
+    });
+  } catch (error) {
+    // The signed contract and in-app notification are already committed.
+    console.error("[proposal] accepted email failed:", error?.message);
   }
-
-  await sendProposalDecisionEmail({
-    clientName: proposal.clients.full_name,
-    clientEmail: proposal.clients.email,
-    status: "accepted",
-    packageName: chosenPackage.name,
-    price: chosenPackage.price,
-    projectTitle: proposal.project_title,
-  });
-
-  await admin.from("notifications").insert({
-    client_id: proposal.client_id,
-    project_id: newProject?.id || null,
-    type: "proposal_accepted",
-    message: `${proposal.clients.full_name} وافق على العرض ووقّع العقد — "${proposal.project_title}"`,
-    link: newProject ? `/admin/projects/${newProject.id}` : "/admin/pipeline",
-    for_admin: true,
-  });
 
   revalidatePath("/portal");
   revalidatePath("/admin");
@@ -145,20 +94,28 @@ export async function rejectProposal({ proposalId, reason }) {
   if (proposal.status !== "pending") throw new Error("تم اتخاذ قرار بخصوص هذا العرض بالفعل");
 
   const now = new Date().toISOString();
-  const { error: updateError } = await admin
+  const { data: updated, error: updateError } = await admin
     .from("proposals")
     .update({ status: "rejected", rejection_reason: trimmedReason, decided_at: now })
-    .eq("id", proposalId);
+    .eq("id", proposalId)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
 
   if (updateError) throw new Error(updateError.message);
+  if (!updated) throw new Error("تم اتخاذ قرار بخصوص هذا العرض بالفعل");
 
-  await sendProposalDecisionEmail({
-    clientName: proposal.clients.full_name,
-    clientEmail: proposal.clients.email,
-    status: "rejected",
-    projectTitle: proposal.project_title,
-    reason: trimmedReason,
-  });
+  try {
+    await sendProposalDecisionEmail({
+      clientName: proposal.clients.full_name,
+      clientEmail: proposal.clients.email,
+      status: "rejected",
+      projectTitle: proposal.project_title,
+      reason: trimmedReason,
+    });
+  } catch (error) {
+    console.error("[proposal] rejected email failed:", error?.message);
+  }
 
   await admin.from("notifications").insert({
     client_id: proposal.client_id,

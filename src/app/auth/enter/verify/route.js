@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { redeemLoginToken } from "@/lib/loginLinks";
+import { safeAuthNext } from "@/lib/authRedirect";
 
 // Step 2 of the platform login-link flow — the real verifier. Only reached by
 // an actual browser (the /auth/enter bot shield forwards here via JS), so a
@@ -14,7 +15,7 @@ import { redeemLoginToken } from "@/lib/loginLinks";
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url);
   const token = searchParams.get("t");
-  const next = searchParams.get("next") || "/portal";
+  const next = safeAuthNext(searchParams.get("next"));
 
   const admin = createAdminClient();
   const supabase = await createClient();

@@ -97,7 +97,7 @@ export default async function PortalPage() {
       onboardingContent = (
         <div className="card">
           <p className="muted">
-            جاري تجهيز عرضك الفني والمالي، هيوصلك إشعار على بريدك أول ما يكون جاهز. لو محتاج
+            جاري تجهيز عرضك الفني والمالي، هنبلغك على واتساب أول ما يكون جاهز. لو محتاج
             حاجة دلوقتي، تواصل معنا مباشرة.
           </p>
         </div>
@@ -140,7 +140,7 @@ export default async function PortalPage() {
             </div>
           </div>
           <p className="muted" style={{ marginTop: "1.2rem" }}>
-            هيوصلك إشعار على بريدك أول ما تبدأ أول مرحلة من مشروعك.
+            تقدر تتابع بداية أول مرحلة من مشروعك من لوحة التحكم.
           </p>
         </div>
       );
