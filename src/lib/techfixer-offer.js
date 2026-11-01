@@ -7,7 +7,7 @@ const repairFeatures = [
   "مراجعة ربط أدسنس وملف ads.txt",
   "تحسين العناوين وأوصاف الصور والروابط الداخلية",
   "مدة إصلاح الملاحظات: 5 أيام تقريبًا من استلام البيانات والصلاحيات اللازمة",
-  "الدومين اختياري وتكلفة تسجيله وتجديده منفصلة حسب النطاق المختار",
+  "الدومين اختياري وتكلفة تسجيله وتجديده على صاحب المدونة",
 ];
 export const TECHFIXER_TEMPLATE = {
   projectTitle: "تطوير مدونة تيك فيكسر — TechFixer",
@@ -47,5 +47,9 @@ export function techfixerCardFeatures(pkg) {
 }
 export function techfixerPendingPackage(pkg) {
   if (!isTechfixer(pkg?.name)) return pkg;
-  return { ...pkg, name: `${techfixerHasContent(pkg.name) ? "الباقة الاحترافية" : "الباقة الأساسية"}|تيك فيكسر — TechFixer` };
+  return {
+    ...pkg,
+    name: `${techfixerHasContent(pkg.name) ? "الباقة الاحترافية" : "الباقة الأساسية"}|تيك فيكسر — TechFixer`,
+    features: (pkg.features || "").replace("الدومين اختياري وتكلفة تسجيله وتجديده منفصلة حسب النطاق المختار", "الدومين اختياري وتكلفة تسجيله وتجديده على صاحب المدونة"),
+  };
 }
