@@ -1,5 +1,7 @@
 "use client";
 
+import { isTechfixer } from "@/lib/techfixer-offer";
+
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
 import { buildStagesForProposal } from "@/lib/packageStages";
@@ -441,6 +443,7 @@ function bloggerPaymentPlan(price) {
 
 function detectServiceType(text) {
   const t = text || "";
+  if (isTechfixer(t)) return "techfixer";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
   // Checked after blogger: an article package is sold to a client whose blog
   // already exists, so "مقال" alone identifies it. Keep in sync with
@@ -491,6 +494,7 @@ const SERVICE_ABOUT_OVERRIDES = {
 };
 
 const SERVICE_META = {
+  techfixer: { partyRole: "صاحب مدونة تيك فيكسر", serviceLine: "إصلاح وتهيئة مدونة تيك فيكسر وتطوير محتواها حسب الباقة المختارة" },
   blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
   pharmacy: { partyRole: "صاحب منصة Urs", serviceLine: "منصة SaaS لإدارة الصيدليات" },
   link: { partyRole: "صاحب منصة مُدرسي", serviceLine: "منصة مُدرسي (منصة ويب وتطبيقا iPhone وAndroid)" },
@@ -585,7 +589,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   // own copy comes from SERVICE_ABOUT_OVERRIDES.articles above; only its
   // label in the stepper needs changing, hence the { ...s, label } rewrite.
   const steps =
-    serviceType === "articles"
+    serviceType === "techfixer"
+      ? ALL_STEPS.filter((s) => s.id === "proposal")
+      : serviceType === "articles"
       ? ALL_STEPS.filter((s) => s.id === "about" || s.id === "proposal").map((s) =>
           s.id === "about" ? { ...s, label: "شكرًا لثقتك" } : s
         )
@@ -1015,7 +1021,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   the client already owns and pays for their blog. Showing it
                   here would list costs that have nothing to do with what they
                   are buying, so this service skips the note entirely. */}
-              {serviceType !== "articles" && serviceType !== "course" && (
+              {serviceType !== "articles" && serviceType !== "course" && serviceType !== "techfixer" && (
               <div className="notice" style={{ marginTop: "1.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", color: "var(--muted)" }}>
                 <strong style={{ color: "var(--text)", display: "block", marginBottom: "0.5rem" }}>
                   ملاحظة مهمة:
@@ -1157,6 +1163,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <RiyalIcon size="0.8em" tone="dark" />
                   </strong>
                   <CurrencyEquivalent amount={Number(selectedPackage.price)} />
+                  {serviceType === "techfixer" && <span> — السداد: {buildStagesForProposal(selectedPackage)?.map(s => `${s.amount} ريال ${s.description}`).join("، ")}</span>}
                   {serviceType === "blogger" && (() => {
                     // Three payments, derived from the package price instead of
                     // hardcoded — the Blogger ladder now has two tiers (750 and
@@ -1231,7 +1238,21 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
                 <h4>شروط الاتفاق:</h4>
                 <ol className="contract-points">
-                  {serviceType === "course" ? (
+                  {serviceType === "techfixer" ? (
+                    <>
+                      <li>يشمل التنفيذ البنود المذكورة في الباقة المختارة أعلاه فقط، مع الحفاظ على محتوى المدونة وروابطها أثناء المعالجة.</li>
+                      {selectedPackage.features.split("\n").map((line, i) => <li key={i}>{line.replace(/\*\*/g, "")}</li>)}
+                      <li>تبدأ المدة بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى.</li>
+                      <li>تُراجع الأعمال مع صاحب المدونة قبل التسليم، وتُعالج الملاحظات المتعلقة بالنطاق المتفق عليه، ويُستكمل السداد عند إتمام نطاق الباقة.</li>
+                      <li>تظهر دفعات الباقة وروابط سدادها عبر Xpay تلقائيًا في لوحة تحكم صاحب المدونة بعد التوقيع. يُعتمد السداد عند تأكيد بوابة الدفع للعملية.</li>
+                      <li>الدومين اختياري ويُسجّل باسم صاحب المدونة، ويتحمل صاحبه رسوم الحجز والتجديد حسب مزوّد النطاق. الربط يتم بعد موافقته وتوفير الصلاحيات اللازمة.</li>
+                      <li>يلتزم مقدم الخدمة بتنفيذ الأعمال المذكورة في الباقة فقط. قبول المدونة في أدسنس والفهرسة وترتيب البحث وعدد الزيارات والأرباح ومدة مراجعة Google ليست نتائج مضمونة ولا شرطًا للتسليم أو استحقاق المستحقات. أي إعادة تقديم تتم بعد موافقة صاحب المدونة.</li>
+                      <li>يوفر صاحب المدونة البيانات والصلاحيات الصحيحة، وتبقى ملكية المدونة وحساباته ودومينه له، ولا تُطلب منه مشاركة كلمات المرور متى توفرت صلاحيات دعوة مناسبة.</li>
+                      <li>عند طلب إلغاء العمل، تُسوّى قيمة الأعمال المنفذة فعليًا، ويُسلّم المنجز، ويُعاد أي مبلغ زائد عن قيمة المنجز بعد الاتفاق على التسوية.</li>
+                      <li>عند تأخر البيانات أو الدفعات أكثر من 3 أيام، يحق إيقاف العمل حتى استكمالها.</li>
+                      <li>توقيع صاحب المدونة يعني موافقته على نطاق الباقة وقيمتها وشروط تنفيذها.</li>
+                    </>
+                  ) : serviceType === "course" ? (
                     /* Training, not production: nothing is built and nothing is
                        handed over, so almost none of the build clauses apply.
                        Its own risks are different too — scheduling, session

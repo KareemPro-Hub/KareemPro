@@ -1,3 +1,5 @@
+
+import { isTechfixer, techfixerTimeline, techfixerHasContent } from "./techfixer-offer";
 import { currentBloggerCountFromName } from "./public-offers";
 import { isModarresi } from "./modarresi-branding";
 
@@ -11,6 +13,7 @@ import { isModarresi } from "./modarresi-branding";
 
 function packageTier(packageName) {
   const full = (packageName || "").trim();
+  if (isTechfixer(full)) return "techfixer";
   // Blogger is checked against the WHOLE stored name (title + "|" + tagline):
   // the two Blogger tiers are titled "الباقة الأساسية" / "الباقة الاحترافية"
   // like the generic ladder, and only their tagline carries the word
@@ -398,6 +401,7 @@ const BLOGGER_FULL_CONTENT_STEPS = {
 
 // Full breakdown for the admin, adapted to the project's package.
 export function getAdminTimeline(packageName, packagePrice) {
+  if (isTechfixer(packageName)) return techfixerTimeline(packageName);
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
   const tier = packageTier(packageName);
@@ -452,6 +456,7 @@ const DURATION_BY_TIER = {
 };
 
 export function getEstimatedDuration(packageName) {
+  if (isTechfixer(packageName)) return techfixerHasContent(packageName) ? "شهر واحد" : "5 أيام تقريبًا";
   const tier = packageTier(packageName);
   return DURATION_BY_TIER[tier] || DURATION_BY_TIER.economic;
 }

@@ -1,5 +1,6 @@
 "use server";
 
+import { TECHFIXER_TEMPLATE, isTechfixer } from "@/lib/techfixer-offer";
 import { publicProposalPackages } from "@/lib/public-offers";
 import { modarresiDisplayData } from "@/lib/modarresi-branding";
 import { revalidatePath } from "next/cache";
@@ -110,6 +111,7 @@ const DEFAULT_PACKAGES = publicProposalPackages('platforms');
 // catalog as checkout; existing saved proposals and client-specific templates
 // are preserved.
 const SERVICE_TEMPLATES = {
+  techfixer: TECHFIXER_TEMPLATE,
   edu: { projectTitle: "إنشاء منصة تعليمية", packages: publicProposalPackages('edu') },
   store: { projectTitle: "إنشاء متجر إلكتروني", packages: publicProposalPackages('store') },
 
@@ -998,6 +1000,14 @@ export async function updateTimelineStep(projectId, stepKey) {
   const steps = getAdminTimeline(project.package_name).map((s) => s.key);
   const prevIdx = steps.indexOf(project.timeline_step);
   const nextIdx = steps.indexOf(stepKey);
+  if (isTechfixer(project.package_name) && stepKey === "techfixer_delivery" && nextIdx > prevIdx) {
+    // The final instalment becomes payable only after the agreed work is ready.
+    // Never reopen a paid instalment or modify another service's payment flow.
+    const { error: paymentError } = await admin.from("stages")
+      .update({ status: "awaiting_payment", payment_requested_at: new Date().toISOString() })
+      .eq("project_id", projectId).eq("stage_number", 2).eq("status", "upcoming");
+    if (paymentError) throw new Error(paymentError.message);
+  }
   if (nextIdx > prevIdx) {
     const stepInfo = getAdminTimeline(project.package_name).find((s) => s.key === stepKey);
     const stepTitle = stepInfo?.title;

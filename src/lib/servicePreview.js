@@ -1,3 +1,5 @@
+
+import { isTechfixer } from "./techfixer-offer";
 // ══════════════════ Link-preview copy per service line ══════════════════
 // The login link shared over WhatsApp renders a branded preview card (see
 // app/auth/enter/route.js). Its two text lines used to be one generic pair
@@ -17,6 +19,7 @@ import { isModarresi } from "./modarresi-branding";
 
 export function detectServiceType(text) {
   const t = text || "";
+  if (isTechfixer(t)) return "techfixer";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
   if (/مقال/.test(t)) return "articles";
   if (/كورس|حصة|حصص/.test(t)) return "course";
@@ -36,6 +39,7 @@ export const DEFAULT_PREVIEW = {
 };
 
 const PREVIEW_BY_SERVICE = {
+  techfixer: { title: "تطوير مدونة تيك فيكسر", description: "إصلاح وتهيئة المدونة والمحتوى حسب الباقة المختارة" },
   articles: {
     title: "مقالات تصنع الفرق",
     description: "محتوى احترافي يرفع مدونتك ويؤهلها للربح",

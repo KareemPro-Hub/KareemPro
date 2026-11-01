@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
 import { buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
+import { isTechfixer } from "@/lib/techfixer-offer";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName }) {
@@ -73,7 +74,7 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
         title: s.title,
         description: s.description,
         amount: s.amount,
-        status: "upcoming",
+        status: isTechfixer(chosenPackage.name) && i === 0 ? "awaiting_payment" : "upcoming",
       }))
     );
     if (stagesError) throw new Error(stagesError.message);
