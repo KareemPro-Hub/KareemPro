@@ -9,6 +9,9 @@ export function signQuote(data,secret,now=Date.now()) {
  const body=Buffer.from(JSON.stringify({...data,id:data.id??randomUUID(),exp:Math.floor(now/1000)+900})).toString('base64url');
  return body+'.'+createHmac('sha256',secret).update(body).digest('base64url');
 }
+export class QuoteExpiredError extends Error {
+ constructor(quote){super('Quote expired');this.name='QuoteExpiredError';this.quote=quote;}
+}
 export function readQuote(token,secret,now=Date.now()) {
  if(!secret||typeof token!=='string'||token.length>5000) throw Error('Invalid quote');
  const [body,sig,...rest]=token.split('.');
@@ -16,7 +19,9 @@ export function readQuote(token,secret,now=Date.now()) {
  const expected=createHmac('sha256',secret).update(body).digest();const got=Buffer.from(sig,'base64url');
  if(got.length!==expected.length||!timingSafeEqual(got,expected)) throw Error('Invalid quote');
  const q=JSON.parse(Buffer.from(body,'base64url').toString());
- if(!Number.isInteger(q.exp)||q.exp<=now/1000||q.exp>now/1000+901) throw Error('Quote expired');
+ if(!Number.isInteger(q.exp)||q.exp>now/1000+901) throw Error('Invalid quote');
+ // A verified stale quote may reopen checkout, but must never start a payment.
+ if(q.exp<=now/1000) throw new QuoteExpiredError(q);
  return q;
 }
 export function verifySignature(raw,header,secret,now=Date.now()) {
@@ -29,6 +34,9 @@ export function verifySignature(raw,header,secret,now=Date.now()) {
 }
 export function sessionMatches(session,order) {
  return session?.id===order.session_id&&session.metadata?.order_id===order.id&&session.currency==='EGP'&&session.amountTotal===Number(order.amount_egp_minor)&&session.livemode===order.livemode;
+}
+export function sessionExpired(session) {
+ return session?.isExpired===true||session?.status==='expired';
 }
 export function safeCheckoutUrl(value) {
  try {const u=new URL(value);return u.protocol==='https:'&&u.hostname==='checkout.xpay.app'&&u.pathname.startsWith('/c/');}catch{return false;}

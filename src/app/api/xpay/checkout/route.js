@@ -1,5 +1,5 @@
-import { readQuote, sessionMatches, safeCheckoutUrl } from '@/lib/xpay.mjs';
-import { checkoutPriceMatches } from '@/lib/checkout';
+import { readQuote, QuoteExpiredError, sessionMatches, sessionExpired, safeCheckoutUrl } from '@/lib/xpay.mjs';
+import { checkoutPriceMatches, checkoutPath } from '@/lib/checkout';
 import { paymentsReady, selectedPayment, xpay, confirmSession } from '@/lib/xpay-server';
 import { createAdminClient } from '@/lib/supabase/server';
 export const runtime='nodejs';
@@ -25,13 +25,25 @@ export async function POST(request){
   if(insertError)throw Error('Order unavailable');
   const {data:order,error}=await db.from('xpay_orders').select('*').eq('id',q.id).single();if(error)throw Error('Order lookup failed');
   if(order.status==='paid')return Response.redirect(origin+'/checkout/result?session_id='+encodeURIComponent(order.session_id),303);
-  if(order.status!=='pending')throw Error('Order expired');
+  if(order.status==='expired')return Response.redirect(origin+checkoutPath(q),303);
+  if(order.status!=='pending')throw Error('Order unavailable');
+  // A customer may leave this page open past the provider session's lifetime.
+  // Check its actual state before reusing the URL; never open an expired one.
+  if(order.session_id){
+   const fresh=await xpay('/checkout/sessions/'+order.session_id);
+   await confirmSession(fresh,'reconcile:'+order.session_id);
+   if(fresh.paymentStatus==='paid')return Response.redirect(origin+'/checkout/result?session_id='+encodeURIComponent(order.session_id),303);
+   if(sessionExpired(fresh))return Response.redirect(origin+checkoutPath(q),303);
+  }
   if(order.checkout_url&&safeCheckoutUrl(order.checkout_url))return Response.redirect(order.checkout_url,303);
   const session=await xpay('/checkout/sessions',{idempotencyKey:'kareempro-'+order.id,body:{mode:'payment',uiMode:'hosted',locale:'ar',currency:'EGP',expiresAfterMinutes:30,afterCompletion:{type:'redirect',redirect:{url:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}'}},cancelUrl:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}',lineItems:[{priceData:{currency:'EGP',unitAmount:Number(order.amount_egp_minor),productData:{name:order.title}},quantity:1}],metadata:{order_id:order.id},nameCollection:true,phoneNumberCollection:true,feeConfig:{feesPassThrough:false,vatCollectionEnabled:false}}});
   if(!safeCheckoutUrl(session.url)||!sessionMatches(session,{...order,session_id:session.id}))throw Error('Unexpected session');
   const {error:saveError}=await db.from('xpay_orders').update({session_id:session.id,checkout_url:session.url}).eq('id',order.id);if(saveError)throw Error('Session storage failed');
   return Response.redirect(session.url,303);
- }catch{
+ }catch(error){
+  // Only a correctly signed, expired quote is eligible for automatic renewal.
+  // GET checkout rechecks ownership/prices and displays a freshly signed amount.
+  if(error instanceof QuoteExpiredError)return Response.redirect(origin+checkoutPath(error.quote),303);
   return new Response('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>تعذر بدء الدفع</title><body><h1>تعذر بدء الدفع</h1><p>قد يكون العرض انتهى أو توجد عملية سداد سابقة قيد المعالجة. ارجع لصفحة الدفع وأعد المحاولة، أو تواصل معنا قبل إنشاء طلب آخر.</p><a href="/">العودة للموقع</a></body></html>',{status:503,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
  }
 }

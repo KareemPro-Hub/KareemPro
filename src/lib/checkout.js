@@ -27,3 +27,11 @@ export function checkoutPriceMatches(pkg, quote) {
     ? quote.amount_egp_minor === Math.round(pkg.price * 100)
     : quote.amount_sar === pkg.price;
 }
+
+// Stable platform URL: never send a signed price quote in a customer link.
+export function checkoutPath(quote) {
+  const params = quote.stage_id
+    ? { stage: quote.stage_id }
+    : { service: quote.service_id, tier: quote.tier_key ?? String(quote.tier) };
+  return '/checkout?' + new URLSearchParams(params).toString();
+}

@@ -2,7 +2,7 @@ import 'server-only';
 import { createAdminClient, createClient } from '@/lib/supabase/server';
 import catalog from '../../public/pricing-catalog.json';
 import { checkoutPackage } from './checkout';
-import { egpMinor, sessionMatches } from './xpay.mjs';
+import { egpMinor, sessionMatches, sessionExpired } from './xpay.mjs';
 export function paymentsReady(){return process.env.XPAY_ENABLED==='true' && !!(process.env.XPAY_SECRET_KEY&&process.env.XPAY_QUOTE_SECRET&&process.env.XPAY_WEBHOOK_SECRET);}
 export async function xpay(path,{body,idempotencyKey}={}){
  const response=await fetch('https://api.xpay.app'+path,{method:body?'POST':'GET',headers:{Authorization:'Bearer '+(path.includes('cs_test_')?process.env.XPAY_TEST_SECRET_KEY:process.env.XPAY_SECRET_KEY),'Content-Type':'application/json',...(idempotencyKey?{'Idempotency-Key':idempotencyKey}:{})},...(body?{body:JSON.stringify(body)}:{}),cache:'no-store',signal:AbortSignal.timeout(15000)});
@@ -34,8 +34,8 @@ export async function confirmSession(session,eventId,eventType){
  if(!order||!sessionMatches(session,order))throw Error('Payment snapshot mismatch');
  if(session.paymentStatus==='paid'){
   const {error}=await db.rpc('confirm_xpay_payment',{p_order_id:order.id,p_session_id:session.id,p_amount:session.amountTotal,p_live:session.livemode,p_event_id:eventId});if(error)throw Error('Payment confirmation failed');
- }else if(session.status==='expired'||eventType==='checkout.session.async_payment_failed'){
-  const {error}=await db.from('xpay_orders').update({status:session.status==='expired'?'expired':'failed'}).eq('id',id).eq('status','pending');if(error)throw Error('Order expiration failed');
+ }else if(sessionExpired(session)||eventType==='checkout.session.async_payment_failed'){
+  const {error}=await db.from('xpay_orders').update({status:sessionExpired(session)?'expired':'failed'}).eq('id',id).eq('status','pending');if(error)throw Error('Order expiration failed');
  }
 }
 
@@ -52,7 +52,7 @@ export async function paymentSnapshot(selected,rate){
   const session=await xpay('/checkout/sessions/'+prior.session_id);
   await confirmSession(session,'reconcile:'+prior.session_id);
   if(session.paymentStatus==='paid')return {paidSession:prior.session_id};
-  if(session.status==='expired')return snapshot;
+  if(sessionExpired(session))return snapshot;
  }
  return {...snapshot,id:prior.id,amount_egp_minor:Number(prior.amount_egp_minor),exchange_rate:Number(prior.exchange_rate),rate_updated_at:prior.rate_updated_at};
 }

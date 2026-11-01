@@ -53,7 +53,7 @@ export default async function CheckoutPage({ searchParams }) {
               <button className="checkout-pay-button" type="submit" disabled={!ready} aria-describedby="payment-status">المتابعة للدفع<svg width="20" height="20" aria-hidden="true" className="ui-icon" viewBox="0 0 24 24" fill="currentColor"><use href="/icons/ui.svg#arrow-left"></use></svg></button>
             </form>
             <p className={`checkout-payment-status${ready ? '' : ' unavailable'}`} id="payment-status" role="status">{ready ? 'ستكمل السداد على صفحة Xpay الآمنة.' : 'الدفع الإلكتروني غير متاح حاليًا. يرجى المحاولة لاحقًا.'}</p>
-            <p className="checkout-payment-note">المبلغ بالجنيه ثابت لهذا العرض لمدة 15 دقيقة.<br />لا نضيف رسومًا على المبلغ الموضح.</p>
+            <p className="checkout-payment-note">يمكنك العودة إلى رابط الدفع في أي وقت قبل السداد.<br />لا نضيف رسومًا على المبلغ الموضح.</p>
             <p className="checkout-terms">راجع <a href="/terms.html">الشروط والأحكام</a> و<a href="/refund-policy.html">سياسة الاسترداد</a> قبل السداد.</p>
           </section>
         </div>

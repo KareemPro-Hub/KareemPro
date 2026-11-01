@@ -15,16 +15,14 @@ import crypto from "node:crypto";
 // redemption time (see /auth/enter/verify) we mint a fresh Supabase OTP and
 // verify it server-side. These tokens are just the outer, multi-issue key.
 
-const LINK_LIFETIME_DAYS = 7;
-
 // Creates a fresh login token for a client and returns the full URL.
-// Reusable within its lifetime on purpose: a client re-opening an older
-// WhatsApp message should still get in, not hit a dead link.
+// Reusable without a time limit: an old WhatsApp message remains an entry point.
+// PostgreSQL infinity preserves the existing NOT NULL timestamp column.
 export async function createLoginLink(admin, clientId) {
   if (!clientId) throw new Error("معرّف صاحب المشروع مفقود");
 
   const token = crypto.randomBytes(32).toString("base64url");
-  const expires_at = new Date(Date.now() + LINK_LIFETIME_DAYS * 86400000).toISOString();
+  const expires_at = "infinity";
 
   const { error } = await admin
     .from("login_tokens")
@@ -35,7 +33,7 @@ export async function createLoginLink(admin, clientId) {
 }
 
 // Looks up a token and returns the client's email when it's still valid.
-// Returns null for unknown/expired tokens — the caller decides what to show.
+// Returns null for deleted/unknown or explicitly time-limited tokens.
 export async function redeemLoginToken(admin, token) {
   if (!token) return null;
 
@@ -46,9 +44,9 @@ export async function redeemLoginToken(admin, token) {
     .maybeSingle();
 
   if (!row) return null;
-  if (new Date(row.expires_at).getTime() < Date.now()) return null;
+  if (row.expires_at !== "infinity" && !(new Date(row.expires_at).getTime() > Date.now())) return null;
 
-  // Touch (not consume) — the link keeps working until it expires.
+  // Touch (not consume) — deleting the token or its client revokes access.
   await admin
     .from("login_tokens")
     .update({ last_used_at: new Date().toISOString() })

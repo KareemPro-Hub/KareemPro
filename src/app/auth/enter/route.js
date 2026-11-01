@@ -44,10 +44,9 @@ async function previewForToken(token) {
 
 // Step 1 of the platform login-link flow — a BOT SHIELD, not the verifier.
 //
-// Login links are single-use, and both WhatsApp and email clients prefetch
-// URLs to render link previews. If this route verified the token directly
-// on GET, the preview bot's fetch would consume it before the client ever
-// tapped the link — leaving them a dead link and a login screen. So this
+// Login links are reusable, and both WhatsApp and email clients prefetch
+// URLs to render link previews. Verifying on GET would unnecessarily create
+// an authentication session for preview bots. So this
 // route returns a tiny HTML page whose script immediately forwards the
 // browser to /auth/enter/verify (the real verifier). Preview bots don't
 // execute JavaScript, so the token survives until a real human arrives.
@@ -68,7 +67,7 @@ export async function GET(request) {
     // No robots "noindex" here on purpose: WhatsApp's link-preview crawler
     // skips pages that carry it, which killed the branded preview card. The
     // page is harmless to leave crawlable — every URL carries a unique
-    // one-time token and is never linked from anywhere public.
+    // private token and is never linked from anywhere public.
     `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Kareem Pro — بوابة الدخول</title>` +
       // Rich link preview (the big branded card) when the login link is
       // shared over WhatsApp. Without these, WhatsApp renders a bare one-line
