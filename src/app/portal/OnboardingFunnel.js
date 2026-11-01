@@ -946,17 +946,17 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         {pkg.original_price != null && Number(pkg.original_price) > Number(pkg.price) && (
                           <div className="package-price-original">
                             <span dir="ltr">{Number(pkg.original_price).toLocaleString("en-US")}</span>
-                            <RiyalIcon size="0.65em" tone="dark" />
+                            <RiyalIcon size="0.65em" tone={packages.length === 2 && pkg.is_featured ? "light" : "dark"} />
                           </div>
                         )}
                         <div className="package-price">
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
-                          <RiyalIcon size="0.7em" tone="dark" />
+                          <RiyalIcon size="0.7em" tone={packages.length === 2 && pkg.is_featured ? "light" : "dark"} />
                         </div>
-                          <CurrencyEquivalent amount={Number(pkg.price)} />
+                          {serviceType !== "techfixer" && <CurrencyEquivalent amount={Number(pkg.price)} />}
                           {deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>}
                         <div className="package-launch-note">
-                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون"}
+                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
                         </div>
                       </div>
                       {featureLines.length > 0 && (

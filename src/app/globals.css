@@ -1510,8 +1510,7 @@ table.admin-table td:nth-child(6) {
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--muted);
-  text-decoration: line-through;
-  opacity: 0.75;
+  opacity: 1;
   display: flex;
   justify-content: center;
   align-items: baseline;
@@ -1519,6 +1518,10 @@ table.admin-table td:nth-child(6) {
 }
 .package-price-original + .package-price {
   margin-top: 0.15rem;
+}
+.package-price-original > span[dir="ltr"] {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px;
 }
 .package-launch-note {
   margin-top: 0.6rem;
