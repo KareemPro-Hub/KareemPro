@@ -1,6 +1,6 @@
 // Client-specific offer; does not change the public Blogger catalog.
 export function isTechfixer(text) { return /TechFixer|تيك فيكسر/i.test(text || ""); }
-export function techfixerHasContent(text) { return isTechfixer(text) && /محتوى|مقال/.test(text || ""); }
+export function techfixerHasContent(text) { return isTechfixer(text) && /الاحترافية|محتوى|مقال/.test(text || ""); }
 const repairFeatures = [
   "مراجعة القالب وإصلاح الملاحظات البرمجية والسيو",
   "معالجة أسباب مشاكل الفهرسة وإعادة التوجيه ومتابعتها",
@@ -12,10 +12,10 @@ const repairFeatures = [
 export const TECHFIXER_TEMPLATE = {
   projectTitle: "تطوير مدونة تيك فيكسر — TechFixer",
   packages: [
-    { name: "إصلاح وتهيئة المدونة|تيك فيكسر — TechFixer", price: 250, original_price: 500, is_featured: false,
+    { name: "الباقة الأساسية|تيك فيكسر — TechFixer", price: 250, original_price: 500, is_featured: false,
       features: [...repairFeatures, "بدون كتابة مقالات جديدة", "طريقة السداد: 125 ريال عند التوقيع و125 ريال عند إتمام الإصلاحات"].join("\n") },
-    { name: "إصلاح المدونة والمحتوى|تيك فيكسر — TechFixer", price: 500, original_price: 900, is_featured: true,
-      features: ["كل مميزات باقة إصلاح وتهيئة المدونة", ...repairFeatures,
+    { name: "الباقة الاحترافية|تيك فيكسر — TechFixer", price: 500, original_price: 900, is_featured: true,
+      features: ["كل مميزات الباقة الأساسية", ...repairFeatures,
         "**كتابة ونشر 30 مقال احترافي متوافق مع السيو**", "**5 مقالات هدية لأول تعاون معنا — الإجمالي 35 مقال جديد**",
         "نشر المقالات بانتظام خلال شهر واحد", "طريقة السداد: 250 ريال عند التوقيع و250 ريال عند اكتمال نشر 35 مقال وإتمام الإصلاحات"].join("\n") },
   ],
@@ -37,4 +37,15 @@ export function techfixerTimeline(name) {
     ...(techfixerHasContent(name) ? [{ key: "techfixer_content", title: "كتابة ونشر 35 مقال", desc: "30 مقال احترافي و5 مقالات هدية، تنشر بانتظام خلال شهر واحد." }] : []),
     { key: "techfixer_delivery", title: "المراجعة والتسليم", desc: "مراجعة الأعمال المتفق عليها وتسليمها واستكمال السداد." },
   ];
+}
+
+// Display compact inheritance without removing the full signed scope.
+export function techfixerCardFeatures(pkg) {
+  if (!techfixerHasContent(pkg?.name)) return pkg.features || "";
+  return (pkg.features || "").split("\n").filter(line => !repairFeatures.includes(line))
+    .map(line => line.startsWith("كل مميزات") ? "كل مميزات الباقة الأساسية" : line).join("\n");
+}
+export function techfixerPendingPackage(pkg) {
+  if (!isTechfixer(pkg?.name)) return pkg;
+  return { ...pkg, name: `${techfixerHasContent(pkg.name) ? "الباقة الاحترافية" : "الباقة الأساسية"}|تيك فيكسر — TechFixer` };
 }

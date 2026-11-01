@@ -1,5 +1,4 @@
 import { mountPackageFinder } from './package-finder.js';
-import { getRate, egpText } from './currency.js';
 
 const tabs = [...document.querySelectorAll('[data-price-tab]')];
 document.querySelector('.nav-links a[href="#pricing"]')?.addEventListener('click', () => {
@@ -20,28 +19,6 @@ tabs.forEach((button, index) => {
     if (next != null) { event.preventDefault(); tabs[next].focus(); selectTab(tabs[next]); }
   });
 });
-
-// Existing service cards keep their Saudi price and receive the same equivalent.
-document.querySelectorAll('.pk-price').forEach(price => {
-  if (price.nextElementSibling?.hasAttribute('data-sar')) return;
-  const amount = Number(price.querySelector('.pk-val')?.textContent.replaceAll(',', ''));
-  if (!Number.isFinite(amount)) return;
-  const equivalent = document.createElement('div');
-  equivalent.className = 'currency-equivalent';
-  equivalent.dataset.sar = String(amount);
-  equivalent.textContent = 'جارٍ حساب مقابل الجنيه…';
-  price.after(equivalent);
-});
-const equivalents = [...document.querySelectorAll('[data-sar]')];
-if (equivalents.length) getRate().then(rate => {
-  equivalents.forEach(element => {
-    const value = Number(element.dataset.sar);
-    if (!Number.isFinite(value) || value < 0) return;
-    const amount = document.createElement('b');
-    amount.dir = 'ltr'; amount.textContent = egpText(value, rate.rate) + ' ج.م';
-    element.replaceChildren('يعادل ', amount);
-  });
-}).catch(() => equivalents.forEach(element => { element.textContent = 'تعذر تحديث مقابل الجنيه حاليًا؛ تواصل معنا لتأكيد المبلغ.'; }));
 
 // Reuse the same guide and catalog for the approved floating shortcut.
 const finderSource = document.getElementById('package-finder-catalog');

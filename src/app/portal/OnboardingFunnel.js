@@ -1,6 +1,6 @@
 "use client";
 
-import { isTechfixer } from "@/lib/techfixer-offer";
+import { isTechfixer, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
@@ -9,7 +9,6 @@ import { isModarresi, modarresiDisplayData } from "@/lib/modarresi-branding";
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import RiyalIcon, { RiyalText } from "@/app/components/RiyalIcon";
-import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import { acceptProposal, rejectProposal } from "./proposal-actions";
 import "./portal-dashboard.css";
@@ -575,7 +574,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const packages = (proposal.proposal_packages || []).slice().sort((a, b) => a.sort_order - b.sort_order);
+  const packages = (proposal.proposal_packages || []).map(pkg => proposal.status === "pending" ? techfixerPendingPackage(pkg) : pkg).sort((a, b) => a.sort_order - b.sort_order);
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const serviceMeta = SERVICE_META[serviceType];
@@ -915,7 +914,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   const minPackagePrice = Math.min(...packagePrices);
                   return packages.map((pkg) => {
                     const deliveryText = (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
-                    const featureLines = publicPackageCardFeatures(pkg)
+                    const featureLines = (isTechfixer(pkg.name) ? techfixerCardFeatures(pkg) : publicPackageCardFeatures(pkg))
                       .split("\n")
                       .map((l) => l.trim())
                       .filter(Boolean);
@@ -953,7 +952,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" tone={packages.length === 2 && pkg.is_featured ? "light" : "dark"} />
                         </div>
-                          {serviceType !== "techfixer" && <CurrencyEquivalent amount={Number(pkg.price)} />}
                           {deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>}
                         <div className="package-launch-note">
                           {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
@@ -1162,7 +1160,6 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <span dir="ltr">{Number(selectedPackage.price).toLocaleString("en-US")}</span>
                     <RiyalIcon size="0.8em" tone="dark" />
                   </strong>
-                  <CurrencyEquivalent amount={Number(selectedPackage.price)} />
                   {serviceType === "techfixer" && <span> — السداد: {buildStagesForProposal(selectedPackage)?.map(s => `${s.amount} ريال ${s.description}`).join("، ")}</span>}
                   {serviceType === "blogger" && (() => {
                     // Three payments, derived from the package price instead of

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import RiyalIcon from "@/app/components/RiyalIcon";
-import CurrencyEquivalent from "@/app/components/CurrencyEquivalent";
 import CheckIcon from "@/app/components/CheckIcon";
 import { PAY_STATUS_STYLE, PAY_STATUS_LABEL } from "@/lib/paymentStatus";
 
@@ -108,7 +107,6 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                       <span dir="ltr">{Number(stage.amount || 0).toLocaleString("en-US")}</span>{" "}
                       <RiyalIcon size="0.8em" />
                     </p>
-                    <CurrencyEquivalent amount={Number(stage.amount || 0)} />
                     {isOpen && stage.status === "awaiting_payment" && (
                       <div className="stages-accordion-instructions" onClick={(e) => e.stopPropagation()}>
                         <p>سدّد هذه المرحلة عبر Xpay. ستراجع مبلغ الجنيه المصري قبل الانتقال إلى صفحة الدفع الآمنة، وسيُحدَّث السداد تلقائيًا بعد تأكيده.</p>
