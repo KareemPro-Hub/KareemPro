@@ -109,8 +109,13 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                     </p>
                     {isOpen && stage.status === "awaiting_payment" && (
                       <div className="stages-accordion-instructions" onClick={(e) => e.stopPropagation()}>
-                        <p>سدّد هذه المرحلة من الرابط التالي. ستراجع مبلغ الجنيه المصري قبل الانتقال إلى صفحة الدفع الآمنة، وسيُحدَّث السداد تلقائيًا بعد تأكيده.</p>
-                        <a className="payment-request-link" href={`/checkout?stage=${encodeURIComponent(stage.id)}`}>سداد المرحلة</a>
+                        <a className="payment-request-link" href={`/checkout?stage=${encodeURIComponent(stage.id)}`} aria-label={`دفع آمن — ${stage.title}`}>دفع آمن</a>
+                        <div className="stage-payment-methods" aria-label="وسائل الدفع">
+                          <span><img src="/payments/visa.png" alt="Visa" width="48" height="24" /></span>
+                          <span><img src="/payments/mastercard.png" alt="Mastercard" width="48" height="24" /></span>
+                          <span><img src="/payments/fawry.webp" alt="فوري" width="48" height="24" /></span>
+                          <span><img src="/payments/valu.svg" alt="ValU" width="48" height="24" /></span>
+                        </div>
                       </div>
                     )}
                   </div>
