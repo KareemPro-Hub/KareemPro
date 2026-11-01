@@ -109,7 +109,7 @@ export default function StagesAccordion({ clientTimeline, clientCurrentIdx, isPr
                     </p>
                     {isOpen && stage.status === "awaiting_payment" && (
                       <div className="stages-accordion-instructions" onClick={(e) => e.stopPropagation()}>
-                        <p>سدّد هذه المرحلة عبر Xpay. ستراجع مبلغ الجنيه المصري قبل الانتقال إلى صفحة الدفع الآمنة، وسيُحدَّث السداد تلقائيًا بعد تأكيده.</p>
+                        <p>سدّد هذه المرحلة من الرابط التالي. ستراجع مبلغ الجنيه المصري قبل الانتقال إلى صفحة الدفع الآمنة، وسيُحدَّث السداد تلقائيًا بعد تأكيده.</p>
                         <a className="payment-request-link" href={`/checkout?stage=${encodeURIComponent(stage.id)}`}>سداد المرحلة</a>
                       </div>
                     )}
