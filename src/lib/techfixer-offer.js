@@ -13,11 +13,11 @@ export const TECHFIXER_TEMPLATE = {
   projectTitle: "تطوير مدونة تيك فيكسر — TechFixer",
   packages: [
     { name: "الباقة الأساسية|تيك فيكسر — TechFixer", price: 250, original_price: 500, is_featured: false,
-      features: [...repairFeatures, "بدون كتابة مقالات جديدة", "طريقة السداد: 125 ريال عند التوقيع و125 ريال عند إتمام الإصلاحات"].join("\n") },
+      features: [...repairFeatures, "بدون كتابة مقالات جديدة"].join("\n") },
     { name: "الباقة الاحترافية|تيك فيكسر — TechFixer", price: 500, original_price: 900, is_featured: true,
       features: ["كل مميزات الباقة الأساسية", ...repairFeatures,
         "**كتابة ونشر 30 مقال احترافي متوافق مع السيو**", "**5 مقالات هدية لأول تعاون معنا — الإجمالي 35 مقال جديد**",
-        "نشر المقالات بانتظام خلال شهر واحد", "طريقة السداد: 250 ريال عند التوقيع و250 ريال عند اكتمال نشر 35 مقال وإتمام الإصلاحات"].join("\n") },
+        "نشر المقالات بانتظام خلال شهر واحد"].join("\n") },
   ],
 };
 export function techfixerStages(pkg) {
@@ -50,6 +50,8 @@ export function techfixerPendingPackage(pkg) {
   return {
     ...pkg,
     name: `${techfixerHasContent(pkg.name) ? "الباقة الاحترافية" : "الباقة الأساسية"}|تيك فيكسر — TechFixer`,
-    features: (pkg.features || "").replace("الدومين اختياري وتكلفة تسجيله وتجديده منفصلة حسب النطاق المختار", "الدومين اختياري وتكلفة تسجيله وتجديده على صاحب المدونة"),
+    features: (pkg.features || "")
+      .split("\n").filter(line => !line.trim().startsWith("طريقة السداد:")).join("\n")
+      .replace("الدومين اختياري وتكلفة تسجيله وتجديده منفصلة حسب النطاق المختار", "الدومين اختياري وتكلفة تسجيله وتجديده على صاحب المدونة"),
   };
 }
