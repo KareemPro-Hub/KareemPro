@@ -1,6 +1,6 @@
 "use client";
 
-import { isTechfixer, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
+import { isTechfixer, techfixerHasContent, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
@@ -954,7 +954,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         </div>
                           {deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>}
                         <div className="package-launch-note">
-                          {serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
+                          {techfixerHasContent(pkg.name) ? "خصم خاص جدًا لأول تعاون فقط ❤️" : serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
                         </div>
                       </div>
                       {featureLines.length > 0 && (

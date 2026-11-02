@@ -35,3 +35,10 @@ export function checkoutPath(quote) {
     : { service: quote.service_id, tier: quote.tier_key ?? String(quote.tier) };
   return '/checkout?' + new URLSearchParams(params).toString();
 }
+
+// Hosted checkout keeps the EGP charge; show the agreed SAR value above it
+// in its product heading. Direct EGP products retain their original title.
+export function hostedPaymentTitle(order, pkg) {
+  if (pkg.currency === 'EGP') return order.title;
+  return `${Number(order.amount_sar).toLocaleString('en-US', { maximumFractionDigits: 2 })} ريال سعودي — ${order.title}`;
+}

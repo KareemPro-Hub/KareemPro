@@ -14,7 +14,7 @@ export const TECHFIXER_TEMPLATE = {
   packages: [
     { name: "الباقة الأساسية|تيك فيكسر — TechFixer", price: 250, original_price: 500, is_featured: false,
       features: [...repairFeatures, "بدون كتابة مقالات جديدة"].join("\n") },
-    { name: "الباقة الاحترافية|تيك فيكسر — TechFixer", price: 500, original_price: 900, is_featured: true,
+    { name: "الباقة الاحترافية|تيك فيكسر — TechFixer", price: 400, original_price: 900, is_featured: true,
       features: ["كل مميزات الباقة الأساسية", ...repairFeatures,
         "**كتابة ونشر 30 مقال احترافي متوافق مع السيو**", "**5 مقالات هدية لأول تعاون معنا — الإجمالي 35 مقال جديد**",
         "نشر المقالات بانتظام خلال شهر واحد"].join("\n") },
