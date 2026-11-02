@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "pricing:build": "node scripts/build_pricing.mjs",
-    "prebuild": "KP_REFRESH_PAYMENT_TITLES=1 node scripts/refresh_pending_payment_titles.mjs && node scripts/build_pricing.mjs && node scripts/build_seo.mjs",
+    "prebuild": "node scripts/build_pricing.mjs && node scripts/build_seo.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
