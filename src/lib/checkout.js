@@ -43,5 +43,5 @@ export function hostedPaymentTitle(order, pkg) {
   const amount = Number(order.amount_sar).toLocaleString('en-US', { maximumFractionDigits: 2 });
   // Keep the Arabic currency and Latin digits together inside mixed-direction
   // provider headings. Non-breaking spaces also prevent separating the unit.
-  return `\u2067\u2066${amount}\u2069\u00a0ريال\u00a0سعودي\u2069 — \u2067${order.title}\u2069`;
+  return `\u2067\u2066${amount}\u2069\u00a0ريال\u00a0سعودي\u2069`;
 }

@@ -17,7 +17,7 @@ export async function refreshPendingTitles({ db, provider }) {
     if (Number(items[0].price?.unitAmount) !== Number(order.amount_egp_minor) || items[0].price?.currency !== 'EGP') throw Error('Line item price mismatch');
     const title = hostedPaymentTitle(order, {});
     await provider('PATCH', '/checkout/sessions/' + order.session_id, {
-      lineItems: [{ priceData: { currency: 'EGP', unitAmount: Number(order.amount_egp_minor), productData: { name: title } }, quantity: 1 }],
+      lineItems: [{ priceData: { currency: 'EGP', unitAmount: Number(order.amount_egp_minor), productData: { name: title, description: order.title } }, quantity: 1 }],
     }, order.livemode);
     const fresh = await provider('GET', '/checkout/sessions/' + order.session_id, undefined, order.livemode);
     if (!sessionMatches(fresh, order)) throw Error('Session changed during title refresh');

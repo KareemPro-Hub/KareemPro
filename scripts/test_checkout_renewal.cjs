@@ -63,7 +63,8 @@ function load(file, mocks = {}, fetch = () => { throw Error('Network forbidden')
   assert.equal((await api.POST(request(fresh))).headers.get('location'), session.url); assert.equal(calls.length, 1);
   session.paymentStatus = 'paid'; assert.match((await api.POST(request(fresh))).headers.get('location'), /checkout\/result\?session_id=cs_test_local$/);
   reset(); assert.equal((await api.POST(request(fresh))).headers.get('location'), session.url); assert.equal(calls[0].options.body.lineItems[0].priceData.unitAmount, base.amount_egp_minor);
-  assert.equal(calls[0].options.body.lineItems[0].priceData.productData.name, '\u2067\u2066125\u2069\u00a0ريال\u00a0سعودي\u2069 — \u2067' + base.title + '\u2069');
+  assert.equal(calls[0].options.body.lineItems[0].priceData.productData.name, '\u2067\u2066125\u2069\u00a0ريال\u00a0سعودي\u2069');
+  assert.equal(calls[0].options.body.lineItems[0].priceData.productData.description, base.title);
   assert.equal(checkout.hostedPaymentTitle(base, { currency: 'EGP' }), base.title);
   assert.equal(calls[0].options.idempotencyKey, 'kareempro-' + base.id);
   // The actual snapshot/confirmation code releases only provider-confirmed expiry.
