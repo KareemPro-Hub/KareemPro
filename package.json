@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "pricing:build": "node scripts/build_pricing.mjs",
-    "prebuild": "KP_TECHFIXER_PRICE_FIX=1 node scripts/expire_techfixer_legacy_sessions.mjs && node scripts/build_pricing.mjs && node scripts/build_seo.mjs",
+    "prebuild": "node scripts/build_pricing.mjs && node scripts/build_seo.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
