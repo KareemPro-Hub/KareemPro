@@ -4,6 +4,11 @@ import catalog from '../../public/pricing-catalog.json';
 import { checkoutPackage } from './checkout';
 import { egpMinor, sessionMatches, sessionExpired } from './xpay.mjs';
 export function paymentsReady(){return process.env.XPAY_ENABLED==='true' && !!(process.env.XPAY_SECRET_KEY&&process.env.XPAY_QUOTE_SECRET&&process.env.XPAY_WEBHOOK_SECRET);}
+export function paymentPublicKey(live){
+ const key=live?process.env.XPAY_PUBLISHABLE_KEY:process.env.XPAY_TEST_PUBLISHABLE_KEY;
+ return typeof key==='string'&&new RegExp('^pk_'+(live?'live':'test')+'_[A-Za-z0-9]+$').test(key)?key:null;
+}
+export function customPaymentsReady(live){return process.env.XPAY_CUSTOM_CHECKOUT==='true'&&!!paymentPublicKey(live);}
 export async function xpay(path,{body,idempotencyKey}={}){
  const response=await fetch('https://api.xpay.app'+path,{method:body?'POST':'GET',headers:{Authorization:'Bearer '+(path.includes('cs_test_')?process.env.XPAY_TEST_SECRET_KEY:process.env.XPAY_SECRET_KEY),'Content-Type':'application/json',...(idempotencyKey?{'Idempotency-Key':idempotencyKey}:{})},...(body?{body:JSON.stringify(body)}:{}),cache:'no-store',signal:AbortSignal.timeout(15000)});
  if(!response.ok) throw Error('Xpay request failed: '+response.status);
@@ -13,11 +18,11 @@ export async function selectedPayment(params){
  if(params?.stage){
   if(typeof params.stage!=='string'||!/^[a-f0-9-]{36}$/i.test(params.stage))return null;
   const db=await createClient();const {data:{user}}=await db.auth.getUser();if(!user)return null;
-  const {data:stage}=await db.from('stages').select('id,title,amount,status,project_id').eq('id',params.stage).maybeSingle();
+  const {data:stage}=await db.from('stages').select('id,title,stage_number,amount,status,project_id').eq('id',params.stage).maybeSingle();
   if(!stage||stage.status!=='awaiting_payment')return null;
-  const {data:project}=await db.from('projects').select('id,title,client_id,currency').eq('id',stage.project_id).eq('client_id',user.id).maybeSingle();
+  const {data:project}=await db.from('projects').select('id,title,package_name,client_id,currency').eq('id',stage.project_id).eq('client_id',user.id).maybeSingle();
   if(!project||!['SAR','ريال','ريال سعودي',null].includes(project.currency))return null;
-  return {service:{id:'stage',name:project.title},pkg:{name:stage.title+'|دفعة المشروع',price:Number(stage.amount),features:'سداد المرحلة المحددة من مشروعك'},stageId:stage.id,clientId:user.id};
+  return {service:{id:'stage',name:project.title},pkg:{name:stage.title+'|دفعة المشروع',price:Number(stage.amount),features:'سداد المرحلة المحددة من مشروعك'},packageName:project.package_name,stageNumber:stage.stage_number,stageId:stage.id,clientId:user.id};
  }
  return checkoutPackage(catalog,params);
 }

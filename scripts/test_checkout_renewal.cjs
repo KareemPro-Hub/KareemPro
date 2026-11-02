@@ -33,7 +33,7 @@ function load(file, mocks = {}, fetch = () => { throw Error('Network forbidden')
   } };
   const api = load('src/app/api/xpay/checkout/route.js', {
     '@/lib/xpay.mjs': xp, '@/lib/checkout': checkout, '@/lib/supabase/server': { createAdminClient: () => db },
-    '@/lib/xpay-server': { paymentsReady: () => ready, selectedPayment: async () => { selectedCalls++; return allowed ? selected : null; },
+    '@/lib/xpay-server': { paymentsReady: () => ready, customPaymentsReady: () => false, selectedPayment: async () => { selectedCalls++; return allowed ? selected : null; },
       xpay: async (url, options) => { calls.push({ url, options }); return session; },
       confirmSession: async value => { assert(xp.sessionMatches(value, order)); if (xp.sessionExpired(value)) order.status = 'expired'; } },
   });

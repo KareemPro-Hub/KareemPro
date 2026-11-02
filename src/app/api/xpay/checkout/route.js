@@ -1,6 +1,6 @@
 import { readQuote, QuoteExpiredError, sessionMatches, sessionExpired, safeCheckoutUrl } from '@/lib/xpay.mjs';
 import { checkoutPriceMatches, checkoutPath, hostedPaymentTitle } from '@/lib/checkout';
-import { paymentsReady, selectedPayment, xpay, confirmSession } from '@/lib/xpay-server';
+import { paymentsReady, customPaymentsReady, selectedPayment, xpay, confirmSession } from '@/lib/xpay-server';
 import { createAdminClient } from '@/lib/supabase/server';
 export const runtime='nodejs';
 export async function POST(request){
@@ -34,12 +34,14 @@ export async function POST(request){
    await confirmSession(fresh,'reconcile:'+order.session_id);
    if(fresh.paymentStatus==='paid')return Response.redirect(origin+'/checkout/result?session_id='+encodeURIComponent(order.session_id),303);
    if(sessionExpired(fresh))return Response.redirect(origin+checkoutPath(q),303);
+   if(fresh.uiMode==='custom')return Response.redirect(origin+'/checkout/pay?session_id='+encodeURIComponent(order.session_id),303);
   }
   if(order.checkout_url&&safeCheckoutUrl(order.checkout_url))return Response.redirect(order.checkout_url,303);
-  const session=await xpay('/checkout/sessions',{idempotencyKey:'kareempro-'+order.id,body:{mode:'payment',uiMode:'hosted',locale:'ar',currency:'EGP',expiresAfterMinutes:30,afterCompletion:{type:'redirect',redirect:{url:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}'}},cancelUrl:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}',lineItems:[{priceData:{currency:'EGP',unitAmount:Number(order.amount_egp_minor),productData:{name:hostedPaymentTitle(order,selected.pkg),description:order.title}},quantity:1}],metadata:{order_id:order.id},nameCollection:true,phoneNumberCollection:true,feeConfig:{feesPassThrough:false,vatCollectionEnabled:false}}});
-  if(!safeCheckoutUrl(session.url)||!sessionMatches(session,{...order,session_id:session.id}))throw Error('Unexpected session');
-  const {error:saveError}=await db.from('xpay_orders').update({session_id:session.id,checkout_url:session.url}).eq('id',order.id);if(saveError)throw Error('Session storage failed');
-  return Response.redirect(session.url,303);
+  const custom=customPaymentsReady(order.livemode);
+  const session=await xpay('/checkout/sessions',{idempotencyKey:'kareempro-'+order.id,body:{mode:'payment',uiMode:custom?'custom':'hosted',locale:'ar',currency:'EGP',expiresAfterMinutes:30,afterCompletion:{type:'redirect',redirect:{url:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}'}},...(!custom?{cancelUrl:origin+'/checkout/result?session_id={CHECKOUT_SESSION_ID}',nameCollection:true,phoneNumberCollection:true}:{}),lineItems:[{priceData:{currency:'EGP',unitAmount:Number(order.amount_egp_minor),productData:{name:custom?order.title:hostedPaymentTitle(order,selected.pkg),description:order.title}},quantity:1}],metadata:{order_id:order.id},feeConfig:{feesPassThrough:false,vatCollectionEnabled:false}}});
+  if(!/^cs_(live|test)_[A-Za-z0-9]+$/.test(session.id)||(!custom&&!safeCheckoutUrl(session.url))||(custom&&(session.uiMode!=='custom'||!session.clientSecret))||!sessionMatches(session,{...order,session_id:session.id}))throw Error('Unexpected session');
+  const {error:saveError}=await db.from('xpay_orders').update({session_id:session.id,checkout_url:custom?null:session.url}).eq('id',order.id);if(saveError)throw Error('Session storage failed');
+  return Response.redirect(custom?origin+'/checkout/pay?session_id='+encodeURIComponent(session.id):session.url,303);
  }catch(error){
   // Only a correctly signed, expired quote is eligible for automatic renewal.
   // GET checkout rechecks ownership/prices and displays a freshly signed amount.
