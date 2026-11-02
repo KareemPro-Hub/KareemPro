@@ -1,4 +1,5 @@
-// Explicit maintenance: changes product names only; never price/session amounts.
+// Explicit maintenance: updates the session label with its identical frozen price.
+// Never confirms a payment, changes the total, or replaces a paid session.
 import { createClient } from '@supabase/supabase-js';
 import { hostedPaymentTitle } from '../src/lib/checkout.js';
 import { sessionMatches } from '../src/lib/xpay.mjs';
@@ -13,11 +14,11 @@ export async function refreshPendingTitles({ db, provider }) {
     if (session.status !== 'open' || session.paymentStatus === 'paid' || session.isExpired) continue;
     const items = session.lineItems || [];
     if (items.length !== 1 || items[0].quantity !== 1) throw Error('Unexpected product scope');
-    const product = items[0].price?.product;
-    const id = typeof product === 'object' ? product.id : product || items[0].price?.productId;
-    if (typeof id !== 'string' || !/^prod_[A-Za-z0-9]+$/.test(id)) throw Error('Missing product identifier');
+    if (Number(items[0].price?.unitAmount) !== Number(order.amount_egp_minor) || items[0].price?.currency !== 'EGP') throw Error('Line item price mismatch');
     const title = hostedPaymentTitle(order, {});
-    await provider('PATCH', '/products/' + id, { name: title }, order.livemode);
+    await provider('PATCH', '/checkout/sessions/' + order.session_id, {
+      lineItems: [{ priceData: { currency: 'EGP', unitAmount: Number(order.amount_egp_minor), productData: { name: title } }, quantity: 1 }],
+    }, order.livemode);
     const fresh = await provider('GET', '/checkout/sessions/' + order.session_id, undefined, order.livemode);
     if (!sessionMatches(fresh, order)) throw Error('Session changed during title refresh');
     if (fresh.lineItems?.[0]?.price?.product?.name !== title) throw Error('Title refresh not reflected');
