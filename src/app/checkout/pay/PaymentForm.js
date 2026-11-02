@@ -6,53 +6,63 @@ export default function PaymentForm({ publicKey, clientSecret, sessionId, amount
   const container = useRef(null);
   const checkout = useRef(null);
   const paymentComplete = useRef(false);
+  const confirmable = useRef(false);
   const submitting = useRef(false);
   const [scriptReady, setScriptReady] = useState(false);
   const [ready, setReady] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   useEffect(() => {
     if (!scriptReady) return;
     let cancelled = false;
     let element;
+    let elements;
+    let loadTimer;
     const matches = session => session.id === sessionId && session.currency === 'EGP' && Number(session.amountTotal) === amountEgpMinor;
     function update(session) {
       if (cancelled) return;
       if (!matches(session)) {
         checkout.current = null;
+        confirmable.current = false;
         setReady(false);
         setError('تغيّرت بيانات الدفع. ارجع لملخص الطلب قبل المحاولة مجددًا.');
         return;
       }
       if (session.status.type === 'expired') { window.location.replace(back); return; }
       if (session.status.type === 'complete') { window.location.replace(result); return; }
+      confirmable.current = session.canConfirm;
       setReady(paymentComplete.current && session.canConfirm);
     }
     async function start() {
       try {
         const instance = await window.XPay(publicKey).initCheckout({ clientSecret, locale: 'ar', appearance: { colorMode: 'light', borderStyle: 'rounded', colors: { primary: '#a83e13', background: '#ffffff', foreground: '#17213e' } } });
-        if (cancelled) return;
+        if (cancelled) { instance.getElements().destroy(); return; }
         if (!matches(instance)) throw Error('Invalid payment snapshot');
         checkout.current = instance;
         update(instance);
         if (instance.status.type !== 'open') return;
-        element = instance.getElements().create('payment');
+        elements = instance.getElements();
+        element = elements.create('payment');
+        element.on('ready', () => { if (!cancelled) { clearTimeout(loadTimer); setLoaded(true); setError(''); } });
         element.on('change', event => { paymentComplete.current = event.complete; update(event.session); });
         element.on('loaderror', () => { if (!cancelled) { setReady(false); setError('تعذر تحميل وسائل الدفع. أعد تحميل الصفحة للمحاولة مجددًا.'); } });
+        elements.on('loaderror', () => { if (!cancelled) { clearTimeout(loadTimer); setReady(false); setError('تعذر تحميل وسائل الدفع. أعد تحميل الصفحة للمحاولة مجددًا.'); } });
         instance.on('change', update);
         instance.on('error', () => { if (!cancelled) { setReady(false); setError('تعذر تجهيز السداد. ارجع لملخص الطلب وأعد المحاولة.'); } });
         element.mount(container.current);
+        loadTimer = setTimeout(() => { if (!cancelled) { setReady(false); setError('تأخر تحميل وسائل الدفع. أعد تحميل الصفحة أو جرّب متصفحًا آخر.'); } }, 30000);
       } catch {
         if (!cancelled) { setReady(false); setError('تعذر تحميل وسائل الدفع. أعد تحميل الصفحة للمحاولة مجددًا.'); }
       }
     }
     start();
-    return () => { cancelled = true; checkout.current = null; paymentComplete.current = false; element?.destroy(); };
+    return () => { cancelled = true; clearTimeout(loadTimer); checkout.current = null; paymentComplete.current = false; confirmable.current = false; elements?.destroy(); };
   }, [scriptReady, publicKey, clientSecret, sessionId, amountEgpMinor, back, result]);
 
   async function pay(event) {
     event.preventDefault();
-    if (!ready || !checkout.current?.canConfirm || submitting.current) return;
+    if (!ready || !confirmable.current || !checkout.current || submitting.current) return;
     submitting.current = true;
     setBusy(true);
     setError('');
@@ -76,7 +86,7 @@ export default function PaymentForm({ publicKey, clientSecret, sessionId, amount
       <label htmlFor="payer-email">البريد الإلكتروني</label><input id="payer-email" name="email" type="email" dir="ltr" autoComplete="email" required maxLength={254} />
       <label htmlFor="payer-phone">رقم الجوال مع رمز الدولة</label><input id="payer-phone" name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="+966 5xxxxxxxx" required maxLength={30} />
       <div ref={container} className="payment-element" aria-label="وسائل الدفع" />
-      {!scriptReady && !error && <p role="status">جاري تجهيز وسائل الدفع…</p>}
+      {!loaded && !error && <p role="status">جاري تجهيز وسائل الدفع…</p>}
       <p className="payment-final-error" role="alert">{error}</p>
       <button className="checkout-pay-button" type="submit" disabled={!ready || busy}>{busy ? 'جاري إتمام الدفع…' : 'دفع آمن'}</button>
       <p className="payment-final-links"><a href={back}>العودة لملخص الطلب</a><a href={result}>التحقق من حالة السداد</a></p>
