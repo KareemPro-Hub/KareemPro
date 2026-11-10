@@ -5,6 +5,7 @@ import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
 import { bloggerInstallments, buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
 import { isTechfixer } from "@/lib/techfixer-offer";
+import { isZawyati } from "@/lib/zawyati-offer";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName, displayedStageAmounts }) {
@@ -33,7 +34,10 @@ export async function acceptProposal({ proposalId, packageId, signerName, displa
   const chosenPackage = (proposal.proposal_packages || []).find((p) => p.id === packageId);
   if (!chosenPackage) throw new Error("الباقة المختارة غير موجودة");
 
-  const installments = bloggerInstallments(chosenPackage);
+  const stagePlan = buildStagesForProposal(chosenPackage);
+  const isZawyatiOffer = isZawyati(chosenPackage.name);
+  if (isZawyatiOffer && !stagePlan) throw new Error("تعذر تجهيز دفعات الباقة.");
+  const installments = isZawyatiOffer ? stagePlan.map(stage => stage.amount) : bloggerInstallments(chosenPackage);
   if (installments && (!Array.isArray(displayedStageAmounts)
     || displayedStageAmounts.length !== installments.length
     || !installments.every((amount, i) => amount === displayedStageAmounts[i]))) {
@@ -44,7 +48,7 @@ export async function acceptProposal({ proposalId, packageId, signerName, displa
   // signatures if project/stage creation fails. Only the server can call it.
   const settlement = PACKAGE_SETTLEMENTS[Number(chosenPackage.price)];
   const requestDepositAtSigning = installments || isTechfixer(chosenPackage.name);
-  const stages = (buildStagesForProposal(chosenPackage) || []).map((stage, index) => ({
+  const stages = (stagePlan || []).map((stage, index) => ({
     ...stage,
     status: requestDepositAtSigning && index === 0 ? "awaiting_payment" : "upcoming",
   }));

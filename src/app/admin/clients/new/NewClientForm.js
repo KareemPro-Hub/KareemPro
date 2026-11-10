@@ -8,6 +8,7 @@ import { openWhatsApp, welcomeMessage, DIAL_CODES } from "@/lib/whatsapp";
 // Each service creates its matching proposal (or the shared platform offer).
 // Keep stable values: saved clients and service-specific flows use them.
 const SERVICE_TYPES = [
+  { value: "zawyati", label: "مدونة زاويتي" },
   { value: "techfixer", label: "مدونة تيك فيكسر — TechFixer" },
   { value: "blogger", label: "إنشاء مدونة بلوجر ربحية" },
   { value: "platform", label: "إنشاء منصة رقمية" },

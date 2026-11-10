@@ -34,7 +34,7 @@ function load(file, mocks = {}, append = '') {
   const mocks = { 'next/cache': { revalidatePath() {} }, 'next/navigation': { redirect() { throw Error('guard'); } },
     '@/lib/admin': { requireAdmin: async () => { throw Error('guard'); } }, '@/lib/supabase/server': { createAdminClient() { throw Error('No database access before guard'); } },
     '@/lib/email': {}, '@/lib/pdfReceipt': {}, '@/lib/projectFiles': {} };
-  const actions = load('src/app/admin/actions.js', mocks, '\nmodule.exports.auditTemplates = SERVICE_TEMPLATES;');
+  const actions = load('src/app/admin/actions.js', mocks, '\nmodule.exports.auditTemplates = SERVICE_TEMPLATES; module.exports.auditOffer = { ensureDefaultProposal };');
   let adminGuards = 0, paymentPlans = 0;
   for (const fn of Object.values(actions)) if (typeof fn === 'function') { await assert.rejects(() => fn(), /guard/); adminGuards++; }
   const catalog = require('../public/pricing-catalog.json');
@@ -42,6 +42,54 @@ function load(file, mocks = {}, append = '') {
   const { currentBloggerArticleCount } = load('src/lib/public-offers.js');
   const { getAdminTimeline } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
+  const zawyatiPackages = actions.auditTemplates.zawyati.packages;
+  const zawyatiPlans = [[150, 100], [200, 200]];
+  assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 500], [400, 900]]);
+  let storedProposal, storedPackages;
+  const inviteDb = {
+    from(table) {
+      if (table === 'proposal_packages') return { insert: async rows => { storedPackages = rows; return {}; } };
+      assert.equal(table, 'proposals');
+      return {
+        select: () => ({ eq: () => ({ limit: () => ({ maybeSingle: async () => ({ data: storedProposal }) }) }) }),
+        insert: row => {
+          assert.equal(storedProposal, undefined);
+          storedProposal = { ...row, id: 'new-proposal' };
+          return { select: () => ({ single: async () => ({ data: storedProposal }) }) };
+        },
+      };
+    },
+  };
+  await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'zawyati');
+  await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'zawyati');
+  assert.equal(storedProposal.project_title, 'تطوير مدونة زاويتي');
+  assert.deepEqual(storedPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]), zawyatiPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]));
+  for (const [index, pkg] of zawyatiPackages.entries()) {
+    const steps = getAdminTimeline(pkg.name, pkg.price);
+    assert.equal(steps.at(-1).key, 'zawyati_delivery');
+    assert.equal(steps.some(step => step.key === 'zawyati_content'), index === 1);
+    assert.ok(pkg.features.includes('إرسال طلب مراجعة جديد'));
+  }
+  const releaseFilters = {};
+  const deliveryDb = {
+    from(table) {
+      const q = {
+        select: () => q,
+        single: async () => ({ data: { client_id: 'local-client', package_name: zawyatiPackages[0].name, timeline_step: 'zawyati_development' } }),
+        update(values) {
+          if (table === 'stages') assert.equal(values.status, 'awaiting_payment');
+          return q;
+        },
+        eq(key, value) { if (table === 'stages') releaseFilters[key] = value; return q; },
+        insert: async () => ({}),
+      };
+      return q;
+    },
+  };
+  const delivery = load('src/app/admin/actions.js', { ...mocks, '@/lib/admin': { requireAdmin: async () => {} },
+    '@/lib/supabase/server': { createAdminClient: () => deliveryDb } });
+  await delivery.updateTimelineStep('local-project', 'zawyati_delivery');
+  assert.deepEqual(releaseFilters, { project_id: 'local-project', stage_number: 2, status: 'upcoming' });
   const bloggerPlans = [
     [0, 'basic', 250, undefined, 3, [150, 100]],
     [1, 'featured', 450, 900, 20, [250, 200]],
@@ -115,6 +163,24 @@ function load(file, mocks = {}, append = '') {
       await proposalActions.acceptProposal({ proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' });
       assert.equal(rpcArgs.p_stages[0].status, 'awaiting_payment'); assert.equal(rpcArgs.p_stages[1].status, 'upcoming');
       assert.equal(rpcArgs.p_stages.reduce((sum, item) => sum + item.amount, 0), selectedPackage.price);
+    }
+    for (const [index, amounts] of zawyatiPlans.entries()) {
+      selectedPackage = zawyatiPackages[index];
+      const args = { proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' };
+      await assert.rejects(() => proposalActions.acceptProposal({ ...args, displayedStageAmounts: [125, 125] }), /تغيّر تقسيم الدفعات/);
+      await proposalActions.acceptProposal({ ...args, displayedStageAmounts: amounts });
+      assert.deepEqual(rpcArgs.p_stages.map(s => s.amount), amounts);
+      assert.deepEqual(rpcArgs.p_stages.map(s => s.status), ['awaiting_payment', 'upcoming']);
+      for (const [i, payment] of rpcArgs.p_stages.entries()) {
+        checkoutStage = { ...payment, id: stageId, stage_number: i + 1, project_id: 'project' };
+        if (i === 1) {
+          assert.equal(await xpay.selectedPayment({ stage: stageId }), null);
+          checkoutStage.status = 'awaiting_payment';
+        }
+        const selected = await xpay.selectedPayment({ stage: stageId });
+        assert.equal(selected.pkg.price, amounts[i]);
+        assert.equal(checkoutPath({ stage_id: selected.stageId }), `/checkout?stage=${stageId}`);
+      }
     }
     for (const [index, , price, , , amounts] of bloggerPlans) {
       selectedPackage = bloggerPackages[index];

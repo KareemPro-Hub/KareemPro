@@ -1,6 +1,7 @@
 "use server";
 
 import { TECHFIXER_TEMPLATE, isTechfixer } from "@/lib/techfixer-offer";
+import { ZAWYATI_TEMPLATE, isZawyati } from "@/lib/zawyati-offer";
 import { publicProposalPackages } from "@/lib/public-offers";
 import { modarresiDisplayData } from "@/lib/modarresi-branding";
 import { revalidatePath } from "next/cache";
@@ -112,6 +113,7 @@ const DEFAULT_PACKAGES = publicProposalPackages('platforms');
 // are preserved.
 const SERVICE_TEMPLATES = {
   techfixer: TECHFIXER_TEMPLATE,
+  zawyati: ZAWYATI_TEMPLATE,
   edu: { projectTitle: "إنشاء منصة تعليمية", packages: publicProposalPackages('edu') },
   store: { projectTitle: "إنشاء متجر إلكتروني", packages: publicProposalPackages('store') },
 
@@ -1000,7 +1002,9 @@ export async function updateTimelineStep(projectId, stepKey) {
   const steps = getAdminTimeline(project.package_name).map((s) => s.key);
   const prevIdx = steps.indexOf(project.timeline_step);
   const nextIdx = steps.indexOf(stepKey);
-  if (isTechfixer(project.package_name) && stepKey === "techfixer_delivery" && nextIdx > prevIdx) {
+  const isBlogDelivery = (isTechfixer(project.package_name) && stepKey === "techfixer_delivery")
+    || (isZawyati(project.package_name) && stepKey === "zawyati_delivery");
+  if (isBlogDelivery && nextIdx > prevIdx) {
     // The final instalment becomes payable only after the agreed work is ready.
     // Never reopen a paid instalment or modify another service's payment flow.
     const { error: paymentError } = await admin.from("stages")

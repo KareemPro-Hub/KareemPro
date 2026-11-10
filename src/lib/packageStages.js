@@ -1,4 +1,5 @@
 import { isTechfixer, techfixerStages } from "./techfixer-offer";
+import { isZawyati, zawyatiStages } from "./zawyati-offer";
 import { currentBloggerArticleCount, currentBloggerCountFromName, isPublicProposal } from "./public-offers";
 
 // Standard payment-stage breakdown per package price — the exact numbers and
@@ -194,6 +195,7 @@ export function buildStagesForPackagePrice(price) {
 // New Blogger offers are scoped by their saved article total, never by a price
 // shared with a course/article service. Keep legacy price plans above intact.
 export function buildStagesForProposal(pkg) {
+  if (isZawyati(pkg?.name)) return zawyatiStages(pkg);
   if (isTechfixer(pkg?.name)) return techfixerStages(pkg);
   const count = currentBloggerArticleCount(pkg) ?? currentBloggerCountFromName(pkg?.name);
   if (!count) {

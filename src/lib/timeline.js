@@ -1,5 +1,6 @@
 
 import { isTechfixer, techfixerTimeline, techfixerHasContent } from "./techfixer-offer";
+import { isZawyati, zawyatiTimeline, zawyatiHasContent } from "./zawyati-offer";
 import { currentBloggerCountFromName } from "./public-offers";
 import { isModarresi } from "./modarresi-branding";
 
@@ -401,6 +402,7 @@ const BLOGGER_FULL_CONTENT_STEPS = {
 
 // Full breakdown for the admin, adapted to the project's package.
 export function getAdminTimeline(packageName, packagePrice) {
+  if (isZawyati(packageName)) return zawyatiTimeline(packageName);
   if (isTechfixer(packageName)) return techfixerTimeline(packageName);
   const pTier = pharmacyTier(packagePrice);
   if (pTier) return PHARMACY_STEPS.filter((s) => !s.tiers || s.tiers.includes(pTier));
@@ -456,6 +458,7 @@ const DURATION_BY_TIER = {
 };
 
 export function getEstimatedDuration(packageName) {
+  if (isZawyati(packageName)) return zawyatiHasContent(packageName) ? "شهر تقريبًا" : "5 أيام تقريبًا";
   if (isTechfixer(packageName)) return techfixerHasContent(packageName) ? "شهر واحد" : "5 أيام تقريبًا";
   const tier = packageTier(packageName);
   return DURATION_BY_TIER[tier] || DURATION_BY_TIER.economic;
