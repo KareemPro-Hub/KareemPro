@@ -1,4 +1,5 @@
 import offers from '../../public/service-offers.json';
+import presentation from '../../public/pricing-display.json';
 
 // Copy into new proposals only. Previously saved proposals and contracts are immutable.
 export function publicProposalPackages(serviceId) {
@@ -17,7 +18,14 @@ export function publicProposalPackages(serviceId) {
     const support = pkg.features.split('\n').find(line => line.startsWith('دعم فني'));
     if (support) features.push(support);
     if (pkg.deliveryDays) features.push(`المدة التقديرية: ${pkg.deliveryLabel} بعد استلام البيانات والمقدّم.`);
-    return { name: pkg.name, price: pkg.price, is_featured: pkg.is_featured, features: features.join('\n') };
+    const originalPrice = serviceId === 'blog' ? presentation.beforePrices.blog[index] : null;
+    return {
+      name: pkg.name,
+      price: pkg.price,
+      ...(originalPrice > pkg.price ? { original_price: originalPrice } : {}),
+      is_featured: pkg.is_featured,
+      features: features.join('\n'),
+    };
   });
 }
 
@@ -25,14 +33,14 @@ export function publicProposalPackages(serviceId) {
 export function currentBloggerArticleCount(pkg) {
   const features = pkg?.features || '';
   if (!/Blogger/.test(pkg?.name || '')) return null;
-  const total = features.match(/كتابة ونشر (10|60) مقال(?:ات|ًا) احترافي(?:ة|ًا) إجمالًا/);
+  const total = features.match(/كتابة ونشر (10|20|60) مقال(?:ات|ًا) احترافي(?:ة|ًا) إجمالًا/);
   if (total) return Number(total[1]);
   return features.includes('3 مقالات هدية') ? 3 : null;
 }
 
 export function currentBloggerCountFromName(name) {
   if (name?.includes('مدونة Blogger بهوية احترافية.')) return 3;
-  const match = name?.match(/مدونة Blogger مع (10|60) مقال/);
+  const match = name?.match(/مدونة Blogger مع (10|20|60) مقال/);
   return match ? Number(match[1]) : null;
 }
 

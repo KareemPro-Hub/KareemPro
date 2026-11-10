@@ -38,6 +38,23 @@ function load(file, mocks = {}, append = '') {
   let adminGuards = 0, paymentPlans = 0;
   for (const fn of Object.values(actions)) if (typeof fn === 'function') { await assert.rejects(() => fn(), /guard/); adminGuards++; }
   const catalog = require('../public/pricing-catalog.json');
+  const { checkoutPackage } = load('src/lib/checkout.js');
+  const { currentBloggerArticleCount } = load('src/lib/public-offers.js');
+  const { getAdminTimeline } = load('src/lib/timeline.js');
+  const bloggerPackages = actions.auditTemplates.blogger.packages;
+  for (const [index, tier, price, oldPrice, count] of [[1, 'featured', 450, 900, 20], [2, 'professional', 750, 1300, 60]]) {
+    const pkg = bloggerPackages[index];
+    assert.equal(pkg.price, price);
+    assert.equal(pkg.original_price, oldPrice);
+    assert.equal(currentBloggerArticleCount(pkg), count);
+    const stages = stage.buildStagesForProposal(pkg);
+    assert.deepEqual(stages.map(s => s.amount), [price / 3, price / 3, price / 3]);
+    assert.ok(stages[2].description.includes(`نشر ${count} مقالًا`));
+    assert.ok(getAdminTimeline(pkg.name, price).find(s => s.key === 'blog_delivery_articles').title.includes(String(count)));
+    for (const linkTier of [tier, String(index - 1)]) {
+      assert.equal(checkoutPackage(catalog, { service: 'blog', tier: linkTier }).pkg.price, price);
+    }
+  }
   for (const service of [...Object.values(actions.auditTemplates), ...catalog]) for (const pkg of service.packages || []) {
     const plan = stage.buildStagesForProposal(pkg);
     if (plan) { assert.equal(plan.reduce((sum, item) => sum + item.amount, 0), pkg.price - (stage.PACKAGE_SETTLEMENTS[pkg.price]?.amount || 0)); paymentPlans++; }

@@ -44,11 +44,8 @@ function DocIcon() {
   );
 }
 
-// Full step list. Blogger proposals skip "portfolio" (نماذج أعمالنا) — the
-// deal is already agreed by phone before the client ever opens this link, so
-// there's no need to sell them on past work samples. Filtered per-render
-// below into `steps`, keyed by id (not index) so removing a step doesn't
-// shift anything else.
+// Full step list, filtered by service below. Blogger and TechFixer open
+// directly on the proposal.
 const ALL_STEPS = [
   { id: "about", label: "تعرّف علينا", Icon: AboutIcon },
   { id: "portfolio", label: "نماذج أعمالنا", Icon: PortfolioIcon },
@@ -577,6 +574,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const packages = (proposal.proposal_packages || []).map(pkg => proposal.status === "pending" ? techfixerPendingPackage(pkg) : pkg).sort((a, b) => a.sort_order - b.sort_order);
   const selectedPackage = packages.find((p) => p.id === selectedPackageId);
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
+  const isBlogger = serviceType === "blogger";
   const serviceMeta = SERVICE_META[serviceType];
   const currentBloggerCount = currentBloggerArticleCount(selectedPackage);
   // True only for the Blogger tier where WE deliver the full 50 articles.
@@ -588,7 +586,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   // own copy comes from SERVICE_ABOUT_OVERRIDES.articles above; only its
   // label in the stepper needs changing, hence the { ...s, label } rewrite.
   const steps =
-    serviceType === "techfixer"
+    serviceType === "techfixer" || isBlogger
       ? ALL_STEPS.filter((s) => s.id === "proposal")
       : serviceType === "articles"
       ? ALL_STEPS.filter((s) => s.id === "about" || s.id === "proposal").map((s) =>
@@ -598,9 +596,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
         ? // The work itself is the whole pitch for a course: show what we edit,
           // then the packages. No "about us", no team, no testimonials.
           ALL_STEPS.filter((s) => s.id === "portfolio" || s.id === "proposal")
-        : serviceType === "blogger"
-          ? ALL_STEPS.filter((s) => s.id !== "portfolio")
-          : ALL_STEPS;
+        : ALL_STEPS;
   const currentStepId = steps[stepIndex]?.id;
   const proposalStepIndex = steps.length - 1;
 
@@ -896,16 +892,18 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
 
           {currentStepId === "proposal" && !selectedPackage && !showReject && (
             <>
-              <button
-                type="button"
-                className="btn btn-outline btn-sm"
-                onClick={goBack}
-                style={{ marginBottom: "1.2rem" }}
-              >
-                السابق
-              </button>
+              {!isBlogger && (
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={goBack}
+                  style={{ marginBottom: "1.2rem" }}
+                >
+                  السابق
+                </button>
+              )}
               <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
-                حدد باقتك، ولنبدأ نبض مشروعك .. <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>
+                {isBlogger ? "اختر باقتك .. وابنِ دخلًا ثابتًا." : "حدد باقتك، ولنبدأ نبض مشروعك .."} <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>
               </h2>
               <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}${packages.length === 1 ? " package-grid-one" : ""}`}>
                 {(() => {
@@ -914,6 +912,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   const minPackagePrice = Math.min(...packagePrices);
                   return packages.map((pkg) => {
                     const deliveryText = (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
+                    const deliveryNote = deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>;
                     const featureLines = (isTechfixer(pkg.name) ? techfixerCardFeatures(pkg) : publicPackageCardFeatures(pkg))
                       .split("\n")
                       .map((l) => l.trim())
@@ -952,10 +951,11 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           <span dir="ltr">{Number(pkg.price).toLocaleString("en-US")}</span>
                           <RiyalIcon size="0.7em" tone={packages.length === 2 && pkg.is_featured ? "light" : "dark"} />
                         </div>
-                          {deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>}
+                        {!isBlogger && deliveryNote}
                         <div className="package-launch-note">
-                          {techfixerHasContent(pkg.name) ? "خصم خاص جدًا لأول تعاون فقط ❤️" : serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
+                          {isBlogger ? "سعر خاص جدًا لأول تعاون ❤️" : techfixerHasContent(pkg.name) ? "خصم خاص جدًا لأول تعاون فقط ❤️" : serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
                         </div>
+                        {isBlogger && deliveryNote}
                       </div>
                       {featureLines.length > 0 && (
                         <ul className="package-features">
