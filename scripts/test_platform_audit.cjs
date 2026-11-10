@@ -43,8 +43,9 @@ function load(file, mocks = {}, append = '') {
   const { getAdminTimeline } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
   const zawyatiPackages = actions.auditTemplates.zawyati.packages;
-  const zawyatiPlans = [[150, 100], [200, 200]];
-  assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 500], [400, 900]]);
+  const zawyatiPlans = [[150, 100], [250, 200]];
+  assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 500], [450, 900]]);
+  assert.deepEqual(stage.buildStagesForProposal({ ...zawyatiPackages[1], price: 400 }).map(s => s.amount), [200, 200]);
   let storedProposal, storedPackages;
   const inviteDb = {
     from(table) {
@@ -167,7 +168,8 @@ function load(file, mocks = {}, append = '') {
     for (const [index, amounts] of zawyatiPlans.entries()) {
       selectedPackage = zawyatiPackages[index];
       const args = { proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' };
-      await assert.rejects(() => proposalActions.acceptProposal({ ...args, displayedStageAmounts: [125, 125] }), /تغيّر تقسيم الدفعات/);
+      const staleAmounts = index === 1 ? [200, 200] : [125, 125];
+      await assert.rejects(() => proposalActions.acceptProposal({ ...args, displayedStageAmounts: staleAmounts }), /تغيّر تقسيم الدفعات/);
       await proposalActions.acceptProposal({ ...args, displayedStageAmounts: amounts });
       assert.deepEqual(rpcArgs.p_stages.map(s => s.amount), amounts);
       assert.deepEqual(rpcArgs.p_stages.map(s => s.status), ['awaiting_payment', 'upcoming']);

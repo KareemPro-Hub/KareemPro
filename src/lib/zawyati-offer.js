@@ -26,7 +26,7 @@ export const ZAWYATI_TEMPLATE = {
       features: [...developmentFeatures, "المدة التقديرية: 5 أيام من بدء العمل واستلام الصلاحيات."].join("\n"),
     },
     {
-      name: professionalName, price: 400, original_price: 900, is_featured: true,
+      name: professionalName, price: 450, original_price: 900, is_featured: true,
       features: [
         "كل مميزات الباقة الأساسية.",
         ...developmentFeatures,
@@ -53,7 +53,8 @@ export function zawyatiCardFeatures(pkg) {
 export function zawyatiStages(pkg) {
   const total = Math.round(Number(pkg.price) * 100);
   const hasContent = zawyatiHasContent(pkg.name);
-  const deposit = hasContent ? Math.floor(total / 2) : 15000;
+  let deposit = hasContent ? Math.floor(total / 2) : 15000;
+  if (hasContent && total === 45000) deposit = 25000;
   if (!Number.isSafeInteger(total) || deposit <= 0 || deposit >= total) return null;
   return [
     { title: "الدفعة الأولى", amount: deposit / 100, description: "عند توقيع العقد وبدء العمل." },
