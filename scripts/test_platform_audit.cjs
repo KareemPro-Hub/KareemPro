@@ -38,23 +38,29 @@ function load(file, mocks = {}, append = '') {
   let adminGuards = 0, paymentPlans = 0;
   for (const fn of Object.values(actions)) if (typeof fn === 'function') { await assert.rejects(() => fn(), /guard/); adminGuards++; }
   const catalog = require('../public/pricing-catalog.json');
-  const { checkoutPackage } = load('src/lib/checkout.js');
+  const { checkoutPackage, checkoutPath } = load('src/lib/checkout.js');
   const { currentBloggerArticleCount } = load('src/lib/public-offers.js');
   const { getAdminTimeline } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
-  for (const [index, tier, price, oldPrice, count] of [[1, 'featured', 450, 900, 20], [2, 'professional', 750, 1300, 60]]) {
+  const bloggerPlans = [
+    [0, 'basic', 250, undefined, 3, [150, 100]],
+    [1, 'featured', 450, 900, 20, [250, 200]],
+    [2, 'professional', 750, 1300, 60, [350, 200, 200]],
+  ];
+  for (const [index, tier, price, oldPrice, count, amounts] of bloggerPlans) {
     const pkg = bloggerPackages[index];
     assert.equal(pkg.price, price);
     assert.equal(pkg.original_price, oldPrice);
     assert.equal(currentBloggerArticleCount(pkg), count);
     const stages = stage.buildStagesForProposal(pkg);
-    assert.deepEqual(stages.map(s => s.amount), [price / 3, price / 3, price / 3]);
-    assert.ok(stages[2].description.includes(`نشر ${count} مقالًا`));
+    assert.deepEqual(stages.map(s => s.amount), amounts);
+    assert.ok(stages.at(-1).description.includes(`نشر ${count} مقالًا`));
     assert.ok(getAdminTimeline(pkg.name, price).find(s => s.key === 'blog_delivery_articles').title.includes(String(count)));
-    for (const linkTier of [tier, String(index - 1)]) {
+    for (const linkTier of index === 0 ? [tier] : [tier, String(index - 1)]) {
       assert.equal(checkoutPackage(catalog, { service: 'blog', tier: linkTier }).pkg.price, price);
     }
   }
+  assert.deepEqual(stage.buildStagesForPackagePrice(750).map(s => s.amount), [250, 250, 250]);
   for (const service of [...Object.values(actions.auditTemplates), ...catalog]) for (const pkg of service.packages || []) {
     const plan = stage.buildStagesForProposal(pkg);
     if (plan) { assert.equal(plan.reduce((sum, item) => sum + item.amount, 0), pkg.price - (stage.PACKAGE_SETTLEMENTS[pkg.price]?.amount || 0)); paymentPlans++; }
@@ -78,6 +84,31 @@ function load(file, mocks = {}, append = '') {
   const proposal = () => ({ id: 'proposal', client_id: owner, status: 'pending', project_title: 'مشروع محلي', clients: { full_name: 'عميل اختبار', email: 'local@example.invalid' }, proposal_packages: [{ ...selectedPackage, id: 'package' }] });
   const database = { from() { let updating = false; const q = { select() { return q; }, eq() { return q; }, single: async () => ({ data: proposal() }), update() { updating = true; return q; }, maybeSingle: async () => ({ data: updating && casWon ? { id: 'proposal' } : null }), insert() { return Promise.resolve({}); } }; return q; }, rpc: async (_, args) => { rpcArgs = args; return { data: 'project', error: rpcError }; } };
   const proposalActions = load('src/app/portal/proposal-actions.js', { 'next/cache': { revalidatePath() {} }, '@/lib/supabase/server': { createClient: async () => ({ auth: { getUser: async () => ({ data: { user: { id: 'owner' } } }) } }), createAdminClient: () => database }, '@/lib/email': { sendProposalDecisionEmail: async () => { emailCalls++; throw Error('Simulated mail outage'); } } });
+  const stageId = '11111111-1111-1111-1111-111111111111';
+  let checkoutStage;
+  const paymentDb = {
+    auth: { getUser: async () => ({ data: { user: { id: 'owner' } } }) },
+    from(table) {
+      const filters = {};
+      const query = {
+        select: () => query,
+        eq(key, value) { filters[key] = value; return query; },
+        async maybeSingle() {
+          if (table === 'stages' && filters.id === stageId) return { data: checkoutStage };
+          if (table === 'projects' && filters.id === 'project' && filters.client_id === 'owner') {
+            return { data: { title: 'مدونة بلوجر', client_id: 'owner', currency: 'SAR' } };
+          }
+          return { data: null };
+        },
+      };
+      return query;
+    },
+  };
+  const xpay = load('src/lib/xpay-server.js', {
+    'server-only': {},
+    './xpay.mjs': await import('../src/lib/xpay.mjs'),
+    '@/lib/supabase/server': { createClient: async () => paymentDb },
+  });
   const originalError = console.error; console.error = () => {};
   try {
     for (selectedPackage of actions.auditTemplates.techfixer.packages) {
@@ -85,6 +116,31 @@ function load(file, mocks = {}, append = '') {
       assert.equal(rpcArgs.p_stages[0].status, 'awaiting_payment'); assert.equal(rpcArgs.p_stages[1].status, 'upcoming');
       assert.equal(rpcArgs.p_stages.reduce((sum, item) => sum + item.amount, 0), selectedPackage.price);
     }
+    for (const [index, , price, , , amounts] of bloggerPlans) {
+      selectedPackage = bloggerPackages[index];
+      const args = { proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' };
+      const previous = rpcArgs;
+      const previousPart = Math.floor(price * 100 / 3);
+      const previousAmounts = [previousPart / 100, previousPart / 100, (price * 100 - previousPart * 2) / 100];
+      await assert.rejects(() => proposalActions.acceptProposal(args), /تغيّر تقسيم الدفعات/);
+      await assert.rejects(() => proposalActions.acceptProposal({ ...args, displayedStageAmounts: previousAmounts }), /تغيّر تقسيم الدفعات/);
+      assert.equal(rpcArgs, previous);
+      await proposalActions.acceptProposal({ ...args, displayedStageAmounts: amounts });
+      assert.deepEqual(rpcArgs.p_stages.map(s => s.amount), amounts);
+      assert.deepEqual(rpcArgs.p_stages.map(s => s.status), amounts.map((_, i) => i === 0 ? 'awaiting_payment' : 'upcoming'));
+      for (const [i, payment] of rpcArgs.p_stages.entries()) {
+        checkoutStage = { ...payment, id: stageId, stage_number: i + 1, project_id: 'project' };
+        if (payment.status === 'upcoming') {
+          assert.equal(await xpay.selectedPayment({ stage: stageId }), null);
+          checkoutStage.status = 'awaiting_payment';
+        }
+        const selected = await xpay.selectedPayment({ stage: stageId });
+        assert.equal(selected.pkg.price, amounts[i]);
+        assert.equal(selected.stageNumber, i + 1);
+        assert.equal(checkoutPath({ stage_id: selected.stageId }), `/checkout?stage=${stageId}`);
+      }
+    }
+    selectedPackage = actions.auditTemplates.techfixer.packages[0];
     rpcError = { message: 'Transaction failed' }; const before = emailCalls;
     await assert.rejects(() => proposalActions.acceptProposal({ proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' }), /Transaction failed/);
     assert.equal(emailCalls, before); rpcError = null;

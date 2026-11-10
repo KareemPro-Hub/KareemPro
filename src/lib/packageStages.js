@@ -11,7 +11,7 @@ export const PACKAGE_STAGE_AMOUNTS = {
   5500: [1500, 2000, 2000],
   2500: [1000, 1500],
   1500: [750, 750],
-  // Blogger packages: three instalments, tied to the contract's own wording
+  // Legacy Blogger packages: three instalments, tied to the contract's own wording
   // (مقدم / بعد الصفحات الإلزامية / عند التسليم). Keep these in sync with
   // BLOGGER_PAYMENT_PLANS in portal/OnboardingFunnel.js and with the
   // "طريقة السداد" line inside each package's features in admin/actions.js.
@@ -71,6 +71,17 @@ const PHARMACY_STAGE_PRICES = new Set([10000, 15000, 20000]);
 // generic "منتصف مرحلة التنفيذ" wording, so the stage list a client sees in
 // their dashboard reads exactly like the contract they signed.
 const BLOGGER_STAGE_PRICES = new Set([750, 1300]);
+const CURRENT_BLOGGER_INSTALLMENTS = {
+  250: [150, 100],
+  450: [250, 200],
+  750: [350, 200, 200],
+};
+
+export function bloggerInstallments(pkg) {
+  if (!currentBloggerCountFromName(pkg?.name) || !isPublicProposal(pkg)) return null;
+  return CURRENT_BLOGGER_INSTALLMENTS[Number(pkg.price)] ?? null;
+}
+
 const BLOGGER_STAGE_DESCRIPTIONS = [
   "دفعة مقدّم عند توقيع العقد وبدء العمل على المشروع.",
   "بعد إعداد الصفحات الإلزامية (من نحن، سياسة الخصوصية، اتصل بنا).",
@@ -195,10 +206,10 @@ export function buildStagesForProposal(pkg) {
   const total = Math.round(Number(pkg.price) * 100);
   if (!Number.isSafeInteger(total) || total <= 0) return null;
   const first = Math.floor(total / 3);
-  const amounts = [first, first, total - first * 2];
-  return amounts.map((minor, i) => ({
+  const amounts = bloggerInstallments(pkg) ?? [first / 100, first / 100, (total - first * 2) / 100];
+  return amounts.map((amount, i) => ({
     title: STAGE_TITLES[i],
-    description: i === 2 ? `عند تسليم المدونة واكتمال نشر ${count} مقالًا إجمالًا.` : BLOGGER_STAGE_DESCRIPTIONS[i],
-    amount: minor / 100,
+    description: i === amounts.length - 1 ? `عند تسليم المدونة واكتمال نشر ${count} مقالًا إجمالًا.` : BLOGGER_STAGE_DESCRIPTIONS[i],
+    amount,
   }));
 }

@@ -3,7 +3,7 @@
 import { isTechfixer, techfixerHasContent, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
-import { currentBloggerArticleCount, publicPackageCardFeatures } from "@/lib/public-offers";
+import { currentBloggerArticleCount, currentBloggerCountFromName, publicPackageCardFeatures } from "@/lib/public-offers";
 import { buildStagesForProposal } from "@/lib/packageStages";
 import { isModarresi, modarresiDisplayData } from "@/lib/modarresi-branding";
 import { useState, useTransition, Fragment, useEffect, useRef } from "react";
@@ -576,7 +576,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const isBlogger = serviceType === "blogger";
   const serviceMeta = SERVICE_META[serviceType];
-  const currentBloggerCount = currentBloggerArticleCount(selectedPackage);
+  const currentBloggerCount = currentBloggerArticleCount(selectedPackage) ?? currentBloggerCountFromName(selectedPackage?.name);
+  const bloggerStages = isBlogger && currentBloggerCount ? buildStagesForProposal(selectedPackage) : null;
   // True only for the Blogger tier where WE deliver the full 50 articles.
   const isFullContentBlogger =
     serviceType === "blogger" && BLOGGER_FULL_CONTENT_PRICES.has(Number(selectedPackage?.price));
@@ -630,7 +631,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
     }
     startTransition(async () => {
       try {
-        await acceptProposal({ proposalId: proposal.id, packageId: selectedPackageId, signerName });
+        await acceptProposal({
+          proposalId: proposal.id,
+          packageId: selectedPackageId,
+          signerName,
+          displayedStageAmounts: bloggerStages?.map(stage => stage.amount),
+        });
         router.refresh();
       } catch (e) {
         setError(e.message || "حصل خطأ، حاول تاني");
@@ -1161,16 +1167,19 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <RiyalIcon size="0.8em" tone="dark" />
                   </strong>
                   {serviceType === "techfixer" && <span> — السداد: {buildStagesForProposal(selectedPackage)?.map(s => `${s.amount} ريال ${s.description}`).join("، ")}</span>}
-                  {serviceType === "blogger" && (() => {
-                    // Three payments, derived from the package price instead of
-                    // hardcoded — the Blogger ladder now has two tiers (750 and
-                    // 1,300) and each needs its own split. BLOGGER_PAYMENT_PLANS
-                    // holds the agreed numbers per price; anything else falls back
-                    // to an even three-way split so a future tier can never print
-                    // a wrong figure.
-                    const [first, second, third] = currentBloggerCount
-                      ? buildStagesForProposal(selectedPackage).map(stage => stage.amount)
-                      : bloggerPaymentPlan(selectedPackage.price);
+                  {bloggerStages && (
+                    <>
+                      {" "}({bloggerStages.length === 2 ? "دفعتان" : "ثلاث دفعات"}){" "}
+                      {bloggerStages.map(({ title, amount, description }, i) => (
+                        <span key={title}>
+                          {i > 0 && " — "}{title}: {amount}
+                          <RiyalIcon size="0.75em" tone="dark" /> {description}
+                        </span>
+                      ))}
+                    </>
+                  )}
+                  {isBlogger && !bloggerStages && (() => {
+                    const [first, second, third] = bloggerPaymentPlan(selectedPackage.price);
                     return (
                       <>
                         {" "}(ثلاث دفعات) الدفعة الأولى: {first}
@@ -1178,7 +1187,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         <RiyalIcon size="0.75em" tone="dark" /> بعد إعداد الصفحات الإلزامية — الدفعة
                         الثالثة: {third}
                         <RiyalIcon size="0.75em" tone="dark" />{" "}
-                        {currentBloggerCount ? `عند تسليم المدونة واكتمال نشر ${currentBloggerCount} مقالًا إجمالًا` : isFullContentBlogger
+                        {isFullContentBlogger
                           ? "عند اكتمال نشر المقالات الخمسين"
                           : "عند تسليم المدونة وكتابة المقالات التأسيسية"}
                       </>

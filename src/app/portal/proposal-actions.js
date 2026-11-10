@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { sendProposalDecisionEmail } from "@/lib/email";
-import { buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
+import { bloggerInstallments, buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
 import { isTechfixer } from "@/lib/techfixer-offer";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
-export async function acceptProposal({ proposalId, packageId, signerName }) {
+export async function acceptProposal({ proposalId, packageId, signerName, displayedStageAmounts }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -33,12 +33,20 @@ export async function acceptProposal({ proposalId, packageId, signerName }) {
   const chosenPackage = (proposal.proposal_packages || []).find((p) => p.id === packageId);
   if (!chosenPackage) throw new Error("الباقة المختارة غير موجودة");
 
+  const installments = bloggerInstallments(chosenPackage);
+  if (installments && (!Array.isArray(displayedStageAmounts)
+    || displayedStageAmounts.length !== installments.length
+    || !installments.every((amount, i) => amount === displayedStageAmounts[i]))) {
+    throw new Error("تغيّر تقسيم الدفعات. حدّث الصفحة وراجع الدفعات الجديدة قبل التوقيع.");
+  }
+
   // A single database transaction prevents duplicate projects and partial
   // signatures if project/stage creation fails. Only the server can call it.
   const settlement = PACKAGE_SETTLEMENTS[Number(chosenPackage.price)];
+  const requestDepositAtSigning = installments || isTechfixer(chosenPackage.name);
   const stages = (buildStagesForProposal(chosenPackage) || []).map((stage, index) => ({
     ...stage,
-    status: isTechfixer(chosenPackage.name) && index === 0 ? "awaiting_payment" : "upcoming",
+    status: requestDepositAtSigning && index === 0 ? "awaiting_payment" : "upcoming",
   }));
   const { error: acceptanceError } = await admin.rpc("accept_proposal_atomic", {
     p_proposal_id: proposalId,
