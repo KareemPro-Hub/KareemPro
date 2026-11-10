@@ -1569,6 +1569,12 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                               <li>يشمل الطلب كتابة ونشر {currentBloggerCount} مقالًا إجمالًا، وتسليم كامل الصلاحيات وفق مميزات الباقة المختارة.</li>
                               <li>عدد المقالات إجمالي للباقة ولا يُجمع مع أعداد الباقات السابقة.</li>
                               <li>عند تسليم المدونة واكتمال نشر مقالات الباقة، يُستحق باقي المبلغ.</li>
+                              {currentBloggerCount === 60 && selectedPackage.name.split("|")[0].trim() === "الباقة الاحترافية" && (
+                                <li>
+                                  <strong>التقديم للمراجعة في Google AdSense.</strong> يتولى مقدم الخدمة تجهيز المدونة وإرسال طلب مراجعة واحد.
+                                  تختص Google وحدها بمراجعة الطلب وتحديد مدته ونتيجته. ويتم تسليم المدونة وسداد الدفعات وفق المراحل المتفق عليها دون انتظار قرار Google.
+                                </li>
+                              )}
                             </>
                           ) : isFullContentBlogger ? (
                             <>
