@@ -16,7 +16,8 @@ const developmentFeatures = [
   "مراجعة تفاصيل الرفض في Google AdSense وإرسال طلب مراجعة جديد بعد التنفيذ والتحقق.",
 ];
 
-export const ZAWYATI_REVIEW_TERM = "قيمة الباقة مقابل الأعمال الموضّحة. نتولى إرسال طلب المراجعة، وتحدد Google وحدها مدة المراجعة وقرار القبول. ويتم التسليم والسداد وفق مراحل الباقة دون انتظار نتيجة المراجعة.";
+export const ZAWYATI_CARD_REVIEW_TERM = "قيمة الباقة مقابل الأعمال الموضّحة. نتولى إرسال طلب المراجعة، وتحدد Google وحدها مدة المراجعة وقرار القبول.";
+export const ZAWYATI_REVIEW_TERM = `${ZAWYATI_CARD_REVIEW_TERM} ويتم التسليم والسداد وفق مراحل الباقة دون انتظار نتيجة المراجعة.`;
 
 export const ZAWYATI_TEMPLATE = {
   projectTitle: `تطوير ${blogName}`,

@@ -1,7 +1,7 @@
 "use client";
 
 import { isTechfixer, techfixerHasContent, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
-import { isZawyati, zawyatiCardFeatures, ZAWYATI_REVIEW_TERM } from "@/lib/zawyati-offer";
+import { isZawyati, zawyatiCardFeatures, ZAWYATI_CARD_REVIEW_TERM, ZAWYATI_REVIEW_TERM } from "@/lib/zawyati-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, currentBloggerCountFromName, publicPackageCardFeatures } from "@/lib/public-offers";
@@ -915,7 +915,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                 </button>
               )}
               <h2 className="title" style={{ fontSize: "1.2rem", marginBottom: "1.2rem" }}>
-                {isZawyatiOffer ? proposal.project_title : isBlogger ? "اختر باقتك .. وابنِ دخلًا ثابتًا." : "حدد باقتك، ولنبدأ نبض مشروعك .."} <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>
+                {isZawyatiOffer ? "اختر باقتك .. وأطلق العنان لحلمك." : isBlogger ? "اختر باقتك .. وابنِ دخلًا ثابتًا." : "حدد باقتك، ولنبدأ نبض مشروعك .."} {isZawyatiOffer ? <PlatformIcon name="crown" size="1.05em" color="#ff7b27" style={{ marginInlineStart: "0.35rem" }} /> : <svg className="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/ui.svg#rocket"></use></svg>}
               </h2>
               <div className={`package-grid${packages.length === 2 ? " package-grid-two" : ""}${packages.length === 1 ? " package-grid-one" : ""}`}>
                 {(() => {
@@ -1004,7 +1004,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           {cardStages.map(stage => (
                             <div key={stage.title} style={{ fontWeight: 700 }}><RiyalText tone={pkg.is_featured ? "light" : "dark"}>{`${stage.amount} ريال ${stage.description}`}</RiyalText></div>
                           ))}
-                          <p style={{ margin: "0.6rem 0 0", color: pkg.is_featured ? "#dcd7f8" : "#33405e" }}>{ZAWYATI_REVIEW_TERM}</p>
+                          <p style={{ margin: "0.6rem 0 0", color: pkg.is_featured ? "#dcd7f8" : "#33405e" }}>{ZAWYATI_CARD_REVIEW_TERM}</p>
                         </div>
                       )}
                       <button
