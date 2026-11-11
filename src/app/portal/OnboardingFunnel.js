@@ -1000,11 +1000,11 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         </ul>
                       )}
                       {cardStages && (
-                        <div style={{ fontSize: "0.85rem", lineHeight: 1.8 }}>
+                        <div className="package-stage-notes" style={{ fontSize: "0.85rem", lineHeight: 1.8, marginBottom: "1.1rem", paddingTop: "0.9rem", borderTop: `1px solid ${pkg.is_featured ? "rgba(255,255,255,0.14)" : "#dde4f5"}`, color: pkg.is_featured ? "#efecff" : "#1b2a5c" }}>
                           {cardStages.map(stage => (
-                            <div key={stage.title}><RiyalText>{`${stage.amount} ريال ${stage.description}`}</RiyalText></div>
+                            <div key={stage.title} style={{ fontWeight: 700 }}><RiyalText tone={pkg.is_featured ? "light" : "dark"}>{`${stage.amount} ريال ${stage.description}`}</RiyalText></div>
                           ))}
-                          <p style={{ margin: "0.6rem 0 0" }}>{ZAWYATI_REVIEW_TERM}</p>
+                          <p style={{ margin: "0.6rem 0 0", color: pkg.is_featured ? "#dcd7f8" : "#33405e" }}>{ZAWYATI_REVIEW_TERM}</p>
                         </div>
                       )}
                       <button

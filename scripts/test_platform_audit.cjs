@@ -65,6 +65,9 @@ function load(file, mocks = {}, append = '') {
   await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'zawyati');
   assert.equal(storedProposal.project_title, 'تطوير مدونة زاويتي');
   assert.deepEqual(storedPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]), zawyatiPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]));
+  const { zawyatiCardFeatures } = load('src/lib/zawyati-offer.js');
+  const zawyatiCardCounts = zawyatiPackages.map(pkg => zawyatiCardFeatures(pkg).split('\n').filter(Boolean).length);
+  assert.deepEqual(zawyatiCardCounts, [6, 6]);
   for (const [index, pkg] of zawyatiPackages.entries()) {
     const steps = getAdminTimeline(pkg.name, pkg.price);
     assert.equal(steps.at(-1).key, 'zawyati_delivery');

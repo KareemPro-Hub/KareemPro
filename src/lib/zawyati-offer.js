@@ -45,9 +45,26 @@ export function zawyatiHasContent(name) {
   return name === professionalName;
 }
 
+const basicCardFeatures = [
+  "**قالب حديث واحترافي هدية لأول تعاون.**",
+  "تطوير المدونة على نطاقها القائم ومعالجة ملاحظات رفض أدسنس «محتوى منخفض القيمة».",
+  "تنظيم الأقسام الرئيسية والقائمة العلوية ودمج التصنيفات المتكررة وضبط عرض الجوال.",
+  "مراجعة المقالات الحالية وتحديثها وإصلاح الروابط المكسورة والصفحات الفارغة.",
+  "تجهيز صفحات «من نحن» و«تواصل معنا» وسياسة الخصوصية وشروط الاستخدام وإخلاء المسؤولية.",
+  "ضبط إعدادات السيو والفهرسة في Blogger وSearch Console وملف ads.txt وإرسال طلب مراجعة جديد.",
+];
+
+const professionalCardFeatures = [
+  "كل مميزات الباقة الأساسية.",
+  "**كتابة ونشر 30 مقالًا احترافيًا جديدًا + 5 مقالات هدية لأول تعاون — الإجمالي 35 مقالًا جديدًا.**",
+  "توزيع المقالات الجديدة على الأقسام الرئيسية للمدونة لتعزيز قيمة المحتوى.",
+  "صياغة متوافقة مع السيو ومدعومة بخطوات عملية وأمثلة وصور ومصادر واضحة.",
+  "نشر المقالات تدريجيًا خلال شهر تقريبًا مع متابعة الفهرسة في Search Console.",
+  "مراجعة جاهزية المدونة بعد اكتمال النشر وإرسال طلب مراجعة جديد في Google AdSense.",
+];
+
 export function zawyatiCardFeatures(pkg) {
-  if (!zawyatiHasContent(pkg.name)) return pkg.features;
-  return pkg.features.split("\n").filter(line => !developmentFeatures.includes(line)).join("\n");
+  return (zawyatiHasContent(pkg?.name) ? professionalCardFeatures : basicCardFeatures).join("\n");
 }
 
 export function zawyatiStages(pkg) {

@@ -261,10 +261,10 @@
    clearly different choices, so they get opposite grounds — a crisp cool
    white card and a deep brand-navy one — with every text colour re-stated
    against its own background instead of inheriting the light theme's ink. */
-.client-dashboard .package-grid-two .package-card,.onboarding-funnel-light .package-grid-two .package-card{background:linear-gradient(165deg,#fff,#f6f9ff 55%,#eaf0ff);border-color:#d5def5;box-shadow:0 1px 0 #fff inset,0 18px 40px -20px rgba(27,42,92,.28)}
+.client-dashboard .package-grid-two .package-card,.onboarding-funnel-light .package-grid-two .package-card{color:#33405e;background:linear-gradient(165deg,#fff,#f6f9ff 55%,#eaf0ff);border-color:#d5def5;box-shadow:0 1px 0 #fff inset,0 18px 40px -20px rgba(27,42,92,.28)}
 .client-dashboard .package-grid-two .package-card:hover,.onboarding-funnel-light .package-grid-two .package-card:hover{border-color:#bcc9ea;box-shadow:0 1px 0 #fff inset,0 24px 50px -20px rgba(27,42,92,.34)}
 .client-dashboard .package-grid-two .package-card .package-name,.onboarding-funnel-light .package-grid-two .package-card .package-name,.client-dashboard .package-grid-two .package-card .package-price,.onboarding-funnel-light .package-grid-two .package-card .package-price{background:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:#1b2a5c;color:#1b2a5c}
-.client-dashboard .package-grid-two .package-card .package-tagline,.onboarding-funnel-light .package-grid-two .package-card .package-tagline{color:#5a678c}
+.client-dashboard .package-grid-two .package-card .package-tagline,.onboarding-funnel-light .package-grid-two .package-card .package-tagline,.client-dashboard .package-grid-two .package-card .muted,.onboarding-funnel-light .package-grid-two .package-card .muted{color:#5a678c}
 .client-dashboard .package-grid-two .package-card .package-head,.onboarding-funnel-light .package-grid-two .package-card .package-head{border-color:#dde4f5}
 .client-dashboard .package-grid-two .package-card .package-price-original,.onboarding-funnel-light .package-grid-two .package-card .package-price-original{color:#8a93ad}
 .client-dashboard .package-grid-two .package-card .package-launch-note,.onboarding-funnel-light .package-grid-two .package-card .package-launch-note{color:#c8551d}
@@ -274,10 +274,10 @@
 .client-dashboard .package-grid-two .package-card .package-cta:hover,.onboarding-funnel-light .package-grid-two .package-card .package-cta:hover{background:#1b2a5c;color:#fff}
 
 /* الباقة الأكثر طلبًا — أرضية داكنة بهوية Kareem Pro لتباين كامل مع الكرت الآخر */
-.client-dashboard .package-grid-two .package-card.featured,.onboarding-funnel-light .package-grid-two .package-card.featured{background:linear-gradient(160deg,#2a1d5e,#14112f 55%,#1d1244);border-color:rgba(255,168,38,.5);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 24px 54px -18px rgba(10,8,30,.6),0 0 42px -16px rgba(255,120,60,.45)}
+.client-dashboard .package-grid-two .package-card.featured,.onboarding-funnel-light .package-grid-two .package-card.featured{color:#efecff;background:linear-gradient(160deg,#2a1d5e,#14112f 55%,#1d1244);border-color:rgba(255,168,38,.5);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 24px 54px -18px rgba(10,8,30,.6),0 0 42px -16px rgba(255,120,60,.45)}
 .client-dashboard .package-grid-two .package-card.featured:hover,.onboarding-funnel-light .package-grid-two .package-card.featured:hover{border-color:rgba(255,168,38,.75);box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 30px 62px -18px rgba(10,8,30,.68),0 0 56px -14px rgba(255,120,60,.6)}
 .client-dashboard .package-grid-two .package-card.featured .package-name,.onboarding-funnel-light .package-grid-two .package-card.featured .package-name,.client-dashboard .package-grid-two .package-card.featured .package-price,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price{background:linear-gradient(120deg,#ffc266,#ffa826 45%,#ff5535);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.client-dashboard .package-grid-two .package-card.featured .package-tagline,.onboarding-funnel-light .package-grid-two .package-card.featured .package-tagline{color:#c9c3ea}
+.client-dashboard .package-grid-two .package-card.featured .package-tagline,.onboarding-funnel-light .package-grid-two .package-card.featured .package-tagline,.client-dashboard .package-grid-two .package-card.featured .muted,.onboarding-funnel-light .package-grid-two .package-card.featured .muted{color:#c9c3ea}
 .client-dashboard .package-grid-two .package-card.featured .package-head,.onboarding-funnel-light .package-grid-two .package-card.featured .package-head{border-color:rgba(255,255,255,.14)}
 .client-dashboard .package-grid-two .package-card.featured .package-price-original,.onboarding-funnel-light .package-grid-two .package-card.featured .package-price-original{color:#a49dd0}
 .client-dashboard .package-grid-two .package-card.featured .package-launch-note,.onboarding-funnel-light .package-grid-two .package-card.featured .package-launch-note{color:#ffbf5c}
