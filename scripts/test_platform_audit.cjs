@@ -43,8 +43,9 @@ function load(file, mocks = {}, append = '') {
   const { getAdminTimeline } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
   const zawyatiPackages = actions.auditTemplates.zawyati.packages;
-  const zawyatiPlans = [[150, 100], [250, 200]];
-  assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 500], [450, 900]]);
+  const zawyatiPlans = [[100, 100], [250, 200]];
+  assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[200, 500], [450, 900]]);
+  assert.deepEqual(stage.buildStagesForProposal({ ...zawyatiPackages[0], price: 250 }).map(s => s.amount), [150, 100]);
   assert.deepEqual(stage.buildStagesForProposal({ ...zawyatiPackages[1], price: 400 }).map(s => s.amount), [200, 200]);
   let storedProposal, storedPackages;
   const inviteDb = {

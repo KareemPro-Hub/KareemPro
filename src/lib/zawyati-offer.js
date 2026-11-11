@@ -23,7 +23,7 @@ export const ZAWYATI_TEMPLATE = {
   projectTitle: `تطوير ${blogName}`,
   packages: [
     {
-      name: basicName, price: 250, original_price: 500, is_featured: false,
+      name: basicName, price: 200, original_price: 500, is_featured: false,
       features: [...developmentFeatures, "المدة التقديرية: 5 أيام من بدء العمل واستلام الصلاحيات."].join("\n"),
     },
     {
@@ -71,7 +71,8 @@ export function zawyatiCardFeatures(pkg) {
 export function zawyatiStages(pkg) {
   const total = Math.round(Number(pkg.price) * 100);
   const hasContent = zawyatiHasContent(pkg.name);
-  let deposit = hasContent ? Math.floor(total / 2) : 15000;
+  let deposit = Math.floor(total / 2);
+  if (!hasContent && total === 25000) deposit = 15000;
   if (hasContent && total === 45000) deposit = 25000;
   if (!Number.isSafeInteger(total) || deposit <= 0 || deposit >= total) return null;
   return [
