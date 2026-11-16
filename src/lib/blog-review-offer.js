@@ -40,6 +40,10 @@ export function blogReviewHasContent(name) {
   return isBlogReview(name) && name.split("|")[0].trim() === "الباقة الاحترافية";
 }
 
+export function blogReviewDuration(name) {
+  return blogReviewHasContent(name) ? "10 أيام" : "5 أيام";
+}
+
 export function blogReviewCardFeatures(pkg) {
   if (!blogReviewHasContent(pkg.name)) return pkg.features || "";
   return (pkg.features || "").split("\n").filter(line => !repairFeatures.includes(line)).join("\n");

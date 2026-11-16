@@ -1,7 +1,7 @@
 
 import { isTechfixer, techfixerTimeline, techfixerHasContent } from "./techfixer-offer";
 import { isZawyati, zawyatiTimeline, zawyatiHasContent } from "./zawyati-offer";
-import { isBlogReview, blogReviewTimeline } from "./blog-review-offer";
+import { isBlogReview, blogReviewTimeline, blogReviewDuration } from "./blog-review-offer";
 import { currentBloggerCountFromName } from "./public-offers";
 import { isModarresi } from "./modarresi-branding";
 
@@ -460,7 +460,7 @@ const DURATION_BY_TIER = {
 };
 
 export function getEstimatedDuration(packageName) {
-  if (isBlogReview(packageName)) return "حسب نطاق الأعمال المتفق عليه";
+  if (isBlogReview(packageName)) return blogReviewDuration(packageName);
   if (isZawyati(packageName)) return zawyatiHasContent(packageName) ? "شهر تقريبًا" : "5 أيام تقريبًا";
   if (isTechfixer(packageName)) return techfixerHasContent(packageName) ? "شهر واحد" : "5 أيام تقريبًا";
   const tier = packageTier(packageName);

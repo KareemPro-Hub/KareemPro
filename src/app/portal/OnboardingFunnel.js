@@ -2,7 +2,7 @@
 
 import { isTechfixer, techfixerHasContent, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
 import { isZawyati, zawyatiCardFeatures, ZAWYATI_CARD_REVIEW_TERM, ZAWYATI_REVIEW_TERM } from "@/lib/zawyati-offer";
-import { isBlogReview, blogReviewCardFeatures, BLOG_REVIEW_CARD_TERM, BLOG_REVIEW_CONTRACT_TERM } from "@/lib/blog-review-offer";
+import { isBlogReview, blogReviewCardFeatures, blogReviewDuration, BLOG_REVIEW_CARD_TERM, BLOG_REVIEW_CONTRACT_TERM } from "@/lib/blog-review-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, currentBloggerCountFromName, publicPackageCardFeatures } from "@/lib/public-offers";
@@ -927,7 +927,9 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   const maxPackagePrice = Math.max(...packagePrices);
                   const minPackagePrice = Math.min(...packagePrices);
                   return packages.map((pkg) => {
-                    const deliveryText = (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
+                    const deliveryText = isBlogReviewOffer
+                      ? `مدة التنفيذ: ${blogReviewDuration(pkg.name)} من استلام البيانات والصلاحيات والمقدّم.`
+                      : (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
                     const deliveryNote = deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>;
                     const cardFeatures = isBlogReviewOffer ? blogReviewCardFeatures(pkg) : isZawyatiOffer ? zawyatiCardFeatures(pkg)
                       : isTechfixer(pkg.name) ? techfixerCardFeatures(pkg) : publicPackageCardFeatures(pkg);
@@ -1269,7 +1271,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <>
                       <li>يشمل التنفيذ البنود المذكورة في الباقة المختارة أعلاه فقط، مع الحفاظ على محتوى المدونة وروابطها أثناء المعالجة.</li>
                       {selectedPackage.features.split("\n").map((line, i) => <li key={i}>{line.replace(/\*\*/g, "")}</li>)}
-                      <li>{isBlogReviewOffer ? "يبدأ التنفيذ بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى." : "تبدأ المدة بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى."}</li>
+                      <li>{isBlogReviewOffer ? `مدة تنفيذ الباقة ${blogReviewDuration(selectedPackage.name)} من استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى.` : "تبدأ المدة بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى."}</li>
                       {isZawyatiOffer || isBlogReviewOffer
                         ? <li>يُنفّذ التطوير على النطاق الحالي للمدونة، وتبقى رسوم تجديده على صاحبه.</li>
                         : <li>الدومين اختياري ويُسجّل باسم صاحب المدونة، ويتحمل صاحبه رسوم الحجز والتجديد حسب مزوّد النطاق. الربط يتم بعد موافقته وتوفير الصلاحيات اللازمة.</li>}

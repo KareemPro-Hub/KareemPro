@@ -40,7 +40,7 @@ function load(file, mocks = {}, append = '') {
   const catalog = require('../public/pricing-catalog.json');
   const { checkoutPackage, checkoutPath } = load('src/lib/checkout.js');
   const { currentBloggerArticleCount } = load('src/lib/public-offers.js');
-  const { getAdminTimeline } = load('src/lib/timeline.js');
+  const { getAdminTimeline, getEstimatedDuration } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
   const zawyatiPackages = actions.auditTemplates.zawyati.packages;
   const reviewPackages = actions.auditTemplates['blog-review'].packages;
@@ -53,6 +53,7 @@ function load(file, mocks = {}, append = '') {
   const reviewPlans = [[125, 125], [200, 200]];
   assert.deepEqual(reviewPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 450], [400, 650]]);
   for (const [index, pkg] of reviewPackages.entries()) {
+    assert.equal(getEstimatedDuration(pkg.name), index === 0 ? '5 أيام' : '10 أيام');
     assert.deepEqual(stage.buildStagesForProposal(pkg).map(s => s.amount), reviewPlans[index]);
     assert.equal(pkg.features.includes('15 مقالًا'), index === 1);
     assert.equal(getAdminTimeline(pkg.name).some(s => s.key === 'blog_review_content'), index === 1);
