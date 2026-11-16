@@ -44,6 +44,12 @@ function load(file, mocks = {}, append = '') {
   const bloggerPackages = actions.auditTemplates.blogger.packages;
   const zawyatiPackages = actions.auditTemplates.zawyati.packages;
   const reviewPackages = actions.auditTemplates['blog-review'].packages;
+  const { BLOG_REVIEW_CARD_TERM, BLOG_REVIEW_CONTRACT_TERM } = load('src/lib/blog-review-offer.js');
+  assert.equal(BLOG_REVIEW_CARD_TERM.includes('تتولى Google'), false);
+  assert.ok(BLOG_REVIEW_CONTRACT_TERM.includes('تتولى Google وحدها'));
+  assert.ok(BLOG_REVIEW_CONTRACT_TERM.includes('يلتزم مقدم الخدمة بتقديم المدونة للمراجعة للمرة الأولى'));
+  assert.ok(BLOG_REVIEW_CONTRACT_TERM.includes('كمبادرة تعاون إضافية بحسب الجاهزية والإمكانية'));
+  assert.equal(BLOG_REVIEW_CONTRACT_TERM.includes('طلب مراجعة واحد'), false);
   const reviewPlans = [[125, 125], [200, 200]];
   assert.deepEqual(reviewPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 450], [400, 650]]);
   for (const [index, pkg] of reviewPackages.entries()) {
