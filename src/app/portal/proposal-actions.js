@@ -6,6 +6,7 @@ import { sendProposalDecisionEmail } from "@/lib/email";
 import { bloggerInstallments, buildStagesForProposal, PACKAGE_SETTLEMENTS } from "@/lib/packageStages";
 import { isTechfixer } from "@/lib/techfixer-offer";
 import { isZawyati } from "@/lib/zawyati-offer";
+import { isBlogReview } from "@/lib/blog-review-offer";
 
 // ── Client accepts a proposal: picks one package and signs with their full name. ──
 export async function acceptProposal({ proposalId, packageId, signerName, displayedStageAmounts }) {
@@ -35,9 +36,9 @@ export async function acceptProposal({ proposalId, packageId, signerName, displa
   if (!chosenPackage) throw new Error("الباقة المختارة غير موجودة");
 
   const stagePlan = buildStagesForProposal(chosenPackage);
-  const isZawyatiOffer = isZawyati(chosenPackage.name);
-  if (isZawyatiOffer && !stagePlan) throw new Error("تعذر تجهيز دفعات الباقة.");
-  const installments = isZawyatiOffer ? stagePlan.map(stage => stage.amount) : bloggerInstallments(chosenPackage);
+  const isReviewOffer = isZawyati(chosenPackage.name) || isBlogReview(chosenPackage.name);
+  if (isReviewOffer && !stagePlan) throw new Error("تعذر تجهيز دفعات الباقة.");
+  const installments = isReviewOffer ? stagePlan.map(stage => stage.amount) : bloggerInstallments(chosenPackage);
   if (installments && (!Array.isArray(displayedStageAmounts)
     || displayedStageAmounts.length !== installments.length
     || !installments.every((amount, i) => amount === displayedStageAmounts[i]))) {

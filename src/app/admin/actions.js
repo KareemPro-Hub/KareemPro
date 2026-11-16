@@ -2,6 +2,7 @@
 
 import { TECHFIXER_TEMPLATE, isTechfixer } from "@/lib/techfixer-offer";
 import { ZAWYATI_TEMPLATE, isZawyati } from "@/lib/zawyati-offer";
+import { BLOG_REVIEW_TEMPLATE, isBlogReview } from "@/lib/blog-review-offer";
 import { publicProposalPackages } from "@/lib/public-offers";
 import { modarresiDisplayData } from "@/lib/modarresi-branding";
 import { revalidatePath } from "next/cache";
@@ -112,6 +113,7 @@ const DEFAULT_PACKAGES = publicProposalPackages('platforms');
 // catalog as checkout; existing saved proposals and client-specific templates
 // are preserved.
 const SERVICE_TEMPLATES = {
+  "blog-review": BLOG_REVIEW_TEMPLATE,
   techfixer: TECHFIXER_TEMPLATE,
   zawyati: ZAWYATI_TEMPLATE,
   edu: { projectTitle: "إنشاء منصة تعليمية", packages: publicProposalPackages('edu') },
@@ -1003,7 +1005,8 @@ export async function updateTimelineStep(projectId, stepKey) {
   const prevIdx = steps.indexOf(project.timeline_step);
   const nextIdx = steps.indexOf(stepKey);
   const isBlogDelivery = (isTechfixer(project.package_name) && stepKey === "techfixer_delivery")
-    || (isZawyati(project.package_name) && stepKey === "zawyati_delivery");
+    || (isZawyati(project.package_name) && stepKey === "zawyati_delivery")
+    || (isBlogReview(project.package_name) && stepKey === "blog_review_delivery");
   if (isBlogDelivery && nextIdx > prevIdx) {
     // The final instalment becomes payable only after the agreed work is ready.
     // Never reopen a paid instalment or modify another service's payment flow.

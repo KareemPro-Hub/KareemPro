@@ -43,6 +43,15 @@ function load(file, mocks = {}, append = '') {
   const { getAdminTimeline } = load('src/lib/timeline.js');
   const bloggerPackages = actions.auditTemplates.blogger.packages;
   const zawyatiPackages = actions.auditTemplates.zawyati.packages;
+  const reviewPackages = actions.auditTemplates['blog-review'].packages;
+  const reviewPlans = [[125, 125], [200, 200]];
+  assert.deepEqual(reviewPackages.map(pkg => [pkg.price, pkg.original_price]), [[250, 450], [400, 650]]);
+  for (const [index, pkg] of reviewPackages.entries()) {
+    assert.deepEqual(stage.buildStagesForProposal(pkg).map(s => s.amount), reviewPlans[index]);
+    assert.equal(pkg.features.includes('15 مقالًا'), index === 1);
+    assert.equal(getAdminTimeline(pkg.name).some(s => s.key === 'blog_review_content'), index === 1);
+    assert.equal(getAdminTimeline(pkg.name).at(-1).key, 'blog_review_delivery');
+  }
   const zawyatiPlans = [[100, 100], [250, 200]];
   assert.deepEqual(zawyatiPackages.map(pkg => [pkg.price, pkg.original_price]), [[200, 500], [450, 900]]);
   assert.deepEqual(stage.buildStagesForProposal({ ...zawyatiPackages[0], price: 250 }).map(s => s.amount), [150, 100]);
@@ -66,6 +75,11 @@ function load(file, mocks = {}, append = '') {
   await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'zawyati');
   assert.equal(storedProposal.project_title, 'تطوير مدونة زاويتي');
   assert.deepEqual(storedPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]), zawyatiPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]));
+  storedProposal = undefined;
+  await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'blog-review');
+  await actions.auditOffer.ensureDefaultProposal(inviteDb, 'local-client', 'blog-review');
+  assert.equal(storedProposal.project_title, 'تقديم مدونة للمراجعة');
+  assert.deepEqual(storedPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]), reviewPackages.map(pkg => [pkg.name, pkg.price, pkg.original_price]));
   const { zawyatiCardFeatures, ZAWYATI_CARD_REVIEW_TERM, ZAWYATI_REVIEW_TERM } = load('src/lib/zawyati-offer.js');
   const zawyatiCardCounts = zawyatiPackages.map(pkg => zawyatiCardFeatures(pkg).split('\n').filter(Boolean).length);
   assert.deepEqual(zawyatiCardCounts, [6, 6]);
@@ -78,11 +92,13 @@ function load(file, mocks = {}, append = '') {
     assert.ok(pkg.features.includes('إرسال طلب مراجعة جديد'));
   }
   const releaseFilters = {};
+  let deliveryPackage = zawyatiPackages[0].name;
+  let previousStep = 'zawyati_development';
   const deliveryDb = {
     from(table) {
       const q = {
         select: () => q,
-        single: async () => ({ data: { client_id: 'local-client', package_name: zawyatiPackages[0].name, timeline_step: 'zawyati_development' } }),
+        single: async () => ({ data: { client_id: 'local-client', package_name: deliveryPackage, timeline_step: previousStep } }),
         update(values) {
           if (table === 'stages') assert.equal(values.status, 'awaiting_payment');
           return q;
@@ -97,6 +113,12 @@ function load(file, mocks = {}, append = '') {
     '@/lib/supabase/server': { createAdminClient: () => deliveryDb } });
   await delivery.updateTimelineStep('local-project', 'zawyati_delivery');
   assert.deepEqual(releaseFilters, { project_id: 'local-project', stage_number: 2, status: 'upcoming' });
+  for (const pkg of reviewPackages) {
+    deliveryPackage = pkg.name;
+    previousStep = 'blog_review_repairs';
+    await delivery.updateTimelineStep('local-project', 'blog_review_delivery');
+    assert.deepEqual(releaseFilters, { project_id: 'local-project', stage_number: 2, status: 'upcoming' });
+  }
   const bloggerPlans = [
     [0, 'basic', 250, undefined, 3, [150, 100]],
     [1, 'featured', 450, 900, 20, [250, 200]],
@@ -171,10 +193,12 @@ function load(file, mocks = {}, append = '') {
       assert.equal(rpcArgs.p_stages[0].status, 'awaiting_payment'); assert.equal(rpcArgs.p_stages[1].status, 'upcoming');
       assert.equal(rpcArgs.p_stages.reduce((sum, item) => sum + item.amount, 0), selectedPackage.price);
     }
-    for (const [index, amounts] of zawyatiPlans.entries()) {
-      selectedPackage = zawyatiPackages[index];
+    const reviewCases = [...zawyatiPlans.map((amounts, index) => [zawyatiPackages[index], amounts]),
+      ...reviewPlans.map((amounts, index) => [reviewPackages[index], amounts])];
+    for (const [pkg, amounts] of reviewCases) {
+      selectedPackage = pkg;
       const args = { proposalId: 'proposal', packageId: 'package', signerName: 'اسم عميل اختبار' };
-      const staleAmounts = index === 1 ? [200, 200] : [125, 125];
+      const staleAmounts = amounts.map(amount => amount + 1);
       await assert.rejects(() => proposalActions.acceptProposal({ ...args, displayedStageAmounts: staleAmounts }), /تغيّر تقسيم الدفعات/);
       await proposalActions.acceptProposal({ ...args, displayedStageAmounts: amounts });
       assert.deepEqual(rpcArgs.p_stages.map(s => s.amount), amounts);

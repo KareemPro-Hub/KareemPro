@@ -1,6 +1,7 @@
 
 import { isTechfixer } from "./techfixer-offer";
 import { isZawyati } from "./zawyati-offer";
+import { isBlogReview } from "./blog-review-offer";
 // ══════════════════ Link-preview copy per service line ══════════════════
 // The login link shared over WhatsApp renders a branded preview card (see
 // app/auth/enter/route.js). Its two text lines used to be one generic pair
@@ -20,6 +21,7 @@ import { isModarresi } from "./modarresi-branding";
 
 export function detectServiceType(text) {
   const t = text || "";
+  if (isBlogReview(t)) return "blog-review";
   if (isZawyati(t)) return "zawyati";
   if (isTechfixer(t)) return "techfixer";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
@@ -41,6 +43,7 @@ export const DEFAULT_PREVIEW = {
 };
 
 const PREVIEW_BY_SERVICE = {
+  "blog-review": { title: "تقديم مدونة للمراجعة", description: "الإصلاحات والتهيئة والمحتوى حسب الباقة المختارة" },
   zawyati: { title: "تطوير مدونة زاويتي", description: "العرض الفني والمالي لتطوير مدونتك الحالية" },
   techfixer: { title: "تطوير مدونة تيك فيكسر", description: "إصلاح وتهيئة المدونة والمحتوى حسب الباقة المختارة" },
   articles: {

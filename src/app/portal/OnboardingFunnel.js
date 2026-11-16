@@ -2,6 +2,7 @@
 
 import { isTechfixer, techfixerHasContent, techfixerCardFeatures, techfixerPendingPackage } from "@/lib/techfixer-offer";
 import { isZawyati, zawyatiCardFeatures, ZAWYATI_CARD_REVIEW_TERM, ZAWYATI_REVIEW_TERM } from "@/lib/zawyati-offer";
+import { isBlogReview, blogReviewCardFeatures, BLOG_REVIEW_CARD_TERM, BLOG_REVIEW_CONTRACT_TERM } from "@/lib/blog-review-offer";
 
 import PlatformIcon from "@/app/components/PlatformIcon";
 import { currentBloggerArticleCount, currentBloggerCountFromName, publicPackageCardFeatures } from "@/lib/public-offers";
@@ -440,6 +441,7 @@ function bloggerPaymentPlan(price) {
 
 function detectServiceType(text) {
   const t = text || "";
+  if (isBlogReview(t)) return "blog-review";
   if (isZawyati(t)) return "zawyati";
   if (isTechfixer(t)) return "techfixer";
   if (/بلوجر|blogger/i.test(t)) return "blogger";
@@ -492,6 +494,7 @@ const SERVICE_ABOUT_OVERRIDES = {
 };
 
 const SERVICE_META = {
+  "blog-review": { partyRole: "صاحب المدونة", serviceLine: "إصلاح وتهيئة المدونة وتقديمها للمراجعة في Google AdSense" },
   zawyati: { partyRole: "صاحب مدونة زاويتي", serviceLine: "تطوير مدونة زاويتي الحالية حسب الباقة المختارة" },
   techfixer: { partyRole: "صاحب مدونة تيك فيكسر", serviceLine: "إصلاح وتهيئة مدونة تيك فيكسر وتطوير محتواها حسب الباقة المختارة" },
   blogger: { partyRole: "صاحب مدونة بلوجر", serviceLine: "مدونة بلوجر ربحية" },
@@ -579,7 +582,8 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
   const serviceType = detectServiceType(`${proposal.project_title || ""} ${selectedPackage?.name || ""}`);
   const isBlogger = serviceType === "blogger";
   const isZawyatiOffer = serviceType === "zawyati";
-  const isBlogDevelopment = serviceType === "techfixer" || isZawyatiOffer;
+  const isBlogReviewOffer = serviceType === "blog-review";
+  const isBlogDevelopment = serviceType === "techfixer" || isZawyatiOffer || isBlogReviewOffer;
   const serviceMeta = SERVICE_META[serviceType];
   const currentBloggerCount = currentBloggerArticleCount(selectedPackage) ?? currentBloggerCountFromName(selectedPackage?.name);
   const bloggerStages = isBlogger && currentBloggerCount ? buildStagesForProposal(selectedPackage) : null;
@@ -925,13 +929,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                   return packages.map((pkg) => {
                     const deliveryText = (pkg.features || '').split('\n').find(line => line.startsWith('المدة التقديرية:'));
                     const deliveryNote = deliveryText && <p className="muted" style={{ fontSize: "0.8rem", lineHeight: 1.8, marginTop: "0.7rem" }}>{deliveryText}</p>;
-                    const cardFeatures = isZawyatiOffer ? zawyatiCardFeatures(pkg)
+                    const cardFeatures = isBlogReviewOffer ? blogReviewCardFeatures(pkg) : isZawyatiOffer ? zawyatiCardFeatures(pkg)
                       : isTechfixer(pkg.name) ? techfixerCardFeatures(pkg) : publicPackageCardFeatures(pkg);
                     const featureLines = cardFeatures
                       .split("\n")
                       .map((l) => l.trim())
                       .filter(line => line && (!isZawyatiOffer || line !== deliveryText));
-                    const cardStages = isZawyatiOffer ? buildStagesForProposal(pkg) : null;
+                    const cardStages = isZawyatiOffer || isBlogReviewOffer ? buildStagesForProposal(pkg) : null;
                     const [pkgName, pkgTagline] = (pkg.name || "").split("|").map((s) => s.trim());
                     // Value-based tier color, not name-based — a price ladder can be
                     // renamed or reordered (like pharmacy's was), and a hardcoded name
@@ -968,7 +972,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                         </div>
                         {!isBlogger && deliveryNote}
                         <div className="package-launch-note">
-                          {isBlogger || isZawyatiOffer ? "سعر خاص جدًا لأول تعاون ❤️" : techfixerHasContent(pkg.name) ? "خصم خاص جدًا لأول تعاون فقط ❤️" : serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
+                          {isBlogger || isZawyatiOffer || isBlogReviewOffer ? "سعر خاص جدًا لأول تعاون ❤️" : techfixerHasContent(pkg.name) ? "خصم خاص جدًا لأول تعاون فقط ❤️" : serviceType === "link" ? "عرض خاص لعملائنا المميزين ❤️" : "أسعار خاصة لأول تعاون ❤️"}
                         </div>
                         {isBlogger && deliveryNote}
                       </div>
@@ -1004,7 +1008,7 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                           {cardStages.map(stage => (
                             <div key={stage.title} style={{ fontWeight: 700 }}><RiyalText tone={pkg.is_featured ? "light" : "dark"}>{`${stage.amount} ريال ${stage.description}`}</RiyalText></div>
                           ))}
-                          <p style={{ margin: "0.6rem 0 0", color: pkg.is_featured ? "#dcd7f8" : "#33405e" }}>{ZAWYATI_CARD_REVIEW_TERM}</p>
+                          <p style={{ margin: "0.6rem 0 0", color: pkg.is_featured ? "#dcd7f8" : "#33405e" }}>{isBlogReviewOffer ? BLOG_REVIEW_CARD_TERM : ZAWYATI_CARD_REVIEW_TERM}</p>
                         </div>
                       )}
                       <button
@@ -1265,13 +1269,13 @@ export default function OnboardingFunnel({ clientName, about, portfolio, testimo
                     <>
                       <li>يشمل التنفيذ البنود المذكورة في الباقة المختارة أعلاه فقط، مع الحفاظ على محتوى المدونة وروابطها أثناء المعالجة.</li>
                       {selectedPackage.features.split("\n").map((line, i) => <li key={i}>{line.replace(/\*\*/g, "")}</li>)}
-                      <li>تبدأ المدة بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى.</li>
-                      {isZawyatiOffer
+                      <li>{isBlogReviewOffer ? "يبدأ التنفيذ بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى." : "تبدأ المدة بعد استلام البيانات والصلاحيات اللازمة وسداد الدفعة الأولى."}</li>
+                      {isZawyatiOffer || isBlogReviewOffer
                         ? <li>يُنفّذ التطوير على النطاق الحالي للمدونة، وتبقى رسوم تجديده على صاحبه.</li>
                         : <li>الدومين اختياري ويُسجّل باسم صاحب المدونة، ويتحمل صاحبه رسوم الحجز والتجديد حسب مزوّد النطاق. الربط يتم بعد موافقته وتوفير الصلاحيات اللازمة.</li>}
                       <li>يلتزم مقدم الخدمة بتنفيذ الأعمال المذكورة في الباقة المختارة والمتفق عليها فقط.</li>
-                      {isZawyatiOffer
-                        ? <li><strong>مراجعة Google AdSense.</strong> {ZAWYATI_REVIEW_TERM}</li>
+                      {isZawyatiOffer || isBlogReviewOffer
+                        ? <li><strong>مراجعة Google AdSense.</strong> {isBlogReviewOffer ? BLOG_REVIEW_CONTRACT_TERM : ZAWYATI_REVIEW_TERM}</li>
                         : <li><strong>قبول المدونة في أدسنس:</strong> قرار قبول المدونة في برنامج Google AdSense يرجع إلى Google وحدها وفق سياساتها وتقييمها، ولا يُعد القبول التزامًا على مقدم الخدمة أو شرطًا لإتمام العمل أو تسليمه أو استحقاق قيمة الباقة المتفق عليها. كما لا يضمن مقدم الخدمة الفهرسة أو ترتيب البحث أو عدد الزيارات أو الأرباح أو مدة مراجعة Google. وأي إعادة تقديم تتم بعد موافقة صاحب المدونة.</li>}
                       <li>يوفر صاحب المدونة البيانات والصلاحيات الصحيحة، وتبقى ملكية المدونة وحساباته ودومينه له.</li>
                       <li>عند تأخر البيانات أو الدفعات أكثر من يومين، يحق إيقاف العمل حتى استكمالها.</li>
